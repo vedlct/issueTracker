@@ -11,9 +11,31 @@
                 <li class="menu-title">Main</li>
                 <li>
                     <a href="{{route('index')}}" class="waves-effect">
-                        <i class="dripicons-blog"></i> <span>Dashboard </span>
+                        <i class="dripicons-blog"></i> <span> Dashboard </span>
                     </a>
                 </li>
+
+                <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-address-card"></i> <span>Company</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ route('company.showAllCompany') }}" class="waves-effect">All Company</a></li>
+                        <!-- <li><a href="{{ route('company.create') }}" class="waves-effect">Create company</a></li> -->
+                    </ul>
+                </li>
+
+                <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag"></i> <span>Project</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">Project Information</a></li>
+                        <!-- <li><a href="" class="waves-effect">Project Details</a></li> -->
+                    </ul>
+                </li>
+
+                <li class="has_sub"><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect"><i class="fa fa-ticket"></i> <span>Ticket</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect">All Ticket</a></li>
+                    </ul>
+                </li>
+
+
                 {{--<li class="has_sub"><a href="javascript:void(0);" class="waves-effect"><i class="dripicons-meter"></i> <span>Package </span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
                     {{--<ul class="list-unstyled">--}}
                         {{--@if(Auth::user()->fkusertype=="Admin" || Auth::user()->fkusertype=="InternetEmp")--}}
@@ -129,7 +151,7 @@
                 {{--</li>--}}
                 {{--@endif--}}
 
-            {{--</ul>--}}
+            <!-- </ul> -->
         </div>
         <div class="clearfix"></div>
     </div>

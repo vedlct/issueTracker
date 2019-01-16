@@ -28,6 +28,20 @@
 <script src="{{url('public/js/app.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+<!-- Datatable JS -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+@if(Session::has('message'))
+    <!-- <p class="alert alert-info">{{ Session::get('message') }}</p> -->
+    <script type="text/javascript">
+        $.alert({
+             animationBounce: 2,
+             title: 'Success!',
+             content: '{{ Session::get('message') }}',
+         });
+    </script>
+@endif
 
 
 @yield('js')

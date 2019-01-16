@@ -8,6 +8,6 @@ class UserType extends Model
 {
     //
     protected $table ='usertype';
-    protected $primaryKey='usertypeId';
+    protected $primaryKey='userTypeId';
     public $timestamps = false;
 }
