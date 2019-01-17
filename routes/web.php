@@ -30,3 +30,4 @@ Route::get('/create-ticket','TicketController@createTicket')->name('ticket.creat
 Route::post('/create-ticket','TicketController@insertTicket')->name('ticket.insert');
 
 Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view');
+Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');

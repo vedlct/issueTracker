@@ -1,11 +1,6 @@
 @extends('layouts.mainLayout')
 
 @section('css')
-    {{--<style >--}}
-        {{--.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{--}}
-            {{--padding: 1px;--}}
-        {{--}--}}
-    {{--</style>--}}
     <style>
         .container2 {
             border: 2px solid #dedede;
@@ -147,9 +142,18 @@
                 </div>
 
                 {{-- Post a reply --}}
-                <form>
+                <form method="post">
+                    @csrf
+                    <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
                     <div class="form-group">
-                        <textarea id="summernote" name="editordata" class="form-control" placeholder="Enter Your reply" rows="3"></textarea>
+                        <label>Reply Type</label>
+                        <select class="form-control" name="type">
+                            <option value="public">Public</option>
+                            <option value="internal">Internal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="summernote" name="replyData" class="form-control" placeholder="Enter Your reply" rows="3"></textarea>
                         <button type="submit" class="btn btn-primary float-right mt-3">Post Reply</button>
                     </div>
                 </form>

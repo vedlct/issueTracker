@@ -11,6 +11,7 @@ use App\Ticket;
 use App\Status;
 use Auth;
 use App\User;
+use App\TicketReply;
 
 class TicketController extends Controller
 {
@@ -69,6 +70,35 @@ class TicketController extends Controller
             $ticket->ticketFile=$fileName;
             $ticket->save();
         }
+
+        Session::flash('message', 'Ticket Created!');
+
+        return back();
+    }
+
+    // insert ticket reply
+    public function insertReply(Request $r){
+//        $ticketStatus = Status::where('statusId', '3')->first();
+
+        date_default_timezone_set('Asia/Dhaka');
+        $time = date('Y-m-d h:i:s');
+
+        $ticketReply = new TicketReply();
+        $ticketReply->replyData = $r->replyData;
+        $ticketReply->created_at = $time;
+        $ticketReply->ticketReplyType = $r->type;
+        $ticketReply->fk_ticketId = $r->ticketId;
+        $ticketReply->fk_userId = Auth::user()->userId;
+        $ticketReply->save();
+
+//        if ($r->hasFile('file')) {
+//            $file = $r->file('file');
+//            $fileName = $ticket->ticketId . "." . $file->getClientOriginalExtension();
+//            $destinationPath = public_path('files/ticketFile');
+//            $file->move($destinationPath, $fileName);
+//            $ticket->ticketFile=$fileName;
+//            $ticket->save();
+//        }
 
         Session::flash('message', 'Ticket Created!');
 
