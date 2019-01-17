@@ -25,5 +25,6 @@ Route::post('/project/delete','ProjectController@delete_project')->name('project
 
 // Ticket
 Route::get('/ticket-list','TicketController@index')->name('ticket.showAllCTicket');
-
+Route::post('/ticket-list','TicketController@getAllTicket')->name('ticket.getAllTicket');
 Route::get('/create-ticket','TicketController@createTicket')->name('ticket.create');
+Route::post('/create-ticket','TicketController@insertTicket')->name('ticket.insert');
