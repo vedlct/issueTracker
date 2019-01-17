@@ -69,8 +69,8 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
 
         return view('Project.projectEdit')->with('project', $project)
-                                          ->with('companylist', $companylist)
-                                          ->with('allStatus', $allStatus);
+                                               ->with('companylist', $companylist)
+                                               ->with('allStatus', $allStatus);
     }
 
     // Update company
@@ -90,22 +90,11 @@ class ProjectController extends Controller
         $project->projectDuration = $r->duration;
         $project->projectStatus = $r->status;
         $project->fk_companyId = $r->companyId;
-        // $project->project_createdBy = Auth::user()->userId;
+        $project->project_createdBy = Auth::user()->userId;
         $project->save();
 
         Session::flash('message', 'Project Updated!');
 
         return back();
     }
-    //
-    // // Delete company
-    // public function delete_company(Request $r){
-    //     $company = Company::findOrFail($r->id);
-    //     $company->deleted_at = date('Y-m-d');
-    //     $company->save();
-    //
-    //     Session::flash('message', 'Shop Deleted!');
-    //
-    //     return back();
-    // }
 }

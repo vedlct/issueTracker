@@ -10,12 +10,24 @@ use App\Project;
 use App\Ticket;
 use App\Status;
 use Auth;
+use App\User;
 
 class TicketController extends Controller
 {
     // view Ticket list
     public function index(){
         return view('Ticket.ticketList');
+    }
+
+    // view Ticket info
+    public function showTicket($id){
+        $ticket = Ticket::findOrFail($id);
+        $project = Project::where('projectId', $ticket->fk_projectId)->first();
+        $user = User::where('userId', $ticket->fk_ticketOpenerId)->first();
+
+        return view('Ticket.ticketDetails')->with('ticket', $ticket)
+                                                ->with('user', $user)
+                                                ->with('project', $project);
     }
 
     // get all Ticket
