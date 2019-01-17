@@ -11,69 +11,85 @@
 @section('content')
 
     <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="float-left">Ticket Information</h4>
+        {{-- Ticket Basic Information --}}
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="float-left">Ticket Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th scope="col">Ticket Topic</th>
+                                <td>{{$ticket->ticketTopic}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Ticket Creation Time</th>
+                                <td>{{$ticket->created_at}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Assigned Person</th>
+                                <td>{{$ticket->ticketAssignPerson}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <th scope="col">Ticket Topic</th>
-                                        <td>{{$ticket->ticketTopic}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Ticket Creation Time</th>
-                                        <td>{{$ticket->created_at}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Assigned Person</th>
-                                        <td>{{$ticket->ticketAssignPerson}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-4">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <th scope="col">Ticket Priority</th>
-                                        <td>{{$ticket->ticketPriority}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Last Updated</th>
-                                        <td>{{$ticket->lastUpdated}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Ticket Opener</th>
-                                        <td>{{$user->fullName}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-md-4">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <th scope="col">Ticket Status</th>
-                                        <td>{{$ticket->ticketStatus}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Project Name</th>
-                                        <td>{{$project->projectName}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Worked Hour</th>
-                                        <td>{{$ticket->workedHour}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th scope="col">Ticket Priority</th>
+                                <td>{{$ticket->ticketPriority}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Last Updated</th>
+                                <td>{{$ticket->lastUpdated}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Ticket Opener</th>
+                                <td>{{$user->fullName}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th scope="col">Ticket Status</th>
+                                <td>{{$ticket->ticketStatus}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Project Name</th>
+                                <td>{{$project->projectName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Worked Hour</th>
+                                <td>{{$ticket->workedHour}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        {{-- Ticket Basic Information --}}
+        <div class="card mt-4">
+            <div class="card-header bg-secondary text-white">
+                <h4>Ticket Discussion</h4>
+            </div>
+            <div class="card-body">
+
+                {{-- Post a reply --}}
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter Your reply" rows="3"></textarea>
+                        <button type="submit" class="btn btn-primary float-right mt-3">Post Reply</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
