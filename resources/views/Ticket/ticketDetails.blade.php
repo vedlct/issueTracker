@@ -62,6 +62,7 @@
             <div class="card-header bg-dark text-white">
                 <h4 class="float-left">Ticket Information</h4>
             </div>
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
@@ -119,6 +120,22 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="card shadow-none p-3 mb-1 bg-light rounded">
+                    <div class="card-body">
+                        <h3>Ticket Details</h3>
+                        {{$ticket->ticketDetails}}
+                    </div>
+                </div>
+
+                {{-- Download File Link --}}
+                @if($ticket->ticketFile != null)
+                    <div class="mt-4">
+                        <a href="{{ url('/public/files/ticketFile').'/'.$ticket->ticketFile }}" download> Download File</a>
+                    </div>
+                @endif
+                
+
             </div>
         </div>
 
@@ -142,7 +159,7 @@
                 </div>
 
                 {{-- Post a reply --}}
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
                     <div class="form-group">
@@ -154,7 +171,18 @@
                     </div>
                     <div class="form-group">
                         <textarea id="summernote" name="replyData" class="form-control" placeholder="Enter Your reply" rows="3"></textarea>
-                        <button type="submit" class="btn btn-primary float-right mt-3">Post Reply</button>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-2">
+                                    <label>Choose file</label>
+                                    <input type="file" class="form-control-file" name="replyFile">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary float-right mt-3">Post Reply</button>
+                            </div>
+                        </div>
+
                     </div>
                 </form>
             </div>

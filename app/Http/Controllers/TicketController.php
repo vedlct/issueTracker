@@ -78,7 +78,6 @@ class TicketController extends Controller
 
     // insert ticket reply
     public function insertReply(Request $r){
-//        $ticketStatus = Status::where('statusId', '3')->first();
 
         date_default_timezone_set('Asia/Dhaka');
         $time = date('Y-m-d h:i:s');
@@ -91,16 +90,16 @@ class TicketController extends Controller
         $ticketReply->fk_userId = Auth::user()->userId;
         $ticketReply->save();
 
-//        if ($r->hasFile('file')) {
-//            $file = $r->file('file');
-//            $fileName = $ticket->ticketId . "." . $file->getClientOriginalExtension();
-//            $destinationPath = public_path('files/ticketFile');
-//            $file->move($destinationPath, $fileName);
-//            $ticket->ticketFile=$fileName;
-//            $ticket->save();
-//        }
+        if ($r->hasFile('replyFile')) {
+            $file = $r->file('replyFile');
+            $fileName = $ticketReply->ticketReplyId . "." . $file->getClientOriginalExtension();
+            $destinationPath = public_path('files/ticketReplyFile');
+            $file->move($destinationPath, $fileName);
+            $ticketReply->ticketReplyFile=$fileName;
+            $ticketReply->save();
+        }
 
-        Session::flash('message', 'Ticket Created!');
+        Session::flash('message', 'Reply Sent!');
 
         return back();
     }
