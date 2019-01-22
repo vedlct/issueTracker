@@ -95,7 +95,7 @@
                    { data: 'created_at', name: 'ticket.created_at' },
 
                    { "data": function(data){
-                            return '<button class="btn btn-success btn-sm btn" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i>View</button>'
+                            return '<button class="btn btn-success btn-sm btn" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>'
                                    // '<button class="btn btn-danger btn" data-panel-id="'+data.ticketId+'" onclick="deleteProject(this)"><i class="fa fa-trash fa-lg"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows"

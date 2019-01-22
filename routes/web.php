@@ -28,6 +28,8 @@ Route::get('/ticket-list','TicketController@index')->name('ticket.showAllCTicket
 Route::post('/ticket-list','TicketController@getAllTicket')->name('ticket.getAllTicket');
 Route::get('/create-ticket','TicketController@createTicket')->name('ticket.create');
 Route::post('/create-ticket','TicketController@insertTicket')->name('ticket.insert');
+Route::post('/update-ticket-view-details','TicketController@returnCkEditorView')->name('ticket.ckEditorView');
+Route::post('/update-ticket-details','TicketController@updateTicketDetails')->name('ticket.update.details');
 
 Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view');
 Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');

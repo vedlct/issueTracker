@@ -663,6 +663,10 @@
     ),
     'compiled' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\framework\\views',
   ),
+  'image' => 
+  array (
+    'driver' => 'gd',
+  ),
   'trustedproxy' => 
   array (
     'proxies' => NULL,

@@ -40,13 +40,6 @@ class ProjectController extends Controller
     // insert company
     public function insert_project(Request $r){
 
-        // $r->validate([
-        //     'companyName' => 'required|max:45',
-        //     'info' => 'required',
-        //     'companyEmail' => 'required|unique:company,email',
-        //     'address' => 'required',
-        // ]);
-
         $project = new Project();
         $project->projectName = $r->projectname;
         $project->projectSummary = $r->summary;
@@ -75,13 +68,6 @@ class ProjectController extends Controller
 
     // Update company
     public function update_project(Request $r){
-
-        // $r->validate([
-        //     'companyName' => 'required|max:45',
-        //     'info' => 'required',
-        //     // 'companyEmail' => 'required|unique:company,email',
-        //     'address' => 'required',
-        // ]);
 
         $project = Project::findOrFail($r->id);
         $project->projectName = $r->projectname;

@@ -22,11 +22,19 @@ class TicketController extends Controller
 
     // view Ticket info
     public function showTicket($id){
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::select('ticket.*','user.fullName')
+                        ->Join('user','ticket.fk_ticketOpenerId','user.userId')
+                        ->findOrFail($id);
+
+        $ticketReplies = TicketReply::select('user.fullName','ticketreply.*')
+                                    ->where('fk_ticketId', $id)
+                                    ->Join('user','ticketreply.fk_userId','user.userId')->orderBy('created_at')->get();
+//        dd($ticketReplies);
         $project = Project::where('projectId', $ticket->fk_projectId)->first();
         $user = User::where('userId', $ticket->fk_ticketOpenerId)->first();
 
         return view('Ticket.ticketDetails')->with('ticket', $ticket)
+                                                ->with('ticketReplies', $ticketReplies)
                                                 ->with('user', $user)
                                                 ->with('project', $project);
     }
@@ -72,6 +80,23 @@ class TicketController extends Controller
         }
 
         Session::flash('message', 'Ticket Created!');
+
+        return back();
+    }
+
+    // return ck editor view
+    public function returnCkEditorView(Request $r){
+        $ticket = Ticket::findOrFail($r->id);
+        return view('Ticket.ckEditorView')->with('ticket', $ticket);
+    }
+
+    // update ticket details
+    public function updateTicketDetails(Request $r){
+        $ticket = Ticket::findOrFail($r->ticket_id);
+        $ticket->ticketDetails = $r->details;
+        $ticket->save();
+
+        Session::flash('message', 'Ticket Updated!');
 
         return back();
     }

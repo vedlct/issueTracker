@@ -26,7 +26,7 @@
 
                     <div class="form-group col-md-12">
                         <label>Ticket Details</label>
-                        <textarea class="form-control" placeholder="Ticket Details" name="details" rows="5" required></textarea>
+                        <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -64,6 +64,8 @@
     </div>
 </div>
 
+@endsection
 
-
+@section('js')
+    <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 @endsection

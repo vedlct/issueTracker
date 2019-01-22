@@ -2,6 +2,15 @@
 
 @section('css')
     <style>
+
+        .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+            padding: 5px;
+        }
+
+        .table-custom-1{
+            width: 100%;
+        }
+
         .container2 {
             border: 2px solid #dedede;
             background-color: #f1f1f1;
@@ -50,6 +59,10 @@
             float: left;
             color: #999;
         }
+        .custom-2{
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
     </style>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 @endsection
@@ -59,14 +72,14 @@
     <div class="container-fluid">
         {{-- Ticket Basic Information --}}
         <div class="card">
-            <div class="card-header bg-dark text-white">
-                <h4 class="float-left">Ticket Information</h4>
+            <div class="card-header bg-dark text-white custom-2">
+                <h4 class="float-left font-weight-normal">Ticket Information</h4>
             </div>
 
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <table class="table table-bordered">
+                        <table class="table-condensed table-bordered table-custom-1">
                             <tbody>
                             <tr>
                                 <th scope="col">Ticket Topic</th>
@@ -84,7 +97,7 @@
                         </table>
                     </div>
                     <div class="col-md-4">
-                        <table class="table table-bordered">
+                        <table class="table-condensed table-bordered table-sm table-custom-1">
                             <tbody>
                             <tr>
                                 <th scope="col">Ticket Priority</th>
@@ -96,35 +109,37 @@
                             </tr>
                             <tr>
                                 <th scope="col">Ticket Opener</th>
-                                <td>{{$user->fullName}}</td>
+                                <td>{{$ticket->fullName}}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-4">
-                        <table class="table table-bordered">
+                        <table class="table-condensed table-bordered table-sm table-custom-1">
                             <tbody>
-                            <tr>
-                                <th scope="col">Ticket Status</th>
-                                <td>{{$ticket->ticketStatus}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Project Name</th>
-                                <td>{{$project->projectName}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Worked Hour</th>
-                                <td>{{$ticket->workedHour}}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="col">Ticket Status</th>
+                                    <td>{{$ticket->ticketStatus}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Project Name</th>
+                                    <td>{{$project->projectName}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Worked Hour</th>
+                                    <td>{{$ticket->workedHour}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="card shadow-none p-3 mb-1 bg-light rounded">
-                    <div class="card-body">
-                        <h3>Ticket Details</h3>
-                        {{$ticket->ticketDetails}}
+                <div class="card mt-2 shadow-none mb-1 bg-light rounded">
+                    <div class="card-body p-1">
+                        <div id="ticketInformation" class="mt-2 pl-3">
+                            <button class="float-right btn btn-success mr-1" type="button" onclick="editTicket({{$ticket->ticketId}})">Edit</button>
+                            {!!  $ticket->ticketDetails  !!}
+                        </div>
                     </div>
                 </div>
 
@@ -134,29 +149,36 @@
                         <a href="{{ url('/public/files/ticketFile').'/'.$ticket->ticketFile }}" download> Download File</a>
                     </div>
                 @endif
-                
 
             </div>
         </div>
 
-        {{-- Ticket Basic Information --}}
+        {{-- Ticket Reply --}}
         <div class="card mt-4">
-            <div class="card-header bg-secondary text-white">
-                <h4>Ticket Discussion</h4>
-            </div>
             <div class="card-body">
                 {{-- Old reply --}}
-                <div class="container2">
-                    <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda delectus, dicta doloremque ea eligendi libero sequi similique. A accusamus architecto asperiores aspernatur dicta, eos error eum eveniet fuga ipsa ipsam iste non odit pariatur quam quidem reprehenderit, sapiente unde. At beatae culpa, dignissimos dolores exercitationem id inventore laudantium necessitatibus nostrum omnis perspiciatis possimus praesentium quae quas quibusdam quisquam sunt totam. Architecto aspernatur commodi, eos esse excepturi inventore non ratione suscipit totam voluptates. Officiis, quis voluptas!</p>
-                    <span class="time-right">11:00</span>
-                </div>
+                @if($ticketReplies)
+                    @foreach($ticketReplies as $reply)
+                        @if($reply->fk_userId == Auth::user()->userId)
+                            <div class="container2 darker">
+                                <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right">
+                                <div class="">
+                                    {!!  $reply->replyData  !!}
+                                    <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="container2">
+                                <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar">
+                                {!!  $reply->replyData  !!}
+                                <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
+                {{-- Old reply end --}}
 
-                <div class="container2 darker">
-                    <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi at culpa distinctio exercitationem, explicabo magni minus molestias perspiciatis quae saepe. At inventore labore non. Assumenda at autem culpa cupiditate, earum eius id illo ipsam libero maiores modi nisi, nostrum officiis perspiciatis quaerat quis reprehenderit similique sint soluta vitae. Debitis, provident!</p>
-                    <span class="time-left">11:01</span>
-                </div>
+
 
                 {{-- Post a reply --}}
                 <form method="post" enctype="multipart/form-data">
@@ -170,7 +192,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea id="summernote" name="replyData" class="form-control" placeholder="Enter Your reply" rows="3"></textarea>
+                        <textarea name="replyData" class="form-control ckeditor" placeholder="Enter Your reply" rows="3"></textarea>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mt-2">
@@ -192,53 +214,24 @@
 @endsection
 
 @section('js')
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+
+    <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 
     <script>
-
-        // $(document).ready(function() {
-        //     $('#summernote').summernote({
-        //         focus: false
-        //     });
-        // });
-
-        {{--$(document).ready(function() {--}}
-
-            {{--dataTable=  $('#ticketTable').DataTable({--}}
-                {{--rowReorder: {--}}
-                    {{--selector: 'td:nth-child(0)'--}}
-                {{--},--}}
-                {{--responsive: true,--}}
-                {{--processing: true,--}}
-                {{--serverSide: true,--}}
-                {{--Filter: true,--}}
-                {{--stateSave: true,--}}
-                {{--ordering:false,--}}
-                {{--type:"POST",--}}
-                {{--"ajax":{--}}
-                    {{--"url": "{!! route('ticket.getAllTicket') !!}",--}}
-                    {{--"type": "POST",--}}
-                    {{--data:function (d){--}}
-                        {{--d._token="{{csrf_token()}}";--}}
-                    {{--},--}}
-                {{--},--}}
-                {{--columns: [--}}
-                    {{--{ data: 'ticketTopic', name: 'ticket.ticketTopic' },--}}
-                    {{--{ data: 'ticketStatus', name: 'ticket.ticketStatus' },--}}
-                    {{--{ data: 'created_at', name: 'ticket.created_at' },--}}
-
-                    {{--{ "data": function(data){--}}
-                            {{--return '<button class="btn btn-success btn" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i>View</button>'--}}
-                                {{--// '<button class="btn btn-danger btn" data-panel-id="'+data.ticketId+'" onclick="deleteProject(this)"><i class="fa fa-trash fa-lg"></i></button>'--}}
-                                {{--;},--}}
-                        {{--"orderable": false, "searchable":false, "name":"selected_rows"--}}
-                    {{--},--}}
-                {{--]--}}
-            {{--} );--}}
-
-        {{--} );--}}
-
-
+            function editTicket(id) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{!! route('ticket.ckEditorView') !!}",
+                    cache: false,
+                    data: {
+                        _token: "{{csrf_token()}}",
+                        'id': id
+                    },
+                    success: function (data) {
+                        $('#ticketInformation').html(data);
+                    }
+                });
+            }
     </script>
 
 @endsection
