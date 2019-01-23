@@ -14,6 +14,8 @@ Route::get('/edit-company/{id}','CompanyController@edit_company')->name('company
 Route::post('/edit-company/{id}','CompanyController@update_company')->name('company.update');
 Route::post('/company/delete','CompanyController@delete_company')->name('company.delete');
 
+Route::get('/company-list','CompanyController@index')->name('company.showAllCompany');
+
 // Project
 Route::get('/project-list','ProjectController@index')->name('project.showAllProject');
 Route::post('/project-list','ProjectController@getAllProject')->name('project.getAllProject');
@@ -30,6 +32,15 @@ Route::get('/create-ticket','TicketController@createTicket')->name('ticket.creat
 Route::post('/create-ticket','TicketController@insertTicket')->name('ticket.insert');
 Route::post('/update-ticket-view-details','TicketController@returnCkEditorView')->name('ticket.ckEditorView');
 Route::post('/update-ticket-details','TicketController@updateTicketDetails')->name('ticket.update.details');
-
 Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view');
 Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');
+Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit');
+
+// Assign team
+Route::get('/assign-team', 'AssignteamController@index')->name('assignteam.showAllteam');
+Route::post('/insert-team', 'AssignteamController@insertTeam')->name('team.insert');
+
+// User Management
+Route::get('/employee-list', 'UserManagementController@employeelist')->name('user.show.allEmployee');
+Route::get('/add-employee', 'UserManagementController@addEmployee')->name('user.add.employee');
+Route::post('/add-employee', 'UserManagementController@insertEmployee')->name('employee.insert');

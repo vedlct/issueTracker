@@ -29,7 +29,7 @@ class TicketController extends Controller
         $ticketReplies = TicketReply::select('user.fullName','ticketreply.*')
                                     ->where('fk_ticketId', $id)
                                     ->Join('user','ticketreply.fk_userId','user.userId')->orderBy('created_at')->get();
-//        dd($ticketReplies);
+
         $project = Project::where('projectId', $ticket->fk_projectId)->first();
         $user = User::where('userId', $ticket->fk_ticketOpenerId)->first();
 
@@ -127,5 +127,9 @@ class TicketController extends Controller
         Session::flash('message', 'Reply Sent!');
 
         return back();
+    }
+
+    public function ticketEdit(){
+        return view('Ticket.ticketEdit');
     }
 }

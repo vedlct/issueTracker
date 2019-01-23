@@ -2,7 +2,6 @@
 
 @section('css')
     <style>
-
         .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
             padding: 5px;
         }
@@ -33,7 +32,7 @@
         }
 
         /* Style images */
-        .container2 img {
+        .circle-img {
             float: left;
             max-width: 60px;
             width: 100%;
@@ -64,7 +63,6 @@
             padding-bottom: 3px;
         }
     </style>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -161,15 +159,23 @@
                     @foreach($ticketReplies as $reply)
                         @if($reply->fk_userId == Auth::user()->userId)
                             <div class="container2 darker">
-                                <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right">
+                                <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right circle-img">
                                 <div class="">
                                     {!!  $reply->replyData  !!}
+
+                                    {{-- Download File Link --}}
+                                    @if($reply->ticketReplyFile != null)
+                                        <div class="mt-4">
+                                            <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
+                                        </div>
+                                    @endif
+
                                     <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
                                 </div>
                             </div>
                         @else
                             <div class="container2">
-                                <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar">
+                                <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar" class="circle-img">
                                 {!!  $reply->replyData  !!}
                                 <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
                             </div>
@@ -215,7 +221,7 @@
 
 @section('js')
 
-    <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
+    <script type="text/javascript" src="{{ url('public/ck/ckeditor/ckeditor.js')}}"></script>
 
     <script>
             function editTicket(id) {
