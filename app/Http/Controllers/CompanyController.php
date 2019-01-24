@@ -17,7 +17,7 @@ class CompanyController extends Controller
 
     // get all Company
     public function getAllCompany(Request $r){
-        $companies = Company::select('company.companyName','company.companyInfo','company.email','company.companyPhone1','company.companyId')->where('deleted_at', null);
+        $companies = Company::select('company.companyName','company.companyInfo','company.companyEmail','company.companyPhone1','company.companyId')->where('deleted_at', null);
         $datatables = Datatables::of($companies);
         return $datatables->make(true);
     }
@@ -33,7 +33,7 @@ class CompanyController extends Controller
         $r->validate([
             'companyName' => 'required|max:45',
             'info' => 'required',
-            'companyEmail' => 'required|unique:company,email',
+            'companyEmail' => 'required|unique:company,companyEmail',
             'address' => 'required',
         ]);
 
@@ -43,7 +43,7 @@ class CompanyController extends Controller
         $company->companyAddress = $r->address;
         $company->companyPhone1 = $r->companyPhone1;
         $company->companyPhone2 = $r->companyPhone2;
-        $company->email = $r->companyEmail;
+        $company->companyEmail = $r->companyEmail;
         $company->created_at = date('Y-m-d');
         $company->save();
 
@@ -74,7 +74,7 @@ class CompanyController extends Controller
         $company->companyAddress = $r->address;
         $company->companyPhone1 = $r->companyPhone1;
         $company->companyPhone2 = $r->companyPhone2;
-        $company->email = $r->companyEmail;
+        $company->companyEmail = $r->companyEmail;
         $company->save();
 
         Session::flash('message', 'Company Updated!');

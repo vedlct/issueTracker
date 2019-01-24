@@ -39,8 +39,14 @@ Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit
 // Assign team
 Route::get('/assign-team', 'AssignteamController@index')->name('assignteam.showAllteam');
 Route::post('/insert-team', 'AssignteamController@insertTeam')->name('team.insert');
+Route::get('/assignteam', 'AssignteamController@assignteam')->name('team.assign');
 
 // User Management
 Route::get('/employee-list', 'UserManagementController@employeelist')->name('user.show.allEmployee');
 Route::get('/add-employee', 'UserManagementController@addEmployee')->name('user.add.employee');
 Route::post('/add-employee', 'UserManagementController@insertEmployee')->name('employee.insert');
+
+Route::get('/employee-edit/{id}', 'UserManagementController@editEmployee')->name('edit.employee.profile');
+Route::post('/employee-update/', 'UserManagementController@updateEmployee')->name('employee.update');
+Route::post('/employee-delete/', 'UserManagementController@deleteEmployee')->name('employee.delete');
+//Route::get('/employee-delete', 'UserManagementController@editEmployee')->name('edit.employee.profile');

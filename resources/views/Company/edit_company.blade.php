@@ -18,7 +18,7 @@
 
                     <div class="form-group col-md-6">
                         <label>Company Email</label>
-                        <input type="email" class="form-control" placeholder="Email" value="{{ $company->email }}" name="companyEmail" required>
+                        <input type="email" class="form-control" placeholder="Email" value="{{ $company->companyEmail }}" name="companyEmail" required>
                     </div>
 
                     <div class="form-group col-md-6">

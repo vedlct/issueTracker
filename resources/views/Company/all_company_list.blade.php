@@ -63,7 +63,7 @@
                columns: [
                    { data: 'companyName', name: 'company.companyName' },
                    { data: 'companyInfo', name: 'company.companyInfo' },
-                   { data: 'email', name: 'company.email' },
+                   { data: 'companyEmail', name: 'company.companyEmail' },
                    { data: 'companyPhone1', name: 'company.companyPhone1' },
 
                    { "data": function(data){
@@ -109,7 +109,6 @@
                 });
             }
         }
-
 
     </script>
 

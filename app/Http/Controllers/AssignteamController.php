@@ -7,18 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Company;
 use App\Team;
 use Session;
+use DB;
 
 class AssignteamController extends Controller
 {
     public function index(){
         $companylist = Company::all();
-        $users = Company::all();
-        return view('Assignteam.assignedTeam')->with('companylist', $companylist);
+        $teamlist = DB::table('team')->select('team.*','company.companyId','company.companyName')
+                                ->leftJoin('company','company.companyId','team.fk_companyId')->get();
+
+        return view('Team-management.assignedTeam')->with('companylist', $companylist)
+                                                    ->with('teamlist', $teamlist);
     }
 
     // insert team
     public function insertTeam(Request $r){
-//        date_default_timezone_set('Asia/Dhaka');
         $date = date('Y-m-d h:i:s');
 
         $team = new Team();
@@ -30,5 +33,15 @@ class AssignteamController extends Controller
         Session::flash('message', 'Team Created!');
 
         return back();
+    }
+
+    // Assign team
+    public function assignTeam(){
+        $teams = Team::all();
+        $freeEmployee = DB::table('user')->leftJoin('assignteam','assignteam.fk_userId','user.userId')
+                                        ->where('fk_userTypeId',3)
+                                        ->get();
+        return view('Team-management.assignNewTeam')->with('teams', $teams)
+                                                         ->with('allEmployee',$freeEmployee);
     }
 }

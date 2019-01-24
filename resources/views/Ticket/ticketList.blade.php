@@ -33,45 +33,44 @@
     </div>
 </div>
 
-{{--<!-- Modal -->--}}
-{{--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-    {{--<div class="modal-dialog" role="document">--}}
-        {{--<div class="modal-content">--}}
-            {{--<div class="modal-header">--}}
-                {{--<h5 class="modal-title" id="exampleModalLabel">Create new team</h5>--}}
-                {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                    {{--<span aria-hidden="true">&times;</span>--}}
-                {{--</button>--}}
-            {{--</div>--}}
-            {{--<div class="modal-body">--}}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                {{--<form method="post" action="{{ route('team.insert') }}">--}}
-                    {{--@csrf--}}
-                    {{--<div class="form-group">--}}
-                        {{--<label for="teamname">Team Name</label>--}}
-                        {{--<input type="text" name="teamName" class="form-control" id="teamname" required placeholder="Enter team name">--}}
-                    {{--</div>--}}
+                <form method="post" action="">
+                    @csrf
+                    <div class="form-group">
+                        <label for="teamname">Worked Hour</label>
+                        <input type="text" name="workedHour" class="form-control" id="workedHour" placeholder="">
+                    </div>
 
-                    {{--<div class="form-group">--}}
-                        {{--<label for="company">Select Company</label>--}}
-                        {{--<select class="form-control" id="company" name="companyId" required>--}}
-                            {{--<option value="">Select Company</option>--}}
+                    <div class="form-group">
+                        <label for="company">Select Company</label>
+                        <select class="form-control" id="company" name="companyId" required>
+                            <option value="">Select Company</option>
                             {{--@foreach($companylist as $company)--}}
                                 {{--<option value="{{ $company->companyId }}">{{ $company->companyName }}</option>--}}
                             {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                    {{--<button type="submit" class="btn btn-primary">Create</button>--}}
-                {{--</form>--}}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
 
-            {{--</div>--}}
-            {{--<div class="modal-footer">--}}
-                {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-                {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -106,7 +105,7 @@
 
                    { "data": function(data){
                             return '<button class="btn btn-success btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                                   '<button class="btn btn-info btn-sm" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
+                                   '<button class="btn btn-info btn-sm" data-panel-id="'+data.ticketId+'" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
