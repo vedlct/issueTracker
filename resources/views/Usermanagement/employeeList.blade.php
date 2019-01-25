@@ -24,6 +24,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>User Type</th>
+                            <th>Employee Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -35,8 +36,15 @@
                                 <td> {{ $employee->userPhoneNumber }} </td>
                                 <td> {{ $employee->userType }} </td>
                                 <td>
+                                    @if($employee->status == 1)
+                                        Active
+                                    @else
+                                        Inactive
+                                    @endif
+                                </td>
+                                <td>
                                     <button class="btn btn-success" onclick="location.href='{{ route('edit.employee.profile', ['emp_id'=>$employee->userId]) }}'"> <i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i> </button>
-                                    <button class="btn btn-danger" data-panel-id="{{ $employee->userId }}" onclick="deleteEmployee(this)"> <i class="fa fa-trash fa-lg" aria-hidden="true"></i> </button>
+                                    {{--<button class="btn btn-danger" data-panel-id="{{ $employee->userId }}" onclick="deleteEmployee(this)"> <i class="fa fa-trash fa-lg" aria-hidden="true"></i> </button>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -55,30 +63,22 @@
             $('#employeeTable').DataTable();
         } );
 
-        function deleteEmployee(x) {
-            // confirmation
-            var result = confirm("Are you sure want to delete?");
-            if (result) {
-                btn = $(x).data('panel-id');
-                $.ajax({
-                    type: 'POST',
-                    url: "{!! route('employee.delete') !!}",
-                    cache: false,
-                    data: {
-                        _token: "{{csrf_token()}}",
-                        'id': btn
-                    },
-                    success: function (data) {
-                        // $.alert({
-                        //     animationBounce: 2,
-                        //     title: 'Success!',
-                        //     content: 'Employee Deleted',
-                        // });
-                        // dataTable.ajax.reload();
-                    }
-                });
-            }
-        }
+        {{--function deleteEmployee(x) {--}}
+            {{--// confirmation--}}
+            {{--var result = confirm("Are you sure want to delete?");--}}
+            {{--if (result) {--}}
+                {{--btn = $(x).data('panel-id');--}}
+                {{--$.ajax({--}}
+                    {{--type: 'POST',--}}
+                    {{--url: "{!! route('employee.delete') !!}",--}}
+                    {{--cache: false,--}}
+                    {{--data: {--}}
+                        {{--_token: "{{csrf_token()}}",--}}
+                        {{--'id': btn--}}
+                    {{--},--}}
+                {{--});--}}
+            {{--}--}}
+        {{--}--}}
 
     </script>
 @endsection

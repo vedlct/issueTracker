@@ -8,8 +8,9 @@ use App\Company;
 use App\Team;
 use Session;
 use DB;
+use App\AssignTeam;
 
-class AssignteamController extends Controller
+class TeamManagementController extends Controller
 {
     public function index(){
         $companylist = Company::all();
@@ -38,10 +39,45 @@ class AssignteamController extends Controller
     // Assign team
     public function assignTeam(){
         $teams = Team::all();
+        $alreadyBusyEmployee =  AssignTeam::get();
+        $array = array();
+
+        foreach ($alreadyBusyEmployee as $emp)
+        {
+            array_push($array,$emp->fk_userId);
+        }
+
         $freeEmployee = DB::table('user')->leftJoin('assignteam','assignteam.fk_userId','user.userId')
-                                        ->where('fk_userTypeId',3)
-                                        ->get();
+                                         ->where('fk_userTypeId',3)
+                                         ->whereNotIn('user.userId', $array)
+                                         ->get();
+
         return view('Team-management.assignNewTeam')->with('teams', $teams)
                                                          ->with('allEmployee',$freeEmployee);
     }
+
+
+    public function teamAssign(Request $r)
+    {
+//        return $r;
+
+        $date = date('Y-m-d h:i:s');
+
+        $teamId = $r->teamId;
+
+        if ($r->ajax()) {
+            foreach ($r->userId as $userId) {
+                $assignTeam = new AssignTeam();
+                $assignTeam->created_at = $date;
+                $assignTeam->fk_userId = $userId;
+                $assignTeam->fkteamId = $teamId;
+                $assignTeam->save();
+            }
+            return Response('true');
+        }
+    }
+
+
+
+
 }

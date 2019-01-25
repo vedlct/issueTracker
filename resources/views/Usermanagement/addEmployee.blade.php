@@ -9,7 +9,7 @@
         {{--  Basic Information --}}
         <div class="card">
             <div class="card-header bg-dark text-white custom-2">
-                <h4 class="float-left font-weight-normal">Add new employee</h4>
+                <h4 class="float-left font-weight-normal">Add New Employee</h4>
             </div>
 
             <div class="card-body">

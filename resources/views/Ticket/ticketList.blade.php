@@ -53,9 +53,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="company">Select Company</label>
+                        <label for="company">Select Team</label>
                         <select class="form-control" id="company" name="companyId" required>
-                            <option value="">Select Company</option>
+                            <option value="">Select Team</option>
                             {{--@foreach($companylist as $company)--}}
                                 {{--<option value="{{ $company->companyId }}">{{ $company->companyName }}</option>--}}
                             {{--@endforeach--}}

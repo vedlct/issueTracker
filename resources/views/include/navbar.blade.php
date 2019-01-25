@@ -26,7 +26,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
                         <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
-                        <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Client</a></li>
+                        <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
                     </ul>
                 </li>
 

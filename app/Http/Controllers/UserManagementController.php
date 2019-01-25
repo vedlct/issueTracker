@@ -10,20 +10,68 @@ use App\Employee;
 use Hash;
 use Session;
 use DB;
+use App\Client;
 
 class UserManagementController extends Controller
 {
     // Employee list
     public function employeelist(){
         $employeelist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 3)
-                                                                                                            ->where('user.status',1)
                                                                                                             ->get();
         return view('Usermanagement.employeeList')->with('employeelist', $employeelist);
     }
 
+    // Add Employee
     public function addEmployee(){
         $companylist = Company::all();
         return view('Usermanagement.addEmployee')->with('companyList', $companylist);
+    }
+
+    // Add Client
+    public function addClient(){
+        $companylist = Company::all();
+        return view('Usermanagement.addClient')->with('companyList', $companylist);
+    }
+
+    // Insert Client
+    public function insertClient(Request $r){
+        $r->validate([
+            'password1' => 'required|same:password2'
+        ]);
+
+        $date = date('Y-m-d h:i:s');
+
+        // AS A USER
+        $user = new User();
+        $user->fullName = $r->fullname;
+        $user->password = Hash::make($r->password1);
+        $user->email = $r->email;
+        $user->status = 1;
+        $user->userPhoneNumber = $r->phone;
+        $user->created_at = $date;
+        $user->updated_at = $date;
+        $user->fk_userTypeId = 2;
+        $user->save();
+
+        if ($r->hasFile('profilePhoto')) {
+            $file = $r->file('profilePhoto');
+            $fileName = $user->userId . "." . $file->getClientOriginalExtension();
+            $destinationPath = public_path('files/profileImage');
+            $file->move($destinationPath, $fileName);
+            $user->profilePhoto=$fileName;
+            $user->save();
+        }
+
+        // AS A Client
+        $client = new Client();
+        $client->created_at = $date;
+        $client->userId = $user->userId;
+        $client->companyId = $r->companyId;
+        $client->save();
+
+        Session::flash('message', 'Client Created!');
+
+        return back();
     }
 
     public function insertEmployee(Request $r){
@@ -76,21 +124,8 @@ class UserManagementController extends Controller
                                                         ->with('companyList', $companylist);
     }
 
-    public function deleteEmployee(Request $r){
-        $employee = User::findOrFail($r->id);
-        $employee->status = 0;
-        $employee->save();
-
-//        Session::flash('message', 'Employee Deleted!');
-//
-//        return redirect()->route('user.show.allEmployee');
-
-        return back();
-    }
-
     public function updateEmployee(Request $r){
         $date = date('Y-m-d h:i:s');
-
 
         if($r->password1)
         {
@@ -107,7 +142,7 @@ class UserManagementController extends Controller
             $user->password = Hash::make($r->password1);
         }
         $user->email = $r->email;
-        $user->status = 1;
+        $user->status = $r->employeeStatus;
         $user->userPhoneNumber = $r->phone;
         $user->updated_at = $date;
         $user->save();
