@@ -12,19 +12,32 @@ use App\Status;
 use Auth;
 use App\User;
 use App\TicketReply;
+use App\Team;
 
 class TicketController extends Controller
 {
     // view Ticket list
     public function index(){
-        return view('Ticket.ticketList');
+        $teams = Team::all();
+        $tickets = Ticket::leftJoin('team','team.teamId','ticket.ticketAssignTeamId')->get();
+        return view('Ticket.ticketList')->with('teams',$teams)
+                                             ->with('tickets', $tickets);
     }
 
     // view Ticket info
     public function showTicket($id){
-        $ticket = Ticket::select('ticket.*','user.fullName')
+        $ticket = Ticket::select('ticket.*','user.fullName','team.teamName')
                         ->Join('user','ticket.fk_ticketOpenerId','user.userId')
+                        ->leftJoin('team','team.teamId','ticket.ticketAssignTeamId')
                         ->findOrFail($id);
+
+        $teamid = Ticket::findOrFail($id)->first();
+
+//        dd($teamid->ticketAssignTeamId);
+
+        $teamMembers = User::Join('assignteam_new','assignteam_new.fk_userId','user.userId')
+                               ->where('assignteam_new.fkteamId', $teamid->ticketAssignTeamId)->get();
+//        dd($teamMembers);
 
         $ticketReplies = TicketReply::select('user.fullName','ticketreply.*')
                                     ->where('fk_ticketId', $id)
@@ -36,12 +49,16 @@ class TicketController extends Controller
         return view('Ticket.ticketDetails')->with('ticket', $ticket)
                                                 ->with('ticketReplies', $ticketReplies)
                                                 ->with('user', $user)
+                                                ->with('teamMembers', $teamMembers)
                                                 ->with('project', $project);
     }
 
     // get all Ticket
     public function getAllTicket(Request $r){
-        $tickets = Ticket::select('ticket.ticketTopic','ticket.ticketStatus','ticket.created_at','ticket.ticketId');
+        $tickets = Ticket::leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
+            ->leftJoin('team','team.teamId','assignteam_new.fkteamId')
+            ->select('*');
+//        dd($tickets);
         $datatables = Datatables::of($tickets);
         return $datatables->make(true);
     }
@@ -132,4 +149,18 @@ class TicketController extends Controller
     public function ticketEdit(){
         return view('Ticket.ticketEdit');
     }
+
+    public function updateTicketMain(Request $r){
+        $ticket = Ticket::where('ticketId',$r->ticketId)->first();
+        $ticket->workedHour = $r->workedHour;
+        $ticket->ticketStatus = $r->ticketStatus;
+        $ticket->ticketAssignTeamId = $r->teamId;
+        $ticket->save();
+
+        Session::flash('message', 'Ticket Updated!');
+
+        return back();
+    }
+
+
 }

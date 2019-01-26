@@ -25,6 +25,7 @@
                 <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
+                        <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
                         <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
                         <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
                     </ul>
@@ -34,14 +35,10 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect">Team list</a></li>
                         <li><a href="{{ route('team.assign') }}" class="waves-effect">Assign Team</a></li>
+                        <li><a href="{{ route('assign.team.member') }}" class="waves-effect">Assigned Team Members</a></li>
                     </ul>
                 </li>
 
-                {{--<li>--}}
-                    {{--<a href="{{route('assignteam.showAllteam')}}" class="waves-effect">--}}
-                        {{--<i class="fa fa-cubes"></i> <span> Team management </span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
 
                 <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag"></i> <span>Project</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">

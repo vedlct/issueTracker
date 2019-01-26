@@ -22,7 +22,7 @@
                 <tr>
                     <th>Ticket Topic</th>
                     <th>Ticket Status</th>
-                    <th>Ticket Open Date</th>
+                    {{--<th>Ticket Open Date</th>--}}
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -39,31 +39,41 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="hidden" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-
-                <form method="post" action="">
+                <form method="post" action="{{ route('ticket.main.update') }}">
                     @csrf
+                    <input type="hidden" name="ticketId" id="modalTicketId" value="">
+
                     <div class="form-group">
                         <label for="teamname">Worked Hour</label>
-                        <input type="text" name="workedHour" class="form-control" id="workedHour" placeholder="">
+                        <input type="text" name="workedHour" id="modalWorkedHour" value="" class="form-control" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Ticket Status</label>
+                        <select class="form-control" id="ticketStatus" name="ticketStatus" required>
+                            <option value="">Select Status</option>
+                            <option value="Open">Open</option>
+                            <option value="Close">Close</option>
+                            <option value="Pending">Pending</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="company">Select Team</label>
-                        <select class="form-control" id="company" name="companyId" required>
+                        <select class="form-control" id="team" name="teamId" required>
                             <option value="">Select Team</option>
-                            {{--@foreach($companylist as $company)--}}
-                                {{--<option value="{{ $company->companyId }}">{{ $company->companyName }}</option>--}}
-                            {{--@endforeach--}}
+                            @foreach($teams as $team)
+                                <option value="{{ $team->teamId }}">{{ $team->teamName }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -101,18 +111,38 @@
                columns: [
                    { data: 'ticketTopic', name: 'ticket.ticketTopic' },
                    { data: 'ticketStatus', name: 'ticket.ticketStatus' },
-                   { data: 'created_at', name: 'ticket.created_at' },
+                   // { data: 'created_at', name: 'ticket.created_at' },
 
                    { "data": function(data){
                             return '<button class="btn btn-success btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                                   '<button class="btn btn-info btn-sm" data-panel-id="'+data.ticketId+'" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
+                                   '<button class="btn btn-info btn-sm" data-panel-id="'+data.ticketId+'" data-workedhour="'+data.workedHour+'" data-status="'+data.ticketStatus+'" data-teamid="'+data.ticketAssignTeamId+'"  onclick="openModal(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
                ]
             } );
-
         } );
+
+        function openModal(x) {
+            var id= $(x).data('panel-id');
+            var workedHour= $(x).data('workedhour');
+            var status= $(x).data('status');
+            var teamid= $(x).data('teamid');
+
+            console.log(teamid);
+
+            // $('#modalTicketId').val(id);
+            // $('#modalWorkedHour').val(workedHour);
+
+            $('#modalTicketId').attr('value', id);
+            $('#modalWorkedHour').val(workedHour);
+            $("#ticketStatus").val(status);
+            $("#team").val(teamid);
+
+
+
+            $('#exampleModal').modal();
+        }
 
         // view ticket details
          function openTicket(x) {

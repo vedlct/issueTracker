@@ -9,6 +9,7 @@ use App\Team;
 use Session;
 use DB;
 use App\AssignTeam;
+use Yajra\DataTables\DataTables;
 
 class TeamManagementController extends Controller
 {
@@ -37,7 +38,7 @@ class TeamManagementController extends Controller
     }
 
     // Assign team
-    public function assignTeam(){
+    public function assignTeamView(){
         $teams = Team::all();
         $alreadyBusyEmployee =  AssignTeam::get();
         $array = array();
@@ -47,7 +48,7 @@ class TeamManagementController extends Controller
             array_push($array,$emp->fk_userId);
         }
 
-        $freeEmployee = DB::table('user')->leftJoin('assignteam','assignteam.fk_userId','user.userId')
+        $freeEmployee = DB::table('user')->leftJoin('assignteam_new','assignteam_new.fk_userId','user.userId')
                                          ->where('fk_userTypeId',3)
                                          ->whereNotIn('user.userId', $array)
                                          ->get();
@@ -59,8 +60,6 @@ class TeamManagementController extends Controller
 
     public function teamAssign(Request $r)
     {
-//        return $r;
-
         $date = date('Y-m-d h:i:s');
 
         $teamId = $r->teamId;
@@ -76,6 +75,34 @@ class TeamManagementController extends Controller
             return Response('true');
         }
     }
+
+    // team members
+    public function teamMembers(){
+        return view('Team-management.assignedTeamMembers');
+    }
+
+    // get all team member
+    public function getAllTeamMembers(){
+        $teamMembers = AssignTeam::Join('user','user.userId','assignteam_new.fk_userId')
+                                    ->Join('team','team.teamId','assignteam_new.fkteamId')
+                                    ->get();
+
+        $datatables = Datatables::of($teamMembers);
+        return $datatables->make(true);
+    }
+
+    // remove employee
+    public function removeEmployee(Request $r){
+        $teamEmployee = AssignTeam::findOrFail($r->id);
+//        $teamEmployee->deleted_at = date('Y-m-d');
+        $teamEmployee->delete();
+
+//        Session::flash('message', 'Company Deleted!');
+
+        return back();
+    }
+
+
 
 
 

@@ -21,6 +21,13 @@ class UserManagementController extends Controller
         return view('Usermanagement.employeeList')->with('employeelist', $employeelist);
     }
 
+    // client list
+    public function clientlist(){
+        $clientlist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 2)
+            ->get();
+        return view('Usermanagement.clientList')->with('clientlist', $clientlist);
+    }
+
     // Add Employee
     public function addEmployee(){
         $companylist = Company::all();

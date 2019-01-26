@@ -13,8 +13,8 @@ Route::post('/create-company','CompanyController@insert_company')->name('company
 Route::get('/edit-company/{id}','CompanyController@edit_company')->name('company.edit');
 Route::post('/edit-company/{id}','CompanyController@update_company')->name('company.update');
 Route::post('/company/delete','CompanyController@delete_company')->name('company.delete');
-
 Route::get('/company-list','CompanyController@index')->name('company.showAllCompany');
+
 
 // Project
 Route::get('/project-list','ProjectController@index')->name('project.showAllProject');
@@ -24,6 +24,8 @@ Route::post('/create-project','ProjectController@insert_project')->name('project
 Route::get('/edit-project/{id}','ProjectController@edit_project')->name('project.edit');
 Route::post('/edit-project/{id}','ProjectController@update_project')->name('project.update');
 Route::post('/project/delete','ProjectController@delete_project')->name('project.delete');
+
+
 
 // Ticket
 Route::get('/ticket-list','TicketController@index')->name('ticket.showAllCTicket');
@@ -36,11 +38,18 @@ Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view
 Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');
 Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit');
 
+Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.main.update');
+
 // Team Management
 Route::get('/assign-team', 'TeamManagementController@index')->name('assignteam.showAllteam');
 Route::post('/insert-team', 'TeamManagementController@insertTeam')->name('team.insert');
-Route::get('/assignteam', 'TeamManagementController@assignteam')->name('team.assign');
+Route::get('/assignteam', 'TeamManagementController@assignTeamView')->name('team.assign');
 Route::post('/insert-team-employee', 'TeamManagementController@teamAssign')->name('team.insert');
+
+Route::get('/assign-team-members', 'TeamManagementController@teamMembers')->name('assign.team.member');
+Route::post('/get-all-team-members', 'TeamManagementController@getAllTeamMembers')->name('getAllTeamMembers');
+Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')->name('remove.employee');
+
 
 // User Management
 Route::get('/employee-list', 'UserManagementController@employeelist')->name('user.show.allEmployee');
@@ -48,9 +57,7 @@ Route::get('/add-employee', 'UserManagementController@addEmployee')->name('user.
 Route::post('/add-employee', 'UserManagementController@insertEmployee')->name('employee.insert');
 Route::get('/employee-edit/{id}', 'UserManagementController@editEmployee')->name('edit.employee.profile');
 Route::post('/employee-update/', 'UserManagementController@updateEmployee')->name('employee.update');
-//Route::post('/employee-delete/', 'UserManagementController@deleteEmployee')->name('employee.delete');
-//Route::get('/employee-delete', 'UserManagementController@editEmployee')->name('edit.employee.profile');
-
 Route::get('/add-client', 'UserManagementController@addClient')->name('add.client');
 Route::post('/add-client', 'UserManagementController@insertClient')->name('insert.client');
 
+Route::get('/client-list', 'UserManagementController@clientlist')->name('user.show.allClient');

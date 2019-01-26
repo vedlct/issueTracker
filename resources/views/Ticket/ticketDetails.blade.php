@@ -33,7 +33,7 @@
 
         /* Style images */
         .circle-img {
-            float: left;
+            float: none;
             max-width: 60px;
             width: 100%;
             margin-right: 20px;
@@ -42,7 +42,7 @@
 
         /* Style the right image */
         .container2 img.right {
-            float: right;
+            float: none;
             margin-left: 20px;
             margin-right:0;
         }
@@ -88,8 +88,10 @@
                                 <td>{{$ticket->created_at}}</td>
                             </tr>
                             <tr>
-                                <th scope="col">Assigned Person</th>
-                                <td>{{$ticket->ticketAssignPerson}}</td>
+                                <th scope="col">Assigned Team</th>
+                                <td>
+                                    <a style="text-decoration: underline; cursor: pointer;" data-toggle="modal" data-target="#exampleModal"> {{$ticket->teamName}} </a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -158,9 +160,27 @@
                 @if($ticketReplies)
                     @foreach($ticketReplies as $reply)
                         @if($reply->fk_userId == Auth::user()->userId)
+                            {{-- Current User --}}
                             <div class="container2 darker">
                                 <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right circle-img">
-                                <div class="">
+                                <div class="in">
+                                    {!!  $reply->replyData  !!}
+
+                                    {{-- Download File Link --}}
+                                    @if($reply->ticketReplyFile != null)
+                                        <div class="mt-4">
+                                            <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
+                                        </div>
+                                    @endif
+
+                                    <span class="time-left float-right" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                </div>
+                            </div>
+                        @else
+                            {{-- Opposite User --}}
+                            <div class="container2">
+                                <div class="in">
+                                    <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar" class="circle-img">
                                     {!!  $reply->replyData  !!}
 
                                     {{-- Download File Link --}}
@@ -172,12 +192,6 @@
 
                                     <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
                                 </div>
-                            </div>
-                        @else
-                            <div class="container2">
-                                <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar" class="circle-img">
-                                {!!  $reply->replyData  !!}
-                                <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
                             </div>
                         @endif
                     @endforeach
@@ -213,6 +227,31 @@
 
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Team Members</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        @foreach($teamMembers as $member)
+                            <li class="list-group-item">{{ $member->fullName }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                </div>
             </div>
         </div>
     </div>
