@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Company;
 use Session;
 use Yajra\DataTables\DataTables;
+use Excel;
+use App\Exports\CompanyExport;
 
 class CompanyController extends Controller
 {
@@ -91,6 +93,17 @@ class CompanyController extends Controller
         Session::flash('message', 'Company Deleted!');
 
         return back();
+    }
+
+
+
+//    public function ticketExportWithView(){
+//        return Excel::download(new TicketExport, 'tickets.xlsx');
+//    }
+
+    public function export()
+    {
+        return Excel::download(new CompanyExport, 'companylist.xlsx');
     }
 
 

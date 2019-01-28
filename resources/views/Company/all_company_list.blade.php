@@ -15,6 +15,7 @@
         <div class="card-header">
             <h4 class="float-left">Company Information</h4>
             <a href="{{ route('company.create') }}" class="btn btn-success float-right" name="button">Create Company</a>
+            <a href="{{ route('company.export') }}" class="btn btn-secondary float-right mr-2" name="button">Export Companies</a>
         </div>
         <div class="card-body">
             <table id="companyTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">

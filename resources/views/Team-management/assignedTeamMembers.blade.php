@@ -20,7 +20,7 @@
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Employee ID</th>
+                        {{--<th>Employee ID</th>--}}
                         <th>Employee Name</th>
                         <th>Team Name</th>
                         <th>Team ID</th>
@@ -62,7 +62,7 @@
                     },
                 },
                 columns: [
-                    { data: 'fk_userId', name: 'assignteam_new.fk_userId' },
+                    // { data: 'fk_userId', name: 'assignteam_new.fk_userId' },
                     { data: 'fullName', name: 'user.fullName' },
                     { data: 'teamName', name: 'team.teamName' },
                     { data: 'teamId', name: 'team.teamId' },

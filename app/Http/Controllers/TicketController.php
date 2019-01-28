@@ -13,6 +13,9 @@ use Auth;
 use App\User;
 use App\TicketReply;
 use App\Team;
+use Excel;
+use App\Exports\TicketExport;
+
 
 class TicketController extends Controller
 {
@@ -161,6 +164,12 @@ class TicketController extends Controller
 
         return back();
     }
+
+    public function ticketExport(){
+        return Excel::download(new TicketExport, 'tickets.xlsx');
+    }
+
+
 
 
 }

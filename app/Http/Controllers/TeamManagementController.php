@@ -16,10 +16,32 @@ class TeamManagementController extends Controller
     public function index(){
         $companylist = Company::all();
         $teamlist = DB::table('team')->select('team.*','company.companyId','company.companyName')
-                                ->leftJoin('company','company.companyId','team.fk_companyId')->get();
+                                     ->leftJoin('company','company.companyId','team.fk_companyId')->get();
 
-        return view('Team-management.assignedTeam')->with('companylist', $companylist)
+        return view('Team-management.teamList')->with('companylist', $companylist)
                                                     ->with('teamlist', $teamlist);
+    }
+
+    // Edit Team
+    public function teamEdit($id){
+        $companylist = Company::all();
+        $team = Team::Join('company','company.companyId','team.fk_companyId')
+                        ->where('team.teamId',$id)->first();
+
+        return view('Team-management.editTeam')->with('team', $team)
+                                                    ->with('companyList',$companylist);
+    }
+
+    // Edit Team
+    public function teamUpdate(Request $r){
+        $team = Team::findOrFail($r->teamId);
+        $team->teamName = $r->teamName;
+        $team->fk_companyId = $r->companyId;
+        $team->update();
+
+        Session::flash('message', 'Team Updated!');
+
+        return back();
     }
 
     // insert team

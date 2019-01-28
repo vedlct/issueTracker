@@ -89,7 +89,7 @@
 
             $.ajax({
                 type : 'post' ,
-                url : '{{route('team.insert')}}',
+                url : '{{route('team.employee.insert')}}',
                 data : {
                     _token: "{{csrf_token()}}",
                     'userId':chkArray,
