@@ -170,4 +170,57 @@ class UserManagementController extends Controller
 
         return back();
     }
+
+    public function editClient($id){
+        $companylist = Company::all();
+        $client = User::where('user.userId', $id)->leftJoin('client', 'client.userId', 'user.userId')
+                                            ->leftJoin('company', 'company.companyId', 'client.companyId')
+                                            ->first();
+
+        return view('Usermanagement.editClient')
+                    ->with('client', $client)
+                    ->with('companyList', $companylist);
+    }
+
+    public function updateClient(Request $r){
+        $date = date('Y-m-d h:i:s');
+
+        if($r->password1)
+        {
+            $r->validate([
+                'password1' => 'required|same:password2'
+            ]);
+        }
+
+        // AS A USER
+        $user = User::findOrFail($r->userId);
+        $user->fullName = $r->fullname;
+        if($r->password1)
+        {
+            $user->password = Hash::make($r->password1);
+        }
+        $user->email = $r->email;
+        $user->status = $r->clientStatus;
+        $user->userPhoneNumber = $r->phone;
+        $user->updated_at = $date;
+        $user->save();
+
+        if ($r->hasFile('profilePhoto')) {
+            $file = $r->file('profilePhoto');
+            $fileName = $user->userId . "." . $file->getClientOriginalExtension();
+            $destinationPath = public_path('files/profileImage');
+            $file->move($destinationPath, $fileName);
+            $user->profilePhoto=$fileName;
+            $user->save();
+        }
+
+        // AS A Client
+        $client = Client::where('userId', $r->userId)->update(['companyId'=> $r->companyId]);
+
+        Session::flash('message', 'Client Updated!');
+
+        return back();
+    }
+
+
 }

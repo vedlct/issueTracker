@@ -66,3 +66,6 @@ Route::get('/add-client', 'UserManagementController@addClient')->name('add.clien
 Route::post('/add-client', 'UserManagementController@insertClient')->name('insert.client');
 
 Route::get('/client-list', 'UserManagementController@clientlist')->name('user.show.allClient');
+
+Route::get('/client-edit/{id}', 'UserManagementController@editClient')->name('edit.client.profile');
+Route::post('/client-update', 'UserManagementController@updateClient')->name('update.client.profile');
