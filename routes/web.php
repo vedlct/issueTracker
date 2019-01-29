@@ -41,7 +41,9 @@ Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.re
 Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit');
 Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.main.update');
 
-Route::get('/download','TicketController@ticketExport')->name('ticket.export');
+Route::post('/ticket-report-download','TicketController@ticketExport')->name('ticket.report.generate');
+
+Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
 
 
 // Team Management

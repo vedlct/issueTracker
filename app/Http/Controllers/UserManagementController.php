@@ -215,7 +215,7 @@ class UserManagementController extends Controller
         }
 
         // AS A Client
-        $client = Client::where('userId', $r->userId)->update(['companyId'=> $r->companyId]);
+        Client::where('userId', $r->userId)->update(['companyId'=> $r->companyId]);
 
         Session::flash('message', 'Client Updated!');
 

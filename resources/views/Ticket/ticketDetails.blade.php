@@ -88,10 +88,18 @@
                                 <td>{{$ticket->created_at}}</td>
                             </tr>
                             <tr>
-                                <th scope="col">Assigned Team</th>
-                                <td>
-                                    <a style="text-decoration: underline; cursor: pointer;" data-toggle="modal" data-target="#exampleModal"> {{$ticket->teamName}} </a>
-                                </td>
+                                @if($ticket->ticketAssignPersonUserId == null)
+                                    <th scope="col">Assigned Team</th>
+                                    <td>
+                                        <a style="text-decoration: underline; cursor: pointer;" data-toggle="modal" data-target="#exampleModal"> {{$ticket->teamName}} </a>
+                                    </td>
+                                @else
+                                    <th scope="col">Assigned Person</th>
+                                    <td>
+                                        {{$assignedPerson->fullName}}
+                                    </td>
+                                @endif
+
                             </tr>
                             </tbody>
                         </table>
