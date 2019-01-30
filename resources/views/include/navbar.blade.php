@@ -34,8 +34,8 @@
                 <li class="has_sub"><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect"><i class="fa fa-user-circle"></i> <span>Team management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect">Team list</a></li>
-                        <li><a href="{{ route('team.assign') }}" class="waves-effect">Assign Team</a></li>
-                        <li><a href="{{ route('assign.team.member') }}" class="waves-effect">Assigned Team Members</a></li>
+                        <li><a href="{{ route('team.assign') }}" class="waves-effect">Assign Member To Team</a></li>
+                        <li><a href="{{ route('assign.team.member') }}" class="waves-effect">Team Members List</a></li>
                     </ul>
                 </li>
 
