@@ -18,7 +18,6 @@
                 <h4 class="float-left">Filter Ticket</h4>
             </div>
             <div class="card-body">
-
                 <div class="form-group">
                     <label>Start Date</label>
                     <input type="date" id="startDate" class="form-control" >
@@ -36,9 +35,7 @@
                         <option value="Pending">Pending</option>
                     </select>
                 </div>
-
                 <button onclick="applyFilter()" class="btn btn-primary">Apply Filter</button>
-
             </div>
         </div>
     </div>
@@ -48,11 +45,13 @@
             <div class="card-header">
                 <h4 class="float-left">Tickets</h4>
                 <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                <button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>
             </div>
             <div class="card-body">
                 <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
+                        <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
                         <th>Ticket Topic</th>
                         <th>Ticket Status</th>
                         {{--<th>Ticket Open Date</th>--}}
@@ -166,13 +165,17 @@
                    },
                },
                columns: [
+                   { "data": function(data){
+                           return '<input type="checkbox" class="checkboxvar" name="checkboxvar[]" value="'+data.ticketId+'">'
+                           ;},
+                       "orderable": false, "searchable":false, "name":"selected_rows"
+                   },
+
                    { data: 'ticketTopic', name: 'ticket.ticketTopic' },
                    { data: 'ticketStatus', name: 'ticket.ticketStatus' },
 
                    { "data": function(data){
                             return '<button class="btn btn-success btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                                   // '<button class="btn btn-info btn-sm" data-assign-personid="'+data.ticketAssignPersonUserId+'" data-panel-id="'+data.ticketId+'" data-workedhour="'+data.workedHour+'" data-status="'+data.ticketStatus+'" data-teamid="'+data.ticketAssignTeamId+'" onclick="openModal(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
-                                    {{--'<a class="btn btn-secondary btn-sm" href="{{ route('edit.ticket.main', ['ticketId' => data.ticketId]) }}" > <i class="fa fa-pencil-square-o fa-lg"></i></a>'--}}
                                     '<button class="btn btn-info btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows"
@@ -180,41 +183,6 @@
                ]
             } );
         } );
-
-        function openModal(x) {
-            var id= $(x).data('panel-id');
-            var workedHour= $(x).data('workedhour');
-            var status= $(x).data('status');
-            var teamid= $(x).data('teamid');
-            var assignedEmployeeId = $(x).data('assign-personid');
-
-            console.log(status);
-
-            if(teamid == null)
-            {
-                $('#assignTypeTeam').hide();
-            }
-            if(assignedEmployeeId == null)
-            {
-                $('#assignTypeSingle').hide();
-            }
-
-            $('#modalTicketId').attr('value', id);
-            $('#modalWorkedHour').val(workedHour);
-            $("#ticketStatus").val(status);
-            $("#team").val(teamid);
-            $("#assignPerson").val(assignedEmployeeId);
-
-            $('#exampleModal').modal();
-        }
-
-        // view ticket details
-         function openTicket(x) {
-             btn = $(x).data('panel-id');
-             var url = '{{ route("ticket.view", ":id") }}';
-             var newUrl=url.replace(':id', btn);
-             window.location.href = newUrl;
-         }
 
         // view ticket details
         function editTicket(x) {
@@ -230,6 +198,28 @@
         $(document).ready(function() {
 
         });
+
+        // Select All Checkbox
+        function selectAll(source) {
+            checkboxes = document.getElementsByName('checkboxvar[]');
+            for(var i in checkboxes)
+                checkboxes[i].checked = source.checked;
+        }
+
+        // view ticket details
+        function openTicket(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{ route("ticket.view", ":id") }}';
+            var newUrl=url.replace(':id', btn);
+            window.location.href = newUrl;
+        }
+        // view ticket details
+        function editTicket(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{ route("ticket.edit", ":id") }}';
+            var newUrl=url.replace(':id', btn);
+            window.location.href = newUrl;
+        }
 
         function changeType(x){
             if($(x).val() == 'single'){
@@ -253,6 +243,34 @@
 
         function applyFilter(){
             dataTable.ajax.reload();
+        }
+
+        function generateReport(){
+
+            var chkArray = [];
+
+            $('.checkboxvar:checked').each(function (i) {
+                chkArray[i] = $(this).val();
+            });
+
+           // console.log(chkArray);
+
+            $.ajax({
+                type : 'post' ,
+                url : '{{route('ticket.report.generate')}}',
+                data : {
+                    _token: "{{csrf_token()}}",
+                    'allCheckedTicket':chkArray,
+                } ,
+                success : function(data){
+                    console.log(data);
+                    if(data == 'true'){
+                        alert('Report Generated');
+                    }
+                   // console.log(chkArray);
+                }
+            });
+
         }
 
 

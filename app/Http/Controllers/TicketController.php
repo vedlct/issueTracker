@@ -23,6 +23,17 @@ class TicketController extends Controller
 {
     // view Ticket list
     public function index(){
+
+//       return $tickets=  Ticket::select(DB::raw("CONCAT(fk_userId,',') as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+//            ->leftJoin('project','project.projectId','ticket.fk_projectId')
+//            ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
+//            ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
+//            ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
+////            ->leftJoin('team','team.teamId','ticket.ticketAssignTeamId')
+//            ->whereIn('ticketId', [8,9,10])
+////            ->groupBy('ticket.ticketId')
+//            ->toSql();
+
         $teams = Team::all();
         $tickets = Ticket::leftJoin('team','team.teamId','ticket.ticketAssignTeamId')->get();
         $employee = DB::table('user')->where('fk_userTypeId',3)->get();
@@ -161,27 +172,30 @@ class TicketController extends Controller
         return back();
     }
 
+    // show ticket edit
     public function ticketEdit($id){
         $teams = Team::all();
         $employee = DB::table('user')->where('fk_userTypeId',3)->get();
-        $ticket = Ticket::findOrFail($id)->Join('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                                         ->Join('team','team.teamId','assignteam_new.fkteamId')->first();
-
-//        $ticket = Ticket::findOrFail('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-//                        ->leftJoin('team','team.teamId','assignteam_new.fkteamId')->get();
-
-//        dd($ticket);
+        $ticket = Ticket::findOrFail($id);
 
         return view('Ticket.ticketEdit')->with('ticket', $ticket)
                                              ->with('employeeList', $employee)
                                              ->with('teams', $teams);
     }
 
+    // Update ticket main
     public function updateTicketMain(Request $r){
         $time = date('Y-m-d h:i:s');
 
         $ticket = Ticket::where('ticketId',$r->ticketId)->first();
-        $ticket->workedHour = $r->workedHour;
+
+        if($r->workedHour == null)
+        {
+            $ticket->workedHour = null;
+        }else{
+            $ticket->workedHour = $r->workedHour;
+        }
+
         $ticket->ticketStatus = $r->ticketStatus;
         $ticket->end_at = $time;
 
@@ -205,7 +219,8 @@ class TicketController extends Controller
     }
 
     public function ticketExport(Request $r){
-        return Excel::download(new TicketExport(8), 'tickets.xlsx');
+        Excel::store(new TicketExport($r), 'tickets.xlsx');
+        return 'tickets.xlsx';
     }
 
 

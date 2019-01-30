@@ -9,18 +9,18 @@
         {{-- Ticket Basic Information --}}
         <div class="card">
             <div class="card-header bg-dark text-white custom-2">
-                <h4 class="float-left font-weight-normal">Edit Ticket</h4>
+                <h4 class="float-left font-weight-normal">Edit : {{ $ticket->ticketTopic }}</h4>
             </div>
 
             <div class="card-body">
                 <div class="">
                     <form method="post" action="{{ route('ticket.main.update') }}">
                         @csrf
-                        <input type="hidden" name="ticketId" id="modalTicketId" value="">
+                        <input type="hidden" name="ticketId" id="modalTicketId" value="{{ $ticket->ticketId }}">
 
                         <div class="form-group">
-                            <label for="teamname">Worked Hour</label>
-                            <input type="text" name="workedHour" id="modalWorkedHour" value="" class="form-control" placeholder="">
+                            <label for="workedHour">Worked Hour</label>
+                            <input type="text" name="workedHour" id="workedHour" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
                         </div>
 
                         <div class="form-group">
@@ -33,36 +33,50 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="company">Assign Type</label>
-                            <select class="form-control" id="assignType" name="assignType" onchange="changeType(this)">
-                                <option value="">Select Type</option>
-                                <option value="single">Assign Single Person</option>
-                                <option value="team">Assign Team</option>
-                            </select>
+                        <div id="typeSingle">
+                            <div class="form-group">
+                                <label for="company">Assign Type</label>
+                                <select class="form-control" id="assignType" name="assignType" onchange="changeType(this)">
+                                    <option value="">Select Type</option>
+                                    <option value="single" selected>Assign Single Person</option>
+                                    <option value="team">Assign Team</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="assignTypeSingle">
+                                <label for="company">Select Employee</label>
+                                <select class="form-control" id="assignPerson" name="assignPersonId">
+                                    <option value="">Select Any Employee</option>
+                                    @foreach($employeeList as $employee)
+                                        <option value="{{ $employee->userId }}" @if($employee->userId == $ticket->ticketAssignPersonUserId) selected @endif>{{ $employee->fullName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="form-group" id="assignTypeSingle">
-                            <label for="company">Select Employee</label>
-                            <select class="form-control" id="assignPerson" name="assignPersonId">
-                                <option value="">Select Any Employee</option>
-                                @foreach($employeeList as $employee)
-                                    <option value="{{ $employee->userId }}">{{ $employee->fullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <div id="typeteam">
+                            <div class="form-group">
+                                <label for="company">Assign Type</label>
+                                <select class="form-control" id="assignType" name="assignType" onchange="changeType(this)">
+                                    <option value="">Select Type</option>
+                                    <option value="single">Assign Single Person</option>
+                                    <option value="team" selected>Assign Team</option>
+                                </select>
+                            </div>
 
-                        <div class="form-group" id="assignTypeTeam">
-                            <label for="company">Select Team</label>
-                            <select class="form-control" id="team" name="teamId">
-                                <option value="">Select Team</option>
-                                @foreach($teams as $team)
-                                    <option value="{{ $team->teamId }}" @if($team->teamId == $ticket->ticketAssignTeamId) selected @endif>{{ $team->teamName }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group" id="assignTypeTeam">
+                                <label for="company">Select Team</label>
+                                <select class="form-control" id="team" name="teamId">
+                                    <option value="">Select Team</option>
+                                    @foreach($teams as $team)
+                                        <option value="{{ $team->teamId }}" @if($team->teamId == $ticket->ticketAssignTeamId) selected @endif>{{ $team->teamName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Update</button>
+
                     </form>
                 </div>
             </div>
@@ -77,61 +91,35 @@
 
         $( document ).ready(function() {
 
-            if(teamid == null)
-            {
-                $('#assignTypeTeam').hide();
-            }
-            if(assignedEmployeeId == null)
-            {
-                $('#assignTypeSingle').hide();
-            }
+            @if($ticket->ticketAssignTeamId == null)
+                $('#typeSingle').show();
+                $('#typeteam').hide();
+            @endif
+
+            @if($ticket->ticketAssignPersonUserId == null)
+                $('#typeteam').show();
+                $('#typeSingle').hide();
+            @endif
 
         });
 
-        function openModal(x) {
-            // var id= $(x).data('panel-id');
-            // var workedHour= $(x).data('workedhour');
-            // var status= $(x).data('status');
-            // var teamid= $(x).data('teamid');
-            // var assignedEmployeeId = $(x).data('assign-personid');
-
-            console.log(status);
-
-            if(teamid == null)
-            {
-                $('#assignTypeTeam').hide();
-            }
-            if(assignedEmployeeId == null)
-            {
-                $('#assignTypeSingle').hide();
-            }
-
-            $('#modalTicketId').attr('value', id);
-            $('#modalWorkedHour').val(workedHour);
-            $("#ticketStatus").val(status);
-            $("#team").val(teamid);
-            $("#assignPerson").val(assignedEmployeeId);
-
-            $('#exampleModal').modal();
-        }
-
         function changeType(x){
             if($(x).val() == 'single'){
-                $('#assignTypeTeam').hide();
-                $('#assignTypeSingle').show();
+                $('#typeSingle').show();
+                $('#typeteam').hide();
             }
             if($(x).val() == 'team'){
-                $('#assignTypeSingle').hide();
-                $('#assignTypeTeam').show();
+                $('#typeSingle').hide();
+                $('#typeteam').show();
             }
         }
 
         function setRequiredOnClose(x){
             if($(x).val() == 'Close'){
-                $("#modalWorkedHour").prop('required',true);
+                $("#workedHour").prop('required',true);
             }
             else{
-                $("#modalWorkedHour").prop('required',false);
+                $("#workedHour").prop('required',false);
             }
         }
 

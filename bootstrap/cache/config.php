@@ -5,7 +5,7 @@
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dhaka',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'key' => 'base64:u3tzu+IrkentbyCBqtdi6D1sbyG7s5ZcSanpOnsVa6s=',
@@ -40,6 +40,7 @@
       25 => 'App\\Providers\\AuthServiceProvider',
       26 => 'App\\Providers\\EventServiceProvider',
       27 => 'App\\Providers\\RouteServiceProvider',
+      28 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     ),
     'aliases' => 
     array (
@@ -78,6 +79,7 @@
       'View' => 'Illuminate\\Support\\Facades\\View',
       'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
       'PDF' => 'ZanySoft\\LaravelPDF\\Facades\\PDF',
+      'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
     ),
   ),
   'auth' => 
@@ -227,7 +229,7 @@
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
         'prefix' => '',
-        'strict' => true,
+        'strict' => false,
         'engine' => NULL,
       ),
       'pgsql' => 
@@ -338,6 +340,52 @@
       'enable_remote' => true,
       'font_height_ratio' => 1.1,
       'enable_html5_parser' => false,
+    ),
+  ),
+  'excel' => 
+  array (
+    'exports' => 
+    array (
+      'chunk_size' => 1000,
+      'temp_path' => 'C:\\Users\\tcl\\AppData\\Local\\Temp',
+      'pre_calculate_formulas' => false,
+      'csv' => 
+      array (
+        'delimiter' => ',',
+        'enclosure' => '"',
+        'line_ending' => '
+',
+        'use_bom' => false,
+        'include_separator_line' => false,
+        'excel_compatibility' => false,
+      ),
+    ),
+    'imports' => 
+    array (
+      'read_only' => true,
+      'heading_row' => 
+      array (
+        'formatter' => 'slug',
+      ),
+    ),
+    'extension_detector' => 
+    array (
+      'xlsx' => 'Xlsx',
+      'xlsm' => 'Xlsx',
+      'xltx' => 'Xlsx',
+      'xltm' => 'Xlsx',
+      'xls' => 'Xls',
+      'xlt' => 'Xls',
+      'ods' => 'Ods',
+      'ots' => 'Ods',
+      'slk' => 'Slk',
+      'xml' => 'Xml',
+      'gnumeric' => 'Gnumeric',
+      'htm' => 'Html',
+      'html' => 'Html',
+      'csv' => 'Csv',
+      'tsv' => 'Csv',
+      'pdf' => 'Dompdf',
     ),
   ),
   'filesystems' => 

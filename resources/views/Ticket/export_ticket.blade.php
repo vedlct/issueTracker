@@ -23,10 +23,16 @@
             <td>{{ $ticket->end_at }}</td>
             <td>{{ $ticket->ticketPriority }}</td>
             <td>{{ $ticket->workedHour }}</td>
+            <td>{{ $ticket->createdFullName }}</td>
 
-            <td>{{ $ticket->fk_ticketOpenerId }}</td>
-            <td>{{ $ticket->ticketAssignPersonUserId }}</td>
+            <td colspan="2">
+            @if($ticket->assignTeamMembers != null)
+              {{ $ticket->assignTeamMembers }}
 
+            @else
+                {{$ticket->assignFullName}}
+            @endif
+            </td>
         </tr>
     @endforeach
     </tbody>

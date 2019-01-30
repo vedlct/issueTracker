@@ -20,7 +20,7 @@
                     <tbody>
                         @foreach($allEmployee as $employee)
                             <tr>
-                                <td><input type='checkbox' class="checkboxvar" name="checkboxvar[]" value="{{$employee->userId}}"></td>
+                                <td> <input type='checkbox' class="checkboxvar" name="checkboxvar[]" value="{{$employee->userId}}"> </td>
                                 <td> {{ $employee->userId }} </td>
                                 <td> {{ $employee->fullName }} </td>
                                 <td> {{ $employee->email }} </td>
@@ -100,24 +100,12 @@
 
                         alert('Successfully Employee Assigned');
 
-
                         location.reload();
                         $('#freeEmployee').load(document.URL +  ' #freeEmployee');
 
 
-                        // $.alert({
-                        //     animationBounce: 2,
-                        //     title: 'Success!',
-                        //     content: 'Employee Assigned',
-                        // });
-
                         $('#alert').html(' <strong>Success!</strong> Assigned');
                         $('#alert').show();
-
-
-
-
-
 
                     }
                 }
