@@ -152,7 +152,6 @@ class ProjectController extends Controller
 
     // Update company
     public function update_project(Request $r){
-
         $project = Project::findOrFail($r->id);
         $project->projectName = $r->projectname;
         $project->projectSummary = $r->summary;

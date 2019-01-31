@@ -63,22 +63,5 @@
             $('#employeeTable').DataTable();
         } );
 
-        {{--function deleteEmployee(x) {--}}
-            {{--// confirmation--}}
-            {{--var result = confirm("Are you sure want to delete?");--}}
-            {{--if (result) {--}}
-                {{--btn = $(x).data('panel-id');--}}
-                {{--$.ajax({--}}
-                    {{--type: 'POST',--}}
-                    {{--url: "{!! route('employee.delete') !!}",--}}
-                    {{--cache: false,--}}
-                    {{--data: {--}}
-                        {{--_token: "{{csrf_token()}}",--}}
-                        {{--'id': btn--}}
-                    {{--},--}}
-                {{--});--}}
-            {{--}--}}
-        {{--}--}}
-
     </script>
 @endsection

@@ -40,9 +40,7 @@ Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view
 Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');
 Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit');
 Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.main.update');
-
 Route::post('/ticket-report-download','TicketController@ticketExport')->name('ticket.report.generate');
-
 Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
 
 
@@ -66,8 +64,12 @@ Route::get('/employee-edit/{id}', 'UserManagementController@editEmployee')->name
 Route::post('/employee-update/', 'UserManagementController@updateEmployee')->name('employee.update');
 Route::get('/add-client', 'UserManagementController@addClient')->name('add.client');
 Route::post('/add-client', 'UserManagementController@insertClient')->name('insert.client');
-
 Route::get('/client-list', 'UserManagementController@clientlist')->name('user.show.allClient');
-
 Route::get('/client-edit/{id}', 'UserManagementController@editClient')->name('edit.client.profile');
 Route::post('/client-update', 'UserManagementController@updateClient')->name('update.client.profile');
+
+Route::get('/add-company-admin', 'UserManagementController@addCompanyAdmin')->name('add.company.admin');
+Route::post('/add-company-admin', 'UserManagementController@insertCompanyAdmin')->name('company.admin.insert');
+Route::get('/admin-list', 'UserManagementController@adminList')->name('user.show.allAdmin');
+Route::get('/admin-edit/{id}', 'UserManagementController@editAdmin')->name('user.edit.admin');
+Route::post('/admin-update/', 'UserManagementController@updateAdmin')->name('admin.update');

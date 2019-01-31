@@ -164,7 +164,7 @@ class UserManagementController extends Controller
         }
 
         // AS A EMPLOYEE
-        $emp = Employee::where('employeeUserId', $r->userId)->update(['fk_companyId'=> $r->companyId]);
+        Employee::where('employeeUserId', $r->userId)->update(['fk_companyId'=> $r->companyId]);
 
         Session::flash('message', 'Employee Updated!');
 
@@ -218,6 +218,109 @@ class UserManagementController extends Controller
         Client::where('userId', $r->userId)->update(['companyId'=> $r->companyId]);
 
         Session::flash('message', 'Client Updated!');
+
+        return back();
+    }
+
+    // add company admin view
+    public function addCompanyAdmin(){
+        $companylist = Company::all();
+        return view('Usermanagement.addCompanyAdmin')->with('companyList', $companylist);
+    }
+
+    // add company admin view
+    public function insertCompanyAdmin(Request $r){
+        $r->validate([
+            'password1' => 'required|same:password2'
+        ]);
+
+        $date = date('Y-m-d h:i:s');
+
+        // AS A USER
+        $user = new User();
+        $user->fullName = $r->fullname;
+        $user->password = Hash::make($r->password1);
+        $user->email = $r->email;
+        $user->status = 1;
+        $user->userPhoneNumber = $r->phone;
+        $user->created_at = $date;
+        $user->updated_at = $date;
+        $user->fk_userTypeId = 4;
+        $user->save();
+
+        if ($r->hasFile('profilePhoto')) {
+            $file = $r->file('profilePhoto');
+            $fileName = $user->userId . "." . $file->getClientOriginalExtension();
+            $destinationPath = public_path('files/profileImage');
+            $file->move($destinationPath, $fileName);
+            $user->profilePhoto=$fileName;
+            $user->save();
+        }
+
+        // AS A EMPLOYEE
+        $emp = new Employee();
+        $emp->created_at = $date;
+        $emp->fk_companyId = $r->companyId;
+        $emp->employeeUserId = $user->userId;
+        $emp->save();
+
+        Session::flash('message', 'Company Admin Created');
+        return back();
+    }
+
+    // show all admin
+    public function adminList(){
+        $adminlist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 4)->get();
+        return view('Usermanagement.allAdminList')->with('adminlist', $adminlist);
+    }
+
+    public function editAdmin($id){
+        $companylist = Company::all();
+        $employee = User::where('userId',$id)->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                                             ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
+                                             ->first();
+
+        return view('Usermanagement.editAdmin')->with('employee', $employee)
+            ->with('companyList', $companylist);
+    }
+
+    // update admin info
+    public function updateAdmin(Request $r){
+        $date = date('Y-m-d h:i:s');
+
+        if($r->password1)
+        {
+            $r->validate([
+                'password1' => 'required|same:password2'
+            ]);
+        }
+
+        // AS A USER
+        $user = User::findOrFail($r->userId);
+        $user->fullName = $r->fullname;
+        if($r->password1)
+        {
+            $user->password = Hash::make($r->password1);
+        }
+        $user->email = $r->email;
+        $user->status = $r->employeeStatus;
+        $user->userPhoneNumber = $r->phone;
+        $user->updated_at = $date;
+        $user->save();
+
+        if ($r->hasFile('profilePhoto')) {
+            $file = $r->file('profilePhoto');
+            $fileName = $user->userId . "." . $file->getClientOriginalExtension();
+            $destinationPath = public_path('files/profileImage');
+            $file->move($destinationPath, $fileName);
+            $user->profilePhoto=$fileName;
+            $user->save();
+        }
+
+        // AS A employee
+        Employee::where('employeeUserId', $r->userId)->update(['fk_companyId'=> $r->companyId]);
+
+        Session::flash('message', 'Admin Info Updated!');
 
         return back();
     }
