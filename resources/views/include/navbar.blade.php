@@ -15,12 +15,14 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{route('company.showAllCompany')}}" class="waves-effect">
-                        <i class="fa fa-address-card"></i> <span> Company </span>
-                    </a>
-                </li>
-
+                @if(Auth::user()->fk_userTypeId == 1)
+                    <li>
+                        <a href="{{route('company.showAllCompany')}}" class="waves-effect">
+                            <i class="fa fa-address-card"></i> <span> Company </span>
+                        </a>
+                    </li>
+                @endif
+                
                 @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4)
                     <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
