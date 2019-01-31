@@ -62,6 +62,7 @@
             padding-top: 3px;
             padding-bottom: 3px;
         }
+
     </style>
 @endsection
 
@@ -168,48 +169,65 @@
                 @if($ticketReplies)
                     @foreach($ticketReplies as $reply)
                         @if($reply->fk_userId == Auth::user()->userId)
-                            {{-- Current User --}}
-                            <div class="container2 darker">
-                                <img src="{{ asset('public/images/avatar/2.png') }}" alt="Avatar" class="right circle-img">
-                                <div class="in">
+                            {{--Current User--}}
+                            <div class="container2 darker" style="float:right; width: 60%;">
+                                <div class="in float-right">
                                     {!!  $reply->replyData  !!}
 
-                                    {{-- Download File Link --}}
+                                     {{--Download File Link--}}
                                     @if($reply->ticketReplyFile != null)
                                         <div class="mt-4">
                                             <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
                                         </div>
                                     @endif
 
-                                    <span class="time-left float-right" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                    <span class="time-left float-right badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;"  > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
                                 </div>
+
                             </div>
                         @else
-                            {{-- Opposite User --}}
-                            <div class="container2">
-                                <div class="in">
-                                    <img src="{{ asset('public/images/avatar/1.png') }}" alt="Avatar" class="circle-img">
-                                    {!!  $reply->replyData  !!}
+                            {{--Opposite User--}}
+                            @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 3)
+                                <div class="container2" style="float:left; width: 60%;">
+                                    <div class="in">
+                                        {!!  $reply->replyData  !!}
 
-                                    {{-- Download File Link --}}
-                                    @if($reply->ticketReplyFile != null)
-                                        <div class="mt-4">
-                                            <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
-                                        </div>
-                                    @endif
+                                        {{--Download File Link--}}
+                                        @if($reply->ticketReplyFile != null)
+                                            <div class="mt-4">
+                                                <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
+                                            </div>
+                                        @endif
 
-                                    <span class="time-left" style="font-size:15px; color: black !important; font-weight: lighter;"> <span class="badge badge-dark" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                        <span class="time-left badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                @if($reply->ticketReplyType == 'public')
+                                    <div class="container2" style="float:left; width: 60%;">
+                                        <div class="in">
+                                            {!!  $reply->replyData  !!}
+
+                                            {{--Download File Link--}}
+                                            @if($reply->ticketReplyFile != null)
+                                                <div class="mt-4">
+                                                    <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}" download> Download File</a>
+                                                </div>
+                                            @endif
+
+                                            <span class="time-left badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                         @endif
                     @endforeach
                 @endif
-                {{-- Old reply end --}}
-
+                {{--Old reply end --}}
 
 
                 {{-- Post a reply --}}
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" style="clear: both;">
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
                     <div class="form-group">

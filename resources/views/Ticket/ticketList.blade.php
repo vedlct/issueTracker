@@ -12,12 +12,13 @@
 
 <div class="container-fluid row">
 
-    <div class="col-2">
+    <div class="col-md-2">
         <div class="card">
             <div class="card-header">
                 <h4 class="float-left">Filter Ticket</h4>
             </div>
             <div class="card-body">
+
                 <div class="form-group">
                     <label>Start Date</label>
                     <input type="date" id="startDate" class="form-control" >
@@ -26,6 +27,7 @@
                     <label>End Date</label>
                     <input type="date" id="endDate" class="form-control" >
                 </div>
+
                 <div class="form-group">
                     <label for="company">Ticket Status</label>
                     <select class="form-control" id="ticketStatus2" name="ticketStatus">
@@ -40,11 +42,11 @@
         </div>
     </div>
 
-    <div class="col-10">
+    <div class="col-md-10">
         <div class="card">
             <div class="card-header">
                 <h4 class="float-left">Tickets</h4>
-                <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                <a href="{{ route('ticket.create') }}" class="btn btn-secondary float-right" name="button">Create Ticket</a>
                 <button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>
             </div>
             <div class="card-body">
@@ -175,8 +177,8 @@
                    { data: 'ticketStatus', name: 'ticket.ticketStatus' },
 
                    { "data": function(data){
-                            return '<button class="btn btn-success btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                                    '<button class="btn btn-info btn-sm btn mr-2" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
+                            return '<button class="btn btn-success btn-sm m-1" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
+                                    '<button class="btn btn-primary btn-sm m-1" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
@@ -196,7 +198,7 @@
 
     <script>
         $(document).ready(function() {
-
+            $('.datepicker').datepicker();
         });
 
         // Select All Checkbox

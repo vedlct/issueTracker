@@ -15,11 +15,10 @@
                     </a>
                 </li>
 
-                <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-address-card"></i> <span>Company</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ route('company.showAllCompany') }}" class="waves-effect">All Company</a></li>
-                        {{--<li><a href="{{ route('employee.create') }}" class="waves-effect">Add Employee</a></li>--}}
-                    </ul>
+                <li>
+                    <a href="{{route('company.showAllCompany')}}" class="waves-effect">
+                        <i class="fa fa-address-card"></i> <span> Company </span>
+                    </a>
                 </li>
 
                 <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
@@ -31,19 +30,20 @@
                     </ul>
                 </li>
 
-                <li class="has_sub"><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect"><i class="fa fa-user-circle"></i> <span>Team management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect">Team list</a></li>
-                        <li><a href="{{ route('team.assign') }}" class="waves-effect">Assign Member To Team</a></li>
-                        <li><a href="{{ route('assign.team.member') }}" class="waves-effect">Team Members List</a></li>
-                    </ul>
-                </li>
+                @if(Auth::user()->fk_userTypeId == 1)
+                    <li class="has_sub"><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect"><i class="fa fa-user-circle"></i> <span>Team management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('assignteam.showAllteam') }}" class="waves-effect">Team list</a></li>
+                            <li><a href="{{ route('team.assign') }}" class="waves-effect">Assign Member To Team</a></li>
+                            <li><a href="{{ route('assign.team.member') }}" class="waves-effect">Team Members List</a></li>
+                        </ul>
+                    </li>
+                @endif
 
 
                 <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag"></i> <span>Project</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">Project Information</a></li>
-                        <!-- <li><a href="" class="waves-effect">Project Details</a></li> -->
                     </ul>
                 </li>
 

@@ -32,7 +32,7 @@
 
                     <div class="form-group col-md-12">
                         <label>Company Summary</label>
-                        <textarea  class="form-control" placeholder="Company Info" name="info" required></textarea>
+                        <textarea  class="form-control" placeholder="Company Info" name="info"></textarea>
                     </div>
 
                     <div class="form-group col-md-12">

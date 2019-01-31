@@ -19,7 +19,10 @@ class CompanyController extends Controller
 
     // get all Company
     public function getAllCompany(Request $r){
-        $companies = Company::select('company.companyName','company.companyInfo','company.companyEmail','company.companyPhone1','company.companyId')->where('deleted_at', null);
+        $companies = Company::select('company.companyName','company.companyInfo','company.companyEmail','company.companyPhone1','company.companyId')
+                                ->where('deleted_at', null);
+//                                ->where('');
+
         $datatables = Datatables::of($companies);
         return $datatables->make(true);
     }

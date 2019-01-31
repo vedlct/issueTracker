@@ -17,6 +17,8 @@ use Excel;
 use App\Exports\TicketExport;
 use App\AssignTeam;
 use DB;
+use App\Employee;
+use App\Client;
 
 
 class TicketController extends Controller
@@ -24,23 +26,15 @@ class TicketController extends Controller
     // view Ticket list
     public function index(){
 
-//       return $tickets=  Ticket::select(DB::raw("CONCAT(fk_userId,',') as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
-//            ->leftJoin('project','project.projectId','ticket.fk_projectId')
-//            ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-//            ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-//            ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-////            ->leftJoin('team','team.teamId','ticket.ticketAssignTeamId')
-//            ->whereIn('ticketId', [8,9,10])
-////            ->groupBy('ticket.ticketId')
-//            ->toSql();
-
         $teams = Team::all();
-        $tickets = Ticket::leftJoin('team','team.teamId','ticket.ticketAssignTeamId')->get();
         $employee = DB::table('user')->where('fk_userTypeId',3)->get();
 
-        return view('Ticket.ticketList')->with('teams',$teams)
-                                             ->with('employeeList',$employee)
-                                             ->with('tickets', $tickets);
+        return view('Ticket.ticketList')
+            ->with('teams',$teams)
+            ->with('employeeList',$employee);
+
+
+
     }
 
     // view Ticket info
@@ -74,13 +68,40 @@ class TicketController extends Controller
 
     // get all Ticket
     public function getAllTicket(Request $r){
-        $tickets = Ticket::select('*');
+//        $tickets = Ticket::select('*');
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all ticket of user's company
+        if($userCompanyId == null)
+        {
+            $tickets = Ticket::leftJoin('team','team.teamId','ticket.ticketAssignTeamId');
+        }
+        else
+        {
+            $tickets = Ticket::leftJoin('team','team.teamId','ticket.ticketAssignTeamId')
+                ->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+
+        }
+
 
         if($r->startDate){
             $tickets= $tickets->where('created_at', '>=', $r->startDate);
         }
         if($r->endDate){
-            $tickets= $tickets->where('end_at', '>=', $r->endDate);
+            $tickets= $tickets->where('created_at', '<=', $r->endDate);
         }
         if($r->ticketStatus){
             $tickets= $tickets->where('ticketStatus', $r->ticketStatus);
@@ -92,7 +113,31 @@ class TicketController extends Controller
 
     // view create ticket
     public function createTicket(){
-        $projectlist = Project::all();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all project of user's company
+        if($userCompanyId == null)
+        {
+            $projectlist = Project::all();
+        }
+        else
+        {
+            $projectlist = Project::where('fk_companyId', $userCompanyId)->get();
+        }
+
         return view('Ticket.createTicket')->with('projectlist', $projectlist);
     }
 
@@ -100,7 +145,6 @@ class TicketController extends Controller
     public function insertTicket(Request $r){
         $ticketStatus = Status::where('statusId', '3')->first();
 
-        date_default_timezone_set('Asia/Dhaka');
         $date = date('Y-m-d h:i:s');
 
         $ticket = new Ticket();
@@ -112,6 +156,27 @@ class TicketController extends Controller
         $ticket->ticketPriority = $r->priroty;
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $ticketOpenerCompany = Client::where('userId', Auth::user()->userId)->first();
+            $companyId = $ticketOpenerCompany->companyId;
+
+            $ticket->ticketOpenerCompanyId = $companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
+            $companyId = $ticketOpenerCompany->companyId;
+
+            $ticket->ticketOpenerCompanyId = $companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $ticket->ticketOpenerCompanyId = null;
+        }
+
+
         $ticket->save();
 
         if ($r->hasFile('file')) {
