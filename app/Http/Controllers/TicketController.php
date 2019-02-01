@@ -68,7 +68,6 @@ class TicketController extends Controller
 
     // get all Ticket
     public function getAllTicket(Request $r){
-//        $tickets = Ticket::select('*');
 
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
@@ -77,7 +76,11 @@ class TicketController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -122,6 +125,10 @@ class TicketController extends Controller
         if(Auth::user()->fk_userTypeId == 3)
         {
             $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {

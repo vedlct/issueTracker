@@ -99,11 +99,6 @@ class CompanyController extends Controller
     }
 
 
-
-//    public function ticketExportWithView(){
-//        return Excel::download(new TicketExport, 'tickets.xlsx');
-//    }
-
     public function export()
     {
         return Excel::download(new CompanyExport, 'companylist.xlsx');

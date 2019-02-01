@@ -11,32 +11,123 @@ use Hash;
 use Session;
 use DB;
 use App\Client;
+use Auth;
 
 class UserManagementController extends Controller
 {
     // Employee list
     public function employeelist(){
-        $employeelist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 3)
-                                                                                                            ->get();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all user of current user's company
+        if($userCompanyId == null)
+        {
+            $employeelist = DB::table('user')
+                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                ->where('user.fk_userTypeId', 3)
+                ->get();
+        }
+        else
+        {
+            $employeelist = DB::table('user')
+                                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                                ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                                ->where('user.fk_userTypeId', 3)
+                                ->where('companyemployee.fk_companyId', $userCompanyId)
+                                ->get();
+        }
+
         return view('Usermanagement.employeeList')->with('employeelist', $employeelist);
     }
 
     // client list
     public function clientlist(){
-        $clientlist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 2)
-            ->get();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+
+        // get all user of current user's company
+        if($userCompanyId == null)
+        {
+            $clientlist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 2)->get();
+        }
+        else
+        {
+            $clientlist = DB::table('user')
+                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                ->leftJoin('client', 'client.userId', 'user.userId')
+                ->where('user.fk_userTypeId', 2)
+                ->where('client.companyId', $userCompanyId)
+                ->get();
+        }
+
         return view('Usermanagement.clientList')->with('clientlist', $clientlist);
     }
 
     // Add Employee
     public function addEmployee(){
-        $companylist = Company::all();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        if($userCompanyId == null)
+        {
+            $companylist = Company::all();
+        }
+        else
+        {
+            $companylist = Company::where('companyId', $userCompanyId)->get();
+        }
+
         return view('Usermanagement.addEmployee')->with('companyList', $companylist);
     }
 
     // Add Client
     public function addClient(){
-        $companylist = Company::all();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        if($userCompanyId == null)
+        {
+            $companylist = Company::all();
+        }
+        else
+        {
+            $companylist = Company::where('companyId', $userCompanyId)->get();
+        }
+
         return view('Usermanagement.addClient')->with('companyList', $companylist);
     }
 
@@ -122,7 +213,27 @@ class UserManagementController extends Controller
     }
 
     public function editEmployee($id){
-        $companylist = Company::all();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        if($userCompanyId == null)
+        {
+            $companylist = Company::all();
+        }
+        else
+        {
+            $companylist = Company::where('companyId', $userCompanyId)->get();
+        }
+
+
         $employee = User::where('userId',$id)->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                                             ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
                                             ->first();
@@ -172,7 +283,26 @@ class UserManagementController extends Controller
     }
 
     public function editClient($id){
-        $companylist = Company::all();
+        
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        if($userCompanyId == null)
+        {
+            $companylist = Company::all();
+        }
+        else
+        {
+            $companylist = Company::where('companyId', $userCompanyId)->get();
+        }
+
         $client = User::where('user.userId', $id)->leftJoin('client', 'client.userId', 'user.userId')
                                             ->leftJoin('company', 'company.companyId', 'client.companyId')
                                             ->first();

@@ -23,7 +23,6 @@ class ProjectController extends Controller
     // get all Company
     public function getAllProject(Request $r){
 
-
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
@@ -31,13 +30,16 @@ class ProjectController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
             $userCompanyId = null;
         }
-
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -46,7 +48,7 @@ class ProjectController extends Controller
                 ->Join('company','project.fk_companyId','company.companyId')
                 ->Join('user','project.project_createdBy','user.userId')
                 ->Join('status','project.projectStatus','status.statusId')
-                ->where('project.deleted_at', null)->get();
+                ->where('project.deleted_at', null);
         }
         else
         {
@@ -55,14 +57,8 @@ class ProjectController extends Controller
                 ->Join('user','project.project_createdBy','user.userId')
                 ->Join('status','project.projectStatus','status.statusId')
                 ->where('fk_companyId',$userCompanyId)
-                ->where('project.deleted_at', null)->get();
+                ->where('project.deleted_at', null);
         }
-
-//        $projects = Project::select('project.projectName','status.statusData','user.fullName','company.companyName','project.projectId')
-//                                ->Join('company','project.fk_companyId','company.companyId')
-//                                ->Join('user','project.project_createdBy','user.userId')
-//                                ->Join('status','project.projectStatus','status.statusId')
-//                                ->where('project.deleted_at', null)->get();
 
         $datatables = Datatables::of($projects);
         return $datatables->make(true);
@@ -79,6 +75,10 @@ class ProjectController extends Controller
         if(Auth::user()->fk_userTypeId == 3)
         {
             $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -118,7 +118,6 @@ class ProjectController extends Controller
 
     // view edit company form
     public function edit_project($id){
-//        $companylist = Company::all();
         $allStatus = Status::all();
         $project = Project::findOrFail($id);
 
@@ -130,6 +129,10 @@ class ProjectController extends Controller
         if(Auth::user()->fk_userTypeId == 3)
         {
             $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {

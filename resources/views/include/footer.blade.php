@@ -33,7 +33,7 @@
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 @if(Session::has('message'))
-    <!-- <p class="alert alert-info">{{ Session::get('message') }}</p> -->
+    {{--<p class="alert alert-info">{{ Session::get('message') }}</p> --}}
     <script type="text/javascript">
         $.alert({
              animationBounce: 2,

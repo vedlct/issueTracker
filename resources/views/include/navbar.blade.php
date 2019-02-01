@@ -22,8 +22,8 @@
                         </a>
                     </li>
                 @endif
-                
-                @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4)
+
+                @if(Auth::user()->fk_userTypeId == 1)
                     <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>
@@ -35,6 +35,19 @@
                             <li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>
                         </ul>
                     </li>
+                @else
+                    @if(Auth::user()->fk_userTypeId == 4)
+                        <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="list-unstyled">
+                                {{--<li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>--}}
+                                <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
+                                <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
+                                <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
+                                <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
+                                {{--<li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>--}}
+                            </ul>
+                        </li>
+                    @endif
                 @endif
 
                 @if(Auth::user()->fk_userTypeId == 1)
