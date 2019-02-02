@@ -283,7 +283,7 @@ class UserManagementController extends Controller
     }
 
     public function editClient($id){
-        
+
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 4)
         {

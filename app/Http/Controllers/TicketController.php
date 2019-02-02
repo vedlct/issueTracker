@@ -19,22 +19,19 @@ use App\AssignTeam;
 use DB;
 use App\Employee;
 use App\Client;
+use Illuminate\Support\Facades\Mail;
 
 
 class TicketController extends Controller
 {
     // view Ticket list
     public function index(){
-
         $teams = Team::all();
         $employee = DB::table('user')->where('fk_userTypeId',3)->get();
 
         return view('Ticket.ticketList')
             ->with('teams',$teams)
             ->with('employeeList',$employee);
-
-
-
     }
 
     // view Ticket info
@@ -150,6 +147,15 @@ class TicketController extends Controller
 
     // insert ticket
     public function insertTicket(Request $r){
+
+
+
+
+
+
+
+
+
         $ticketStatus = Status::where('statusId', '3')->first();
 
         $date = date('Y-m-d h:i:s');
@@ -194,6 +200,77 @@ class TicketController extends Controller
             $ticket->ticketFile=$fileName;
             $ticket->save();
         }
+
+
+
+        // Send Mail
+        // Get all email of user's company
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all ticket of user's company
+        if($userCompanyId != null)
+        {
+            // get all client's company's all exployee user_id
+            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
+
+            $array = array();
+
+            foreach ($allEmp as $emp)
+            {
+                array_push($array, $emp->employeeUserId);
+            }
+
+            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
+
+            $array1 = array();
+            foreach ($allEmployeeEmails as $emp)
+            {
+                array_push($array1, $emp->email);
+            }
+        }
+
+        $ticketOpenerName = Auth::user()->fullName;
+        $priority = $r->priroty;
+        $details = $r->details;
+        $projectName = Project::where('projectId', $r->project)->first()->projectName;
+
+
+        $data=array(
+            'name'=> 'Arabi Kabir',
+            'email'=> 'admin@gmail.com',
+            'message'=> 'OPPS !! New Ticket is created',
+
+            'ticketOpenerName'=> $ticketOpenerName,
+            'priority'=> $priority,
+            'details'=> $details,
+            'projectName'=> $projectName
+
+        );
+
+
+        Mail::send('Ticket.mailView', $data, function($message) use ($data,$array1)
+        {
+            $message->to($data['email'], 'Demo mail')
+                    ->cc($array1)
+                    ->subject('New Ticket Created');
+        });
+        // End Send Mail
 
         Session::flash('message', 'Ticket Created!');
 
@@ -294,8 +371,6 @@ class TicketController extends Controller
         Excel::store(new TicketExport($r), 'tickets.xlsx');
         return 'tickets.xlsx';
     }
-
-
 
 
 }
