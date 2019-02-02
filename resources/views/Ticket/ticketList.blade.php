@@ -265,11 +265,19 @@
                     'allCheckedTicket':chkArray,
                 } ,
                 success : function(data){
-                    console.log(data);
-                    if(data == 'true'){
-                        alert('Report Generated');
-                    }
+                    // console.log(data);
+                    // if(data == 'true'){
+                    //     alert('Report Generated');
+                    // }
                    // console.log(chkArray);
+                   //  console.log('download');
+
+                    var link = document.createElement("a");
+                    link.download = "tickets.xlsx";
+                    {{--var uri = '{{url("storage/app")}}'+"/"+data.fileName+".xls";--}}
+                    var uri = '{{url("storage/app")}}'+"/"+"tickets.xlsx";
+                    link.href = uri;
+                    link.click();
                 }
             });
 

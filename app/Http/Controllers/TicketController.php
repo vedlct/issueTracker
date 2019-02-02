@@ -369,7 +369,7 @@ class TicketController extends Controller
 
     public function ticketExport(Request $r){
         Excel::store(new TicketExport($r), 'tickets.xlsx');
-        return 'tickets.xlsx';
+//        return 'tickets.xlsx';
     }
 
 
