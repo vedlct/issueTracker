@@ -98,13 +98,13 @@ class TicketController extends Controller
 
 
         if($r->startDate){
-            $tickets= $tickets->where('created_at', '>=', $r->startDate);
+            $tickets= $tickets->whereDate('ticket.created_at', '>=', $r->startDate);
         }
         if($r->endDate){
-            $tickets= $tickets->where('created_at', '<=', $r->endDate);
+            $tickets= $tickets->whereDate('ticket.created_at', '<=', $r->endDate);
         }
         if($r->ticketStatus){
-            $tickets= $tickets->where('ticketStatus', $r->ticketStatus);
+            $tickets= $tickets->where('ticket.ticketStatus', $r->ticketStatus);
         }
 
         $datatables = Datatables::of($tickets);
@@ -148,12 +148,53 @@ class TicketController extends Controller
     // insert ticket
     public function insertTicket(Request $r){
 
+        // Send Mail
+        // Get all email of user's company
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
 
+        // get all ticket of user's company
+        if($userCompanyId != null)
+        {
+            // get all client's company's all exployee user_id
+            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
 
+            $array = array();
 
+            foreach ($allEmp as $emp)
+            {
+                array_push($array, $emp->employeeUserId);
+            }
 
+            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
 
+            $array1 = array();
+            foreach ($allEmployeeEmails as $emp)
+            {
+                array_push($array1, $emp->email);
+            }
+        }
+        else
+        {
+            Session::flash('error_msg', 'Super admin cant create ticket!');
 
+            return back();
+        }
 
 
         $ticketStatus = Status::where('statusId', '3')->first();
@@ -203,47 +244,7 @@ class TicketController extends Controller
 
 
 
-        // Send Mail
-        // Get all email of user's company
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
 
-        // get all ticket of user's company
-        if($userCompanyId != null)
-        {
-            // get all client's company's all exployee user_id
-            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
-
-            $array = array();
-
-            foreach ($allEmp as $emp)
-            {
-                array_push($array, $emp->employeeUserId);
-            }
-
-            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
-
-            $array1 = array();
-            foreach ($allEmployeeEmails as $emp)
-            {
-                array_push($array1, $emp->email);
-            }
-        }
 
         $ticketOpenerName = Auth::user()->fullName;
         $priority = $r->priroty;

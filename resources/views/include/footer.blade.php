@@ -43,6 +43,18 @@
     </script>
 @endif
 
+@if(Session::has('error_msg'))
+    {{--<p class="alert alert-info">{{ Session::get('message') }}</p> --}}
+    <script type="text/javascript">
+        $.alert({
+            animationBounce: 2,
+            title: 'Errors!',
+            type: 'red',
+            content: '{{ Session::get('error_msg') }}',
+        });
+    </script>
+@endif
+
 
 @yield('js')
 </body>
