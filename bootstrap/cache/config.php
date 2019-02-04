@@ -571,8 +571,8 @@
     'port' => '2525',
     'from' => 
     array (
-      'address' => 'hello@example.com',
-      'name' => 'Example',
+      'address' => 'noreply@caritasbd.com',
+      'name' => 'CARITAS BD',
     ),
     'encryption' => 'tls',
     'username' => '939db56664c1de',
@@ -584,6 +584,15 @@
       'paths' => 
       array (
         0 => 'C:\\xampp\\htdocs\\issuetracker\\resources\\views/vendor/mail',
+      ),
+    ),
+    'stream' => 
+    array (
+      'ssl' => 
+      array (
+        'allow_self_signed' => true,
+        'verify_peer' => false,
+        'verify_peer_name' => false,
       ),
     ),
   ),
