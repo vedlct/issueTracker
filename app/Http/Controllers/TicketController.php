@@ -316,6 +316,13 @@ class TicketController extends Controller
 
             $ticket->ticketOpenerCompanyId = $companyId;
         }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
+            $companyId = $ticketOpenerCompany->companyId;
+
+            $ticket->ticketOpenerCompanyId = $companyId;
+        }
         if(Auth::user()->fk_userTypeId == 1)
         {
             $ticket->ticketOpenerCompanyId = null;
