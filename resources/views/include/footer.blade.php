@@ -38,6 +38,7 @@
         $.alert({
              animationBounce: 2,
              title: 'Success!',
+             type: 'success',
              content: '{{ Session::get('message') }}',
          });
     </script>

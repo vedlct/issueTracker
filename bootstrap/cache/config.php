@@ -174,7 +174,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\framework/cache/data',
+        'path' => '/opt/lampp/htdocs/issuetracker/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -325,10 +325,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\fonts/',
-      'font_cache' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\tcl\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\xampp\\htdocs\\issuetracker',
+      'font_dir' => '/opt/lampp/htdocs/issuetracker/storage/fonts/',
+      'font_cache' => '/opt/lampp/htdocs/issuetracker/storage/fonts/',
+      'temp_dir' => '/tmp',
+      'chroot' => '/opt/lampp/htdocs/issuetracker',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -347,7 +347,7 @@
     'exports' => 
     array (
       'chunk_size' => 1000,
-      'temp_path' => 'C:\\Users\\tcl\\AppData\\Local\\Temp',
+      'temp_path' => '/tmp',
       'pre_calculate_formulas' => false,
       'csv' => 
       array (
@@ -397,12 +397,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\app',
+        'root' => '/opt/lampp/htdocs/issuetracker/storage/app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\app/public',
+        'root' => '/opt/lampp/htdocs/issuetracker/storage/app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -525,13 +525,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\logs/laravel.log',
+        'path' => '/opt/lampp/htdocs/issuetracker/storage/logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\logs/laravel.log',
+        'path' => '/opt/lampp/htdocs/issuetracker/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 7,
       ),
@@ -583,7 +583,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\issuetracker\\resources\\views/vendor/mail',
+        0 => '/opt/lampp/htdocs/issuetracker/resources/views/vendor/mail',
       ),
     ),
     'stream' => 
@@ -602,7 +602,7 @@
     'format' => 'A4',
     'default_font_size' => '13',
     'default_font' => 'sans-serif',
-    'custom_font_path' => 'C:\\xampp\\htdocs\\issuetracker\\/resources/fonts/',
+    'custom_font_path' => '/opt/lampp/htdocs/issuetracker//resources/fonts/',
     'direction' => 'rtl',
     'margin_left' => 10,
     'margin_right' => 10,
@@ -696,7 +696,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\framework/sessions',
+    'files' => '/opt/lampp/htdocs/issuetracker/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -716,9 +716,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\issuetracker\\resources\\views',
+      0 => '/opt/lampp/htdocs/issuetracker/resources/views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\issuetracker\\storage\\framework\\views',
+    'compiled' => '/opt/lampp/htdocs/issuetracker/storage/framework/views',
   ),
   'image' => 
   array (

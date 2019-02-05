@@ -14,7 +14,6 @@ Route::get('/edit-company/{id}','CompanyController@edit_company')->name('company
 Route::post('/edit-company/{id}','CompanyController@update_company')->name('company.update');
 Route::post('/company/delete','CompanyController@delete_company')->name('company.delete');
 Route::get('/company-list','CompanyController@index')->name('company.showAllCompany');
-
 Route::get('/company-download','CompanyController@export')->name('company.export');
 
 
@@ -38,10 +37,12 @@ Route::post('/update-ticket-view-details','TicketController@returnCkEditorView')
 Route::post('/update-ticket-details','TicketController@updateTicketDetails')->name('ticket.update.details');
 Route::get('/ticket-info/{id}','TicketController@showTicket')->name('ticket.view');
 Route::post('/ticket-info/{id}','TicketController@insertReply')->name('ticket.reply.insert');
-Route::get('/ticket-edit/{id}','TicketController@ticketEdit')->name('ticket.edit');
+Route::post('/ticket-edit','TicketController@ticketEdit')->name('ticket.edit');
 Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.main.update');
 Route::post('/ticket-report-download','TicketController@ticketExport')->name('ticket.report.generate');
 Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
+
+Route::get('/generate-excel', 'TicketController@showGenerateExcel')->name('ticket.show.generateExcel');
 
 
 // Team Management
@@ -52,7 +53,6 @@ Route::post('/insert-team-employee', 'TeamManagementController@teamAssign')->nam
 Route::get('/assign-team-members', 'TeamManagementController@teamMembers')->name('assign.team.member');
 Route::post('/get-all-team-members', 'TeamManagementController@getAllTeamMembers')->name('getAllTeamMembers');
 Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')->name('remove.employee');
-
 Route::get('/team-edit/{id}', 'TeamManagementController@teamEdit')->name('team.edit');
 Route::post('/team-edit/{id}', 'TeamManagementController@teamUpdate')->name('team.update');
 
@@ -67,7 +67,6 @@ Route::post('/add-client', 'UserManagementController@insertClient')->name('inser
 Route::get('/client-list', 'UserManagementController@clientlist')->name('user.show.allClient');
 Route::get('/client-edit/{id}', 'UserManagementController@editClient')->name('edit.client.profile');
 Route::post('/client-update', 'UserManagementController@updateClient')->name('update.client.profile');
-
 Route::get('/add-company-admin', 'UserManagementController@addCompanyAdmin')->name('add.company.admin');
 Route::post('/add-company-admin', 'UserManagementController@insertCompanyAdmin')->name('company.admin.insert');
 Route::get('/admin-list', 'UserManagementController@adminList')->name('user.show.allAdmin');

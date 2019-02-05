@@ -1,10 +1,4 @@
-@extends('layouts.mainLayout')
 
-@section('css')
-
-@endsection
-
-@section('content')
     <div class="container-fluid">
         {{-- Ticket Basic Information --}}
         <div class="card">
@@ -83,9 +77,6 @@
         </div>
     </div>
 
-@endsection
-
-@section('js')
 
     <script>
 
@@ -126,4 +117,4 @@
     </script>
 
 
-@endsection
+
