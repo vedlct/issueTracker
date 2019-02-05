@@ -237,7 +237,9 @@
 
                // { data: 'ticketStatus', name: 'ticket.ticketStatus' },
                { "data": function(data){
-                       if(data.exp_end_date <= currentDate)
+                       var d1 = Date.parse(data.exp_end_date);
+
+                       if(d1 <= currentDate)
                        {
                            return "Overdue";
                        }
