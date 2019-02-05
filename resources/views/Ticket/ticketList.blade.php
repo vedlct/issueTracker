@@ -8,6 +8,10 @@
     /*.nav-link {*/
         /*display: inline !important;*/
     /*}*/
+    .redClass{
+        background-color: #f25f32 !important;
+        color: white !important;
+    }
 </style>
 @endsection
 
@@ -192,6 +196,15 @@
            rowReorder: {
                selector: 'td:nth-child(0)'
            },
+            "createdRow": function( row, data, dataIndex){
+
+                var d1 = Date.parse(data.exp_end_date);
+
+                if(d1 <= currentDate)
+                {
+                    $(row).addClass('redClass');
+                }
+            },
            responsive: true,
            processing: true,
            serverSide: true,
@@ -238,6 +251,8 @@
                // { data: 'ticketStatus', name: 'ticket.ticketStatus' },
                { "data": function(data){
                        var d1 = Date.parse(data.exp_end_date);
+
+
 
                        if(d1 <= currentDate)
                        {
