@@ -12,16 +12,16 @@
 
         .container2 {
             border: 2px solid #dedede;
-            background-color: #f1f1f1;
+
             border-radius: 5px;
             padding: 10px;
-            margin: 10px 0;
+            margin: 5px 0;
         }
 
         /* Darker chat container */
         .darker {
             border-color: #ccc;
-            background-color: #ddd;
+
         }
 
         /* Clear floats */
@@ -55,7 +55,7 @@
 
         /* Style time text */
         .time-left {
-            float: left;
+            float: right;
             color: #999;
         }
         .custom-2{
@@ -174,8 +174,9 @@
                     @foreach($ticketReplies as $reply)
                         @if($reply->fk_userId == Auth::user()->userId)
                             {{--Current User--}}
-                            <div class="container2 darker" style="float:right; width: 60%;">
-                                <div class="in float-right">
+                            <div class="container2 darker" >
+                                <span class="badge badge-secondary" style="color: white;"  > {{$reply->fullName}} </span>
+                                <div class="in ">
                                     {!!  $reply->replyData  !!}
 
                                      {{--Download File Link--}}
@@ -185,14 +186,15 @@
                                         </div>
                                     @endif
 
-                                    <span class="time-left float-right badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;"  > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                    <span class="time-right float-right" style="font-size:15px; color: grey !important; font-weight: lighter;"> {{$reply->created_at}} </span>
                                 </div>
 
                             </div>
                         @else
                             {{--Opposite User--}}
                             @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 3)
-                                <div class="container2" style="float:left; width: 60%;">
+                                <div class="container2" >
+                                    <span class="badge badge-secondary" style="color: white;" > {{$reply->fullName}} </span>
                                     <div class="in">
                                         {!!  $reply->replyData  !!}
 
@@ -203,12 +205,13 @@
                                             </div>
                                         @endif
 
-                                        <span class="time-left badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                        <span class="time-right" style="font-size:15px; color: grey !important; font-weight: lighter;"> {{$reply->created_at}} </span>
                                     </div>
                                 </div>
                             @else
                                 @if($reply->ticketReplyType == 'public')
-                                    <div class="container2" style="float:left; width: 60%;">
+                                    <div class="container2">
+                                        <span class="badge badge-secondary" style="color: white;" > {{$reply->fullName}} </span>
                                         <div class="in">
                                             {!!  $reply->replyData  !!}
 
@@ -219,7 +222,7 @@
                                                 </div>
                                             @endif
 
-                                            <span class="time-left badge badge-dark" style="font-size:15px; color: white !important; font-weight: lighter;"> <span class="badge badge-info" style="color: black;" > {{$reply->fullName}} </span> {{$reply->created_at}} </span>
+                                            <span class="time-right " style="font-size:15px; color: grey !important; font-weight: lighter;">  {{$reply->created_at}} </span>
                                         </div>
                                     </div>
                                 @endif
