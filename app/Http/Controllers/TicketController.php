@@ -144,6 +144,7 @@ class TicketController extends Controller
         // get all ticket of user's company
         if($r->ticketType != null)
         {
+            // only for super admin
             if($userCompanyId == null)
             {
                 if($r->overDue == "overdue")
@@ -181,6 +182,7 @@ class TicketController extends Controller
                         ->groupBy('ticket.ticketId');
                 }
             }
+            // other user
             else
             {
                 if($r->overDue == "overdue")
@@ -274,7 +276,7 @@ class TicketController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
@@ -310,7 +312,7 @@ class TicketController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
