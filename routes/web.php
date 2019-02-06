@@ -41,7 +41,6 @@ Route::post('/ticket-edit','TicketController@ticketEdit')->name('ticket.edit');
 Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.main.update');
 Route::post('/ticket-report-download','TicketController@ticketExport')->name('ticket.report.generate');
 Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
-
 Route::get('/generate-excel', 'TicketController@showGenerateExcel')->name('ticket.show.generateExcel');
 
 
@@ -72,3 +71,18 @@ Route::post('/add-company-admin', 'UserManagementController@insertCompanyAdmin')
 Route::get('/admin-list', 'UserManagementController@adminList')->name('user.show.allAdmin');
 Route::get('/admin-edit/{id}', 'UserManagementController@editAdmin')->name('user.edit.admin');
 Route::post('/admin-update/', 'UserManagementController@updateAdmin')->name('admin.update');
+
+
+// Profile Management
+Route::get('/profile', 'ProfileController@profile')->name('user.profile');
+Route::post('/profile', 'ProfileController@updateProfile');
+
+
+
+
+
+
+
+
+
+
