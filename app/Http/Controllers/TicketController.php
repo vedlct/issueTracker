@@ -85,10 +85,10 @@ class TicketController extends Controller
 
 
         return view('Ticket.ticketList')->with('openticket', $openCount)
-                                            ->with('overdue', $overDueCount)
-                                            ->with('pending', $pendingCount)
-                                            ->with('allticket', $allTicket)
-                                            ->with('close', $closeCount);
+                                             ->with('overdue', $overDueCount)
+                                             ->with('pending', $pendingCount)
+                                             ->with('allticket', $allTicket)
+                                             ->with('close', $closeCount);
     }
 
     // view Ticket info
@@ -324,7 +324,7 @@ class TicketController extends Controller
         // get all ticket of user's company
         if($userCompanyId != null)
         {
-            // get all client's company's all exployee user_id
+            // get all client's company's all employee user_id
             $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
 
             $array = array();
@@ -340,6 +340,24 @@ class TicketController extends Controller
             foreach ($allEmployeeEmails as $emp)
             {
                 array_push($array1, $emp->email);
+            }
+
+
+
+            // get all client's company's all client user_id
+            $allclient = Client::where('companyId', $userCompanyId)->get();
+            $array = array();
+
+            foreach ($allclient as $client)
+            {
+                array_push($array, $client->userId);
+            }
+
+            $allClientEmails = User::whereIn('userId', $array)->select('email')->get();
+
+            foreach ($allClientEmails as $client)
+            {
+                array_push($array1, $client->email);
             }
         }
         else
@@ -461,6 +479,62 @@ class TicketController extends Controller
 
     // insert ticket reply
     public function insertReply(Request $r){
+
+
+
+
+
+        // Send Mail
+//        if(Auth::user()->fk_userTypeId == 2)
+//        {
+//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 3)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 1)
+//        {
+//            $userCompanyId = null;
+//        }
+//
+//        // get all email of user's company
+//        if($userCompanyId != null)
+//        {
+//            // get all client's company's all exployee user_id
+//            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
+//
+//            $array = array();
+//
+//            foreach ($allEmp as $emp)
+//            {
+//                array_push($array, $emp->employeeUserId);
+//            }
+//
+//            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
+//
+//            $array1 = array();
+//            foreach ($allEmployeeEmails as $emp)
+//            {
+//                array_push($array1, $emp->email);
+//            }
+//        }
+//        else
+//        {
+//            Session::flash('error_msg', 'Super admin cant reply on ticket!');
+//
+//            return back();
+//        }
+
+
+
+
+
+
 
         $time = date('Y-m-d h:i:s');
 

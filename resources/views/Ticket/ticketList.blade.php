@@ -196,15 +196,15 @@
            rowReorder: {
                selector: 'td:nth-child(0)'
            },
-            "createdRow": function( row, data, dataIndex){
-
-                var d1 = Date.parse(data.exp_end_date);
-
-                if(d1 <= currentDate)
-                {
-                    $(row).addClass('redClass');
-                }
-            },
+            // "createdRow": function( row, data, dataIndex){
+            //
+            //     var d1 = Date.parse(data.exp_end_date);
+            //
+            //     if(d1 <= currentDate)
+            //     {
+            //         $(row).addClass('redClass');
+            //     }
+            // },
            responsive: true,
            processing: true,
            serverSide: true,
@@ -248,7 +248,6 @@
                    "orderable": false, "searchable":false, "name":"selected_rows"
                },
 
-               // { data: 'ticketStatus', name: 'ticket.ticketStatus' },
                { "data": function(data){
                        var d1 = Date.parse(data.exp_end_date);
 
@@ -267,12 +266,23 @@
                },
 
 
-               { "data": function(data){
-                        return '<button class="btn btn-success btn-xs m-1" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                                '<button class="btn btn-primary btn-xs m-1" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
-                        ;},
+               { "data": function(data) {
+
+
+                       if (data.fk_userTypeId == 1 || data.fk_userTypeId == 4) {
+                           return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
+                               '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
+                               ;
+                       } else {
+                           return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>'
+                               // '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
+                               ;
+                       }
+
+                   },
+
                     "orderable": false, "searchable":false, "name":"selected_rows"
-                },
+               },
            ]
         } );
     } );

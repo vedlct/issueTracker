@@ -146,7 +146,11 @@
                 <div class="card mt-2 shadow-none mb-1 bg-light rounded">
                     <div class="card-body p-1">
                         <div id="ticketInformation" class="mt-2 pl-3">
-                            <button class="float-right btn btn-success mr-1" type="button" onclick="editTicket({{$ticket->ticketId}})">Edit</button>
+
+                            @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
+                                <button class="float-right btn btn-success mr-1" type="button" onclick="editTicket({{$ticket->ticketId}})">Edit</button>
+                            @endif
+                            
                             {!!  $ticket->ticketDetails  !!}
                         </div>
                     </div>
