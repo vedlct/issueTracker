@@ -189,6 +189,7 @@
     var dueTicket="";
     var allTicket="";
     var currentDate = Date.now();
+    var currentUserType = "{{ Auth::user()->fk_userTypeId }}";
 
     $(document).ready(function() {
 
@@ -269,7 +270,7 @@
                { "data": function(data) {
 
 
-                       if (data.fk_userTypeId == 1 || data.fk_userTypeId == 4) {
+                       if (currentUserType == 1 || currentUserType == 4) {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
                                '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
                                ;
