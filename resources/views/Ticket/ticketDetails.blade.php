@@ -150,7 +150,7 @@
                             @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
                                 <button class="float-right btn btn-success mr-1" type="button" onclick="editTicket({{$ticket->ticketId}})">Edit</button>
                             @endif
-                            
+
                             {!!  $ticket->ticketDetails  !!}
                         </div>
                     </div>
