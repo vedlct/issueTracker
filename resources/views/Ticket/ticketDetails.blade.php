@@ -100,7 +100,10 @@
                                         {{$assignedPerson->fullName}}
                                     </td>
                                 @endif
-
+                            </tr>
+                            <tr>
+                                <th scope="col">Ticket Expected End Date</th>
+                                <td>{{$ticket->exp_end_date}}</td>
                             </tr>
                             </tbody>
                         </table>

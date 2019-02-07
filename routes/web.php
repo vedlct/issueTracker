@@ -43,6 +43,11 @@ Route::post('/ticket-report-download','TicketController@ticketExport')->name('ti
 Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
 Route::get('/generate-excel', 'TicketController@showGenerateExcel')->name('ticket.show.generateExcel');
 
+Route::post('/change-mass-ticket-type', 'TicketController@changeMassTicketStatus')->name('ticket.massChangeTicketStatus');
+Route::post('/assign-ticket-team', 'TicketController@assignTicketToTeam')->name('ticket.massAssignTicket.team');
+Route::post('/assign-ticket-individual', 'TicketController@assignTicketToIndividual')->name('ticket.massAssignTicket.individual');
+Route::post('/assign-ticket-remove', 'TicketController@assignTicketToNoOne')->name('ticket.massAssignTicket.none');
+
 
 // Team Management
 Route::get('/assign-team', 'TeamManagementController@index')->name('assignteam.showAllteam');

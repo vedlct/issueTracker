@@ -25,6 +25,12 @@ use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+
+    }
+
+
     // view Ticket list
     public function index(){
 
@@ -83,11 +89,16 @@ class TicketController extends Controller
                 ->count();;
         }
 
+        $teams = Team::all();
+        $allEmp = User::where('fk_userTypeId', 3)->get();
+
 
         return view('Ticket.ticketList')->with('openticket', $openCount)
                                              ->with('overdue', $overDueCount)
                                              ->with('pending', $pendingCount)
                                              ->with('allticket', $allTicket)
+                                             ->with('teams', $teams)
+                                             ->with('allEmp', $allEmp)
                                              ->with('close', $closeCount);
     }
 
@@ -141,6 +152,9 @@ class TicketController extends Controller
             $userCompanyId = null;
         }
 
+
+
+
         // get all ticket of user's company
         if($r->ticketType != null)
         {
@@ -157,6 +171,7 @@ class TicketController extends Controller
                         ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
                         ->leftJoin('user','user.userId','assignteam_new.fk_userId')
                         ->whereDate('ticket.exp_end_date', '<=', $date)
+                        ->where('ticket.ticketStatus', '!=', 'Close')
                         ->groupBy('ticket.ticketId');
                 }
                 elseif ($r->allTicket == "all")
@@ -167,7 +182,6 @@ class TicketController extends Controller
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
                         ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
                         ->leftJoin('user','user.userId','assignteam_new.fk_userId')
-//                        ->whereDate('ticket.exp_end_date', '<=', $date)
                         ->groupBy('ticket.ticketId');
                 }
                 else
@@ -196,6 +210,7 @@ class TicketController extends Controller
                         ->leftJoin('user','user.userId','assignteam_new.fk_userId')
                         ->where('ticket.ticketOpenerCompanyId', $userCompanyId)
                         ->whereDate('ticket.exp_end_date', '<=', $date)
+                        ->where('ticket.ticketStatus', '!=', 'Close')
                         ->groupBy('ticket.ticketId');
                 }
                 elseif ($r->allTicket == "all")
@@ -206,7 +221,6 @@ class TicketController extends Controller
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
                         ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
                         ->leftJoin('user','user.userId','assignteam_new.fk_userId')
-//                        ->whereDate('ticket.exp_end_date', '<=', $date)
                         ->groupBy('ticket.ticketId');
                 }
                 else
@@ -247,6 +261,9 @@ class TicketController extends Controller
                     ->groupBy('ticket.ticketId');
             }
         }
+
+
+
 
         // filter
         if($r->startDate){
@@ -424,9 +441,6 @@ class TicketController extends Controller
             $ticket->ticketFile=$fileName;
             $ticket->save();
         }
-
-
-
 
 
         $ticketOpenerName = Auth::user()->fullName;
@@ -671,9 +685,39 @@ class TicketController extends Controller
         return back();
     }
 
+    // ticket export
     public function ticketExport(Request $r){
         Excel::store(new TicketExport($r), 'tickets.xlsx');
-//        return 'tickets.xlsx';
+    }
+
+    // change mass ticket status
+    public function changeMassTicketStatus(Request $r){
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketStatus' => $r->ticketStatus]);
+        return back();
+    }
+
+    // assign mass ticket to team
+    public function assignTicketToTeam(Request $r)
+    {
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => $r->teamid]);
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => null]);
+        return back();
+    }
+
+    // assign mass ticket to team
+    public function assignTicketToIndividual(Request $r)
+    {
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => $r->empId]);
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => null]);
+        return back();
+    }
+
+    // assign mass ticket to No one
+    public function assignTicketToNoOne(Request $r)
+    {
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => null]);
+        $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => null]);
+        return back();
     }
 
 

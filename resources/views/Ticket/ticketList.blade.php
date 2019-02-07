@@ -5,13 +5,6 @@
     .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
         padding: 0px;
     }
-    /*.nav-link {*/
-        /*display: inline !important;*/
-    /*}*/
-    .redClass{
-        background-color: #f25f32 !important;
-        color: white !important;
-    }
 </style>
 @endsection
 
@@ -54,11 +47,32 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="float-left">Tickets</h4>
+                    {{--<h4 class="float-left">Tickets</h4>--}}
                     <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+
+                    {{-- Change Ticket Status --}}
+                    <form class="float-right mr-2">
+                        <select class="form-control" onchange="changeTicketStatus(this)" id="selectDefault">
+                            <option value="">Change Ticket Status</option>
+                            <option value="Open">Open</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </form>
+
+                    <form class="float-right mr-2">
+                        <select class="form-control" onchange="changeTicketAssignment(this)" id="selectDefault2">
+                            <option value="">Select Assign Type</option>
+                            <option value="team">Team Assign</option>
+                            <option value="single">Single Assign</option>
+                            <option value="none">Remove Assignment</option>
+                        </select>
+                    </form>
+
+
+
                     {{--<button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>--}}
 
-                    <ul class="nav nav-tabs justify-content-center">
+                    <ul class="nav nav-tabs" style="border-bottom: 0px;">
                         <li class="nav-item">
                             <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
                         </li>
@@ -72,7 +86,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link c4" onClick = "ticketTypeChange4('Closed');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                         </li>
 
                         <li class="nav-item">
@@ -159,17 +173,83 @@
 
 </div>
 
-<!-- Edit Ticket Modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{--<!-- Edit Ticket Modal-->--}}
+{{--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+    {{--<div class="modal-dialog modal-lg" role="document">--}}
+        {{--<div class="modal-content ">--}}
+            {{--<div class="modal-header">--}}
+                {{--<h5 class="modal-title" id="exampleModalLabel">Edit Ticket</h5>--}}
+                {{--<button type="hidden" class="close" data-dismiss="modal" aria-label="Close">--}}
+                    {{--<span aria-hidden="true">&times;</span>--}}
+                {{--</button>--}}
+            {{--</div>--}}
+            {{--<div class="modal-body" id="editTicket">--}}
+
+            {{--</div>--}}
+            {{--<div class="modal-footer">--}}
+                {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
+
+<!-- Assign Team to ticket-->
+<div class="modal fade" id="teamModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">
-                {{--<h5 class="modal-title" id="exampleModalLabel">Edit Ticket</h5>--}}
+                <h5 class="modal-title" id="exampleModalLabel">Team Assignment</h5>
                 <button type="hidden" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="editTicket">
+            <div class="modal-body">
+
+                <div class="form-group" id="assignTypeTeam">
+                    <label for="company">Select Team</label>
+                    <select class="form-control" id="team" name="teamId" required>
+                        <option value="">Select Team</option>
+                        @foreach($teams as $team)
+                            <option value="{{ $team->teamId }}">{{ $team->teamName }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button onclick="assignTeam()" class="btn btn-primary">Assign Team</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Assign Individual to ticket-->
+<div class="modal fade" id="individualModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Individual Assignment</h5>
+                <button type="hidden" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group" id="assignTypeTeam">
+                    <label for="company">Select Employee</label>
+                    <select class="form-control" id="empId1" name="empId" required>
+                        <option value="">Select Employee</option>
+                        @foreach($allEmp as $emp)
+                            <option value="{{ $emp->userId }}">{{ $emp->fullName }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button onclick="assignIndividual()" class="btn btn-primary">Assign Employee</button>
 
             </div>
             <div class="modal-footer">
@@ -197,15 +277,6 @@
            rowReorder: {
                selector: 'td:nth-child(0)'
            },
-            // "createdRow": function( row, data, dataIndex){
-            //
-            //     var d1 = Date.parse(data.exp_end_date);
-            //
-            //     if(d1 <= currentDate)
-            //     {
-            //         $(row).addClass('redClass');
-            //     }
-            // },
            responsive: true,
            processing: true,
            serverSide: true,
@@ -246,15 +317,13 @@
                            return data.assignFullName;
                        }
                    },
-                   "orderable": false, "searchable":false, "name":"selected_rows"
+                   "orderable": false, "searchable":true, "name":"selected_rows"
                },
 
                { "data": function(data){
                        var d1 = Date.parse(data.exp_end_date);
 
-
-
-                       if(d1 <= currentDate)
+                       if(d1 <= currentDate && data.ticketStatus != 'Close')
                        {
                            return "Overdue";
                        }
@@ -263,7 +332,7 @@
                            return data.ticketStatus;
                        }
                    },
-                   "orderable": false, "searchable":false, "name":"selected_rows"
+                   "orderable": false, "searchable":true, "name":"selected_rows"
                },
 
 
@@ -296,12 +365,6 @@
         window.location.href = newUrl;
     }
 
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('.datepicker').datepicker();
-    });
 
     // Select All Checkbox
     function selectAll(source) {
@@ -317,6 +380,7 @@
         var newUrl=url.replace(':id', btn);
         window.location.href = newUrl;
     }
+
     // view ticket details
     function editTicket(x) {
         id = $(x).data('panel-id');
@@ -336,8 +400,6 @@
 
             }
         });
-
-
     }
 
     function changeType(x){
@@ -413,6 +475,9 @@
         dataTable.ajax.reload();
     }
     function ticketTypeChange4(val){
+
+        console.log(val);
+
         letter=val;
         dueTicket="";
         allTicket="";
@@ -444,6 +509,7 @@
     // filter end
 
 
+    // generate report
     function generateReport(){
 
         var chkArray = [];
@@ -451,8 +517,6 @@
         $('.checkboxvar:checked').each(function (i) {
             chkArray[i] = $(this).val();
         });
-
-       // console.log(chkArray);
 
         $.ajax({
             type : 'post' ,
@@ -462,16 +526,8 @@
                 'allCheckedTicket':chkArray,
             } ,
             success : function(data){
-                // console.log(data);
-                // if(data == 'true'){
-                //     alert('Report Generated');
-                // }
-               // console.log(chkArray);
-               //  console.log('download');
-
                 var link = document.createElement("a");
                 link.download = "tickets.xlsx";
-                {{--var uri = '{{url("storage/app")}}'+"/"+data.fileName+".xls";--}}
                 var uri = '{{url("storage/app")}}'+"/"+"tickets.xlsx";
                 link.href = uri;
                 link.click();
@@ -479,6 +535,188 @@
         });
 
     }
+
+    // mass change ticket status
+    function changeTicketStatus(val) {
+        var chkArray = [];
+        var ticketStatus = val.value;
+
+
+        $('.checkboxvar:checked').each(function (i) {
+            chkArray[i] = $(this).val();
+        });
+
+        if(chkArray.length == 0)
+        {
+            $.alert({
+                animationBounce: 2,
+                title: 'Success!',
+                content: 'Please select at least one ticket.',
+            });
+            $('#selectDefault').val('');
+            return false
+        }
+
+
+        // Send Request
+        $.ajax({
+            type : 'post' ,
+            url : '{{route('ticket.massChangeTicketStatus')}}',
+            data : {
+                _token: "{{csrf_token()}}",
+                'allCheckedTicket':chkArray,
+                'ticketStatus':ticketStatus,
+            } ,
+            success : function(data){
+                // console.log(data);
+                $.alert({
+                    animationBounce: 2,
+                    title: 'Success!',
+                    content: 'All Selected Ticket Status Type Changed',
+                });
+                $('#selectDefault').val('');
+                dataTable.ajax.reload();
+
+            }
+        });
+    }
+
+
+    // mass change ticket status
+    function changeTicketAssignment(val) {
+
+        var chkArray = [];
+        var assignType = val.value;
+
+        $('.checkboxvar:checked').each(function (i) {
+            chkArray[i] = $(this).val();
+        });
+
+        if(chkArray.length == 0)
+        {
+            $.alert({
+                animationBounce: 2,
+                title: 'Success!',
+                content: 'Please select at least one ticket.',
+            });
+            $('#selectDefault2').val('');
+            return false
+        }
+
+        if(assignType == "team")
+        {
+            $('#teamModal').modal();
+        }
+        else if(assignType == "none")
+        {
+            var chkArray = [];
+            $('.checkboxvar:checked').each(function (i) {
+                chkArray[i] = $(this).val();
+            });
+            // send request
+            $.ajax({
+                type : 'post' ,
+                url : '{{route('ticket.massAssignTicket.none')}}',
+                data : {
+                    _token: "{{csrf_token()}}",
+                    'allCheckedTicket':chkArray,
+                } ,
+                success : function(data){
+                    $.alert({
+                        animationBounce: 2,
+                        title: 'Success!',
+                        content: 'Assignment Removed.',
+                    });
+                    $('#selectDefault2').val('');
+                    dataTable.ajax.reload();
+                }
+            });
+        }
+        else
+        {
+            $('#individualModal').modal();
+        }
+    }
+
+    // assign team
+    function assignTeam(){
+
+        // get all checked ticket id
+        var chkArray = [];
+        $('.checkboxvar:checked').each(function (i) {
+            chkArray[i] = $(this).val();
+        });
+
+        // get team id
+        var teamid = team.value;
+
+        // console.log(chkArray);
+
+        // Send Request
+        $.ajax({
+            type : 'post' ,
+            url : '{{route('ticket.massAssignTicket.team')}}',
+            data : {
+                _token: "{{csrf_token()}}",
+                'allCheckedTicket':chkArray,
+                'teamid':teamid,
+            } ,
+            success : function(data){
+                // console.log(data);
+                $.alert({
+                    animationBounce: 2,
+                    title: 'Success!',
+                    content: 'Selected Team Assigned.',
+                });
+                $('#selectDefault2').val('');
+                dataTable.ajax.reload();
+            }
+        });
+    }
+
+    // assign individual
+    function assignIndividual(){
+
+        // get all checked ticket id
+        var chkArray = [];
+        $('.checkboxvar:checked').each(function (i) {
+            chkArray[i] = $(this).val();
+        });
+
+        if(chkArray.length == 0)
+        {
+            $.alert({
+                animationBounce: 2,
+                title: 'Success!',
+                content: 'Please select at least one ticket.',
+            });
+            return false
+        }
+
+        // get team id
+        var empId = empId1.value;
+
+        // Send Request
+        $.ajax({
+            type : 'post' ,
+            url : '{{route('ticket.massAssignTicket.individual')}}',
+            data : {
+                _token: "{{csrf_token()}}",
+                'allCheckedTicket':chkArray,
+                'empId':empId,
+            } ,
+            success : function(data){
+                $.alert({
+                    animationBounce: 2,
+                    title: 'Success!',
+                    content: 'Selected Team Assigned.',
+                });
+                $('#selectDefault2').val('');
+                dataTable.ajax.reload();
+            }
+        });
+    }
+
 
 
 </script>
