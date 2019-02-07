@@ -332,23 +332,20 @@
                            return data.ticketStatus;
                        }
                    },
-                   "orderable": false, "searchable":true, "name":"selected_rows"
+                   "orderable": false, "searchable":true, "name": "selected_rows"
                },
 
 
                { "data": function(data) {
-
 
                        if (currentUserType == 1 || currentUserType == 4) {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
                                '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
                                ;
                        } else {
-                           return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>'
+                           return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>';
                                // '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
-                               ;
                        }
-
                    },
 
                     "orderable": false, "searchable":false, "name":"selected_rows"
