@@ -221,6 +221,7 @@ class TicketController extends Controller
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
                         ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
                         ->leftJoin('user','user.userId','assignteam_new.fk_userId')
+                        ->where('ticket.ticketOpenerCompanyId', $userCompanyId)
                         ->groupBy('ticket.ticketId');
                 }
                 else
@@ -237,6 +238,7 @@ class TicketController extends Controller
                 }
             }
         }
+        // if ticket type is null
         else
         {
             if($userCompanyId == null)
@@ -414,14 +416,14 @@ class TicketController extends Controller
         if(Auth::user()->fk_userTypeId == 3)
         {
             $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
-            $companyId = $ticketOpenerCompany->companyId;
+            $companyId = $ticketOpenerCompany->fk_companyId;
 
             $ticket->ticketOpenerCompanyId = $companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
             $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
-            $companyId = $ticketOpenerCompany->companyId;
+            $companyId = $ticketOpenerCompany->fk_companyId;
 
             $ticket->ticketOpenerCompanyId = $companyId;
         }
