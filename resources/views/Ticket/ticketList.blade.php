@@ -565,15 +565,18 @@
                 'ticketStatus':ticketStatus,
             } ,
             success : function(data){
-                // console.log(data);
                 $.alert({
                     animationBounce: 2,
                     title: 'Success!',
                     content: 'All Selected Ticket Status Type Changed',
+                    buttons: {
+                        ok: function () {
+                            location.reload();
+                        },
+                    }
                 });
-                $('#selectDefault').val('');
-                dataTable.ajax.reload();
 
+                $('#selectDefault').val('');
             }
         });
     }
