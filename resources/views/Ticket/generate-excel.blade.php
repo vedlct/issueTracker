@@ -3,7 +3,7 @@
 @section('css')
     <style >
         .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
-            padding: 0px;
+            padding: 3px;
         }
         /*.nav-link {*/
         /*display: inline !important;*/
@@ -53,9 +53,9 @@
                         <h4 class="float-left">Tickets</h4>
                         <button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>
 
-                        <ul class="nav nav-tabs justify-content-center">
+                        <ul class="nav nav-tabs" style="border-bottom: 0px;">
                             <li class="nav-item">
-                                <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-primary"> {{ $allticket }} </span> @endif</a>
+                                <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
                             </li>
 
                             <li class="nav-item">
@@ -67,13 +67,14 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c4" onClick = "ticketTypeChange4('Closed');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                                <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link c5" onClick = "ticketTypeChange5('Pending');" href="#">Pending @if($pending != null) <span class="badge badge-info"> {{ $pending }} </span> @endif </a>
                             </li>
                         </ul>
+
                     </div>
                     <div class="card-body">
                         <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
@@ -180,6 +181,8 @@
         var letter="";
         var dueTicket="";
         var allTicket="";
+        var currentDate = Date.now();
+        var currentUserType = "{{ Auth::user()->fk_userTypeId }}";
 
 
         $(document).ready(function() {
@@ -228,15 +231,37 @@
                                 return data.assignFullName;
                             }
                         },
-                        "orderable": false, "searchable":false, "name":"selected_rows"
+                        "orderable": false, "searchable":true, "name":"selected_rows"
                     },
 
-                    { data: 'ticketStatus', name: 'ticket.ticketStatus' },
+                    { "data": function(data){
+                            var d1 = Date.parse(data.exp_end_date);
 
-                    // { "data": function(data){
-                    //         return '<button class="btn btn-success btn-xs m-1" data-panel-id="'+data.ticketId+'" onclick="openTicket(this)"><i class="fa fa-folder-open-o fa-lg"></i></button>' +
-                    //             '<button class="btn btn-primary btn-xs m-1" data-panel-id="'+data.ticketId+'" onclick="editTicket(this)"><i class="fa fa-pencil-square-o fa-lg"></i></button>'
-                    //             ;},
+                            if(d1 <= currentDate && data.ticketStatus != 'Close')
+                            {
+                                return "Overdue";
+                            }
+                            else
+                            {
+                                return data.ticketStatus;
+                            }
+                        },
+                        "orderable": false, "searchable":true, "name": "ticketStatus"
+                    },
+
+
+                    // { "data": function(data) {
+                    //
+                    //         if (currentUserType == 1 || currentUserType == 4) {
+                    //             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
+                    //                 '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
+                    //                 ;
+                    //         } else {
+                    //             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>';
+                    //             // '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
+                    //         }
+                    //     },
+                    //
                     //     "orderable": false, "searchable":false, "name":"selected_rows"
                     // },
                 ]
@@ -372,6 +397,9 @@
             dataTable.ajax.reload();
         }
         function ticketTypeChange4(val){
+
+            console.log(val);
+
             letter=val;
             dueTicket="";
             allTicket="";
@@ -400,6 +428,7 @@
 
             dataTable.ajax.reload();
         }
+        // filter end
 
 
         function generateReport(){

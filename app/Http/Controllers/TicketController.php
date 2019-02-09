@@ -153,8 +153,6 @@ class TicketController extends Controller
         }
 
 
-
-
         // get all ticket of user's company
         if($r->ticketType != null)
         {
@@ -478,11 +476,13 @@ class TicketController extends Controller
         return back();
     }
 
+
     // return ck editor view
     public function returnCkEditorView(Request $r){
         $ticket = Ticket::findOrFail($r->id);
         return view('Ticket.ckEditorView')->with('ticket', $ticket);
     }
+
 
     // update ticket details
     public function updateTicketDetails(Request $r){
@@ -591,6 +591,70 @@ class TicketController extends Controller
 
     // show generate excel page
     public function showGenerateExcel(){
+
+//
+//        // Get user's company ID
+//        if(Auth::user()->fk_userTypeId == 2)
+//        {
+//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 3)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 1)
+//        {
+//            $userCompanyId = null;
+//        }
+//
+//
+//        if($userCompanyId == null)
+//        {
+//            $allTicket= Ticket::all()->count();
+//
+//            $openCount = Ticket::where('ticketStatus', 'Open')
+//                ->count();
+//            $overDueCount = Ticket::where('ticketStatus', 'Overdue')
+//                ->count();
+//            $pendingCount = Ticket::where('ticketStatus', 'Pending')
+//                ->count();
+//            $closeCount = Ticket::where('ticketStatus', 'Close')
+//                ->count();;
+//        }
+//        else
+//        {
+//            $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
+//
+//            $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
+//                ->where('ticketStatus', 'Open')
+//                ->count();
+//            $date = date('Y-m-d h:i:s');
+//            $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
+//                ->whereDate('ticket.exp_end_date', '<=', $date)
+//                ->count();
+//            $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
+//                ->where('ticketStatus', 'Pending')
+//                ->count();
+//            $closeCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
+//                ->where('ticketStatus', 'Close')
+//                ->count();;
+//        }
+//
+//
+//        return view('Ticket.generate-excel')->with('openticket', $openCount)
+//                                                 ->with('overdue', $overDueCount)
+//                                                 ->with('pending', $pendingCount)
+//                                                 ->with('allticket', $allTicket)
+//                                                 ->with('close', $closeCount);
+
+
+
+
+
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
@@ -612,11 +676,14 @@ class TicketController extends Controller
 
         if($userCompanyId == null)
         {
-            $allTicket= Ticket::all()->count();
+            $date = date('Y-m-d h:i:s');
 
+
+            $allTicket= Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')
                 ->count();
-            $overDueCount = Ticket::where('ticketStatus', 'Overdue')
+            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
+                ->where('ticketStatus', '!=', 'Close')
                 ->count();
             $pendingCount = Ticket::where('ticketStatus', 'Pending')
                 ->count();
@@ -625,12 +692,13 @@ class TicketController extends Controller
         }
         else
         {
+            $date = date('Y-m-d h:i:s');
+
             $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
 
             $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                 ->where('ticketStatus', 'Open')
                 ->count();
-            $date = date('Y-m-d h:i:s');
             $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                 ->whereDate('ticket.exp_end_date', '<=', $date)
                 ->count();
@@ -642,14 +710,23 @@ class TicketController extends Controller
                 ->count();;
         }
 
+        $teams = Team::all();
+        $allEmp = User::where('fk_userTypeId', 3)->get();
+
 
         return view('Ticket.generate-excel')->with('openticket', $openCount)
-                                                 ->with('overdue', $overDueCount)
-                                                 ->with('pending', $pendingCount)
-                                                 ->with('allticket', $allTicket)
-                                                 ->with('close', $closeCount);
+            ->with('overdue', $overDueCount)
+            ->with('pending', $pendingCount)
+            ->with('allticket', $allTicket)
+            ->with('teams', $teams)
+            ->with('allEmp', $allEmp)
+            ->with('close', $closeCount);
 
-//        return view('Ticket.generate-excel');
+
+
+
+
+
     }
 
     // Update ticket main
@@ -663,6 +740,7 @@ class TicketController extends Controller
             $ticket->workedHour = null;
         }else{
             $ticket->workedHour = $r->workedHour;
+            $ticket->workedTimeType = $r->workTimeType;
         }
 
         $ticket->ticketStatus = $r->ticketStatus;

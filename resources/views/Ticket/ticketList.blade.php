@@ -2,8 +2,8 @@
 
 @section('css')
 <style >
-    .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
-        padding: 0px;
+    .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tfoot>tr>td{
+        padding: 2px;
     }
 </style>
 @endsection
@@ -69,9 +69,6 @@
                     </form>
 
 
-
-                    {{--<button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>--}}
-
                     <ul class="nav nav-tabs" style="border-bottom: 0px;">
                         <li class="nav-item">
                             <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
@@ -105,7 +102,6 @@
                             <th>Ticket Priority</th>
                             <th>Ticket Assigned To</th>
                             <th>Ticket Status</th>
-                            {{--<th>Ticket Open Date</th>--}}
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -332,7 +328,7 @@
                            return data.ticketStatus;
                        }
                    },
-                   "orderable": false, "searchable":true, "name": "selected_rows"
+                   "orderable": false, "searchable":true, "name": "ticketStatus"
                },
 
 

@@ -12,9 +12,23 @@
                         @csrf
                         <input type="hidden" name="ticketId" id="modalTicketId" value="{{ $ticket->ticketId }}">
 
+
                         <div class="form-group">
-                            <label for="workedHour">Worked Hour</label>
-                            <input type="text" name="workedHour" id="workedHour" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <label for="workedHour">Worked Time</label>
+                                    <input type="text" name="workedHour" id="workedTimeType" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="workedHour">Hour / Minute</label>
+                                    <select class="form-control" id="workTimeType" name="workTimeType">
+                                        <option value="">Select Type</option>
+                                        <option value="Hour" @if($ticket->workedTimeType == 'Hour') selected @endif>Hour</option>
+                                        <option value="Minute" @if($ticket->workedTimeType == 'Minute') selected @endif>Minute</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="form-group">
@@ -108,9 +122,11 @@
         function setRequiredOnClose(x){
             if($(x).val() == 'Close'){
                 $("#workedHour").prop('required',true);
+                $('#workTimeType').prop('required',true);
             }
             else{
                 $("#workedHour").prop('required',false);
+                $('#workTimeType').prop('required',false);
             }
         }
 

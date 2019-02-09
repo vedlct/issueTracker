@@ -43,7 +43,7 @@
             <div class="topbar">
                 <div class="topbar-left	d-none d-lg-block">
                     <div class="text-center">
-                       <h2 style="color: white">Issue Tracker</h2>
+                       <h2 style="color: white; margin-top: 16px;">Issue Tracker</h2>
                         {{--<a href="index-2.html" class="logo"><img src="{{url('public/images/logo.png')}}" height="20" alt="logo"></a>--}}
                     </div>
                 </div>
