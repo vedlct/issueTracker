@@ -12,7 +12,6 @@
                         @csrf
                         <input type="hidden" name="ticketId" id="modalTicketId" value="{{ $ticket->ticketId }}">
 
-
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-9">
@@ -28,7 +27,6 @@
                                     </select>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="form-group">
@@ -105,6 +103,10 @@
                 $('#typeteam').show();
                 $('#typeSingle').hide();
             @endif
+
+            {{--@if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)--}}
+                {{--$('#assignType').val("");--}}
+            {{--@endif--}}
 
         });
 
