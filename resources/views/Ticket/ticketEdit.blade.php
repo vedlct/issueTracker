@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <label for="workedHour">Worked Time</label>
-                                    <input type="text" name="workedHour" id="workedTimeType" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
+                                    <input type="text" name="workedHour" id="workedHour" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="workedHour">Hour / Minute</label>
