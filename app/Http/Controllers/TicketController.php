@@ -80,6 +80,7 @@ class TicketController extends Controller
                 ->count();
             $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                 ->whereDate('ticket.exp_end_date', '<=', $date)
+                ->where('ticket.ticketStatus', '!=', 'Close')
                 ->count();
             $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                 ->where('ticketStatus', 'Pending')

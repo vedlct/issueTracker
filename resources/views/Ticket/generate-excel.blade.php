@@ -5,9 +5,6 @@
         .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
             padding: 3px;
         }
-        /*.nav-link {*/
-        /*display: inline !important;*/
-        /*}*/
     </style>
 @endsection
 
@@ -118,7 +115,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c4" onClick = "ticketTypeChange4('Closed');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                                <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                             </li>
 
                             <li class="nav-item">
@@ -237,7 +234,7 @@
                     { "data": function(data){
                             var d1 = Date.parse(data.exp_end_date);
 
-                            if(d1 <= currentDate && data.ticketStatus != 'Close')
+                            if(d1 <= currentDate && data.ticketStatus != 'Close' && data.ticketStatus != 'Pending')
                             {
                                 return "Overdue";
                             }

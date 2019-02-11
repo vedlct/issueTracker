@@ -14,6 +14,9 @@
 
     @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4)
         {{-- view for admin personal --}}
+
+
+
         {{--<div class="col-md-2">--}}
             {{--<div class="card">--}}
                 {{--<div class="card-header">--}}
@@ -83,7 +86,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Close @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                         </li>
 
                         <li class="nav-item">
@@ -134,7 +137,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link c4" onClick = "ticketTypeChange4('Closed');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                         </li>
 
                         <li class="nav-item">
@@ -319,7 +322,7 @@
                { "data": function(data){
                        var d1 = Date.parse(data.exp_end_date);
 
-                       if(d1 <= currentDate && data.ticketStatus != 'Close')
+                       if(d1 <= currentDate && data.ticketStatus != 'Close' && data.ticketStatus != 'Pending')
                        {
                            return "Overdue";
                        }
@@ -468,9 +471,7 @@
         dataTable.ajax.reload();
     }
     function ticketTypeChange4(val){
-
         console.log(val);
-
         letter=val;
         dueTicket="";
         allTicket="";
@@ -486,6 +487,7 @@
     }
 
     function ticketTypeChange5(val){
+        console.log(val);
         letter=val;
         dueTicket="";
         allTicket="";
