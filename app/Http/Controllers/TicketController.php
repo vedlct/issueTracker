@@ -454,7 +454,7 @@ class TicketController extends Controller
         $data=array(
             'name'=> 'Arabi Kabir',
             'email'=> 'admin@gmail.com',
-            'message'=> 'OPPS !! New Ticket is created',
+            'message'=> 'New Ticket is created',
 
             'ticketOpenerName'=> $ticketOpenerName,
             'priority'=> $priority,
@@ -502,55 +502,78 @@ class TicketController extends Controller
 
 
         // Send Mail
-//        if(Auth::user()->fk_userTypeId == 2)
-//        {
-//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 3)
-//        {
-//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 4)
-//        {
-//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 1)
-//        {
-//            $userCompanyId = null;
-//        }
-//
-//        // get all email of user's company
-//        if($userCompanyId != null)
-//        {
-//            // get all client's company's all exployee user_id
-//            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
-//
-//            $array = array();
-//
-//            foreach ($allEmp as $emp)
-//            {
-//                array_push($array, $emp->employeeUserId);
-//            }
-//
-//            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
-//
-//            $array1 = array();
-//            foreach ($allEmployeeEmails as $emp)
-//            {
-//                array_push($array1, $emp->email);
-//            }
-//        }
-//        else
-//        {
-//            Session::flash('error_msg', 'Super admin cant reply on ticket!');
-//
-//            return back();
-//        }
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all email of user's company
+        if($userCompanyId != null)
+        {
+            // get ticket opener email
+            $array1 = array();
+            $ticketopenerId = Ticket::where('ticketId', $r->ticketId)->first()->fk_ticketOpenerId;
+            $ticketTopic = Ticket::where('ticketId', $r->ticketId)->first()->ticketTopic;
+            $ticketOpener = User::where('userId', $ticketopenerId)->first()->fullName;
+            $userId = User::where('userId', $ticketopenerId)->first()->email;
+            array_push($array1, $userId);
+
+            // get company admin email
+
+            // get all client's company's all employee user_id
+            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
+
+            $array = array();
+
+            foreach ($allEmp as $emp)
+            {
+                array_push($array, $emp->employeeUserId);
+            }
+
+            $allEmployeeEmails = User::whereIn('userId', $array)->where('fk_userTypeId', 4)->select('email')->get();
+
+            foreach ($allEmployeeEmails as $emp)
+            {
+                array_push($array1, $emp->email);
+            }
+        }
+        else
+        {
+            Session::flash('error_msg', 'Super admin cant reply on ticket!');
+
+            return back();
+        }
+
+        $data=array(
+            'name'=> 'Issuetracker',
+            'email'=> 'admin@gmail.com',
+            'message'=> $r->replyData,
+
+            'reply_user'=> Auth::user()->fullName,
+            'reply'=> $r->replyData,
+            'ticketOpner' => $ticketOpener,
+            'ticketTopic' => $ticketTopic,
+        );
 
 
-
-
-
+        Mail::send('Ticket.replyMailView', $data, function($message) use ($data,$array1)
+        {
+            $message->to($data['email'], 'Ticket Reply Mail')
+                    ->cc($array1)
+                    ->subject('New Ticket Reply');
+        });
 
 
         $time = date('Y-m-d h:i:s');
@@ -720,10 +743,6 @@ class TicketController extends Controller
             ->with('teams', $teams)
             ->with('allEmp', $allEmp)
             ->with('close', $closeCount);
-
-
-
-
 
 
     }
