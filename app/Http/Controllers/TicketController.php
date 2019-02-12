@@ -57,17 +57,11 @@ class TicketController extends Controller
         {
             $date = date('Y-m-d h:i:s');
 
-
             $allTicket= Ticket::all()->count();
-            $openCount = Ticket::where('ticketStatus', 'Open')
-                ->count();
-            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
-                ->where('ticketStatus', '!=', 'Close')
-                ->count();
-            $pendingCount = Ticket::where('ticketStatus', 'Pending')
-                ->count();
-            $closeCount = Ticket::where('ticketStatus', 'Close')
-                ->count();;
+            $openCount = Ticket::where('ticketStatus', 'Open')->count();
+            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
+            $pendingCount = Ticket::where('ticketStatus', 'Pending')->count();
+            $closeCount = Ticket::where('ticketStatus', 'Close')->count();;
         }
         else
         {
@@ -90,8 +84,18 @@ class TicketController extends Controller
                 ->count();;
         }
 
-        $teams = Team::all();
-        $allEmp = User::where('fk_userTypeId', 3)->get();
+
+
+        if($userCompanyId == null)
+        {
+            $teams = Team::all();
+            $allEmp = User::where('fk_userTypeId', 3)->get();
+        }
+        else
+        {
+            $teams = Team::where('fk_companyId', $userCompanyId)->get();
+            $allEmp = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')->where('companyemployee.fk_companyId', $userCompanyId)->where('user.fk_userTypeId', 3)->get();
+        }
 
 
         return view('Ticket.ticketList')->with('openticket', $openCount)
@@ -154,7 +158,7 @@ class TicketController extends Controller
         }
 
 
-        // get all ticket of user's company
+        // get all ticket of user's company if ticketTye is not null
         if($r->ticketType != null)
         {
             // only for super admin
@@ -237,7 +241,7 @@ class TicketController extends Controller
                 }
             }
         }
-        // if ticket type is null
+        // get all ticket of user's company if ticket type is null
         else
         {
             if($userCompanyId == null)
@@ -262,7 +266,6 @@ class TicketController extends Controller
                     ->groupBy('ticket.ticketId');
             }
         }
-
 
 
 
@@ -396,12 +399,10 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-        $ticket->created_at = $date;
+        $ticket->created_at = Carbon::parse($r->create_date)->format('Y-m-d h:i:s');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
-
-        $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
-
+        $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d h:i:s');
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 
@@ -498,9 +499,6 @@ class TicketController extends Controller
 
     // insert ticket reply
     public function insertReply(Request $r){
-
-
-
 
 
         // Send Mail

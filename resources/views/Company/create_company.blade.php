@@ -22,7 +22,7 @@
 
                     <div class="form-group col-md-6">
                         <label>Phone 1</label>
-                        <input type="tel" class="form-control" placeholder="Phone 1" value="" name="companyPhone1">
+                        <input type="tel" class="form-control" placeholder="Phone 1" value="" name="companyPhone1" required>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -37,7 +37,7 @@
 
                     <div class="form-group col-md-12">
                         <label>Address</label>
-                        <textarea  class="form-control" placeholder="Company Address" name="address" required></textarea>
+                        <textarea  class="form-control" placeholder="Company Address" name="address"></textarea>
                     </div>
                     <div class="form-group col-md-12">
                         <button class="btn btn-success">Create Company</button>

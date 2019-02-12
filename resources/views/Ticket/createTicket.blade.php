@@ -16,12 +16,8 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label>Ticket Priroty</label>
-                        <select class="form-control" name="priroty" required>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
+                        <label>Ticket Create Date</label>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Ticket Create Date" name="create_date" required>
                     </div>
 
                     <div class="form-group col-md-3">
@@ -34,7 +30,7 @@
                         <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <label>Select Project</label>
                         <select class="form-control" name="project" required>
                             @foreach($projectlist as $project)
@@ -43,21 +39,18 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
+                        <label>Ticket Priroty</label>
+                        <select class="form-control" name="priroty" required>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
                         <label for="exampleFormControlFile1">Choose file</label>
                         <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
-
-                        {{--<label>Choose File</label>--}}
-                        {{--<div class="input-group mb-3">--}}
-                          {{--<div class="input-group-prepend">--}}
-                            {{--<span class="input-group-text">Upload</span>--}}
-                          {{--</div>--}}
-                          {{--<div class="custom-file">--}}
-                            {{--<input type="file" name="file" class="custom-file-input" id="inputGroupFile01">--}}
-                            {{--<label class="custom-file-label" for="inputGroupFile01">Choose file</label>--}}
-                          {{--</div>--}}
-                        {{--</div>--}}
-
                     </div>
 
                     <div class="form-group col-md-12">

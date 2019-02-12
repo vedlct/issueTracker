@@ -37,9 +37,9 @@ class CompanyController extends Controller
 
         $r->validate([
             'companyName' => 'required|max:45',
-            'info' => 'required',
+//            'info' => 'required',
             'companyEmail' => 'required|unique:company,companyEmail',
-            'address' => 'required',
+//            'address' => 'required',
         ]);
 
         $company = new Company();
@@ -68,9 +68,9 @@ class CompanyController extends Controller
 
         $r->validate([
             'companyName' => 'required|max:45',
-            'info' => 'required',
+//            'info' => 'required',
             // 'companyEmail' => 'required|unique:company,email',
-            'address' => 'required',
+//            'address' => 'required',
         ]);
 
         $company = Company::findOrFail($r->id);

@@ -10,12 +10,12 @@
 
 @section('content')
 
+
+
 <div class="container-fluid row">
 
-    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4)
-        {{-- view for admin personal --}}
-
-
+    {{-- view for admin personal --}}
+    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 3)
 
         {{--<div class="col-md-2">--}}
             {{--<div class="card">--}}
@@ -50,7 +50,6 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    {{--<h4 class="float-left">Tickets</h4>--}}
                     <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
 
                     {{-- Change Ticket Status --}}
@@ -86,7 +85,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Close @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
+                            <a class="nav-link c4" onClick = "ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span> @endif </a>
                         </li>
 
                         <li class="nav-item">
@@ -114,8 +113,8 @@
                 </div>
             </div>
         </div>
+    {{-- view for client personal --}}
     @else
-        {{-- view for client personal --}}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -545,7 +544,8 @@
         {
             $.alert({
                 animationBounce: 2,
-                title: 'Success!',
+                type: 'red',
+                title: 'Error!',
                 content: 'Please select at least one ticket.',
             });
             $('#selectDefault').val('');
@@ -566,6 +566,7 @@
                 $.alert({
                     animationBounce: 2,
                     title: 'Success!',
+                    type: 'green',
                     content: 'All Selected Ticket Status Type Changed',
                     buttons: {
                         ok: function () {
@@ -594,7 +595,8 @@
         {
             $.alert({
                 animationBounce: 2,
-                title: 'Success!',
+                type: 'red',
+                title: 'Error!',
                 content: 'Please select at least one ticket.',
             });
             $('#selectDefault2').val('');
@@ -622,6 +624,7 @@
                 success : function(data){
                     $.alert({
                         animationBounce: 2,
+                        type: 'green',
                         title: 'Success!',
                         content: 'Assignment Removed.',
                     });
@@ -663,6 +666,7 @@
                 // console.log(data);
                 $.alert({
                     animationBounce: 2,
+                    type: 'green',
                     title: 'Success!',
                     content: 'Selected Team Assigned.',
                 });
@@ -685,7 +689,8 @@
         {
             $.alert({
                 animationBounce: 2,
-                title: 'Success!',
+                type: 'red',
+                title: 'Error!',
                 content: 'Please select at least one ticket.',
             });
             return false
@@ -707,6 +712,7 @@
                 $.alert({
                     animationBounce: 2,
                     title: 'Success!',
+                    type: 'green',
                     content: 'Selected Team Assigned.',
                 });
                 $('#selectDefault2').val('');
@@ -714,6 +720,42 @@
             }
         });
     }
+
+    // call from dashboard
+    $(document).ready(function() {
+
+        @if (Session::has('call_ticket_type'))
+
+        @if( Session::get('call_ticket_type') == 'allticket')
+        ticketTypeChange2('All Ticket')
+        @endif
+
+
+        @if( Session::get('call_ticket_type') == 'open')
+        ticketTypeChange1('Open')
+        @endif
+
+
+        @if( Session::get('call_ticket_type') == 'close')
+        ticketTypeChange4('Close')
+        @endif
+
+
+        @if( Session::get('call_ticket_type') == 'overdue')
+        ticketTypeChange3('Overdue')
+        @endif
+
+
+        @if( Session::get('call_ticket_type') == 'pending')
+        ticketTypeChange5('Pending')
+        @endif
+
+        @endif
+
+    });
+
+
+
 
 
 
