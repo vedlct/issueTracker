@@ -39,6 +39,15 @@
                             </select>
                         </div>
 
+                        {{--<div class="form-group" id="null_team_or_emp">--}}
+                            {{--<label for="company">Assign Type</label>--}}
+                            {{--<select class="form-control" id="assignType" name="assignType" onchange="changeType(this)">--}}
+                                {{--<option value="">Select Type</option>--}}
+                                {{--<option value="single">Assign Single Person</option>--}}
+                                {{--<option value="team">Assign Team</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+
                         <div id="typeSingle">
                             <div class="form-group">
                                 <label for="company">Assign Type</label>
@@ -102,6 +111,10 @@
             @if($ticket->ticketAssignPersonUserId == null)
                 $('#typeteam').show();
                 $('#typeSingle').hide();
+            @endif
+
+            @if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)
+
             @endif
 
             {{--@if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)--}}

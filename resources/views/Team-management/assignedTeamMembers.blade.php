@@ -20,11 +20,9 @@
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
-                        {{--<th>Employee ID</th>--}}
                         <th>Employee Name</th>
                         <th>Team Name</th>
                         <th>Team ID</th>
-                        {{--<th>Company Name</th>--}}
                         <th>Action</th>
                     </tr>
                     </thead>

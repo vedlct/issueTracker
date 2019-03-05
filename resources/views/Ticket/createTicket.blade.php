@@ -11,22 +11,22 @@
                 {{csrf_field()}}
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label>Ticket Topic</label>
+                        <label>Ticket Topic *</label>
                         <input type="text" class="form-control" placeholder="Ticket Topic" value="" name="topic" required>
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label>Ticket Create Date</label>
+                        <label>Ticket Create Date *</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Ticket Create Date" name="create_date" required>
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label>Expected End Date</label>
+                        <label>Expected End Date *</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date" required>
                     </div>
 
                     <div class="form-group col-md-12">
-                        <label>Ticket Details</label>
+                        <label>Ticket Details *</label>
                         <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
