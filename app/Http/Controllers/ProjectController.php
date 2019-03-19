@@ -74,7 +74,7 @@ class ProjectController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
@@ -168,5 +168,10 @@ class ProjectController extends Controller
         Session::flash('message', 'Project Updated!');
 
         return back();
+    }
+
+    // Project Management
+    public function projectmanagement(){
+        return view('Project.ProjectManagement.newDashboard');
     }
 }

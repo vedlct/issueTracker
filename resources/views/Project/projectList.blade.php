@@ -22,7 +22,7 @@
                     <tr>
                         <th>Project Name</th>
                         <th>Project Status</th>
-                        <th>Poject Created by</th>
+                        <th>Poject Created By</th>
                         <th>Company</th>
                         <th>Action</th>
                     </tr>

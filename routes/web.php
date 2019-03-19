@@ -38,6 +38,12 @@ Route::post('/edit-project/{id}','ProjectController@update_project')->name('proj
 Route::post('/project/delete','ProjectController@delete_project')->name('project.delete');
 
 
+Route::get('/project-management/dashboard','ProjectController@projectmanagement')->name('project.projectmanagement');
+
+//Route::get('/project-management/dashboard', function () {
+//    return view('Project.ProjectManagement.dashboard');
+//});
+
 
 // Ticket
 Route::get('/ticket-list','TicketController@index')->name('ticket.showAllCTicket');
