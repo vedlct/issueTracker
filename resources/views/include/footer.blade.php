@@ -12,7 +12,7 @@
 <script src="{{url('public/js/fastclick.js')}}"></script>
 <script src="{{url('public/js/jquery.slimscroll.js')}}"></script>
 <script src="{{url('public/js/jquery.blockUI.js')}}"></script>
-<script src="{{url('public/js/waves.js')}}"></script>
+{{--<script src="{{url('public/js/waves.js')}}"></script>--}}
 <script src="{{url('public/js/jquery.nicescroll.js')}}"></script>
 <script src="{{url('public/js/jquery.scrollTo.min.js')}}"></script>
 <!-- skycons -->

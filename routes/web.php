@@ -38,8 +38,6 @@ Route::post('/edit-project/{id}','ProjectController@update_project')->name('proj
 Route::post('/project/delete','ProjectController@delete_project')->name('project.delete');
 
 
-Route::get('/project-management/dashboard','ProjectController@projectmanagement')->name('project.projectmanagement');
-
 //Route::get('/project-management/dashboard', function () {
 //    return view('Project.ProjectManagement.dashboard');
 //});
@@ -98,6 +96,16 @@ Route::post('/admin-update/', 'UserManagementController@updateAdmin')->name('adm
 // Profile Management
 Route::get('/profile', 'ProfileController@profile')->name('user.profile');
 Route::post('/profile', 'ProfileController@updateProfile');
+
+
+
+
+//==================================Project Management===============================
+Route::get('/project-management/dashboard','ProjectController@projectmanagement')->name('project.projectmanagement');
+Route::get('/project-management/test','ProjectController@test');
+
+
+
 
 
 

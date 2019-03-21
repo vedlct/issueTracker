@@ -20,6 +20,11 @@ class ProjectController extends Controller
         return view('Project.projectList');
     }
 
+    public function test(){
+
+        return view('test');
+    }
+
     // get all Company
     public function getAllProject(Request $r){
 
