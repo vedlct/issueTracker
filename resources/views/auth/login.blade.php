@@ -10,6 +10,7 @@
     <meta content="Admin Dashboard" name="description">
     <meta content="ThemeDesign" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link href="{{url('public/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{url('public/css/icons.css')}}" rel="stylesheet" type="text/css">
@@ -18,11 +19,11 @@
 
 <body class="fixed-left">
 <!-- Loader -->
-<div id="preloader">
-    <div id="status">
-        <div class="spinner"></div>
-    </div>
-</div>
+{{--<div id="preloader">--}}
+    {{--<div id="status">--}}
+        {{--<div class="spinner"></div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 <!-- Begin page -->
 <div class="accountbg">
     <div class="content-center">
@@ -97,7 +98,7 @@
 <script src="{{url('public/js/jquery.nicescroll.js')}}"></script>
 <script src="{{url('public/js/jquery.scrollTo.min.js')}}"></script>
 <!-- App js -->
-<script src="{{url('public/js/app.js')}}"></script>
+{{--<script src="{{url('public/js/app.js')}}"></script>--}}
 </body>
 <!-- Mirrored from themesdesign.in/drixo/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Nov 2018 08:39:22 GMT -->
 
