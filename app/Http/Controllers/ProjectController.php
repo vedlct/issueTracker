@@ -175,8 +175,5 @@ class ProjectController extends Controller
         return back();
     }
 
-    // Project Management
-    public function projectmanagement(){
-        return view('Project.ProjectManagement.newDashboard');
-    }
+
 }

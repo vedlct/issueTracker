@@ -62,13 +62,14 @@
                 @endif
 
 
-                <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag"></i> <span>Project</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag fa-"></i> <span>Project Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">Project Information</a></li>
 
                         <li><a href="{{ route('project.projectmanagement') }}" class="waves-effect">Project Management</a></li>
                     </ul>
                 </li>
+
 
                 <li class="has_sub"><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect"><i class="fa fa-ticket"></i> <span>Ticket</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">

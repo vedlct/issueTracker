@@ -988,7 +988,7 @@ code {
 .side-menu {
     bottom: 0;
     top: 50px;
-    width: 240px;
+    width: 260px;
     padding: 20px 0;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
