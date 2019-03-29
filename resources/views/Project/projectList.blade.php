@@ -61,7 +61,7 @@
                    },
                },
                columns: [
-                   { data: 'projectName', name: 'project.projectName' },
+                   { data: 'project_name', name: 'project.project_name' },
                    { data: 'statusData', name: 'status.statusData' },
                    { data: 'fullName', name: 'user.fullName' },
                    { data: 'companyName', name: 'company.companyName' },

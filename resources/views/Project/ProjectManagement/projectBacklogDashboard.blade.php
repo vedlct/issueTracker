@@ -6,7 +6,17 @@
         .card{
             box-shadow: 1px 0 20px rgba(0, 0, 0, .09);
         }
+        .select2-container{
+            display: block;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+             border: none;
+        }
+        .select2 select2-container select2-container--default select2-container--below{
+            width: 100%;
+        }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
 
 
@@ -14,51 +24,57 @@
 
     <div class="card">
         <div class="card-header">
-            Backlog Adding Form
+            Create New Backlog
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}
-            <form>
+            <form action="{{ route('backlog.insert') }}" method="post">
+                @csrf
                 <div class="row mb-2">
+                    <input type="hidden" name="project_id" value="{{ $project->projectId }}">
                     <div class="col">
                         <label>Backlog Title</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <input type="text" class="form-control" placeholder="Backlog Title" name="backlog_title" required>
                     </div>
                     <div class="col">
-                        <label>Assign Employee</label>
-                        <select class="form-control">
-                            <option>Employee 1</option>
-                            <option>Employee 2</option>
-                            <option>Employee 3</option>
+                        <label>Priority</label>
+                        <select class="form-control" name="priority" required>
+                            <option value="">Select Priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
                         </select>
                     </div>
                 </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <label style="display: block">Assign Employee</label>
+                        <select class="js-example-basic-multiple form-control" name="assigned_employee[]" multiple="multiple" style="width: 100%;">
+                            @foreach($allEmp as $emp)
+                                <option value="{{ $emp->userId }}">{{ $emp->fullName }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="row mb-2">
                     <div class="col">
                         <label>Backlog Start Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="startdate" required>
                     </div>
                     <div class="col">
                         <label>Backlog End Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate" required>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col">
-                        <label>Priority</label>
-                        <select class="form-control">
-                            <option>Low</option>
-                            <option>Medium</option>
-                            <option>High</option>
-                        </select>
-                    </div>
-                    <div class="col">
                         <label>Backlog Details</label>
-                        <textarea class="form-control" rows="3" placeholder="Details"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Backlog Details" name="backlogDetails"></textarea>
                     </div>
-
-
                 </div>
+
                 <div class="row mb-2">
                     <div class="col">
                         <button class="btn btn-success pull-right">Create</button>
@@ -384,16 +400,23 @@
 @endsection
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-        // $('.datepicker').datepicker();
 
         function openItem(){
             $('#exampleModal').modal('show');
         }
 
         $(".datepicker").datepicker({
-            orientation: "bottom" // <-- and add this
+            orientation: "bottom"
         });
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+
+
     </script>
+
 @endsection
 

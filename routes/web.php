@@ -102,8 +102,8 @@ Route::post('/profile', 'ProfileController@updateProfile');
 
 //==================================Project Management===============================
 Route::get('/project-management/dashboard','ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
-
-Route::get('/project-management/project','ProjectManagementController@projectmanagement')->name('project.projectmanagement');
+Route::get('/project-management/project/{id}','ProjectManagementController@projectmanagement')->name('project.projectmanagement');
+Route::post('/project-management/backlog/insert','ProjectManagementController@insertBacklog')->name('backlog.insert');
 
 
 Route::get('/project-management/dashboard/old','ProjectManagementController@projectmanagementold')->name('project.projectmanagement.old');
@@ -119,7 +119,7 @@ Route::get('/project-management/dashboard/old','ProjectManagementController@proj
 
 
 
-//
+// test purpose
 Route::get('/project-management/test','ProjectController@test')->name('test');
 
 

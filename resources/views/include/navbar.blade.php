@@ -66,7 +66,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">Project Information</a></li>
 
-                        <li><a href="{{ route('project.projectmanagement') }}" class="waves-effect">Project Management</a></li>
+                        <li><a href="{{ route('project.projectList') }}" class="waves-effect">Project Management</a></li>
                     </ul>
                 </li>
 

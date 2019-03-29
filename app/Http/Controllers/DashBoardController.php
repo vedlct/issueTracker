@@ -163,7 +163,7 @@ class DashBoardController extends Controller
         }
         else
         {
-            $projectCount = Project::where('fk_companyId', $userCompanyId)->count();
+            $projectCount = Project::where('fk_company_id', $userCompanyId)->count();
         }
 
 
