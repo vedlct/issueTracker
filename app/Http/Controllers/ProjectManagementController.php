@@ -14,6 +14,7 @@ use App\Client;
 use App\Employee;
 use App\User;
 use Carbon\Carbon;
+use App\BacklogAssignment;
 
 
 class ProjectManagementController extends Controller
@@ -104,17 +105,39 @@ class ProjectManagementController extends Controller
 
         $project = Project::findOrFail($id);
 
-        $inCompletebacklog = Backlog::where('fk_project_id', $id)
+        $inCompletebacklog = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
+                                     ->where('fk_project_id', $id)
                                      ->where('backlog_completion_status', 'Incomplete')
+                                     ->groupBy('backlog.backlog_id')
+                                     ->orderBy('backlog.backlog_id','desc' )
                                      ->get();
 
+
+        // select backlog assigned employee list
+        $backlog = BacklogAssignment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_assignment.fk_backlog_id')
+                                    ->where('backlog.fk_project_id', $id)->get();
+
+        $array = array();
+        foreach ($backlog as $emp)
+        {
+            array_push($array, $emp->fk_assigned_employee_user_id);
+        }
+
+
+        $backlogassignedEmp = User::leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', 'user.userId')
+                                    ->whereIn('user.userId', $array)
+                                    ->get();
+
+
         $completebacklog = Backlog::where('fk_project_id', $id)
-            ->where('backlog_completion_status', 'Complete')
+            ->where('backlog_completion_status', 'Completed')
+            ->orderBy('backlog.backlog_id','desc' )
             ->get();
 
         return view('Project.ProjectManagement.projectBacklogDashboard')->with('project', $project)
-                                                                             ->with('inCompletebacklog', $inCompletebacklog)
-                                                                             ->with('completebacklog', $completebacklog)
+                                                                             ->with('inCompletebacklogs', $inCompletebacklog)
+                                                                             ->with('completebacklogs', $completebacklog)
+                                                                             ->with('backlogassignedEmp', $backlogassignedEmp)
                                                                              ->with('allEmp', $allEmp);
     }
 
@@ -131,7 +154,111 @@ class ProjectManagementController extends Controller
         $backlog->backlog_completion_status = 'Incomplete';
         $backlog->backlog_created_at = date("Y-m-d | h:i:sa");
         $backlog->save();
+
+        if($r->assigned_employee)
+        {
+            foreach ($r->assigned_employee as $emp){
+                $assignment = new BacklogAssignment();
+                $assignment->fk_backlog_id = $backlog->backlog_id;
+                $assignment->fk_assigned_employee_user_id = $emp;
+                $assignment->backlog_assignment_created_at = date("Y-m-d | h:i:sa");
+                $assignment->save();
+            }
+        }
+
         Session::flash('message', 'New Backlog Created!');
+
+        return back();
+    }
+
+    // Project Management
+    public function returnEditBacklog(Request $r){
+
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get employee list
+        if($userCompanyId == null)
+        {
+            $allEmp = User::where('fk_userTypeId', 3)->get();
+        }
+        else
+        {
+            $allEmp = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                ->where('companyemployee.fk_companyId',$userCompanyId)
+                ->where('user.fk_userTypeId', 3)
+                ->get();
+        }
+
+
+        $backlog = Backlog::findOrFail($r->backlog_id);
+
+        $backlogAssignedEmp = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
+
+
+        return view('Project.ProjectManagement.updateBacklog')->with('backlog', $backlog)
+                                                                   ->with('backlogAssignedEmp', $backlogAssignedEmp)
+                                                                   ->with('allEmp', $allEmp);
+    }
+
+    public function updateBacklog(Request $r){
+        $backlog = Backlog::findOrFail($r->backlog_id);
+        $backlog->backlog_title = $r->backlog_title;
+//        $backlog->fk_project_id = $r->project_id;
+//        $backlog->backlog_state = 'Backlog';
+        $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
+        $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
+        $backlog->backlog_details = $r->backlogDetails;
+        $backlog->backlog_priority = $r->priority;
+//        $backlog->backlog_completion_status = 'Incomplete';
+        $backlog->save();
+
+
+        BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->delete();
+
+        if($r->assigned_employee)
+        {
+//            foreach ($r->assigned_employee as $emp){
+//                $assignment = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
+//                $assignment->fk_assigned_employee_user_id = $emp;
+//                $assignment->save();
+////
+//
+////            $assignment = BacklogAssignment::whereIn('fk_backlog_id', $r->backlog_id)->update(['fk_assigned_employee_user_id' => $emp]);
+//
+//            }
+
+
+
+            if($r->assigned_employee)
+            {
+                foreach ($r->assigned_employee as $emp){
+                    $assignment = new BacklogAssignment();
+                    $assignment->fk_backlog_id = $backlog->backlog_id;
+                    $assignment->fk_assigned_employee_user_id = $emp;
+                    $assignment->backlog_assignment_created_at = date("Y-m-d | h:i:sa");
+                    $assignment->save();
+                }
+            }
+        }
+
+        Session::flash('message', 'Backlog Updated!');
 
         return back();
     }

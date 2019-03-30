@@ -105,6 +105,8 @@ Route::get('/project-management/dashboard','ProjectManagementController@projectm
 Route::get('/project-management/project/{id}','ProjectManagementController@projectmanagement')->name('project.projectmanagement');
 Route::post('/project-management/backlog/insert','ProjectManagementController@insertBacklog')->name('backlog.insert');
 
+Route::post('/project-management/backlog/edit','ProjectManagementController@returnEditBacklog')->name('backlog.edit');
+Route::post('/project-management/backlog/update','ProjectManagementController@updateBacklog')->name('backlog.update');
 
 Route::get('/project-management/dashboard/old','ProjectManagementController@projectmanagementold')->name('project.projectmanagement.old');
 

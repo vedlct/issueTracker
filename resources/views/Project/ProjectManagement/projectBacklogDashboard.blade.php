@@ -15,6 +15,10 @@
         .select2 select2-container select2-container--default select2-container--below{
             width: 100%;
         }
+
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+            min-height: 200px;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -22,7 +26,7 @@
 
 @section('content')
 
-    <div class="card">
+    <div class="card" style="margin-left: 20px;">
         <div class="card-header">
             Create New Backlog
         </div>
@@ -50,7 +54,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label style="display: block">Assign Employee</label>
-                        <select class="js-example-basic-multiple form-control" name="assigned_employee[]" multiple="multiple" style="width: 100%;">
+                        <select class="js-example-basic-multiple form-control " name="assigned_employee[]" multiple="multiple" style="width: 100%;">
                             @foreach($allEmp as $emp)
                                 <option value="{{ $emp->userId }}">{{ $emp->fullName }}</option>
                             @endforeach
@@ -71,13 +75,13 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label>Backlog Details</label>
-                        <textarea class="form-control" rows="3" placeholder="Backlog Details" name="backlogDetails"></textarea>
+                        <textarea name="backlogDetails" id="editor"></textarea>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col">
-                        <button class="btn btn-success pull-right">Create</button>
+                        <button class="btn btn-success pull-right">Create Backlog</button>
                     </div>
                 </div>
             </form>
@@ -87,7 +91,7 @@
 
     {{-- List --}}
 
-    <div class="card mt-4">
+    <div class="card mt-4" style="margin-left: 20px; margin-bottom: 100px;">
 
         <ul class="nav nav-tabs m-3" id="myTab" role="tablist">
             <li class="nav-item">
@@ -106,33 +110,34 @@
                 {{-- Backlog --}}
                 <div class="">
 
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
+                    @foreach($inCompletebacklogs as $inCompletebacklog)
 
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
+                        <div class="card mb-3" data-todo-id= {{ $inCompletebacklog->backlog_id }} onclick="openItem(this)">
+                            <div class="card-body pb-0">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span> <b>Backlog : </b> {{ $inCompletebacklog->backlog_title }} </span>
+
+                                        <p>
+                                            <span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->
+                                            <span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>
+                                        </p>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span > <b class="mr-2">Assigned Person</b>
+                                            @foreach($backlogassignedEmp->where('fk_backlog_id', $inCompletebacklog->backlog_id) as $emp)
+                                                <span class="badge badge-dark" style="font-size: 78%; line-height: 2"> {{ $emp->fullName }} </span>
+                                            @endforeach
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
-
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
 
@@ -141,58 +146,62 @@
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 {{-- Completed Backlog --}}
                 <div class="">
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
 
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
+                    {{--@foreach($completebacklogs as $completebacklog)--}}
 
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
+                        {{--<div class="card mb-3" onclick="openItem()">--}}
+                            {{--<div class="card-body">--}}
+                                {{--<p>--}}
+                                    {{--<span> <b>Backlog : </b> {{ $inCompletebacklog->backlog_title }} </span>--}}
+                                    {{--<span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>--}}
+                                {{--</p>--}}
 
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="card mb-3" onclick="openItem()">
-                        <div class="card-body">
-                            <p>
-                                <span> <b>Backlog : </b> Auth create and Test </span>
-                                <span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>
-                            </p>
+                                {{--<p>--}}
+                                    {{--<span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->--}}
+                                    {{--<span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>--}}
+                                {{--</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
-                            <p>
-                                <span> <b>Start Date</b> 12/12/90 </span>
-                                <span> <b>End Date</b> 6/4/94 </span>
-                            </p>
-                        </div>
-                    </div>
+                    {{--@endforeach--}}
+
+
+
+
+
+                        @foreach($completebacklogs as $completebacklog)
+
+                            <div class="card mb-3" data-todo-id= {{ $completebacklog->backlog_id }} onclick="openItem(this)">
+                                <div class="card-body pb-0">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <span> <b>Backlog : </b> {{ $completebacklog->backlog_title }} </span>
+
+                                            <p>
+                                                <span> <b>Start Date</b> {{ $completebacklog->backlog_start_date }} </span> ->
+                                                <span> <b>End Date</b> {{ $completebacklog->backlog_end_date }} </span>
+                                            </p>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                        <span > <b class="mr-2">Assigned Person</b>
+                                            @foreach($backlogassignedEmp->where('fk_backlog_id', $completebacklog->backlog_id) as $emp)
+                                                <span class="badge badge-dark" style="font-size: 78%; line-height: 2"> {{ $emp->fullName }} </span>
+                                            @endforeach
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        @endforeach
+
+
+
+
+
                 </div>
             </div>
 
@@ -214,64 +223,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-
-
-                    <form>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <label>Backlog Title</label>
-                                <input type="text" class="form-control" placeholder="First name">
-                            </div>
-                            <div class="col">
-                                <label>Assign Employee</label>
-                                <select class="form-control">
-                                    <option>Employee 1</option>
-                                    <option>Employee 2</option>
-                                    <option>Employee 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <label>Backlog Start Date</label>
-                                <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="" required>
-                            </div>
-                            <div class="col">
-                                <label>Backlog End Date</label>
-                                <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="" required>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <label>Priority</label>
-                                <select class="form-control">
-                                    <option>Low</option>
-                                    <option>Medium</option>
-                                    <option>High</option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <label>Backlog Details</label>
-                                <textarea class="form-control" rows="3" placeholder="Details"></textarea>
-                            </div>
-
-
-                        </div>
-                        {{--<div class="row mb-2">--}}
-                            {{--<div class="col">--}}
-                                {{--<button class="btn btn-success pull-right">Create</button>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    </form>
+                <div class="modal-body" id="editView">
 
 
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+                    {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -400,11 +360,34 @@
 @endsection
 
 @section('js')
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+
     <script>
 
-        function openItem(){
-            $('#exampleModal').modal('show');
+        function openItem(x){
+            // $('#exampleModal').modal('show');
+
+            id = $(x).data('todo-id');
+            console.log(id);
+
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('backlog.edit') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'backlog_id': id
+                },
+                success: function (data) {
+                    $('#editView').html(data);
+                    $('#exampleModal').modal();
+                }
+            });
+
+
         }
 
         $(".datepicker").datepicker({
@@ -416,6 +399,21 @@
         });
 
 
+    </script>
+
+    {{-- CK Editor --}}
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                console.log( editor );
+
+                width = '75%';
+
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
     </script>
 
 @endsection
