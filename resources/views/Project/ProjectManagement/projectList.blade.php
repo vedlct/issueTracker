@@ -14,30 +14,27 @@
 
     <div class="row">
         @foreach($projects as $project)
-            <a href="{{ route('project.projectmanagement', $project->projectId) }}">
 
-                <div class="card m-4" style="width: 16rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $project->project_name }}</h5>
+            <div class="card m-4" style="width: 16rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ $project->project_name }}</h5>
 
-                        @foreach($allStatus as $status)
-                            @if($project->project_status == $status->statusId)
-                                <h6 class="card-subtitle mb-2 text-muted">Project Status : {{ $status->statusData }}</h6>
-                            @endif
-                        @endforeach
+                    @foreach($allStatus as $status)
+                        @if($project->project_status == $status->statusId)
+                            <h6 class="card-subtitle mb-2 text-muted">Project Status : {{ $status->statusData }}</h6>
+                        @endif
+                    @endforeach
 
-                        {{--<h6 class="card-subtitle mb-2 text-muted">Project Status : {{ $project->project_status }}</h6>--}}
-                        {{--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
-                        {{--<a href="#" class="card-link">Card link</a>--}}
-                        {{--<a href="#" class="card-link">Another link</a>--}}
+                    <div class="mt-4" style="margin-right: 11px;">
+                        <a href="{{ route('project.projectmanagement', $project->projectId) }}" class="card-link">Dashboard</a>
+                        <a href="{{ route('backlog.dashboard', $project->projectId) }}" class="card-link">My Backlog</a>
                     </div>
-                </div>
 
-            </a>
+                </div>
+            </div>
 
         @endforeach
     </div>
-
 
 @endsection
 

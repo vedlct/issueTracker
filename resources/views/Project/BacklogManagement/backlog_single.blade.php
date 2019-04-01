@@ -3,6 +3,7 @@
 
     <div class="row">
         <div class="col">
+            {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
             <button class="btn btn-success pull-right btn-sm">Update Backlog</button>
         </div>
     </div>
@@ -24,12 +25,15 @@
         </div>
     </div>
 
+
     <div class="row mb-2">
         <div class="col">
             <label style="display: block">Assign Employee</label>
             <select class="js-example-basic-multiple form-control " name="assigned_employee[]" multiple="multiple" style="width: 100%;">
                 @foreach($allEmp as $emp)
-                     <option value="{{ $emp->userId }}" @if( $emp->userId == $backlogAssignedEmp->where('fk_assigned_employee_user_id', $emp->userId )->first()['fk_assigned_employee_user_id']) selected @endif>{{ $emp->fullName }}</option>
+                    {{--@foreach($backlogAssignedEmp as $selectedEmp)--}}
+                    <option value="{{ $emp->userId }}" @if( $emp->userId == $backlogAssignedEmp->where('fk_assigned_employee_user_id', $emp->userId )->first()['fk_assigned_employee_user_id']) selected @endif>{{ $emp->fullName }}</option>
+                    {{--@endforeach--}}
                 @endforeach
             </select>
         </div>

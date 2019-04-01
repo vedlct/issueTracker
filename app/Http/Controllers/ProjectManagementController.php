@@ -15,6 +15,7 @@ use App\Employee;
 use App\User;
 use Carbon\Carbon;
 use App\BacklogAssignment;
+use App\BacklogComment;
 
 
 class ProjectManagementController extends Controller
@@ -209,8 +210,9 @@ class ProjectManagementController extends Controller
 
         $backlog = Backlog::findOrFail($r->backlog_id);
 
-        $backlogAssignedEmp = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
+        return $backlog;
 
+        $backlogAssignedEmp = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
 
         return view('Project.ProjectManagement.updateBacklog')->with('backlog', $backlog)
                                                                    ->with('backlogAssignedEmp', $backlogAssignedEmp)
@@ -220,32 +222,18 @@ class ProjectManagementController extends Controller
     public function updateBacklog(Request $r){
         $backlog = Backlog::findOrFail($r->backlog_id);
         $backlog->backlog_title = $r->backlog_title;
-//        $backlog->fk_project_id = $r->project_id;
-//        $backlog->backlog_state = 'Backlog';
         $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
-//        $backlog->backlog_completion_status = 'Incomplete';
-        $backlog->save();
 
+//        dd($r);
+        $backlog->save();
 
         BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->delete();
 
         if($r->assigned_employee)
         {
-//            foreach ($r->assigned_employee as $emp){
-//                $assignment = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
-//                $assignment->fk_assigned_employee_user_id = $emp;
-//                $assignment->save();
-////
-//
-////            $assignment = BacklogAssignment::whereIn('fk_backlog_id', $r->backlog_id)->update(['fk_assigned_employee_user_id' => $emp]);
-//
-//            }
-
-
-
             if($r->assigned_employee)
             {
                 foreach ($r->assigned_employee as $emp){
@@ -263,8 +251,21 @@ class ProjectManagementController extends Controller
         return back();
     }
 
-    // Project Management
-    public function projectmanagementold(){
-        return view('Project.ProjectManagement.dashboard');
+    // Post Comment
+    public function postComment(Request $r){
+        $comment = new BacklogComment();
+        $comment->fk_comment_user_id = $r->user_id;
+        $comment->fk_backlog_id = $r->backlog_id;
+        $comment->comment = $r->comment;
+        $comment->comment_created_at = date("Y-m-d | h:i:sa");
+        $comment->save();
+        return back();
     }
+
+    // get Comments
+    public function getComments(Request $r){
+        $backlogComments = BacklogComment::leftJoin('user', 'user.userId', 'backlog_comment.fk_comment_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
+        return view('Project.ProjectManagement.getAllComments')->with('comments', $backlogComments);
+    }
+
 }

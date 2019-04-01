@@ -104,12 +104,19 @@ Route::post('/profile', 'ProfileController@updateProfile');
 Route::get('/project-management/dashboard','ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
 Route::get('/project-management/project/{id}','ProjectManagementController@projectmanagement')->name('project.projectmanagement');
 Route::post('/project-management/backlog/insert','ProjectManagementController@insertBacklog')->name('backlog.insert');
-
 Route::post('/project-management/backlog/edit','ProjectManagementController@returnEditBacklog')->name('backlog.edit');
 Route::post('/project-management/backlog/update','ProjectManagementController@updateBacklog')->name('backlog.update');
+Route::post('/project-management/backlog/comment','ProjectManagementController@postComment')->name('backlog.comment.post');
+Route::post('/project-management/backlog/comment/load','ProjectManagementController@getComments')->name('backlog.comment.get');
 
-Route::get('/project-management/dashboard/old','ProjectManagementController@projectmanagementold')->name('project.projectmanagement.old');
 
+
+
+//==================================Project backlog Management===============================
+Route::get('/project-management/backlog/{id}/dashboard','ProjectBacklogManagementController@dashboard')->name('backlog.dashboard');
+Route::post('/project-management/backlog/get-backlog-data','ProjectBacklogManagementController@getAllBackground')->name('backlog.dashboard.getAllBacklog');
+
+Route::post('/project-management/backlog/details','ProjectManagementController@backlogDetails')->name('backlog.open.details');
 
 
 
