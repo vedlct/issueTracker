@@ -4,10 +4,9 @@
     <input type="hidden" name="backlog_id" value="{{ $backlog->backlog_id }}">
 
     <div class="row mb-3">
-        <div class="col-4">
+        <div class="col-6">
             <label>Change Backlog State</label>
             <select class="form-control pull-right" name="backlog_state" required>
-                {{--<option value="">Select Backlog State</option>--}}
                 <option value="Backlog" @if($backlog->backlog_state == 'Backlog') selected @endif>Backlog</option>
                 <option value="Doing" @if($backlog->backlog_state == 'Doing') selected @endif>Doing</option>
                 <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
@@ -18,19 +17,19 @@
 
     <table class="table table-sm table-bordered">
         <tbody>
-            <tr style="line-height: .8;">
+            <tr style="line-height: .5;">
                 <th scope="row">Backlog Title</th>
                 <td>{{ $backlog->backlog_title }}</td>
             </tr>
-            <tr style="line-height: .8;">
+            <tr style="line-height: .5;">
                 <th scope="row">Select Priority</th>
                 <td>{{ $backlog->backlog_priority }}</td>
             </tr>
-            <tr style="line-height: .8;">
+            <tr style="line-height: .5;">
                 <th scope="row">Backlog Start Date</th>
                 <td>{{ $backlog->backlog_start_date }}</td>
             </tr>
-            <tr style="line-height: .8;">
+            <tr style="line-height: .5;">
                 <th scope="row">Backlog End Date</th>
                 <td>{{ $backlog->backlog_end_date }}</td>
             </tr>
@@ -45,8 +44,6 @@
     </div>
 
     <div class="row">
-
-
         <div class="col" style="margin-bottom: 10px;">
             <button class="btn btn-success pull-right btn-sm">Save Backlog</button>
         </div>
