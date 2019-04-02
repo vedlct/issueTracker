@@ -147,25 +147,6 @@
                 {{-- Completed Backlog --}}
                 <div class="">
 
-                    {{--@foreach($completebacklogs as $completebacklog)--}}
-
-                        {{--<div class="card mb-3" onclick="openItem()">--}}
-                            {{--<div class="card-body">--}}
-                                {{--<p>--}}
-                                    {{--<span> <b>Backlog : </b> {{ $inCompletebacklog->backlog_title }} </span>--}}
-                                    {{--<span class="pull-right"> <b>Assigned Person : </b> AMK Khan </span>--}}
-                                {{--</p>--}}
-
-                                {{--<p>--}}
-                                    {{--<span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->--}}
-                                    {{--<span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>--}}
-                                {{--</p>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                    {{--@endforeach--}}
-
-
                     @foreach($completebacklogs as $completebacklog)
                         <div class="card mb-3" data-todo-id= {{ $completebacklog->backlog_id }} onclick="openItem(this)">
                             <div class="card-body pb-0">
@@ -190,7 +171,6 @@
                             </div>
                         </div>
                     @endforeach
-
 
                 </div>
             </div>
@@ -265,10 +245,22 @@
     {{-- CK Editor --}}
     <script>
         ClassicEditor
-            .create( document.querySelector( '#editor' ) )
+            .create( document.querySelector( '#editor' ), {
+
+                // // Enable the "Insert image" button in the toolbar.
+                // toolbar: [ 'imageUpload'],
+
+                // ckfinder: {
+                //     // Upload the images to the server using the CKFinder QuickUpload command.
+                //     uploadUrl: 'localhost/issuetracker/public/.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
+                // }
+
+            } )
+
             .then( editor => {
                 width = '75%';
             } )
+
             .catch( error => {
                 console.error( error );
             } );

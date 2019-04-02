@@ -21,26 +21,31 @@
 @section('js')
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
 
     <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
 
-
-    {{--CK Editor--}}
     <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .then( editor => {
-                width = '75%';
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+        function openItem(x){
 
+            id = $(x).data('backlog-id');
+            console.log(id);
 
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('backlog.open.details') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'backlog_id': id
+                },
+                success: function (data) {
+                    $('#backlog_details').html(data);
+                    $('#exampleModal').modal();
+                }
+            });
+        }
 
-    <script>
         function getallBacklog(){
             $.ajax({
                 type: 'POST',
@@ -59,6 +64,7 @@
         $(document).ready(function() {
             getallBacklog();
         });
+
     </script>
 
     @yield('extra_js')

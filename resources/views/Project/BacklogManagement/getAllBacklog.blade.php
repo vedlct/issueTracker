@@ -52,7 +52,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Backlog Title</h5>
+                {{--<h5 class="modal-title" id="exampleModalLabel">Backlog Title</h5>--}}
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -69,45 +69,11 @@
 
 
 @section('extra_js')
-
-    <script>
-        function openItem(x){
-
-            id = $(x).data('backlog-id');
-            console.log(id);
-
-            $.ajax({
-                type: 'POST',
-                url: "{!! route('backlog.edit') !!}",
-                cache: false,
-                data: {
-                    _token: "{{csrf_token()}}",
-                    'backlog_id': id
-                },
-                success: function (data) {
-                    $('#backlog_details').html(data);
-                    $('#exampleModal').modal();
-                }
-            });
-        }
-    </script>
-
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
-
     {{--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>--}}
-
-    <script>
-
-
-        $(".datepicker").datepicker({
-            orientation: "bottom"
-        });
-
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-        });
-
-
-    </script>
+    {{--<script>--}}
+        {{--$(".datepicker").datepicker({--}}
+            {{--orientation: "bottom"--}}
+        {{--});--}}
+    {{--</script>--}}
 
 @endsection

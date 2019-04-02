@@ -1,5 +1,7 @@
 <?php
 
+Auth::routes();
+
 // Dashboard
 Route::get('/','DashBoardController@index')->middleware('auth')->name('index');
 
@@ -8,13 +10,6 @@ Route::get('/call-open-ticket','DashBoardController@call_openticket')->name('cal
 Route::get('/call-close-ticket','DashBoardController@call_closeticket')->name('call_closeticket');
 Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')->name('call_overdueticket');
 Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')->name('call_pendingticket');
-
-
-
-
-
-
-Auth::routes();
 
 // Company
 Route::get('/company-list','CompanyController@index')->name('company.showAllCompany');
@@ -38,11 +33,6 @@ Route::post('/edit-project/{id}','ProjectController@update_project')->name('proj
 Route::post('/project/delete','ProjectController@delete_project')->name('project.delete');
 
 
-//Route::get('/project-management/dashboard', function () {
-//    return view('Project.ProjectManagement.dashboard');
-//});
-
-
 // Ticket
 Route::get('/ticket-list','TicketController@index')->name('ticket.showAllCTicket');
 Route::post('/ticket-list','TicketController@getAllTicket')->name('ticket.getAllTicket');
@@ -57,7 +47,6 @@ Route::post('/ticket/update','TicketController@updateTicketMain')->name('ticket.
 Route::post('/ticket-report-download','TicketController@ticketExport')->name('ticket.report.generate');
 Route::post('/ticket-list-filtered','TicketController@getAllTicketAfterFilter')->name('ticket.apply.filter');
 Route::get('/generate-excel', 'TicketController@showGenerateExcel')->name('ticket.show.generateExcel');
-
 Route::post('/change-mass-ticket-type', 'TicketController@changeMassTicketStatus')->name('ticket.massChangeTicketStatus');
 Route::post('/assign-ticket-team', 'TicketController@assignTicketToTeam')->name('ticket.massAssignTicket.team');
 Route::post('/assign-ticket-individual', 'TicketController@assignTicketToIndividual')->name('ticket.massAssignTicket.individual');
@@ -115,8 +104,10 @@ Route::post('/project-management/backlog/comment/load','ProjectManagementControl
 //==================================Project backlog Management===============================
 Route::get('/project-management/backlog/{id}/dashboard','ProjectBacklogManagementController@dashboard')->name('backlog.dashboard');
 Route::post('/project-management/backlog/get-backlog-data','ProjectBacklogManagementController@getAllBackground')->name('backlog.dashboard.getAllBacklog');
+Route::post('/project-management/backlog/details','ProjectBacklogManagementController@backlogDetails')->name('backlog.open.details');
 
-Route::post('/project-management/backlog/details','ProjectManagementController@backlogDetails')->name('backlog.open.details');
+
+Route::post('/project-management/backlog/details/update','ProjectBacklogManagementController@updateBacklogDetails')->name('backlog.update.details');
 
 
 

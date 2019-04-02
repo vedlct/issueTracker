@@ -210,7 +210,6 @@ class ProjectManagementController extends Controller
 
         $backlog = Backlog::findOrFail($r->backlog_id);
 
-        return $backlog;
 
         $backlogAssignedEmp = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
 
@@ -226,8 +225,8 @@ class ProjectManagementController extends Controller
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
+        $backlog->backlog_state = $r->backlog_state;
 
-//        dd($r);
         $backlog->save();
 
         BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->delete();

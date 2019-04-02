@@ -17,9 +17,9 @@
             <label>Priority</label>
             <select class="form-control" name="priority" required>
                 <option value="">Select Priority</option>
-                <option value="Low" @if($backlog->backlog_priority = 'Low') selected @endif>Low</option>
-                <option value="Medium" @if($backlog->backlog_priority = 'Medium') selected @endif>Medium</option>
-                <option value="High" @if($backlog->backlog_priority = 'High') selected @endif>High</option>
+                <option value="Low" @if($backlog->backlog_priority == 'Low') selected @endif>Low</option>
+                <option value="Medium" @if($backlog->backlog_priority == 'Medium') selected @endif>Medium</option>
+                <option value="High" @if($backlog->backlog_priority == 'High') selected @endif>High</option>
             </select>
         </div>
     </div>
@@ -63,7 +63,7 @@
 
 {{-- Backlog Comment Form --}}
 <div class="card mt-4">
-    <div class="card-body">
+    <div class="card-body" style="padding-bottom: 0px;">
         <div class="form-row">
             <div class="form-group col-md-10">
                 <input type="text" id="commentData" class="form-control" placeholder="Your Comment...">

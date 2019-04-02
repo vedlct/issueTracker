@@ -41,43 +41,6 @@
 @section('js')
     <script>
 
-        {{--// Open Project--}}
-        {{--function openProject(){--}}
-
-            {{--// get all checked ticket id--}}
-            {{--var chkArray = [];--}}
-            {{--$('.checkboxvar:checked').each(function (i) {--}}
-                {{--chkArray[i] = $(this).val();--}}
-            {{--});--}}
-
-            {{--// get team id--}}
-            {{--var teamid = team.value;--}}
-
-            {{--// console.log(chkArray);--}}
-
-            {{--// Send Request--}}
-            {{--$.ajax({--}}
-                {{--type : 'post' ,--}}
-                {{--url : '{{route('ticket.massAssignTicket.team')}}',--}}
-                {{--data : {--}}
-                    {{--_token: "{{csrf_token()}}",--}}
-                    {{--'allCheckedTicket':chkArray,--}}
-                    {{--'teamid':teamid,--}}
-                {{--} ,--}}
-                {{--success : function(data){--}}
-                    {{--// console.log(data);--}}
-                    {{--$.alert({--}}
-                        {{--animationBounce: 2,--}}
-                        {{--type: 'green',--}}
-                        {{--title: 'Success!',--}}
-                        {{--content: 'Selected Team Assigned.',--}}
-                    {{--});--}}
-                    {{--$('#selectDefault2').val('');--}}
-                    {{--dataTable.ajax.reload();--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
-
     </script>
 @endsection
 
