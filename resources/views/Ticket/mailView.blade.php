@@ -2,11 +2,13 @@
 <h1>New Issue is created.</h1>
 
 {{-- Issue Information --}}
-Ticket Opener Name - {{ $ticketOpenerName }}
+<span> <b>Ticket ID : </b> </span> <a href="{{route('ticket.view',['id'=>$ticketId])}}">{{ $ticketNo }}</a>
 <br>
-Ticket Priority - {{ $priority }}
+<spqn><b>Ticket Opener Name : </b></spqn> {{ $ticketOpenerName }}
 <br>
-Ticket Details : {!!  $details  !!}
+<span><b>Ticket Priority : </b></span> {{ $priority }}
 <br>
-Project Name - {{ $projectName }}
+<span><b>Project Name : </b></span> {{ $projectName }}
 <br>
+<span><b>Ticket Details : </b></span> {!!  $details  !!}
+

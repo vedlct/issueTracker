@@ -17,7 +17,7 @@
             <a href="{{ route('project.create') }}" class="btn btn-success float-right" name="button">Create Project</a>
         </div>
         <div class="card-body">
-            <table id="projectTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+            <table id="projectTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th>Project Name</th>

@@ -74,7 +74,7 @@
 
                     </div>
                     <div class="card-body">
-                        <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                        <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
@@ -124,7 +124,7 @@
                         </ul>
                     </div>
                     <div class="card-body">
-                        <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                        <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>

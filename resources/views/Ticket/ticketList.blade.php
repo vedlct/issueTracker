@@ -64,7 +64,7 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                    <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
@@ -116,7 +116,7 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                    <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
@@ -310,11 +310,11 @@
 
                        if (currentUserType == 1 || currentUserType == 4) {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
-                               '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
-                               ;
-                       } else {
+                                  '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>';
+                       }
+                       else
+                       {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>';
-                               // '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
                        }
                    },
 

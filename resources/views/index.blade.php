@@ -4,8 +4,11 @@
 @section('css')
     <style>
         .newCard{
-            box-shadow: 1px 0 20px rgba(0, 0, 0, 0.07) !important;
-            border: 1px solid darkgrey !important;
+            box-shadow: 1px 0 10px rgba(0, 0, 0, 0.20) !important;
+        }
+        .card-body{
+            padding-bottom: 0px;
+            margin-bottom: 15px;
         }
     </style>
 @endsection
@@ -15,13 +18,11 @@
     {{-- Ticket Information --}}
     <div class="card mb-4">
         <div class="card-header">
-            <h3>Ticket Information</h3>
+            <h4>Ticket Information</h4>
         </div>
         <div class="card-body">
 
-
             <div class="row" >
-
                 {{-- All ticket --}}
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
@@ -98,15 +99,13 @@
     <div class="card mb-4">
         <div class="card-header">
             @if(Auth::user()->fk_userTypeId == 1)
-                <h3>Company & Project Information</h3>
+                <h4>Company & Project Information</h4>
             @else
-                <h3>Project Information</h3>
+                <h4>Project Information</h4>
             @endif
 
         </div>
         <div class="card-body">
-
-
             <div class="row" >
 
                 @if(Auth::user()->fk_userTypeId == 1)
@@ -114,7 +113,7 @@
                     <div class="col-lg-2 col-md-6 mb-2">
                         <div class="card newCard">
                             <div class="card-body">
-                                <h4 class="card-title"><a href="{{ route('company.showAllCompany') }}">Number of Company</a></h4>
+                                <h4 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h4>
                                 <div class="text-right">
                                     <h2 class="font-light m-b-0"> {{ $companyCount }} </h2>
                                 </div>
@@ -128,7 +127,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
                         <div class="card-body">
-                            <h4 class="card-title"><a href="{{ route('project.showAllProject') }}">Number of Project</a></h4>
+                            <h4 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h4>
                             <div class="text-right">
                                 <h2 class="font-light m-b-0"> {{ $projectCount }} </h2>
 
@@ -145,9 +144,9 @@
     </div>
 
     {{-- Ticket Information For This Month --}}
-    <div class="card mb-4">
+    <div class="card" style="margin-bottom: 90px;">
         <div class="card-header">
-            <h3>Ticket Information For This Month</h3>
+            <h4>Ticket Information For This Month</h4>
         </div>
         <div class="card-body">
 

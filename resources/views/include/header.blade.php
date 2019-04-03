@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Issue Tracker</title>
+    <title>TicketPro</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,7 +47,7 @@
             <div class="topbar">
                 <div class="topbar-left	d-none d-lg-block">
                     <div class="text-center">
-                       <h2 style="color: white; margin-top: 16px;">Issue Tracker</h2>
+                       <h2 style="color: white; margin-top: 16px;">TicketPro</h2>
                         {{--<a href="index-2.html" class="logo"><img src="{{url('public/images/logo.png')}}" height="20" alt="logo"></a>--}}
                     </div>
                 </div>

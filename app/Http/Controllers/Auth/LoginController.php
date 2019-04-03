@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Session;
 
 class LoginController extends Controller
 {
@@ -37,9 +38,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-//    public function redirectTo()
-//    {
-//
+    public function redirectTo()
+    {
+
+//        if(Session::has('ticket_value'))
+//        {
+//            return redirect()->route('ticket.view',['id'=>Session::get('ticket_value')]);
+//        }
+//        else
+//        {
+//            return redirect()->route('index');
+//        }
+
+
+
 //        if (Auth::user()->fkusertype == USER_TYPE['Admin'] || Auth::user()->fkusertype == USER_TYPE['Emp']) {
 //            return route('admin.dashboard');
 //        }
@@ -54,10 +66,8 @@ class LoginController extends Controller
 //            }else {
 //                return route('candidate.cvPersonalInfo');
 //            }
-//
-//
-//
+
 //        }
-//
-//    }
+
+    }
 }

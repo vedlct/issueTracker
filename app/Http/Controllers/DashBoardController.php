@@ -33,6 +33,7 @@ class DashBoardController extends Controller
     public function index()
     {
 
+
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
