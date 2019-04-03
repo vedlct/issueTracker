@@ -6,6 +6,13 @@
             @foreach($backlogs->where('backlog_state', "Backlog") as $backlog)
                 <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
+
+                    @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
+                        @if(Auth::user()->userId == $emp->userId)
+                            <span class="badge badge-dark pull-right">My Backlog</span>
+                        @endif
+                    @endforeach
+
                 </li>
             @endforeach
         </ul>
@@ -17,6 +24,13 @@
             @foreach($backlogs->where('backlog_state', "Doing") as $backlog)
                 <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
+
+                    @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
+                        @if(Auth::user()->userId == $emp->userId)
+                            <span class="badge badge-dark pull-right">My Backlog</span>
+                        @endif
+                    @endforeach
+
                 </li>
             @endforeach
         </ul>
@@ -28,6 +42,13 @@
             @foreach($backlogs->where('backlog_state', "Complete") as $backlog)
                 <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
+
+                    @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
+                        @if(Auth::user()->userId == $emp->userId)
+                            <span class="badge badge-dark pull-right">My Backlog</span>
+                        @endif
+                    @endforeach
+
                 </li>
             @endforeach
         </ul>
@@ -39,6 +60,13 @@
             @foreach($backlogs->where('backlog_state', "Testing") as $backlog)
                 <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
+
+                    @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
+                        @if(Auth::user()->userId == $emp->userId)
+                            <span class="badge badge-dark pull-right">My Backlog</span>
+                        @endif
+                    @endforeach
+
                 </li>
             @endforeach
         </ul>
@@ -69,11 +97,6 @@
 
 
 @section('extra_js')
-    {{--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>--}}
-    {{--<script>--}}
-        {{--$(".datepicker").datepicker({--}}
-            {{--orientation: "bottom"--}}
-        {{--});--}}
-    {{--</script>--}}
+
 
 @endsection

@@ -103,7 +103,7 @@ Route::post('/project-management/backlog/comment/load','ProjectManagementControl
 
 //==================================Project backlog Management===============================
 Route::get('/project-management/backlog/{id}/dashboard','ProjectBacklogManagementController@dashboard')->name('backlog.dashboard');
-Route::post('/project-management/backlog/get-backlog-data','ProjectBacklogManagementController@getAllBackground')->name('backlog.dashboard.getAllBacklog');
+Route::post('/project-management/backlog/get-backlog-data','ProjectBacklogManagementController@getAllBacklog')->name('backlog.dashboard.getAllBacklog');
 Route::post('/project-management/backlog/details','ProjectBacklogManagementController@backlogDetails')->name('backlog.open.details');
 
 

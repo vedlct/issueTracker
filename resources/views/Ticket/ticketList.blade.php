@@ -17,36 +17,6 @@
     {{-- view for admin personal --}}
     @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 3)
 
-        {{--<div class="col-md-2">--}}
-            {{--<div class="card">--}}
-                {{--<div class="card-header">--}}
-                    {{--<h4 class="float-left">Filter Ticket</h4>--}}
-                {{--</div>--}}
-                {{--<div class="card-body">--}}
-
-                    {{--<div class="form-group">--}}
-                        {{--<label>Start Date</label>--}}
-                        {{--<input type="date" id="startDate" class="form-control" >--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group">--}}
-                        {{--<label>End Date</label>--}}
-                        {{--<input type="date" id="endDate" class="form-control" >--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group">--}}
-                        {{--<label for="company">Ticket Status</label>--}}
-                        {{--<select class="form-control" id="ticketStatus2" name="ticketStatus">--}}
-                            {{--<option value="">Select Status</option>--}}
-                            {{--<option value="Open">Open</option>--}}
-                            {{--<option value="Close">Close</option>--}}
-                            {{--<option value="Pending">Pending</option>--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                    {{--<button onclick="applyFilter()" class="btn btn-primary">Apply Filter</button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -98,6 +68,7 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
+                            <th>Ticket No.</th>
                             <th>Ticket Topic</th>
                             <th>Last Updated</th>
                             <th>Ticket Opener</th>
@@ -149,13 +120,13 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
+                            <th>Ticket No.</th>
                             <th>Ticket Topic</th>
                             <th>Last Updated</th>
                             <th>Ticket Opener</th>
                             <th>Ticket Priority</th>
                             <th>Ticket Assigned To</th>
                             <th>Ticket Status</th>
-                            {{--<th>Ticket Open Date</th>--}}
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -301,6 +272,7 @@
                        ;},
                    "orderable": false, "searchable":false, "name":"selected_rows"
                },
+               { data: 'ticket_number', name: 'ticket_number' },
                { data: 'ticketTopic', name: 'ticketTopic' },
                { data: 'lastUpdated', name: 'lastUpdated' },
                { data: 'createdFullName', name: 'createdFullName' },

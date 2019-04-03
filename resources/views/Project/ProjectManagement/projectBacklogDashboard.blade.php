@@ -28,7 +28,7 @@
 
     <div class="card" style="margin-left: 20px;">
         <div class="card-header">
-            Create New Backlog
+            <b>{{ $project->project_name }} : </b> Create New Backlog
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}

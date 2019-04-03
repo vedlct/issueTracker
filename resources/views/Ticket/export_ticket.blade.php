@@ -1,6 +1,7 @@
 <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
     <thead>
     <tr>
+        <th>Ticket No.</th>
         <th>Ticket Topic</th>
         <th>Ticket Status</th>
         <th>Project</th>
@@ -17,9 +18,10 @@
     <tbody>
     @foreach($allTicket as $ticket)
         <tr>
+            <td>{{ $ticket->ticket_number }}</td>
             <td>{{ $ticket->ticketTopic }}</td>
             <td>{{ $ticket->ticketStatus }}</td>
-            <td>{{ $ticket->projectName }}</td>
+            <td>{{ $ticket->project_name }}</td>
             <td>{{ $ticket->created_at }}</td>
             <td>{{ $ticket->end_at }}</td>
             <td>{{ $ticket->ticketPriority }}</td>

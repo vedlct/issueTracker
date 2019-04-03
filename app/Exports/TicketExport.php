@@ -19,7 +19,7 @@ class TicketExport implements FromView
     {
         return view('Ticket.export_ticket', [
 
-            'allTicket' =>  Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.projectName')
+            'allTicket' =>  Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.project_name')
                 ->leftJoin('project','project.projectId','ticket.fk_projectId')
                 ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                 ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')

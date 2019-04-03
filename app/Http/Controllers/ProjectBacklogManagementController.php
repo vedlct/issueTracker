@@ -18,13 +18,30 @@ class ProjectBacklogManagementController extends Controller
     }
 
     // get all Backlog
-    public function getAllBackground(Request $r){
+    public function getAllBacklog(Request $r){
 
         $project_all_backlogs = Backlog::where('fk_project_id', $r->project_id)
                                         ->orderBy('backlog.backlog_id','desc' )
                                         ->get();
 
-        return view('Project.BacklogManagement.getAllBacklog')->with('backlogs', $project_all_backlogs);
+
+        // select backlog assigned employee list
+        $backlog = BacklogAssignment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_assignment.fk_backlog_id')
+            ->where('backlog.fk_project_id', $r->project_id)->get();
+
+        $array = array();
+        foreach ($backlog as $emp)
+        {
+            array_push($array, $emp->fk_assigned_employee_user_id);
+        }
+        $backlogassignedEmp = User::leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', 'user.userId')
+            ->whereIn('user.userId', $array)
+            ->get();
+
+
+        return view('Project.BacklogManagement.getAllBacklog')
+                ->with('backlogs', $project_all_backlogs)
+                ->with('backlogassignedEmp', $backlogassignedEmp);
     }
 
     // Backlog Details

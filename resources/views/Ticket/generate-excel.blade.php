@@ -246,32 +246,10 @@
                         "orderable": false, "searchable":true, "name": "ticketStatus"
                     },
 
-
-                    // { "data": function(data) {
-                    //
-                    //         if (currentUserType == 1 || currentUserType == 4) {
-                    //             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
-                    //                 '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
-                    //                 ;
-                    //         } else {
-                    //             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>';
-                    //             // '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>'
-                    //         }
-                    //     },
-                    //
-                    //     "orderable": false, "searchable":false, "name":"selected_rows"
-                    // },
                 ]
             } );
         } );
 
-        {{--// view ticket details--}}
-        {{--function editTicket(x) {--}}
-            {{--btn = $(x).data('panel-id');--}}
-            {{--var url = '{{ route("ticket.edit", ":id") }}';--}}
-            {{--var newUrl=url.replace(':id', btn);--}}
-            {{--window.location.href = newUrl;--}}
-        {{--}--}}
 
     </script>
 
@@ -286,40 +264,6 @@
             for(var i in checkboxes)
                 checkboxes[i].checked = source.checked;
         }
-
-        {{--// view ticket details--}}
-        {{--function openTicket(x) {--}}
-            {{--btn = $(x).data('panel-id');--}}
-            {{--var url = '{{ route("ticket.view", ":id") }}';--}}
-            {{--var newUrl=url.replace(':id', btn);--}}
-            {{--window.location.href = newUrl;--}}
-        {{--}--}}
-        // view ticket details
-        {{--function editTicket(x) {--}}
-            {{--id = $(x).data('panel-id');--}}
-            {{--var url = '{{ route("ticket.edit", ":id") }}';--}}
-            {{--var newUrl=url.replace(':id', btn);--}}
-            {{--window.location.href = newUrl;--}}
-            {{--// $('#exampleModal').modal('show');--}}
-
-            {{--$.ajax({--}}
-                {{--type: 'POST',--}}
-                {{--url: "{!! route('ticket.edit') !!}",--}}
-                {{--cache: false,--}}
-                {{--data: {--}}
-                    {{--_token: "{{csrf_token()}}",--}}
-                    {{--'id': id--}}
-                {{--},--}}
-                {{--success: function (data) {--}}
-                    {{--// console.log(data);--}}
-                    {{--$('#editTicket').html(data);--}}
-                    {{--$('#exampleModal').modal('show');--}}
-
-                {{--}--}}
-            {{--});--}}
-
-
-        {{--}--}}
 
         function changeType(x){
             if($(x).val() == 'single'){
@@ -446,13 +390,6 @@
                     'allCheckedTicket':chkArray,
                 } ,
                 success : function(data){
-                    // console.log(data);
-                    // if(data == 'true'){
-                    //     alert('Report Generated');
-                    // }
-                    // console.log(chkArray);
-                    //  console.log('download');
-
                     var link = document.createElement("a");
                     link.download = "tickets.xlsx";
                             {{--var uri = '{{url("storage/app")}}'+"/"+data.fileName+".xls";--}}

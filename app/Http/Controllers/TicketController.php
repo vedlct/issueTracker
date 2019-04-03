@@ -315,7 +315,7 @@ class TicketController extends Controller
         }
         else
         {
-            $projectlist = Project::where('fk_companyId', $userCompanyId)->get();
+            $projectlist = Project::where('fk_company_id', $userCompanyId)->get();
         }
 
         return view('Ticket.createTicket')->with('projectlist', $projectlist);
@@ -406,6 +406,7 @@ class TicketController extends Controller
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 
+
         if(Auth::user()->fk_userTypeId == 2)
         {
             $ticketOpenerCompany = Client::where('userId', Auth::user()->userId)->first();
@@ -435,6 +436,11 @@ class TicketController extends Controller
 
         $ticket->save();
 
+        // set ticket number
+        $ticket = Ticket::findOrFail($ticket->ticketId);
+        $ticket->ticket_number = '#'.$ticket->ticketId;
+        $ticket->save();
+
         if ($r->hasFile('file')) {
             $file = $r->file('file');
             $fileName = $ticket->ticketId . "." . $file->getClientOriginalExtension();
@@ -448,7 +454,7 @@ class TicketController extends Controller
         $ticketOpenerName = Auth::user()->fullName;
         $priority = $r->priroty;
         $details = $r->details;
-        $projectName = Project::where('projectId', $r->project)->first()->projectName;
+        $projectName = Project::where('projectId', $r->project)->first()->project_name;
 
 
         $data=array(
@@ -648,69 +654,6 @@ class TicketController extends Controller
 
     // show generate excel page
     public function showGenerateExcel(){
-
-//
-//        // Get user's company ID
-//        if(Auth::user()->fk_userTypeId == 2)
-//        {
-//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 3)
-//        {
-//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 4)
-//        {
-//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-//        }
-//        if(Auth::user()->fk_userTypeId == 1)
-//        {
-//            $userCompanyId = null;
-//        }
-//
-//
-//        if($userCompanyId == null)
-//        {
-//            $allTicket= Ticket::all()->count();
-//
-//            $openCount = Ticket::where('ticketStatus', 'Open')
-//                ->count();
-//            $overDueCount = Ticket::where('ticketStatus', 'Overdue')
-//                ->count();
-//            $pendingCount = Ticket::where('ticketStatus', 'Pending')
-//                ->count();
-//            $closeCount = Ticket::where('ticketStatus', 'Close')
-//                ->count();;
-//        }
-//        else
-//        {
-//            $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
-//
-//            $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-//                ->where('ticketStatus', 'Open')
-//                ->count();
-//            $date = date('Y-m-d h:i:s');
-//            $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-//                ->whereDate('ticket.exp_end_date', '<=', $date)
-//                ->count();
-//            $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-//                ->where('ticketStatus', 'Pending')
-//                ->count();
-//            $closeCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-//                ->where('ticketStatus', 'Close')
-//                ->count();;
-//        }
-//
-//
-//        return view('Ticket.generate-excel')->with('openticket', $openCount)
-//                                                 ->with('overdue', $overDueCount)
-//                                                 ->with('pending', $pendingCount)
-//                                                 ->with('allticket', $allTicket)
-//                                                 ->with('close', $closeCount);
-
-
-
-
 
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
