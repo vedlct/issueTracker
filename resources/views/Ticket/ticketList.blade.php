@@ -14,7 +14,7 @@
 
 <div class="container-fluid row">
 
-    {{-- view for admin personal --}}
+    {{-- view for admin --}}
     @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 3)
 
         <div class="col-md-12">
@@ -308,7 +308,7 @@
 
                { "data": function(data) {
 
-                       if (currentUserType == 1 || currentUserType == 4) {
+                       if (currentUserType == 1 || currentUserType == 4 || currentUserType == 3) {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
                                   '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>';
                        }

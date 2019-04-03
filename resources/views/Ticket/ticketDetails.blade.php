@@ -11,8 +11,8 @@
         }
 
         .container2 {
-            border: 2px solid #dedede;
-
+            border: 1px solid #dedede;
+            margin-bottom: 10px !important;
             border-radius: 5px;
             padding: 10px;
             margin: 5px 0;
