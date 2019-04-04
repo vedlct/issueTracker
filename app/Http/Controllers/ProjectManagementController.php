@@ -153,7 +153,7 @@ class ProjectManagementController extends Controller
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
         $backlog->backlog_completion_status = 'Incomplete';
-        $backlog->backlog_created_at = date("Y-m-d | h:i:sa");
+        $backlog->backlog_created_at = date('Y-m-d H:i:s');
         $backlog->save();
 
         if($r->assigned_employee)
@@ -162,7 +162,7 @@ class ProjectManagementController extends Controller
                 $assignment = new BacklogAssignment();
                 $assignment->fk_backlog_id = $backlog->backlog_id;
                 $assignment->fk_assigned_employee_user_id = $emp;
-                $assignment->backlog_assignment_created_at = date("Y-m-d | h:i:sa");
+                $assignment->backlog_assignment_created_at = date('Y-m-d H:i:s');
                 $assignment->save();
             }
         }
@@ -239,7 +239,7 @@ class ProjectManagementController extends Controller
                     $assignment = new BacklogAssignment();
                     $assignment->fk_backlog_id = $backlog->backlog_id;
                     $assignment->fk_assigned_employee_user_id = $emp;
-                    $assignment->backlog_assignment_created_at = date("Y-m-d | h:i:sa");
+                    $assignment->backlog_assignment_created_at = date('Y-m-d H:i:s');
                     $assignment->save();
                 }
             }
@@ -256,7 +256,7 @@ class ProjectManagementController extends Controller
         $comment->fk_comment_user_id = $r->user_id;
         $comment->fk_backlog_id = $r->backlog_id;
         $comment->comment = $r->comment;
-        $comment->comment_created_at = date("Y-m-d | h:i:sa");
+        $comment->comment_created_at = date('Y-m-d H:i:s');
         $comment->save();
         return back();
     }

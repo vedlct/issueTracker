@@ -35,8 +35,8 @@ class ProjectBacklogManagementController extends Controller
             array_push($array, $emp->fk_assigned_employee_user_id);
         }
         $backlogassignedEmp = User::leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', 'user.userId')
-            ->whereIn('user.userId', $array)
-            ->get();
+                                    ->whereIn('user.userId', $array)
+                                    ->get();
 
 
         return view('Project.BacklogManagement.getAllBacklog')

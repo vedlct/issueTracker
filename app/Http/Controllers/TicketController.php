@@ -408,10 +408,10 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-        $ticket->created_at = Carbon::parse($r->create_date)->format('Y-m-d h:i:s');
+        $ticket->created_at = date('Y-m-d H:i:s');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
-        $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d h:i:s');
+        $ticket->exp_end_date = date('Y-m-d H:i:s');
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 
