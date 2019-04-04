@@ -602,8 +602,43 @@ class TicketController extends Controller
 
     // show ticket edit
     public function ticketEdit(Request $r){
-        $teams = Team::all();
-        $employee = DB::table('user')->where('fk_userTypeId',3)->get();
+
+        // Get user's company ID
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+
+        if($userCompanyId == null)
+        {
+            $teams = Team::all();
+            $employee = DB::table('user')->where('fk_userTypeId',3)->get();
+        }
+        else
+        {
+            $teams = Team::where('fk_companyId', $userCompanyId)->get();
+
+            $employee = DB::table('user')->leftJoin('companyemployee', 'user.userId', 'companyemployee.employeeUserId')
+                                         ->where('user.fk_userTypeId',3)
+                                         ->where('companyemployee.fk_companyId', $userCompanyId)
+                                         ->get();
+        }
+
+
+
         $ticket = Ticket::findOrFail($r->id);
 
         return view('Ticket.ticketEdit')->with('ticket', $ticket)
