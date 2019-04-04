@@ -10,9 +10,6 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-
-
-
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href="{{url('public/plugins/morris/morris.css')}}">
     <link href="{{url('public/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
