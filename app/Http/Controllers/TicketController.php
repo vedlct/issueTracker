@@ -333,8 +333,6 @@ class TicketController extends Controller
     // insert ticket
     public function insertTicket(Request $r){
 
-        // Send Mail
-        // Get all email of user's company
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
@@ -353,7 +351,7 @@ class TicketController extends Controller
             $userCompanyId = null;
         }
 
-        // get all ticket of user's company
+        //
         if($userCompanyId != null)
         {
             // get all client's company's all employee user_id
@@ -373,7 +371,6 @@ class TicketController extends Controller
             {
                 array_push($array1, $emp->email);
             }
-
 
 
             // get all client's company's all client user_id
@@ -468,37 +465,38 @@ class TicketController extends Controller
             $ticket->ticketFile=$fileName;
             $ticket->save();
         }
+        // set ticket number end
 
-
+        // set mailing information
         $ticketOpenerName = Auth::user()->fullName;
         $priority = $r->priroty;
         $details = $r->details;
         $projectName = Project::where('projectId', $r->project)->first()->project_name;
-
+        $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                                  ->where('user.fk_userTypeId', 4)
+                                  ->where('companyemployee.fk_companyId', $userCompanyId)
+                                  ->first()->email;
 
         $data=array(
             'name'=> 'Arabi Kabir',
-            'email'=> 'admin@gmail.com',
+            'email'=> $company_admin_mail,
             'message'=> 'New Ticket is created',
-
             'ticketOpenerName'=> $ticketOpenerName,
             'priority'=> $priority,
             'details'=> $details,
             'projectName'=> $projectName,
             'ticketNo'=> $ticket_no,
             'ticketId'=> $ticket->ticketId,
-
         );
 
-
-
-        Mail::send('Ticket.mailView', $data, function($message) use ($data,$array1)
+        Mail::send('Ticket.mailView', $data, function($message) use ($data, $array1)
         {
-            $message->to($data['email'], 'Demo mail')
+            $message->to($data['email'], 'Company Admin')
                     ->cc($array1)
                     ->subject('New Ticket Created');
         });
         // End Send Mail
+
 
         Session::flash('message', 'Ticket Created!');
 
@@ -588,7 +586,6 @@ class TicketController extends Controller
             'name'=> 'Issuetracker',
             'email'=> 'admin@gmail.com',
             'message'=> $r->replyData,
-
             'reply_user'=> Auth::user()->fullName,
             'reply'=> $r->replyData,
             'ticketOpner' => $ticketOpener,

@@ -21,7 +21,6 @@ class CompanyController extends Controller
     public function getAllCompany(Request $r){
         $companies = Company::select('company.companyName','company.companyInfo','company.companyEmail','company.companyPhone1','company.companyId')
                                 ->where('deleted_at', null);
-//                                ->where('');
 
         $datatables = Datatables::of($companies);
         return $datatables->make(true);
@@ -37,9 +36,7 @@ class CompanyController extends Controller
 
         $r->validate([
             'companyName' => 'required|max:45',
-//            'info' => 'required',
             'companyEmail' => 'required|unique:company,companyEmail',
-//            'address' => 'required',
         ]);
 
         $company = new Company();

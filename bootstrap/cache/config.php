@@ -571,8 +571,8 @@
     'port' => '2525',
     'from' => 
     array (
-      'address' => 'noreply@caritasbd.com',
-      'name' => 'CARITAS BD',
+      'address' => 'noreply@ticketpro.com',
+      'name' => 'TicketPro',
     ),
     'encryption' => 'tls',
     'username' => '939db56664c1de',

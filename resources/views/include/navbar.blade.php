@@ -10,19 +10,34 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="menu-title">Main</li>
+
+                {{-- Dashboard --}}
                 <li>
                     <a href="{{route('index')}}" class="waves-effect">
                         <i class="dripicons-blog"></i> <span> Dashboard </span>
                     </a>
                 </li>
 
+                {{-- All Company Settings --}}
                 @if(Auth::user()->fk_userTypeId == 1)
-                    <li>
-                        <a href="{{route('company.showAllCompany')}}" class="waves-effect">
-                            <i class="fa fa-address-card"></i> <span> Company </span>
-                        </a>
+                    <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-cogs"></i> <span>Company Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{route('company.showAllCompany')}}" class="waves-effect"><i class="fa fa-university"></i> <span> All Company </span></a></li>
+                        </ul>
                     </li>
                 @endif
+
+                {{-- Manage My Company --}}
+                @if(Auth::user()->fk_userTypeId == 4)
+                    <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-cogs"></i> <span>Manage My Company</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{route('mycompany')}}" class="waves-effect"><i class="fa fa-university"></i> <span> Company Settings </span></a></li>
+                            <li><a href="{{route('mycompany.departments')}}" class="waves-effect"><i class="fa fa-server"></i> <span> Department Settings </span></a></li>
+                            <li><a href="{{route('company.showAllCompany')}}" class="waves-effect"><i class="fa fa-id-badge"></i> <span> Designation Settings </span></a></li>
+                        </ul>
+                    </li>
+                @endif
+
 
                 @if(Auth::user()->fk_userTypeId == 1)
                     <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>

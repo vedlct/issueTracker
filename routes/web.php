@@ -22,6 +22,10 @@ Route::post('/company/delete','CompanyController@delete_company')->name('company
 Route::get('/company-list','CompanyController@index')->name('company.showAllCompany');
 Route::get('/company-download','CompanyController@export')->name('company.export');
 
+// ManageCompanyController
+Route::get('/my-company','ManageCompanyController@showmycompany')->name('mycompany');
+Route::get('/my-company/departments','ManageCompanyController@getDepartments')->name('mycompany.departments');
+Route::post('/my-company/add/departments','ManageCompanyController@insertDept')->name('department.add');
 
 // Project
 Route::get('/project-list','ProjectController@index')->name('project.showAllProject');

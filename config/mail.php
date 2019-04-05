@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@caritasbd.com'),
-        'name' => env('MAIL_FROM_NAME', 'CARITAS BD'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@ticketpro.com'),
+        'name' => env('MAIL_FROM_NAME', 'TicketPro'),
     ],
 
     /*

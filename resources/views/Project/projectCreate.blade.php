@@ -28,7 +28,7 @@
 
                     <div class="form-group col-md-4">
                         <label>Project Start Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="projectStartDate" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="projectStartDate">
                     </div>
 
 
@@ -48,7 +48,7 @@
 
                     <div class="form-group col-md-4">
                         <label>Project Summary</label>
-                        <textarea class="form-control" placeholder="Project Summary" name="summary" required></textarea>
+                        <textarea class="form-control" placeholder="Project Summary" name="summary"></textarea>
                     </div>
 
                     <div class="form-group col-md-12">
