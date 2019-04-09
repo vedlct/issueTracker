@@ -56,7 +56,7 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td>{{$backlog->sum('backlog_time')}}</td>
+                <td>{{ $backlogs->sum('backlog_time') }}</td>
                 <td></td>
                 <td></td>
                 <td></td>

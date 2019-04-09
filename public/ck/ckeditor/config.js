@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	//var ckBaseUrl = '<?php  url("/") ?>';
-	 var base_url =window.location.origin+"/issueTracker/public/ck/";
+	 var base_url =window.location.origin+"/issuetracker/public/ck/";
    // config.filebrowserBrowseUrl = 'public/ck/ckeditor/kcfinder/browse.php?opener=ckeditor&type=files';
    // config.filebrowserImageBrowseUrl = 'public/ck/ckeditor/kcfinder/browse.php?opener=ckeditor&type=images';
    // config.filebrowserFlashBrowseUrl = 'public/ck/ckeditor/kcfinder/browse.php?opener=ckeditor&type=flash';

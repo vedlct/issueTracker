@@ -32,7 +32,7 @@
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}
-            <form action="{{ route('backlog.insert') }}" method="post">
+            <form action="{{ route('backlog.insert') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-2">
                     <input type="hidden" name="project_id" value="{{ $project->projectId }}">
@@ -79,7 +79,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label>Backlog Details</label>
-                        <textarea name="backlogDetails" id="editor"></textarea>
+                        <textarea class="form-control ckeditor" name="backlogDetails" id="editor"></textarea>
                     </div>
                 </div>
 
@@ -218,7 +218,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+    {{--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>--}}
+
+    <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 
     <script>
 
@@ -272,22 +274,22 @@
     </script>
 
     {{-- CK Editor --}}
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
+    {{--<script>--}}
+        {{--ClassicEditor--}}
+            {{--.create( document.querySelector( '#editor' ), {--}}
 
 
 
-            } )
+            {{--} )--}}
 
-            .then( editor => {
-                width = '75%';
-            } )
+            {{--.then( editor => {--}}
+                {{--width = '75%';--}}
+            {{--} )--}}
 
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+            {{--.catch( error => {--}}
+                {{--console.error( error );--}}
+            {{--} );--}}
+    {{--</script>--}}
 
 @endsection
 
