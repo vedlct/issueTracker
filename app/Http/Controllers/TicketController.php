@@ -736,12 +736,12 @@ class TicketController extends Controller
 
 
         return view('Ticket.generate-excel')->with('openticket', $openCount)
-            ->with('overdue', $overDueCount)
-            ->with('pending', $pendingCount)
-            ->with('allticket', $allTicket)
-            ->with('teams', $teams)
-            ->with('allEmp', $allEmp)
-            ->with('close', $closeCount);
+                                                 ->with('overdue', $overDueCount)
+                                                 ->with('pending', $pendingCount)
+                                                 ->with('allticket', $allTicket)
+                                                 ->with('teams', $teams)
+                                                 ->with('allEmp', $allEmp)
+                                                 ->with('close', $closeCount);
 
 
     }

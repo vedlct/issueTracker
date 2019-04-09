@@ -8,12 +8,13 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
+
 class TicketExport implements FromView
 {
     private $data;
 
     public function __construct($data){
-         $this->data=$data;
+         $this->data = $data;
     }
     public function view(): View
     {

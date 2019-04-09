@@ -49,6 +49,10 @@
                             <option value="High">High</option>
                         </select>
                     </div>
+                    <div class="col">
+                        <label>Backlog Time (Hour)</label>
+                        <input type="number" class="form-control" placeholder="Backlog Time" name="backlog_time" required>
+                    </div>
                 </div>
 
                 <div class="row mb-2">
@@ -103,6 +107,11 @@
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Testing</a>
             </li>
+
+            <li class="nav-item pull-right ">
+                <a class="btn btn-sm btn-secondary" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+            </li>
+
         </ul>
         <div class="tab-content m-3" id="myTabContent">
 
@@ -122,6 +131,7 @@
                                         <p>
                                             <span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->
                                             <span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>
+                                            <span class="pull-right"> <b>Expected Hour</b> {{ $inCompletebacklog->backlog_time }} </span>
                                         </p>
 
                                     </div>
@@ -157,6 +167,7 @@
                                         <p>
                                             <span> <b>Start Date</b> {{ $completebacklog->backlog_start_date }} </span> ->
                                             <span> <b>End Date</b> {{ $completebacklog->backlog_end_date }} </span>
+                                            <span class="pull-right"> <b>Expected Hour</b> {{ $completebacklog->backlog_time }} </span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
@@ -239,6 +250,24 @@
             $('.js-example-basic-multiple').select2();
         });
 
+        function generateReport(){
+            var id = '{{ $project->projectId }}';
+            $.ajax({
+                type : 'post' ,
+                url : '{{route('backlog.generate.report')}}',
+                data : {
+                    _token: "{{csrf_token()}}",
+                    'project_id': id,
+                } ,
+                success : function(data){
+                    var link = document.createElement("a");
+                    link.download = "projects_backlog.xlsx";
+                    var uri = '{{url("storage/app")}}'+"/"+"project_backlog.xlsx";
+                    link.href = uri;
+                    link.click();
+                }
+            });
+        }
 
     </script>
 
@@ -247,13 +276,7 @@
         ClassicEditor
             .create( document.querySelector( '#editor' ), {
 
-                // // Enable the "Insert image" button in the toolbar.
-                // toolbar: [ 'imageUpload'],
 
-                // ckfinder: {
-                //     // Upload the images to the server using the CKFinder QuickUpload command.
-                //     uploadUrl: 'localhost/issuetracker/public/.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
-                // }
 
             } )
 

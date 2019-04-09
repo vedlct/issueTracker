@@ -33,7 +33,7 @@
                         <ul class="list-unstyled">
                             <li><a href="{{route('mycompany')}}" class="waves-effect"><i class="fa fa-university"></i> <span> Company Settings </span></a></li>
                             <li><a href="{{route('mycompany.departments')}}" class="waves-effect"><i class="fa fa-server"></i> <span> Department Settings </span></a></li>
-                            <li><a href="{{route('company.showAllCompany')}}" class="waves-effect"><i class="fa fa-id-badge"></i> <span> Designation Settings </span></a></li>
+                            <li><a href="{{route('mycompany.designation')}}" class="waves-effect"><i class="fa fa-id-badge"></i> <span> Designation Settings </span></a></li>
                         </ul>
                     </li>
                 @endif

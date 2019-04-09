@@ -27,7 +27,7 @@ class ProjectBacklogManagementController extends Controller
 
         // select backlog assigned employee list
         $backlog = BacklogAssignment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_assignment.fk_backlog_id')
-            ->where('backlog.fk_project_id', $r->project_id)->get();
+                                    ->where('backlog.fk_project_id', $r->project_id)->get();
 
         $array = array();
         foreach ($backlog as $emp)
@@ -93,6 +93,14 @@ class ProjectBacklogManagementController extends Controller
 
     public function updateBacklogDetails(Request $r){
         $backlog = Backlog::findOrFail($r->backlog_id);
+        $backlog->backlog_details = $r->backlogDetails;
+
+        // if backlog state change then
+        if($r->backlog_state != $backlog->backlog_state)
+        {
+            $backlog->dev_time = date('Y-m-d H:i:s');
+        }
+
         $backlog->backlog_state = $r->backlog_state;
         $backlog->save();
 

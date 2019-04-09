@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Backlog;
+use App\Exports\BacklogExport;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Company;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Session;
 use Yajra\DataTables\DataTables;
 use App\Status;
@@ -147,6 +149,7 @@ class ProjectManagementController extends Controller
         $backlog = new Backlog();
         $backlog->backlog_title = $r->backlog_title;
         $backlog->fk_project_id = $r->project_id;
+        $backlog->backlog_time = $r->backlog_time;
         $backlog->backlog_state = 'Backlog';
         $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
@@ -221,11 +224,11 @@ class ProjectManagementController extends Controller
     public function updateBacklog(Request $r){
         $backlog = Backlog::findOrFail($r->backlog_id);
         $backlog->backlog_title = $r->backlog_title;
+        $backlog->backlog_time = $r->backlog_time;
         $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
-//        $backlog->backlog_state = $r->backlog_state;
 
         $backlog->save();
 
@@ -265,6 +268,12 @@ class ProjectManagementController extends Controller
     public function getComments(Request $r){
         $backlogComments = BacklogComment::leftJoin('user', 'user.userId', 'backlog_comment.fk_comment_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
         return view('Project.ProjectManagement.getAllComments')->with('comments', $backlogComments);
+    }
+
+
+    // Generate Report
+    public function generateReport(Request $r){
+        Excel::store(new BacklogExport($r), 'project_backlog.xlsx');
     }
 
 }

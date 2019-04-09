@@ -44,6 +44,10 @@
             <label>Backlog End Date</label>
             <input type="text" id="endDate" value="{{ $backlog->backlog_end_date }}" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate">
         </div>
+        <div class="col">
+            <label>Backlog Time (Hour)</label>
+            <input type="number" class="form-control"value="{{ $backlog->backlog_time }}" placeholder="Backlog Time" name="backlog_time" required>
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col">

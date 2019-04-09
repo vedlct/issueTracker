@@ -36,7 +36,17 @@
 
                                 <div class="form-group">
                                     <label>Phone</label>
-                                    <input type="tel" value="{{ $employee->userPhoneNumber }}" name="phone" class="form-control" required placeholder="Phone">
+                                    <input type="tel" value="{{ $employee->userPhoneNumber }}" name="phone" class="form-control" placeholder="Phone">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="company">Select Department</label>
+                                    <select class="form-control" id="" name="dept">
+                                        <option value="">Select Department</option>
+                                        @foreach($departments as $department)
+                                            <option value="{{ $department->dept_id }}" @if($department->dept_id == $employee->department) selected @endif>{{ $department->dept_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -63,15 +73,25 @@
                                     </select>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="company">Select Designation</label>
+                                    <select class="form-control" id="desg" name="designation">
+                                        <option value="">Select Designation</option>
+                                        @foreach($designations as $designation)
+                                            <option value="{{ $designation->designation_id }}" @if($designation->designation_id == $employee->designation) selected @endif>{{ $designation->designation_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                                 <div class="form-group">
                                     <label for="file1">Select Profile Photo</label>
                                     <input type="file" name="profilePhoto" class="form-control-file" id="file1">
                                 </div>
+
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary pull-right">Update</button>
                     </form>
                 </div>
             </div>

@@ -33,6 +33,14 @@
                 <th scope="row">Backlog End Date</th>
                 <td>{{ $backlog->backlog_end_date }}</td>
             </tr>
+            <tr style="line-height: .5;">
+                <th scope="row">Backlog Expected Time</th>
+                <td>{{ $backlog->backlog_time }}</td>
+            </tr>
+            <tr style="line-height: .5;">
+                <th scope="row">Backlog Dev Time</th>
+                <td>{{ $backlog->dev_time }}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -144,7 +152,6 @@
 
 
     {{-- CK Editor --}}
-
     $( document ).ready(function() {
 
         ClassicEditor
