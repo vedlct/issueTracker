@@ -94,6 +94,24 @@
         </div>
     </div>
 
+    <div class="card mt-4" style="margin-left: 20px; margin-bottom: 20px;">
+        <div class="card-body">
+            <table class="table table-bordered ">
+                <tbody>
+                <tr>
+                    <th scope="row">Total Feature</th>
+                    <td>{{ $backlog_count }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Hour</th>
+                    <td>{{ $total_hour }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     {{-- List --}}
     <div class="card mt-4" style="margin-left: 20px; margin-bottom: 100px;">
         <ul class="nav nav-tabs m-3" id="myTab" role="tablist">
@@ -106,11 +124,6 @@
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Testing</a>
             </li>
-
-            {{--<li class="nav-item pull-right">--}}
-                {{----}}
-            {{--</li>--}}
-
         </ul>
         <div class="tab-content m-3" id="myTabContent">
 
