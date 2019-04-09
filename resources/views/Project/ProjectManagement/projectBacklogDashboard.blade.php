@@ -29,6 +29,7 @@
     <div class="card" style="margin-left: 20px;">
         <div class="card-header">
             <b>{{ $project->project_name }} : </b> Create New Backlog
+            <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}
@@ -94,9 +95,7 @@
     </div>
 
     {{-- List --}}
-
     <div class="card mt-4" style="margin-left: 20px; margin-bottom: 100px;">
-
         <ul class="nav nav-tabs m-3" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Backlog</a>
@@ -108,9 +107,9 @@
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Testing</a>
             </li>
 
-            <li class="nav-item pull-right ">
-                <a class="btn btn-sm btn-secondary" style="color: white" onclick="generateReport()">Generate Project Excel</a>
-            </li>
+            {{--<li class="nav-item pull-right">--}}
+                {{----}}
+            {{--</li>--}}
 
         </ul>
         <div class="tab-content m-3" id="myTabContent">
