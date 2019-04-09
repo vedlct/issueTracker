@@ -99,7 +99,7 @@
             <table class="table table-bordered ">
                 <tbody>
                 <tr>
-                    <th scope="row">Total Feature</th>
+                    <th scope="row">Total Backlog</th>
                     <td>{{ $backlog_count }}</td>
                 </tr>
                 <tr>
