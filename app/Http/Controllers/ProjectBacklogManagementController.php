@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectBacklogManagementController extends Controller
 {
+
+    // Get user's company user id
+    public function getCompanyUserId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
+    }
+
     // Backlog Dashboard
     public function dashboard($id){
         return view('Project.BacklogManagement.mybackloglist')->with('project_id', $id);
@@ -30,10 +54,12 @@ class ProjectBacklogManagementController extends Controller
                                     ->where('backlog.fk_project_id', $r->project_id)->get();
 
         $array = array();
+
         foreach ($backlog as $emp)
         {
             array_push($array, $emp->fk_assigned_employee_user_id);
         }
+
         $backlogassignedEmp = User::leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', 'user.userId')
                                     ->whereIn('user.userId', $array)
                                     ->get();
@@ -79,9 +105,7 @@ class ProjectBacklogManagementController extends Controller
                 ->get();
         }
 
-
         $backlogAssignedEmp = BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->get();
-
 
         $backlog = Backlog::findOrFail($r->backlog_id);
 
@@ -107,5 +131,20 @@ class ProjectBacklogManagementController extends Controller
         Session::flash('message', 'Backlog Updated!');
 
         return back();
+    }
+
+    //
+    public function myblacklog(){
+
+        $mybacklogs = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
+                             ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+                             ->where('user.userId', Auth::user()->userId)
+                             ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
+                             ->whereDate('backlog_end_date', '>=', date('Y-m-d'))
+                             ->where('backlog_state', '!=', 'Complete')
+                             ->where('backlog_state', '!=', 'Testing')
+                             ->get();
+
+        return view('Project.BacklogManagement.todayWork')->with('mybacklogs', $mybacklogs);
     }
 }

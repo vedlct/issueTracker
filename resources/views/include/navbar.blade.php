@@ -38,7 +38,7 @@
                     </li>
                 @endif
 
-
+                {{-- Only For Super Admin --}}
                 @if(Auth::user()->fk_userTypeId == 1)
                     <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
@@ -83,6 +83,10 @@
 
                         @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
                             <li><a href="{{ route('project.projectList') }}" class="waves-effect">Project Management</a></li>
+                        @endif
+
+                        @if(Auth::user()->fk_userTypeId == 3)
+                            <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' Work</a></li>
                         @endif
 
                     </ul>

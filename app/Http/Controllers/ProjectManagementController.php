@@ -140,16 +140,12 @@ class ProjectManagementController extends Controller
         $backlog_count = Backlog::where('fk_project_id', $id)->get()->count();
         $total_hour = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
 
-//        dd($total_hour);
-
         return view('Project.ProjectManagement.projectBacklogDashboard')->with('project', $project)
                                                                              ->with('inCompletebacklogs', $inCompletebacklog)
                                                                              ->with('completebacklogs', $completebacklog)
                                                                              ->with('backlogassignedEmp', $backlogassignedEmp)
-
                                                                              ->with('backlog_count', $backlog_count)
                                                                              ->with('total_hour', $total_hour)
-
                                                                              ->with('allEmp', $allEmp);
     }
 
@@ -284,5 +280,6 @@ class ProjectManagementController extends Controller
     public function generateReport(Request $r){
         Excel::store(new BacklogExport($r), 'project_backlog.xlsx');
     }
+
 
 }

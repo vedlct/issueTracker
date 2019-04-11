@@ -68,36 +68,36 @@ Route::post('/assign-ticket-remove',      'TicketController@assignTicketToNoOne'
 
 
 // Team Management
-Route::get('/assign-team', 'TeamManagementController@index')->name('assignteam.showAllteam');
-Route::post('/insert-team', 'TeamManagementController@insertTeam')->name('team.insert');
-Route::get('/assignteam', 'TeamManagementController@assignTeamView')->name('team.assign');
-Route::post('/insert-team-employee', 'TeamManagementController@teamAssign')->name('team.employee.insert');
-Route::get('/assign-team-members', 'TeamManagementController@teamMembers')->name('assign.team.member');
-Route::post('/get-all-team-members', 'TeamManagementController@getAllTeamMembers')->name('getAllTeamMembers');
-Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')->name('remove.employee');
-Route::get('/team-edit/{id}', 'TeamManagementController@teamEdit')->name('team.edit');
-Route::post('/team-edit/{id}', 'TeamManagementController@teamUpdate')->name('team.update');
+Route::get ('/assign-team',               'TeamManagementController@index')            ->name('assignteam.showAllteam');
+Route::post('/insert-team',               'TeamManagementController@insertTeam')       ->name('team.insert');
+Route::get ('/assignteam',                'TeamManagementController@assignTeamView')   ->name('team.assign');
+Route::post('/insert-team-employee',      'TeamManagementController@teamAssign')       ->name('team.employee.insert');
+Route::get ('/assign-team-members',       'TeamManagementController@teamMembers')      ->name('assign.team.member');
+Route::post('/get-all-team-members',      'TeamManagementController@getAllTeamMembers')->name('getAllTeamMembers');
+Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')   ->name('remove.employee');
+Route::get ('/team-edit/{id}',            'TeamManagementController@teamEdit')         ->name('team.edit');
+Route::post('/team-edit/{id}',            'TeamManagementController@teamUpdate')       ->name('team.update');
 
 // User Management
-Route::get('/employee-list', 'UserManagementController@employeelist')->name('user.show.allEmployee');
-Route::get('/add-employee', 'UserManagementController@addEmployee')->name('user.add.employee');
-Route::post('/add-employee', 'UserManagementController@insertEmployee')->name('employee.insert');
-Route::get('/employee-edit/{id}', 'UserManagementController@editEmployee')->name('edit.employee.profile');
-Route::post('/employee-update/', 'UserManagementController@updateEmployee')->name('employee.update');
-Route::get('/add-client', 'UserManagementController@addClient')->name('add.client');
-Route::post('/add-client', 'UserManagementController@insertClient')->name('insert.client');
-Route::get('/client-list', 'UserManagementController@clientlist')->name('user.show.allClient');
-Route::get('/client-edit/{id}', 'UserManagementController@editClient')->name('edit.client.profile');
-Route::post('/client-update', 'UserManagementController@updateClient')->name('update.client.profile');
-Route::get('/add-company-admin', 'UserManagementController@addCompanyAdmin')->name('add.company.admin');
-Route::post('/add-company-admin', 'UserManagementController@insertCompanyAdmin')->name('company.admin.insert');
-Route::get('/admin-list', 'UserManagementController@adminList')->name('user.show.allAdmin');
-Route::get('/admin-edit/{id}', 'UserManagementController@editAdmin')->name('user.edit.admin');
-Route::post('/admin-update/', 'UserManagementController@updateAdmin')->name('admin.update');
+Route::get ('/employee-list',       'UserManagementController@employeelist')       ->name('user.show.allEmployee');
+Route::get ('/add-employee',        'UserManagementController@addEmployee')        ->name('user.add.employee');
+Route::post('/add-employee',        'UserManagementController@insertEmployee')     ->name('employee.insert');
+Route::get ('/employee-edit/{id}',  'UserManagementController@editEmployee')       ->name('edit.employee.profile');
+Route::post('/employee-update/',    'UserManagementController@updateEmployee')     ->name('employee.update');
+Route::get ('/add-client',          'UserManagementController@addClient')          ->name('add.client');
+Route::post('/add-client',          'UserManagementController@insertClient')       ->name('insert.client');
+Route::get ('/client-list',         'UserManagementController@clientlist')         ->name('user.show.allClient');
+Route::get ('/client-edit/{id}',    'UserManagementController@editClient')         ->name('edit.client.profile');
+Route::post('/client-update',       'UserManagementController@updateClient')       ->name('update.client.profile');
+Route::get ('/add-company-admin',   'UserManagementController@addCompanyAdmin')    ->name('add.company.admin');
+Route::post('/add-company-admin',   'UserManagementController@insertCompanyAdmin') ->name('company.admin.insert');
+Route::get ('/admin-list',          'UserManagementController@adminList')          ->name('user.show.allAdmin');
+Route::get ('/admin-edit/{id}',     'UserManagementController@editAdmin')          ->name('user.edit.admin');
+Route::post('/admin-update/',       'UserManagementController@updateAdmin')        ->name('admin.update');
 
 
 // Profile Management
-Route::get('/profile', 'ProfileController@profile')->name('user.profile');
+Route::get ('/profile', 'ProfileController@profile')    ->name('user.profile');
 Route::post('/profile', 'ProfileController@updateProfile');
 
 
@@ -114,13 +114,14 @@ Route::post('/project-management/backlog/generate-report',   'ProjectManagementC
 
 
 
+
 //==================================Project backlog Management===============================
 Route::get ('/project-management/backlog/{id}/dashboard',   'ProjectBacklogManagementController@dashboard')            ->name('backlog.dashboard');
 Route::post('/project-management/backlog/get-backlog-data', 'ProjectBacklogManagementController@getAllBacklog')        ->name('backlog.dashboard.getAllBacklog');
 Route::post('/project-management/backlog/details',          'ProjectBacklogManagementController@backlogDetails')       ->name('backlog.open.details');
 Route::post('/project-management/backlog/details/update',   'ProjectBacklogManagementController@updateBacklogDetails') ->name('backlog.update.details');
 
-
+Route::get ('/project-management/my-backlogs',              'ProjectBacklogManagementController@myblacklog')                ->name('project.BacklogManagement.todayWork');
 
 
 
