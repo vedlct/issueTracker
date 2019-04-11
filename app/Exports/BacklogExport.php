@@ -11,8 +11,9 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class BacklogExport implements FromView
+class BacklogExport implements FromView, ShouldAutoSize
 {
 
     private $data;

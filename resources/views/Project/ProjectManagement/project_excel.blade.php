@@ -37,7 +37,7 @@
             @foreach($backlogs as $backlog)
                 <tr>
                     <td>{{ $backlog->backlog_id }}</td>
-                    <td style="wrap-text: true;">{{ $backlog->backlog_title }}</td>
+                    <td>{{ $backlog->backlog_title }}</td>
                     <td>{{ $backlog->backlog_time }}</td>
                     <td>{{ $backlog->backlog_state }}</td>
                     <td>{{ $backlog->backlog_start_date }}</td>
