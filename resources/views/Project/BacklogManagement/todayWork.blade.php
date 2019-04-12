@@ -36,7 +36,7 @@
     <div id="backlog_panel">
 
         @foreach($mybacklogs as $mybacklog)
-            <div class="card mb-2" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+            <div class="card mb-2 ml-2" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">

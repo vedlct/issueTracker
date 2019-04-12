@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-3">
-        <ul class="list-group">
+        <ul class="list-group ml-3">
             <li class="list-group-item bg-secondary text-light text-center">Backlog</li>
             @foreach($backlogs->where('backlog_state', "Backlog") as $backlog)
                 <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
