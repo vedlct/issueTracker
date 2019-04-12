@@ -1098,7 +1098,8 @@ body.fixed-left .side-menu.left {
     display: block;
     padding: 14px 25px;
     background-color: #fff;
-    font-size: 15.5px
+    font-size: 15.5px;
+    margin-left: -16px !important;
 }
 
 #sidebar-menu>ul>li>a:hover {
