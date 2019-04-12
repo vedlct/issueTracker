@@ -120,7 +120,6 @@ Route::get ('/project-management/backlog/{id}/dashboard',   'ProjectBacklogManag
 Route::post('/project-management/backlog/get-backlog-data', 'ProjectBacklogManagementController@getAllBacklog')        ->name('backlog.dashboard.getAllBacklog');
 Route::post('/project-management/backlog/details',          'ProjectBacklogManagementController@backlogDetails')       ->name('backlog.open.details');
 Route::post('/project-management/backlog/details/update',   'ProjectBacklogManagementController@updateBacklogDetails') ->name('backlog.update.details');
-
 Route::get ('/project-management/my-backlogs',              'ProjectBacklogManagementController@myblacklog')                ->name('project.BacklogManagement.todayWork');
 
 
