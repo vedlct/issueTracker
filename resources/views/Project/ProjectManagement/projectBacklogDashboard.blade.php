@@ -19,6 +19,9 @@
         .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
             min-height: 200px;
         }
+        .changeMouse {
+            cursor: pointer;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -70,11 +73,11 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label>Backlog Start Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="startdate" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="startdate">
                     </div>
                     <div class="col">
                         <label>Backlog End Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate">
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -133,7 +136,7 @@
 
                     @foreach($inCompletebacklogs as $inCompletebacklog)
 
-                        <div class="card mb-3" data-todo-id= {{ $inCompletebacklog->backlog_id }} onclick="openItem(this)">
+                        <div class="card mb-3 changeMouse" data-todo-id= {{ $inCompletebacklog->backlog_id }} onclick="openItem(this)">
                             <div class="card-body pb-0">
 
                                 <div class="row">
@@ -141,9 +144,9 @@
                                         <span> <b>Backlog : </b> {{ $inCompletebacklog->backlog_title }} </span>
 
                                         <p>
-                                            <span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->
-                                            <span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>
-                                            <span class="pull-right"> <b>Expected Hour</b> {{ $inCompletebacklog->backlog_time }} </span>
+                                            <span> <b>Start Date :</b> {{ $inCompletebacklog->backlog_start_date }} </span>
+                                            <span> <b>End Date :</b> {{ $inCompletebacklog->backlog_end_date }} </span>
+                                            <span> <b>Expected Hour :</b> {{ $inCompletebacklog->backlog_time }} </span>
                                         </p>
 
                                     </div>
@@ -170,16 +173,16 @@
                 <div class="">
 
                     @foreach($completebacklogs as $completebacklog)
-                        <div class="card mb-3" data-todo-id= {{ $completebacklog->backlog_id }} onclick="openItem(this)">
+                        <div class="card mb-3 changeMouse" data-todo-id= {{ $completebacklog->backlog_id }} onclick="openItem(this)">
                             <div class="card-body pb-0">
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <span> <b>Backlog : </b> {{ $completebacklog->backlog_title }} </span>
                                         <p>
-                                            <span> <b>Start Date</b> {{ $completebacklog->backlog_start_date }} </span> ->
-                                            <span> <b>End Date</b> {{ $completebacklog->backlog_end_date }} </span>
-                                            <span class="pull-right"> <b>Expected Hour</b> {{ $completebacklog->backlog_time }} </span>
+                                            <span> <b>Start Date :</b> {{ $completebacklog->backlog_start_date }} </span>
+                                            <span> <b>End Date :</b> {{ $completebacklog->backlog_end_date }} </span>
+                                            <span> <b>Expected Hour :</b> {{ $completebacklog->backlog_time }} </span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
