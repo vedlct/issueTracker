@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Fullname</label>
+                            <label>FullName</label>
                             <input type="text" class="form-control" name="fullname" placeholder="Fullname" value="{{ Auth::user()->fullName }}">
                         </div>
                     </div>

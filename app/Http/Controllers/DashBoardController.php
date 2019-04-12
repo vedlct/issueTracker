@@ -33,6 +33,7 @@ class DashBoardController extends Controller
     public function index()
     {
 
+
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
@@ -163,7 +164,7 @@ class DashBoardController extends Controller
         }
         else
         {
-            $projectCount = Project::where('fk_companyId', $userCompanyId)->count();
+            $projectCount = Project::where('fk_company_id', $userCompanyId)->count();
         }
 
 

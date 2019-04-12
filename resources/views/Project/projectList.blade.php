@@ -17,12 +17,12 @@
             <a href="{{ route('project.create') }}" class="btn btn-success float-right" name="button">Create Project</a>
         </div>
         <div class="card-body">
-            <table id="projectTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+            <table id="projectTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th>Project Name</th>
                         <th>Project Status</th>
-                        <th>Poject Created by</th>
+                        <th>Poject Created By</th>
                         <th>Company</th>
                         <th>Action</th>
                     </tr>
@@ -61,7 +61,7 @@
                    },
                },
                columns: [
-                   { data: 'projectName', name: 'project.projectName' },
+                   { data: 'project_name', name: 'project.project_name' },
                    { data: 'statusData', name: 'status.statusData' },
                    { data: 'fullName', name: 'user.fullName' },
                    { data: 'companyName', name: 'company.companyName' },

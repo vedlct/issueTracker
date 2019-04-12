@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
+
+    <title>TicketPro</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <title>Issue Tracker</title>
-    <meta content="Admin Dashboard" name="description">
-    <meta content="ThemeDesign" name="author">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="shortcut icon" href="assets/images/favicon.ico">
+
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href="{{url('public/plugins/morris/morris.css')}}">
     <link href="{{url('public/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.standalone.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
 
     @yield('css')
 </head>
@@ -43,7 +44,7 @@
             <div class="topbar">
                 <div class="topbar-left	d-none d-lg-block">
                     <div class="text-center">
-                       <h2 style="color: white; margin-top: 16px;">Issue Tracker</h2>
+                       <h2 style="color: white; margin-top: 16px;">TicketPro</h2>
                         {{--<a href="index-2.html" class="logo"><img src="{{url('public/images/logo.png')}}" height="20" alt="logo"></a>--}}
                     </div>
                 </div>

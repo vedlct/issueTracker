@@ -20,6 +20,11 @@ class ProjectController extends Controller
         return view('Project.projectList');
     }
 
+    public function test(){
+
+        return view('test');
+    }
+
     // get all Company
     public function getAllProject(Request $r){
 
@@ -44,20 +49,20 @@ class ProjectController extends Controller
         // get all project of user's company
         if($userCompanyId == null)
         {
-            $projects = Project::select('project.projectName','status.statusData','user.fullName','company.companyName','project.projectId')
-                ->Join('company','project.fk_companyId','company.companyId')
-                ->Join('user','project.project_createdBy','user.userId')
-                ->Join('status','project.projectStatus','status.statusId')
-                ->where('project.deleted_at', null);
+            $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId')
+                ->Join('company','project.fk_company_id','company.companyId')
+                ->Join('user','project.project_created_by','user.userId')
+                ->Join('status','project.project_status','status.statusId')
+                ->where('project.project_deleted_at', null);
         }
         else
         {
-            $projects = Project::select('project.projectName','status.statusData','user.fullName','company.companyName','project.projectId')
-                ->Join('company','project.fk_companyId','company.companyId')
-                ->Join('user','project.project_createdBy','user.userId')
-                ->Join('status','project.projectStatus','status.statusId')
-                ->where('fk_companyId',$userCompanyId)
-                ->where('project.deleted_at', null);
+            $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId')
+                ->Join('company','project.fk_company_id','company.companyId')
+                ->Join('user','project.project_created_by','user.userId')
+                ->Join('status','project.project_status','status.statusId')
+                ->where('fk_company_id',$userCompanyId)
+                ->where('project.project_deleted_at', null);
         }
 
         $datatables = Datatables::of($projects);
@@ -74,7 +79,7 @@ class ProjectController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
@@ -102,13 +107,14 @@ class ProjectController extends Controller
     public function insert_project(Request $r){
 
         $project = new Project();
-        $project->projectName = $r->projectname;
-        $project->projectSummary = $r->summary;
-        $project->created_at = date('Y-m-d');
-        $project->projectDuration = $r->duration;
-        $project->projectStatus = $r->status;
-        $project->fk_companyId = $r->companyId;
-        $project->project_createdBy = Auth::user()->userId;
+        $project->project_name = $r->projectname;
+        $project->fk_company_id = $r->companyId;
+        $project->project_status = $r->status;
+        $project->project_start_date = $r->projectStartDate;
+        $project->project_summary = $r->summary;
+        $project->project_duration = $r->duration;
+        $project->project_created_by = Auth::user()->userId;
+        $project->project_created_at = date("Y-m-d H:i:s");
         $project->save();
 
         Session::flash('message', 'Project Created!');
@@ -118,7 +124,7 @@ class ProjectController extends Controller
 
     // view edit company form
     public function edit_project($id){
-        $allStatus = Status::all();
+        $allStatus = Status::where('statusType', 'project_status')->get();
         $project = Project::findOrFail($id);
 
         // Get user's company ID
@@ -156,17 +162,18 @@ class ProjectController extends Controller
     // Update company
     public function update_project(Request $r){
         $project = Project::findOrFail($r->id);
-        $project->projectName = $r->projectname;
-        $project->projectSummary = $r->summary;
-        $project->created_at = date('Y-m-d');
-        $project->projectDuration = $r->duration;
-        $project->projectStatus = $r->status;
-        $project->fk_companyId = $r->companyId;
-        $project->project_createdBy = Auth::user()->userId;
+        $project->project_name = $r->projectname;
+        $project->fk_company_id = $r->companyId;
+        $project->project_status = $r->status;
+        $project->project_start_date = $r->projectStartDate;
+        $project->project_summary = $r->summary;
+        $project->project_duration = $r->duration;
         $project->save();
 
         Session::flash('message', 'Project Updated!');
 
         return back();
     }
+
+
 }

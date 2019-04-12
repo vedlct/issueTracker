@@ -11,8 +11,8 @@
         }
 
         .container2 {
-            border: 2px solid #dedede;
-
+            border: 1px solid #dedede;
+            margin-bottom: 10px !important;
             border-radius: 5px;
             padding: 10px;
             margin: 5px 0;
@@ -135,7 +135,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="col">Project Name</th>
-                                    <td>{{$project->projectName}}</td>
+                                    <td>{{$project->project_name}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="col">Worked Hour</th>
@@ -148,7 +148,7 @@
 
                 <div class="card mt-2 shadow-none mb-1 bg-light rounded">
                     <div class="card-body p-1">
-                        <div id="ticketInformation" class="mt-2 pl-3">
+                        <div id="ticketInformation" class="mt-2 pl-3" style="box-shadow: 1px 0 10px rgba(0, 0, 0, 0.20) !important; padding: 20px;">
 
                             @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
                                 <button class="float-right btn btn-success mr-1" type="button" onclick="editTicket({{$ticket->ticketId}})">Edit</button>

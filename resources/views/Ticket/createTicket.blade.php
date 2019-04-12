@@ -34,7 +34,7 @@
                         <label>Select Project</label>
                         <select class="form-control" name="project" required>
                             @foreach($projectlist as $project)
-                                <option value="{{ $project->projectId }}">{{ $project->projectName }}</option>
+                                <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>
                             @endforeach
                         </select>
                     </div>
