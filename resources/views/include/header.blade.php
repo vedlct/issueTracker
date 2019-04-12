@@ -31,6 +31,10 @@
     {{--</div>--}}
 {{--</div>--}}
 <!-- Begin page -->
+
+
+
+
 <div id="wrapper">
     <!-- ========== Left Sidebar Start ========== -->
     @include('include.navbar')

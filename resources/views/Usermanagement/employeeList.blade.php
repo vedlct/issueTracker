@@ -17,13 +17,14 @@
                 <a href="{{ route('user.add.employee') }}" class="btn btn-success float-right" name="button">Add Employee</a>
             </div>
             <div class="card-body">
-                <table id="employeeTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                <table id="employeeTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                         <tr>
                             <th>Fullname</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>User Type</th>
+                            <th>User Designation</th>
                             <th>Employee Status</th>
                             <th>Action</th>
                         </tr>
@@ -35,6 +36,7 @@
                                 <td> {{ $employee->email }} </td>
                                 <td> {{ $employee->userPhoneNumber }} </td>
                                 <td> {{ $employee->userType }} </td>
+                                <td> {{ $employee->designation_name }} </td>
                                 <td>
                                     @if($employee->status == 1)
                                         Active
@@ -43,7 +45,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.employee.profile', ['emp_id'=>$employee->userId]) }}'"> <i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i> </button>
+                                    <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.employee.profile', ['emp_id'=>$employee->userId]) }}'"> <i class="fa fa-cog" aria-hidden="true"></i> </button>
                                     {{--<button class="btn btn-danger" data-panel-id="{{ $employee->userId }}" onclick="deleteEmployee(this)"> <i class="fa fa-trash fa-lg" aria-hidden="true"></i> </button>--}}
                                 </td>
                             </tr>

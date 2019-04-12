@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
+use App\Designation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Company;
@@ -41,6 +43,7 @@ class UserManagementController extends Controller
             $employeelist = DB::table('user')
                                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                                 ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                                ->leftJoin('designation','designation.designation_id','user.designation')
                                 ->where('user.fk_userTypeId', 3)
                                 ->where('companyemployee.fk_companyId', $userCompanyId)
                                 ->get();
@@ -103,7 +106,15 @@ class UserManagementController extends Controller
             $companylist = Company::where('companyId', $userCompanyId)->get();
         }
 
-        return view('Usermanagement.addEmployee')->with('companyList', $companylist);
+        $designations = Designation::where('company_id', $userCompanyId)
+                                    ->where('deleted_at', null)->get();
+
+        $departments = Department::where('company_id', $userCompanyId)
+                                    ->where('dept_deleted_at', null)->get();
+
+        return view('Usermanagement.addEmployee')->with('companyList', $companylist)
+                                                      ->with('departments', $departments)
+                                                      ->with('designations', $designations);
     }
 
     // Add Client
@@ -186,6 +197,8 @@ class UserManagementController extends Controller
         $user->password = Hash::make($r->password1);
         $user->email = $r->email;
         $user->status = 1;
+        $user->designation = $r->designation;
+        $user->department = $r->dept;
         $user->userPhoneNumber = $r->phone;
         $user->created_at = $date;
         $user->updated_at = $date;
@@ -238,7 +251,14 @@ class UserManagementController extends Controller
                                             ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
                                             ->first();
 
+        $designations = Designation::where('company_id', $userCompanyId)->get();
+
+        $departments = Department::where('company_id', $userCompanyId)
+                                 ->where('dept_deleted_at', null)->get();
+
         return view('Usermanagement.editEmployee')->with('employee', $employee)
+                                                        ->with('designations', $designations)
+                                                        ->with('departments', $departments)
                                                         ->with('companyList', $companylist);
     }
 
@@ -263,6 +283,8 @@ class UserManagementController extends Controller
         $user->status = $r->employeeStatus;
         $user->userPhoneNumber = $r->phone;
         $user->updated_at = $date;
+        $user->designation = $r->designation;
+        $user->department = $r->dept;
         $user->save();
 
         if ($r->hasFile('profilePhoto')) {

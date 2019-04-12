@@ -29,10 +29,11 @@
     <div class="card" style="margin-left: 20px;">
         <div class="card-header">
             <b>{{ $project->project_name }} : </b> Create New Backlog
+            <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}
-            <form action="{{ route('backlog.insert') }}" method="post">
+            <form action="{{ route('backlog.insert') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-2">
                     <input type="hidden" name="project_id" value="{{ $project->projectId }}">
@@ -48,6 +49,10 @@
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
                         </select>
+                    </div>
+                    <div class="col">
+                        <label>Backlog Time (Hour)</label>
+                        <input type="number" class="form-control" placeholder="Backlog Time" name="backlog_time" required>
                     </div>
                 </div>
 
@@ -75,7 +80,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <label>Backlog Details</label>
-                        <textarea name="backlogDetails" id="editor"></textarea>
+                        <textarea class="form-control ckeditor" name="backlogDetails" id="editor"></textarea>
                     </div>
                 </div>
 
@@ -89,10 +94,26 @@
         </div>
     </div>
 
+    <div class="card mt-4" style="margin-left: 20px; margin-bottom: 20px;">
+        <div class="card-body">
+            <table class="table table-bordered ">
+                <tbody>
+                <tr>
+                    <th scope="row">Total Backlog</th>
+                    <td>{{ $backlog_count }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Hour</th>
+                    <td>{{ $total_hour }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     {{-- List --}}
-
     <div class="card mt-4" style="margin-left: 20px; margin-bottom: 100px;">
-
         <ul class="nav nav-tabs m-3" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Backlog</a>
@@ -122,6 +143,7 @@
                                         <p>
                                             <span> <b>Start Date</b> {{ $inCompletebacklog->backlog_start_date }} </span> ->
                                             <span> <b>End Date</b> {{ $inCompletebacklog->backlog_end_date }} </span>
+                                            <span class="pull-right"> <b>Expected Hour</b> {{ $inCompletebacklog->backlog_time }} </span>
                                         </p>
 
                                     </div>
@@ -157,6 +179,7 @@
                                         <p>
                                             <span> <b>Start Date</b> {{ $completebacklog->backlog_start_date }} </span> ->
                                             <span> <b>End Date</b> {{ $completebacklog->backlog_end_date }} </span>
+                                            <span class="pull-right"> <b>Expected Hour</b> {{ $completebacklog->backlog_time }} </span>
                                         </p>
                                     </div>
                                     <div class="col-md-6">
@@ -207,7 +230,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+    {{--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>--}}
+
+    <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 
     <script>
 
@@ -239,32 +264,44 @@
             $('.js-example-basic-multiple').select2();
         });
 
+        function generateReport(){
+            var id = '{{ $project->projectId }}';
+            $.ajax({
+                type : 'post' ,
+                url : '{{route('backlog.generate.report')}}',
+                data : {
+                    _token: "{{csrf_token()}}",
+                    'project_id': id,
+                } ,
+                success : function(data){
+                    var link = document.createElement("a");
+                    link.download = "projects_backlog.xlsx";
+                    var uri = '{{url("storage/app")}}'+"/"+"project_backlog.xlsx";
+                    link.href = uri;
+                    link.click();
+                }
+            });
+        }
 
     </script>
 
     {{-- CK Editor --}}
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
+    {{--<script>--}}
+        {{--ClassicEditor--}}
+            {{--.create( document.querySelector( '#editor' ), {--}}
 
-                // // Enable the "Insert image" button in the toolbar.
-                // toolbar: [ 'imageUpload'],
 
-                // ckfinder: {
-                //     // Upload the images to the server using the CKFinder QuickUpload command.
-                //     uploadUrl: 'localhost/issuetracker/public/.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
-                // }
 
-            } )
+            {{--} )--}}
 
-            .then( editor => {
-                width = '75%';
-            } )
+            {{--.then( editor => {--}}
+                {{--width = '75%';--}}
+            {{--} )--}}
 
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+            {{--.catch( error => {--}}
+                {{--console.error( error );--}}
+            {{--} );--}}
+    {{--</script>--}}
 
 @endsection
 

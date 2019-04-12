@@ -145,8 +145,6 @@
             </div>
         @endif
 
-
-
     </div>
 
     <!-- Edit Ticket Modal-->
@@ -392,13 +390,11 @@
                 success : function(data){
                     var link = document.createElement("a");
                     link.download = "tickets.xlsx";
-                            {{--var uri = '{{url("storage/app")}}'+"/"+data.fileName+".xls";--}}
                     var uri = '{{url("storage/app")}}'+"/"+"tickets.xlsx";
                     link.href = uri;
                     link.click();
                 }
             });
-
         }
 
 

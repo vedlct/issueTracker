@@ -16,7 +16,7 @@
                 <h4 class="float-left">Admin List</h4>
             </div>
             <div class="card-body">
-                <table id="adminTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                <table id="adminTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
                         <th>Fullname</th>

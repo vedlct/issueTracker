@@ -33,13 +33,21 @@
                 <th scope="row">Backlog End Date</th>
                 <td>{{ $backlog->backlog_end_date }}</td>
             </tr>
+            <tr style="line-height: .5;">
+                <th scope="row">Backlog Expected Time</th>
+                <td>{{ $backlog->backlog_time }}</td>
+            </tr>
+            <tr style="line-height: .5;">
+                <th scope="row">Backlog Dev Time</th>
+                <td>{{ $backlog->dev_time }}</td>
+            </tr>
         </tbody>
     </table>
 
     <div class="row mb-2 mt-3">
         <div class="col">
             <label>Backlog Details</label>
-            <textarea id="editor3" rows="3" placeholder="Backlog Details" name="backlogDetails">{{ $backlog->backlog_details }}</textarea>
+            <textarea id="ckContents" rows="3" placeholder="Backlog Details" name="backlogDetails">{{ $backlog->backlog_details }}</textarea>
         </div>
     </div>
 
@@ -144,23 +152,8 @@
 
 
     {{-- CK Editor --}}
+    var textarea = document.getElementById('ckContents');
 
-    $( document ).ready(function() {
-
-        ClassicEditor
-            .create( document.querySelector( '#editor3' ), {
-
-                ckfinder: {
-                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
-                }
-
-            } )
-            .then( editor => {
-
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
-    });
+    CKEDITOR.replace(textarea);
 
 </script>

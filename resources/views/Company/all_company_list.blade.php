@@ -68,8 +68,8 @@
                    { data: 'companyPhone1', name: 'company.companyPhone1' },
 
                    { "data": function(data){
-                            return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.companyId+'" onclick="editCompany(this)"><i class="fa fa-edit fa-lg"></i></button>'+
-                                   '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash fa-lg"></i></button>'
+                            return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.companyId+'" onclick="editCompany(this)"><i class="fa fa-cog"></i></button>'+
+                                   '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                ]

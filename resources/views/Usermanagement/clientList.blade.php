@@ -17,7 +17,7 @@
                 <a href="{{ route('add.client') }}" class="btn btn-success float-right" name="button">Add Client</a>
             </div>
             <div class="card-body">
-                <table id="employeeTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
+                <table id="employeeTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
                         <th>Fullname</th>
@@ -43,7 +43,7 @@
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.client.profile', ['client_id'=>$client->userId]) }}'"> <i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i> </button>
+                                <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.client.profile', ['client_id'=>$client->userId]) }}'"> <i class="fa fa-cog" aria-hidden="true"></i> </button>
                                 {{--<button class="btn btn-danger" data-panel-id="{{ $employee->userId }}" onclick="deleteEmployee(this)"> <i class="fa fa-trash fa-lg" aria-hidden="true"></i> </button>--}}
                             </td>
                         </tr>

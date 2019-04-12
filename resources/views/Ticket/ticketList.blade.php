@@ -310,7 +310,7 @@
 
                        if (currentUserType == 1 || currentUserType == 4 || currentUserType == 3) {
                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)"><i class="fa fa-envelope-open-o"></i></button>' +
-                                  '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-pencil-square-o"></i></button>';
+                                  '<button class="btn btn-primary btn-xs m-1" data-panel-id="' + data.ticketId + '" onclick="editTicket(this)"><i class="fa fa-cog"></i></button>';
                        }
                        else
                        {

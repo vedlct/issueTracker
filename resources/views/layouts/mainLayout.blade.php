@@ -18,8 +18,10 @@
         <!-- modal-content -->
     </div>
 </div>
-
 <!-- modal -->
+
+
+
 
 @include('include.footer')
 

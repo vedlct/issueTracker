@@ -50,7 +50,7 @@
 
                     <div class="form-group col-md-4">
                         <label>Project Summary</label>
-                        <textarea class="form-control" placeholder="Project Summary" name="summary" required>{{ $project->project_summary }}</textarea>
+                        <textarea class="form-control" placeholder="Project Summary" name="summary">{{ $project->project_summary }}</textarea>
                     </div>
 
                     <div class="form-group col-md-12">

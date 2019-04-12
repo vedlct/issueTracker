@@ -44,11 +44,15 @@
             <label>Backlog End Date</label>
             <input type="text" id="endDate" value="{{ $backlog->backlog_end_date }}" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate">
         </div>
+        <div class="col">
+            <label>Backlog Time (Hour)</label>
+            <input type="number" class="form-control"value="{{ $backlog->backlog_time }}" placeholder="Backlog Time" name="backlog_time" required>
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col">
             <label>Backlog Details</label>
-            <textarea id="editor2" rows="3" placeholder="Backlog Details" name="backlogDetails">{{ $backlog->backlog_details }}</textarea>
+            <textarea class="ckeditor" id="ckContents" rows="3" placeholder="Backlog Details" name="backlogDetails">{{ $backlog->backlog_details }}</textarea>
         </div>
     </div>
 
@@ -146,20 +150,24 @@
         }
     });
 
+    var textarea = document.getElementById('ckContents');
+
+    CKEDITOR.replace(textarea);
+
 </script>
 
 
 {{-- CK Editor --}}
-<script>
-    $( document ).ready(function() {
+{{--<script>--}}
+    {{--$( document ).ready(function() {--}}
 
-        ClassicEditor
-            .create( document.querySelector( '#editor2' ) )
-            .then( editor => {
+        {{--ClassicEditor--}}
+            {{--.create( document.querySelector( '#editor2' ) )--}}
+            {{--.then( editor => {--}}
 
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
-    });
-</script>
+            {{--} )--}}
+            {{--.catch( error => {--}}
+                {{--console.error( error );--}}
+            {{--} );--}}
+    {{--});--}}
+{{--</script>--}}

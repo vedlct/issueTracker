@@ -175,12 +175,11 @@ class DashBoardController extends Controller
                                  ->with('close', $closeCount)
                                  ->with('projectCount', $projectCount)
                                  ->with('companyCount', $companyCount)
-
-                                ->with('openticketMonth', $openCountMonth)
-                                ->with('overdueMonth', $overDueCountMonth)
-                                ->with('pendingMonth', $pendingCountMonth)
-                                ->with('allticketMonth', $allTicketMonth)
-                                ->with('closeMonth', $closeCountMonth);
+                                 ->with('openticketMonth', $openCountMonth)
+                                 ->with('overdueMonth', $overDueCountMonth)
+                                 ->with('pendingMonth', $pendingCountMonth)
+                                 ->with('allticketMonth', $allTicketMonth)
+                                 ->with('closeMonth', $closeCountMonth);
     }
 
 
