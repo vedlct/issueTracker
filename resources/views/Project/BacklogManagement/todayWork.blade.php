@@ -6,6 +6,9 @@
         .card{
             box-shadow: 1px 0 20px rgba(0, 0, 0, .09);
         }
+        .changeMouse {
+            cursor: pointer;
+        }
     </style>
 @endsection
 
@@ -36,7 +39,7 @@
     <div id="backlog_panel">
 
         @foreach($mybacklogs as $mybacklog)
-            <div class="card mb-2 ml-2" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
