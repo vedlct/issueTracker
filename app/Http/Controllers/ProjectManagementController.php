@@ -23,6 +23,20 @@ use App\BacklogComment;
 class ProjectManagementController extends Controller
 {
 
+    // Project
+    public function projectInformation($id){
+        $project = Project::where('projectId', $id)->first();
+        return view('Project.ProjectManagement.dashboard')->with('project_id', $id)
+                                                               ->with('project', $project);
+    }
+
+    public function getAllData(Request $r){
+
+        $backlog = Backlog::where('fk_project_id', $r->project_id)->get();
+
+        return view('Project.ProjectManagement.get_backlog_table')->with('backlogs', $backlog);
+    }
+
     // Project Management Dashboard
     public function projectmanagementDashboard(){
 
@@ -151,11 +165,19 @@ class ProjectManagementController extends Controller
 
     // Insert Backlog
     public function insertBacklog(Request $r){
+//        dd($r->startdate);
         $backlog = new Backlog();
         $backlog->backlog_title = $r->backlog_title;
         $backlog->fk_project_id = $r->project_id;
         $backlog->backlog_time = $r->backlog_time;
-        $backlog->backlog_state = 'Backlog';
+        if($r->backlog_state)
+        {
+            $backlog->backlog_state = $r->backlog_state;
+        }
+        else
+        {
+            $backlog->backlog_state = 'Backlog';
+        }
         $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
@@ -279,6 +301,14 @@ class ProjectManagementController extends Controller
     // Generate Report
     public function generateReport(Request $r){
         Excel::store(new BacklogExport($r), 'project_backlog.xlsx');
+    }
+
+    // SHOW GANTT CHART
+    public function showGanttChart($id){
+        $backlog = Backlog::where('fk_project_id', $id)->get();
+        $projectName = Project::findOrfail($id)->project_name;
+        return view('Project.ProjectManagement.ganttChart')->with('backlogs', $backlog)
+                                                                ->with('projectName', $projectName);
     }
 
 

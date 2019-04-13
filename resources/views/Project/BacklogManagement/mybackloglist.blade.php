@@ -6,6 +6,9 @@
         .card{
             box-shadow: 1px 0 20px rgba(0, 0, 0, .09);
         }
+        .changeMouse {
+            cursor: pointer;
+        }
     </style>
 @endsection
 
@@ -19,11 +22,6 @@
 @endsection
 
 @section('js')
-
-
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>--}}
-
-    {{--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>--}}
 
     <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 
