@@ -8,7 +8,12 @@
                 <th style="text-align: center" scope="row">{{ ++$key }}</th>
                 <td>{{ $backlog->backlog_title }}</td>
                 <td>{{ $backlog->backlog_time }}</td>
-                <td>{{ $backlog->backlog_state }}</td>
+                @if($backlog->backlog_state == 'Complete')
+                    <td style="background-color: #2fa360">{{ $backlog->backlog_state }}</td>
+                @else
+                    <td>{{ $backlog->backlog_state }}</td>
+                @endif
+
                 <td>{{ $backlog->backlog_start_date }}</td>
                 <td>{{ $backlog->backlog_end_date }}</td>
                 <td>{{ $backlog->backlog_priority }}</td>
