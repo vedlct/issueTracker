@@ -176,10 +176,29 @@ class ProjectManagementController extends Controller
         }
         else
         {
-            $backlog->backlog_state = 'Backlog';
+            $backlog->backlog_state = 'Planned';
         }
-        $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
-        $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
+
+        // start date
+        if($backlog->backlog_start_date == null)
+        {
+            $backlog->backlog_start_date = null;
+        }
+        else
+        {
+            $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
+        }
+
+        // end date
+        if($backlog->backlog_end_date == null)
+        {
+            $backlog->backlog_end_date = null;
+        }
+        else
+        {
+            $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
+        }
+//        $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
         $backlog->backlog_completion_status = 'Incomplete';

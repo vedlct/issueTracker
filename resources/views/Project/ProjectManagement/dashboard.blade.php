@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th style="text-align: center" scope="col">#</th>
-                        <th scope="col">Feature Name</th>
+                        <th scope="col">Feature Name *</th>
                         <th scope="col">Expected Time</th>
                         <th scope="col">Feature State</th>
                         <th scope="col">Start Date</th>
