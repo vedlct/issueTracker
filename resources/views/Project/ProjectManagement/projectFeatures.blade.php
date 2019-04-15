@@ -2,7 +2,15 @@
 
 
 @section('css')
+    <style>
+        tr{
+            text-align: center;
+        }
+        .table>tbody>tr>td, .table>tfoot>tr>td, .table>thead>tr>td {
+            padding: 5px 12px !important;
+        }
 
+    </style>
 @endsection
 
 
@@ -38,21 +46,34 @@
         <div class="card-body">
 
 
-            <table class="table table-bordered table-sm table-condensed">
+            <table class="table table-bordered table-sm table-condensed" id="featurelist">
                 <thead>
-                <tr>
-                    <th style="text-align: center" scope="col">#</th>
-                    <th scope="col">Feature Name *</th>
-                    <th scope="col">Expected Time</th>
-                    <th scope="col">Feature State</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">End Date</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col" class="text-center">Action</th>
-                </tr>
+                    <tr>
+                        {{--<th style="text-align: center" scope="col">#</th>--}}
+                        <th scope="col">Feature Name *</th>
+                        <th scope="col">Expected Time</th>
+                        <th scope="col">Feature State</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
                 </thead>
 
-                <tbody id="table_space"></tbody>
+                {{--<tbody id="table_space"></tbody>--}}
+
+                <tbody></tbody>
+
+                <tr>
+                    <td><b>Total Expected Time</b></td>
+                    <td>{{ $exp_time }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
             </table>
 
         </div>
@@ -67,25 +88,66 @@
     <script>
 
         $(document).ready(function() {
-            getallData();
+            // getallData();
         });
 
+        $(document).ready(function() {
 
-
-        function getallData(){
-            $.ajax({
-                type: 'POST',
-                url: "{!! route('backlog.dashboard.getallData') !!}",
-                cache: false,
-                data: {
-                    _token: "{{csrf_token()}}",
-                    'project_id': "{{ $project->projectId }}",
+            dataTable=  $('#featurelist').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(0)'
                 },
-                success: function (data) {
-                    $('#table_space').html(data);
-                }
-            });
-        }
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                Filter: true,
+                stateSave: true,
+                ordering:false,
+                type:"POST",
+                "ajax":{
+                    "url": "{!! route('features.all') !!}",
+                    "type": "POST",
+                    data:function (d){
+                        d._token = "{{csrf_token()}}";
+                        d.project_id = "{{ $project->projectId }}";
+                    },
+                },
+                columns: [
+
+                    { data: 'backlog_title', name: 'backlog.backlog_title' },
+                    { data: 'backlog_time', name: 'backlog.backlog_time' },
+                    { data: 'backlog_state', name: 'backlog.backlog_state' },
+                    { data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
+                    { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
+                    { data: 'backlog_priority', name: 'backlog.backlog_priority' },
+                    { "data": function(data) {
+
+                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-cogs"></i></button>' +
+                                   '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
+                        },
+
+                        "orderable": false, "searchable":false, "name":"selected_rows"
+                    },
+                ]
+            } );
+        } );
+
+
+
+        {{--function getallData(){--}}
+            {{--$.ajax({--}}
+                {{--type: 'POST',--}}
+                {{--url: "{!! route('backlog.dashboard.getallData') !!}",--}}
+                {{--cache: false,--}}
+                {{--data: {--}}
+                    {{--_token: "{{csrf_token()}}",--}}
+                    {{--'project_id': "{{ $project->projectId }}",--}}
+                {{--},--}}
+                {{--success: function (data) {--}}
+                    {{--$('#table_space').html(data);--}}
+                {{--}--}}
+            {{--});--}}
+        {{--}--}}
 
         function generateReport(){
             var id = '{{ $project->projectId }}';
@@ -106,7 +168,8 @@
             });
         }
 
-        function editFeature(id) {
+        function editFeature(x) {
+            id = $(x).data('panel-id');
             $.ajax({
                 type: 'POST',
                 url: "{!! route('backlog.dashboard.getEditModal') !!}",
@@ -122,7 +185,9 @@
             });
         }
 
-        function deleteFeature(id) {
+        function deleteFeature(x) {
+
+            id = $(x).data('panel-id');
 
             $.confirm({
                 title: 'Delete Confirmation!',
@@ -139,8 +204,11 @@
                                 'backlog_id': id,
                             },
                             success: function (data) {
-                                getallData();
+
+                                dataTable.ajax.reload();
+
                                 $.alert('Feature deleted!');
+
                             }
                         });
 

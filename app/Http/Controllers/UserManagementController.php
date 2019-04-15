@@ -36,6 +36,7 @@ class UserManagementController extends Controller
             $employeelist = DB::table('user')
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->where('user.fk_userTypeId', 3)
+                ->leftJoin('designation','designation.designation_id','user.designation')
                 ->get();
         }
         else
@@ -251,10 +252,13 @@ class UserManagementController extends Controller
                                             ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
                                             ->first();
 
-        $designations = Designation::where('company_id', $userCompanyId)->get();
+        $designations = Designation::where('company_id', $userCompanyId)
+                                    ->where('deleted_at', null)
+                                    ->get();
 
         $departments = Department::where('company_id', $userCompanyId)
-                                 ->where('dept_deleted_at', null)->get();
+                                 ->where('dept_deleted_at', null)
+                                 ->get();
 
         return view('Usermanagement.editEmployee')->with('employee', $employee)
                                                         ->with('designations', $designations)

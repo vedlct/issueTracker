@@ -14,7 +14,7 @@
 
     <div class="form-group">
         <label for="exampleFormControlSelect1">Change Feature State</label>
-        <select class="form-control pull-right" name="backlog_state" required>
+        <select class="form-control pull-right" name="backlog_state">
             <option value="Planned" @if($backlog->backlog_state == 'Backlog') selected @endif>Planned</option>
             <option value="Ongoing" @if($backlog->backlog_state == 'Doing') selected @endif>Ongoing</option>
             <option value="Code Done" @if($backlog->backlog_state == 'Code Done') selected @endif>Code Done</option>
@@ -34,7 +34,7 @@
 
     <div class="form-group">
         <label>Priority</label>
-        <select class="form-control" name="priority" required>
+        <select class="form-control" name="priority">
             <option value="">Select Priority</option>
             <option value="Low" @if($backlog->backlog_priority == 'Low') selected @endif>Low</option>
             <option value="Medium" @if($backlog->backlog_priority == 'Medium') selected @endif>Medium</option>
