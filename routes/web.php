@@ -105,6 +105,7 @@ Route::post('/profile', 'ProfileController@updateProfile');
 //==================================Project Management===============================
 Route::get ('/project-management/dashboard',                 'ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
 Route::get ('/project-management/project/{id}',              'ProjectManagementController@projectmanagement')         ->name('project.projectmanagement');
+Route::get ('/project-management/project/information/{id}',  'ProjectManagementController@projectInformation')        ->name('project.Information');
 Route::post('/project-management/backlog/insert',            'ProjectManagementController@insertBacklog')             ->name('backlog.insert');
 Route::post('/project-management/backlog/edit',              'ProjectManagementController@returnEditBacklog')         ->name('backlog.edit');
 Route::post('/project-management/backlog/update',            'ProjectManagementController@updateBacklog')             ->name('backlog.update');
@@ -112,7 +113,9 @@ Route::post('/project-management/backlog/comment',           'ProjectManagementC
 Route::post('/project-management/backlog/comment/load',      'ProjectManagementController@getComments')               ->name('backlog.comment.get');
 Route::post('/project-management/backlog/generate-report',   'ProjectManagementController@generateReport')            ->name('backlog.generate.report');
 
+Route::get('/project-management/project/gantt-chart/{id}',   'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
 
+Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')             ->name('backlog.dashboard.getallData');
 
 
 //==================================Project backlog Management===============================

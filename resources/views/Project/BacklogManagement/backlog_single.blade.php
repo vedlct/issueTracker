@@ -7,10 +7,11 @@
         <div class="col-6">
             <label>Change Backlog State</label>
             <select class="form-control pull-right" name="backlog_state" required>
-                <option value="Backlog" @if($backlog->backlog_state == 'Backlog') selected @endif>Backlog</option>
-                <option value="Doing" @if($backlog->backlog_state == 'Doing') selected @endif>Doing</option>
-                <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
+                <option value="Planned" @if($backlog->backlog_state == 'Backlog') selected @endif>Planned</option>
+                <option value="Ongoing" @if($backlog->backlog_state == 'Doing') selected @endif>Ongoing</option>
+                <option value="Code Done" @if($backlog->backlog_state == 'Code Done') selected @endif>Code Done</option>
                 <option value="Testing" @if($backlog->backlog_state == 'Testing') selected @endif>Testing</option>
+                <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
             </select>
         </div>
     </div>

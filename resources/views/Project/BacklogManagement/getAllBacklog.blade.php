@@ -2,9 +2,9 @@
 
     <div class="col-md-3">
         <ul class="list-group ml-3">
-            <li class="list-group-item bg-secondary text-light text-center">Backlog</li>
-            @foreach($backlogs->where('backlog_state', "Backlog") as $backlog)
-                <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
+            <li class="list-group-item bg-secondary text-light text-center">Planned</li>
+            @foreach($backlogs->where('backlog_state', "Planned") as $backlog)
+                <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
 
                     @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
@@ -20,9 +20,9 @@
 
     <div class="col-md-3">
         <ul class="list-group">
-            <li class="list-group-item bg-secondary text-light text-center">Doing</li>
-            @foreach($backlogs->where('backlog_state', "Doing") as $backlog)
-                <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
+            <li class="list-group-item bg-secondary text-light text-center">Ongoing</li>
+            @foreach($backlogs->where('backlog_state', "Ongoing") as $backlog)
+                <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
 
                     @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
@@ -36,11 +36,11 @@
         </ul>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item bg-secondary text-light text-center">Complete</li>
-            @foreach($backlogs->where('backlog_state', "Complete") as $backlog)
-                <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
+            <li class="list-group-item bg-secondary text-light text-center">Code Done</li>
+            @foreach($backlogs->where('backlog_state', "Code Done") as $backlog)
+                <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
 
                     @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
@@ -54,11 +54,29 @@
         </ul>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
         <ul class="list-group">
             <li class="list-group-item bg-secondary text-light text-center">Testing</li>
             @foreach($backlogs->where('backlog_state', "Testing") as $backlog)
-                <li class="list-group-item" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
+                <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
+                    <span> <b> {{ $backlog->backlog_title }} </b>  </span>
+
+                    @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
+                        @if(Auth::user()->userId == $emp->userId)
+                            <span class="badge badge-dark pull-right">My Backlog</span>
+                        @endif
+                    @endforeach
+
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="col-md-2">
+        <ul class="list-group">
+            <li class="list-group-item bg-secondary text-light text-center">Complete</li>
+            @foreach($backlogs->where('backlog_state', "Complete") as $backlog)
+                <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
 
                     @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)

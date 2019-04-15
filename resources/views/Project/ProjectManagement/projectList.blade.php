@@ -12,10 +12,10 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row ml-3">
         @foreach($projects as $project)
 
-            <div class="card m-4" style="width: 16rem;">
+            <div class="card m-4" style="width: 24rem;">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $project->project_name }}</h5>
 
@@ -26,8 +26,10 @@
                     @endforeach
 
                     <div class="mt-4" style="margin-right: 11px;">
-                        <a href="{{ route('project.projectmanagement', $project->projectId) }}" class="card-link">Dashboard</a>
+                        {{--<a href="{{ route('project.projectmanagement', $project->projectId) }}" class="card-link">Dashboard</a>--}}
+                        <a href="{{ route('project.Information', $project->projectId) }}" class="card-link">Dashboard</a>
                         <a href="{{ route('backlog.dashboard', $project->projectId) }}" class="card-link">My Backlog</a>
+                        <a href="{{ route('backlog.ganttChart', $project->projectId) }}" class="card-link">Project Gantt Chart</a>
                     </div>
 
                 </div>
