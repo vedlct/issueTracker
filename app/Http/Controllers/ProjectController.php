@@ -57,16 +57,13 @@ class ProjectController extends Controller
             $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();;
             $percentage = ($completedBacklog*100)/$totalBacklog;
 
-            array_push($percentage_all[$project->projectId] , $percentage);
+
+            $percentage_all[$project->projectId] = round($percentage);
         }
 
-        return ($percentage_all);
+//        dd ($percentage_all);
 
-//        $completedBacklog = 235;
-//        $totalBacklog = 500;
-//        $percentage = ($completedBacklog*100)/$totalBacklog;
-
-        return view('Project.projectList');
+        return view('Project.projectList')->with('project_percentage', $percentage_all);
     }
 
     public function test(){
