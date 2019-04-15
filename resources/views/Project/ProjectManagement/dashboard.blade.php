@@ -10,14 +10,13 @@
 
 
     <div class="card">
-        <h5 class="card-header">
+        <h5 class="card-header mt-0">
             {{ $project->project_name }}
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE (DETAILED)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </h5>
 
         <div class="card-body">
-
 
             <table class="table table-bordered table-sm table-condensed">
                 <thead>
@@ -129,6 +128,7 @@
                 cache: false,
                 data: {
                     _token: "{{csrf_token()}}",
+                    'edit': false,
                     'project_id': "{{ $project_id }}",
                 },
                 success: function (data) {

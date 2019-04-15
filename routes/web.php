@@ -106,6 +106,9 @@ Route::post('/profile', 'ProfileController@updateProfile');
 Route::get ('/project-management/dashboard',                 'ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
 
 Route::get ('/project-management/project-feature/{id}',      'ProjectManagementController@projectFeature')->name('project.features');
+Route::post('/project-management/get-edit-backlog-data',     'ProjectManagementController@getEditModal')->name('backlog.dashboard.getEditModal');
+Route::post('/project-management/update-backlog-data',     'ProjectManagementController@updateBacklogdata')->name('backlog.dashboard.updateData');
+Route::post('/project-management/delete-backlog-data',     'ProjectManagementController@deleteBacklog')->name('backlog.dashboard.delete');
 
 Route::get ('/project-management/project/{id}',              'ProjectManagementController@projectmanagement')         ->name('project.projectmanagement');
 Route::get ('/project-management/project/information/{id}',  'ProjectManagementController@projectInformation')        ->name('project.Information');

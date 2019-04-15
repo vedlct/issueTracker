@@ -155,19 +155,3 @@
     CKEDITOR.replace(textarea);
 
 </script>
-
-
-{{-- CK Editor --}}
-{{--<script>--}}
-    {{--$( document ).ready(function() {--}}
-
-        {{--ClassicEditor--}}
-            {{--.create( document.querySelector( '#editor2' ) )--}}
-            {{--.then( editor => {--}}
-
-            {{--} )--}}
-            {{--.catch( error => {--}}
-                {{--console.error( error );--}}
-            {{--} );--}}
-    {{--});--}}
-{{--</script>--}}
