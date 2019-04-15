@@ -64,21 +64,21 @@ class ProjectManagementController extends Controller
         if($userCompanyId == null)
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_status')
-                ->Join('company','project.fk_company_id','company.companyId')
-                ->Join('user','project.project_created_by','user.userId')
-                ->Join('status','project.project_status','status.statusId')
-                ->where('project.project_deleted_at', null)
-                ->get();
+                                ->Join('company','project.fk_company_id','company.companyId')
+                                ->Join('user','project.project_created_by','user.userId')
+                                ->Join('status','project.project_status','status.statusId')
+                                ->where('project.project_deleted_at', null)
+                                ->get();
         }
         else
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_status')
-                ->Join('company','project.fk_company_id','company.companyId')
-                ->Join('user','project.project_created_by','user.userId')
-                ->Join('status','project.project_status','status.statusId')
-                ->where('fk_company_id',$userCompanyId)
-                ->where('project.project_deleted_at', null)
-                ->get();
+                               ->Join('company','project.fk_company_id','company.companyId')
+                               ->Join('user','project.project_created_by','user.userId')
+                               ->Join('status','project.project_status','status.statusId')
+                               ->where('fk_company_id',$userCompanyId)
+                               ->where('project.project_deleted_at', null)
+                               ->get();
         }
 
         return view('Project.ProjectManagement.projectList')->with('projects', $projects)
@@ -165,7 +165,6 @@ class ProjectManagementController extends Controller
 
     // Insert Backlog
     public function insertBacklog(Request $r){
-//        dd($r->startdate);
         $backlog = new Backlog();
         $backlog->backlog_title = $r->backlog_title;
         $backlog->fk_project_id = $r->project_id;
@@ -178,8 +177,6 @@ class ProjectManagementController extends Controller
         {
             $backlog->backlog_state = 'Planned';
         }
-
-        // start date
         if($backlog->backlog_start_date == null)
         {
             $backlog->backlog_start_date = null;
@@ -198,7 +195,6 @@ class ProjectManagementController extends Controller
         {
             $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         }
-//        $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
         $backlog->backlog_completion_status = 'Incomplete';
@@ -328,6 +324,12 @@ class ProjectManagementController extends Controller
         $projectName = Project::findOrfail($id)->project_name;
         return view('Project.ProjectManagement.ganttChart')->with('backlogs', $backlog)
                                                                 ->with('projectName', $projectName);
+    }
+
+    // SHOW FEATURES
+    public function projectFeature($id){
+        $project = Project::where('projectId', $id)->first();
+        return view('Project.ProjectManagement.projectFeatures')->with('project', $project);
     }
 
 

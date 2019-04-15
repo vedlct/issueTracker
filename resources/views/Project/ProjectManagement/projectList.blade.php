@@ -27,7 +27,8 @@
 
                     <div class="mt-4" style="margin-right: 11px;">
                         {{--<a href="{{ route('project.projectmanagement', $project->projectId) }}" class="card-link">Dashboard</a>--}}
-                        <a href="{{ route('project.Information', $project->projectId) }}" class="card-link">Dashboard</a>
+                        {{--<a href="{{ route('project.Information', $project->projectId) }}" class="card-link">Dashboard</a>--}}
+                        <a href="{{ route('project.features', $project->projectId) }}" class="card-link">Dashboard</a>
                         <a href="{{ route('backlog.dashboard', $project->projectId) }}" class="card-link">My Backlog</a>
                         <a href="{{ route('backlog.ganttChart', $project->projectId) }}" class="card-link">Project Gantt Chart</a>
                     </div>

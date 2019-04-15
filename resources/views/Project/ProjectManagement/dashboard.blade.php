@@ -2,11 +2,7 @@
 
 
 @section('css')
-    {{--<style >--}}
-        {{--.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tfoot>tr>td{--}}
-            {{--padding: 2px;--}}
-        {{--}--}}
-    {{--</style>--}}
+
 @endsection
 
 
@@ -16,7 +12,7 @@
     <div class="card">
         <h5 class="card-header">
             {{ $project->project_name }}
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE</a>
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE (DETAILED)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </h5>
 
