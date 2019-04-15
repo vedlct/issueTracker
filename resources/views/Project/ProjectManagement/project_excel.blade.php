@@ -20,18 +20,18 @@
 
         <table id="ticketTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
             <thead>
-            <tr>
-                <th>Feature ID</th>
-                <th>Feature Topic</th>
-                <th>Expected Hour</th>
-                <th>Current State</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                {{--<th colspan="3">Details</th>--}}
-                <th>Feature Priority</th>
-                <th>Dev Time</th>
-                <th>Assigned To</th>
-            </tr>
+                <tr>
+                    <th>Feature ID</th>
+                    <th>Feature Topic</th>
+                    <th>Expected Hour</th>
+                    <th>Current State</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    {{--<th colspan="3">Details</th>--}}
+                    <th>Feature Priority</th>
+                    <th>Dev Time</th>
+                    <th>Assigned To</th>
+                </tr>
             </thead>
             <tbody>
             @foreach($backlogs as $backlog)

@@ -104,6 +104,12 @@ Route::post('/profile', 'ProfileController@updateProfile');
 
 //==================================Project Management===============================
 Route::get ('/project-management/dashboard',                 'ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
+
+Route::get ('/project-management/project-feature/{id}',      'ProjectManagementController@projectFeature')->name('project.features');
+Route::post('/project-management/get-edit-backlog-data',     'ProjectManagementController@getEditModal')->name('backlog.dashboard.getEditModal');
+Route::post('/project-management/update-backlog-data',     'ProjectManagementController@updateBacklogdata')->name('backlog.dashboard.updateData');
+Route::post('/project-management/delete-backlog-data',     'ProjectManagementController@deleteBacklog')->name('backlog.dashboard.delete');
+
 Route::get ('/project-management/project/{id}',              'ProjectManagementController@projectmanagement')         ->name('project.projectmanagement');
 Route::get ('/project-management/project/information/{id}',  'ProjectManagementController@projectInformation')        ->name('project.Information');
 Route::post('/project-management/backlog/insert',            'ProjectManagementController@insertBacklog')             ->name('backlog.insert');
@@ -112,10 +118,8 @@ Route::post('/project-management/backlog/update',            'ProjectManagementC
 Route::post('/project-management/backlog/comment',           'ProjectManagementController@postComment')               ->name('backlog.comment.post');
 Route::post('/project-management/backlog/comment/load',      'ProjectManagementController@getComments')               ->name('backlog.comment.get');
 Route::post('/project-management/backlog/generate-report',   'ProjectManagementController@generateReport')            ->name('backlog.generate.report');
-
 Route::get('/project-management/project/gantt-chart/{id}',   'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
-
-Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')             ->name('backlog.dashboard.getallData');
+Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')                ->name('backlog.dashboard.getallData');
 
 
 //==================================Project backlog Management===============================

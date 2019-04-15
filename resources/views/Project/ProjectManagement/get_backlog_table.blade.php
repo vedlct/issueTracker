@@ -1,5 +1,4 @@
 
-
     @if(count($backlogs) < 1)
         <td colspan="7" style="text-align: center;"><b>NO FEATURE ADDED YET</b></td>
     @else
@@ -17,11 +16,19 @@
                 <td>{{ $backlog->backlog_start_date }}</td>
                 <td>{{ $backlog->backlog_end_date }}</td>
                 <td>{{ $backlog->backlog_priority }}</td>
+
+                @if($edit == false)
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-success" onclick="editFeature({{ $backlog->backlog_id }})"> <i class="fa fa-cogs"></i> </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteFeature({{ $backlog->backlog_id }})"> <i class="fa fa-trash-o"></i> </button>
+                    </td>
+                @endif
+
             </tr>
         @endforeach
         <tr>
             <td colspan="2"> <b>Total Expected Time</b> </td>
-            <td colspan="5"> <b>{{ $backlogs->sum('backlog_time') }}</b> </td>
+            <td> <b>{{ $backlogs->sum('backlog_time') }}</b> </td>
         </tr>
     @endif
 
