@@ -39,7 +39,7 @@
         <h5 class="card-header mt-0">
             {{ $project->project_name }}
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (DETAILED)</a>
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </h5>
 
@@ -50,9 +50,9 @@
                 <thead>
                     <tr>
                         {{--<th style="text-align: center" scope="col">#</th>--}}
-                        <th scope="col">Feature Name *</th>
-                        <th scope="col">Expected Time</th>
-                        <th scope="col">Feature State</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total Hour</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Priority</th>
@@ -65,7 +65,7 @@
                 <tbody></tbody>
 
                 <tr>
-                    <td><b>Total Expected Time</b></td>
+                    <td><b>Total Expected Hour</b></td>
                     <td>{{ $exp_time }}</td>
                     <td></td>
                     <td></td>
@@ -122,7 +122,7 @@
                     { data: 'backlog_priority', name: 'backlog.backlog_priority' },
                     { "data": function(data) {
 
-                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-cogs"></i></button>' +
+                            return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-pencil-square"></i></button>' +
                                    '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
                         },
 

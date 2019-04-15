@@ -2,7 +2,7 @@
 
     <div class="col-md-3">
         <ul class="list-group ml-3">
-            <li class="list-group-item bg-secondary text-light text-center">Planned</li>
+            <li class="list-group-item bg-primary text-light text-center">Planned</li>
             @foreach($backlogs->where('backlog_state', "Planned") as $backlog)
                 <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
@@ -38,7 +38,7 @@
 
     <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item bg-secondary text-light text-center">Code Done</li>
+            <li class="list-group-item bg-warning text-light text-center">Code Done</li>
             @foreach($backlogs->where('backlog_state', "Code Done") as $backlog)
                 <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
@@ -56,7 +56,7 @@
 
     <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item bg-secondary text-light text-center">Testing</li>
+            <li class="list-group-item bg-danger text-light text-center">Testing</li>
             @foreach($backlogs->where('backlog_state', "Testing") as $backlog)
                 <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>
@@ -74,7 +74,7 @@
 
     <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item bg-secondary text-light text-center">Complete</li>
+            <li class="list-group-item bg-success text-light text-center">Complete</li>
             @foreach($backlogs->where('backlog_state', "Complete") as $backlog)
                 <li class="list-group-item changeMouse" data-backlog-id= {{ $backlog->backlog_id }} onclick="openItem(this)">
                     <span> <b> {{ $backlog->backlog_title }} </b>  </span>

@@ -13,7 +13,7 @@
         <h5 class="card-header mt-0">
             {{ $project->project_name }}
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.features', $project->projectId) }}">Dashboard</a>
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE (DETAILED)</a>
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE (ADVANCE)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </h5>
 
@@ -24,7 +24,7 @@
                     <tr>
                         <th style="text-align: center" scope="col">#</th>
                         <th scope="col">Feature Name *</th>
-                        <th scope="col">Expected Time</th>
+                        <th scope="col">Total Hour</th>
                         <th scope="col">Feature State</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>

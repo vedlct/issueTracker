@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Backlog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
@@ -15,8 +16,56 @@ use App\Employee;
 
 class ProjectController extends Controller
 {
+
+    // Get user's company user id
+    public function getCompanyUserId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
+    }
+
     // view Project list
     public function index(){
+
+        $userCompany = $this->getCompanyUserId();
+
+        // catculate project percentage
+
+        $projects = Project::where('fk_company_id', $userCompany)->get();
+
+        $percentage_all = array();
+
+
+        foreach ($projects as $project){
+            $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
+            $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();;
+            $percentage = ($completedBacklog*100)/$totalBacklog;
+
+            array_push($percentage_all[$project->projectId] , $percentage);
+        }
+
+        return ($percentage_all);
+
+//        $completedBacklog = 235;
+//        $totalBacklog = 500;
+//        $percentage = ($completedBacklog*100)/$totalBacklog;
+
         return view('Project.projectList');
     }
 
@@ -28,23 +77,7 @@ class ProjectController extends Controller
     // get all Company
     public function getAllProject(Request $r){
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -72,23 +105,7 @@ class ProjectController extends Controller
     // view create project form
     public function create_project(){
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -127,23 +144,7 @@ class ProjectController extends Controller
         $allStatus = Status::where('statusType', 'project_status')->get();
         $project = Project::findOrFail($id);
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {

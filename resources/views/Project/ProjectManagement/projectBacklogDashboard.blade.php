@@ -32,6 +32,10 @@
     <div class="card" style="margin-left: 20px;">
         <div class="card-header">
             <b>{{ $project->project_name }} : </b> Create New Backlog
+
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.features', $project->projectId) }}">Dashboard</a>
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
+
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </div>
         <div class="card-body">
