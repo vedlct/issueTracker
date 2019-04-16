@@ -9,6 +9,9 @@
         .table>tbody>tr>td, .table>tfoot>tr>td, .table>thead>tr>td {
             padding: 5px 12px !important;
         }
+        .changeMouse {
+            cursor: pointer;
+        }
 
     </style>
 @endsection
@@ -27,6 +30,23 @@
                     </button>
                 </div>
                 <div class="modal-body" id="edit_modal_space">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show Comment Modal -->
+    <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">All Comments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="allComments">
 
                 </div>
             </div>
@@ -56,6 +76,8 @@
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Priority</th>
+                        <th scope="col">Remark</th>
+                        <th scope="col">Last Comment</th>
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -67,6 +89,8 @@
                 <tr>
                     <td><b>Total Expected Hour</b></td>
                     <td>{{ $exp_time }}</td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -92,6 +116,8 @@
         });
 
         $(document).ready(function() {
+
+            var comments = <?php echo json_encode($backlogComments); ?>
 
             dataTable=  $('#featurelist').DataTable({
                 rowReorder: {
@@ -120,7 +146,27 @@
                     { data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
                     { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
                     { data: 'backlog_priority', name: 'backlog.backlog_priority' },
-                    { "data": function(data) {
+                    { data: 'remark', name: 'backlog.remark' },
+                    // { data: 'comments', name: 'comments' },
+
+                    { "data": function(data)
+                        {
+                            if(data.comments == null)
+                            {
+                                return "";
+                            }
+                            else
+                            {
+                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
+                            }
+
+                        },
+
+                        "orderable": false, "searchable":false, "name":"selected_rows"
+                    },
+
+                    { "data": function(data)
+                        {
 
                             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-pencil-square"></i></button>' +
                                    '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
@@ -134,20 +180,21 @@
 
 
 
-        {{--function getallData(){--}}
-            {{--$.ajax({--}}
-                {{--type: 'POST',--}}
-                {{--url: "{!! route('backlog.dashboard.getallData') !!}",--}}
-                {{--cache: false,--}}
-                {{--data: {--}}
-                    {{--_token: "{{csrf_token()}}",--}}
-                    {{--'project_id': "{{ $project->projectId }}",--}}
-                {{--},--}}
-                {{--success: function (data) {--}}
-                    {{--$('#table_space').html(data);--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+        function showComments(x){
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('backlog.show.getAllMyComments') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'backlog_id': x,
+                },
+                success: function (data) {
+                    $('#allComments').html(data);
+                    $('#commentModal').modal('show')
+                }
+            });
+        }
 
         function generateReport(){
             var id = '{{ $project->projectId }}';
