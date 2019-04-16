@@ -15,8 +15,13 @@
 
 @section('content')
 
-    <div id="backlog_panel">
-
+    <div class="card">
+        <div class="card-header bg-dark text-center" style="color: white">
+            {{ $project->project_name }}
+        </div>
+        <div class="card-body p-1 mt-2 mb-3">
+            <div id="backlog_panel"></div>
+        </div>
     </div>
 
 @endsection
