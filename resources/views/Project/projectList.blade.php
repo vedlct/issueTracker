@@ -16,8 +16,8 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h4 class="float-left">Projects Information</h4>
-            <a href="{{ route('project.create') }}" class="btn btn-success float-right" name="button">Create Project</a>
+            <h5 class="float-left">Projects Information</h5>
+            <a href="{{ route('project.create') }}" class="btn btn-success btn-sm float-right mt-1" style="color: #0a1832" name="button">Create Project</a>
         </div>
         <div class="card-body">
             <table id="projectTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
@@ -73,19 +73,18 @@
                    { data: 'companyName', name: 'company.companyName' },
                    { "data": function(data)
                        {
-                           for(var project_id in project_percentage){
-
+                           for(var project_id in project_percentage)
+                           {
                                if(data.projectId == project_id)
                                {
                                    return '<div class="progress ml-2 mr-2"> <div class="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+project_percentage[project_id]+'" aria-valuemin="0" aria-valuemax="100" style="width: '+project_percentage[project_id]+'% "> <span style="color:#0a1832; margin-left: 10px;"> '+project_percentage[project_id]+' % </span>  </div> </div>';
                                }
-
                            }
                        }
                    },
                    { "data": function(data)
                        {
-                            return '<button class="btn btn-success btn-sm m-1" data-panel-id="'+data.projectId+'" onclick="editProject(this)"><i class="fa fa-cog"></i></button>';
+                            return '<button class="btn btn-success btn-sm m-1" data-panel-id="'+data.projectId+'" onclick="editProject(this)"><i class="fa fa-pencil-square"></i></button>';
                                //  '<button class="btn btn-danger btn" data-panel-id="'+data.projectId+'" onclick="deleteProject(this)"><i class="fa fa-trash fa-lg"></i></button>'
                        },
                         "orderable": false, "searchable":false, "name":"selected_rows"

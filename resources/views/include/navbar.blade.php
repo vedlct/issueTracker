@@ -79,14 +79,14 @@
 
                 <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag fa-"></i> <span>Project Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">Projects</a></li>
+                        <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">All Projects</a></li>
 
                         @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
-                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Project Management</a></li>
+                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Project Overview</a></li>
                         @endif
 
                         @if(Auth::user()->fk_userTypeId == 3)
-                            <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' Work</a></li>
+                            <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' List</a></li>
                         @endif
 
                     </ul>
