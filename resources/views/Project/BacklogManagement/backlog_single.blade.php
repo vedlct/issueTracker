@@ -42,6 +42,10 @@
                 <th scope="row">Backlog Dev Time</th>
                 <td>{{ $backlog->dev_time }}</td>
             </tr>
+            <tr style="line-height: .5;">
+                <th scope="row">Remark</th>
+                <td style="padding: 2px;"><input class="form-control" type="text" value="{{ $backlog->remark }}" placeholder="Remark" name="remark"> </td>
+            </tr>
         </tbody>
     </table>
 

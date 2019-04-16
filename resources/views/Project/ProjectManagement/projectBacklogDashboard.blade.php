@@ -45,7 +45,7 @@
                 <div class="row mb-2">
                     <input type="hidden" name="project_id" value="{{ $project->projectId }}">
                     <div class="col">
-                        <label>Backlog Title</label>
+                        <label>Backlog Title *</label>
                         <input type="text" class="form-control" placeholder="Backlog Title" name="backlog_title" required>
                     </div>
                     <div class="col">
@@ -58,7 +58,7 @@
                         </select>
                     </div>
                     <div class="col">
-                        <label>Backlog Time (Hour)</label>
+                        <label>Backlog Time (Hour) *</label>
                         <input type="number" class="form-control" placeholder="Backlog Time" name="backlog_time" required>
                     </div>
                 </div>
@@ -82,6 +82,10 @@
                     <div class="col">
                         <label>Backlog End Date</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate">
+                    </div>
+                    <div class="col">
+                        <label>Remark</label>
+                        <input type="text" class="form-control" placeholder="Remark" name="remark">
                     </div>
                 </div>
                 <div class="row mb-2">

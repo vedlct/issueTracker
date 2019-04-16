@@ -33,6 +33,11 @@
     </div>
 
     <div class="form-group">
+        <label>Remark</label>
+        <input type="text" class="form-control" value="{{ $backlog->remark }}" placeholder="Remark" name="remark">
+    </div>
+
+    <div class="form-group">
         <label>Priority</label>
         <select class="form-control" name="priority">
             <option value="">Select Priority</option>

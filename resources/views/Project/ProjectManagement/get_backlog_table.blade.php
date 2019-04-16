@@ -23,7 +23,7 @@
                         <button class="btn btn-sm btn-danger" onclick="deleteFeature({{ $backlog->backlog_id }})"> <i class="fa fa-trash-o"></i> </button>
                     </td>
                 @endif
-
+                <td>{{ $backlog->remark }}</td>
             </tr>
         @endforeach
         <tr>

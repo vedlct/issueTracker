@@ -10,6 +10,8 @@
                     @foreach($backlogassignedEmp->where('fk_backlog_id', $backlog->backlog_id) as $emp)
                         @if(Auth::user()->userId == $emp->userId)
                             <span class="badge badge-dark pull-right">My Backlog</span>
+                        @else
+                            <span class="badge badge-dark pull-right">{{ $emp->fullName }}</span>
                         @endif
                     @endforeach
 

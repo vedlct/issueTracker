@@ -29,6 +29,7 @@
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Priority</th>
+                        <th scope="col">Remark</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,7 @@
                                 <option value="High">High</option>
                             </select>
                         </td>
+                        <td> <input type="text" class="form-control" placeholder="Remark" id="remark"> </td>
                     </tr>
                 </tbody>
 
@@ -93,8 +95,7 @@
             var startdate = $('#startdate').val();
             var enddate = $('#enddate').val();
             var priority = $('#priority').val();
-
-            console.log( $('#startdate').val() );
+            var remark = $('#remark').val();
 
             $.ajax({
                 type: 'POST',
@@ -109,9 +110,16 @@
                     'startdate': startdate,
                     'enddate': enddate,
                     'priority': priority,
+                    'remark': remark,
                 },
                 success: function (data) {
                     getallData();
+
+                    toastr.options.timeOut = 3000;
+                    toastr.options.closeButton = false;
+                    toastr.options.progressBar = false;
+                    toastr.options.positionClass = "toast-bottom-right";
+                    toastr.success("Feature Added.", {timeOut: 3000})
 
                     var backlog_title = $('#backlog').val("");
                     var backlog_time = $('#time').val("");
@@ -119,6 +127,7 @@
                     var startdate = $('#startdate').val("");
                     var enddate = $('#enddate').val("");
                     var priority = $('#priority').val("");
+                    var priority = $('#remark').val("");
                 }
             });
 

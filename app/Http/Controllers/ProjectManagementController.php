@@ -50,7 +50,14 @@ class ProjectManagementController extends Controller
     public function getAllMyBacklog(Request $r){
         $backlog = Backlog::where('fk_project_id', $r->project_id)->orderBy('backlog_id', 'desc');
         $datatables = Datatables::of($backlog);
-        return $datatables->make(true);
+        return $datatables->addColumn('comments', function ($backlog) use ($r){
+            $q = BacklogComment::select('comment')->leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
+                ->where('backlog.fk_project_id', $r->project_id)
+                ->where('backlog_comment.fk_backlog_id', $backlog->backlog_id)
+                ->orderBy('backlog_comment_id','desc')
+                ->first();
+            return $q['comment'];
+        })->make(true);
     }
 
     // Project Management Dashboard
@@ -185,6 +192,7 @@ class ProjectManagementController extends Controller
         $backlog->backlog_title = $r->backlog_title;
         $backlog->fk_project_id = $r->project_id;
         $backlog->backlog_time = $r->backlog_time;
+        $backlog->remark = $r->remark;
         if($r->backlog_state)
         {
             $backlog->backlog_state = $r->backlog_state;
@@ -287,6 +295,7 @@ class ProjectManagementController extends Controller
         $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         $backlog->backlog_details = $r->backlogDetails;
         $backlog->backlog_priority = $r->priority;
+        $backlog->remark = $r->remark;
 
         $backlog->save();
 
@@ -348,7 +357,15 @@ class ProjectManagementController extends Controller
 
         $exp_time = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
 
-        return view('Project.ProjectManagement.projectFeatures')->with('project', $project)->with('exp_time', $exp_time);
+        $comments = BacklogComment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
+                                ->where('fk_project_id', $id)
+                                ->get();
+
+//        dd($comments);
+
+        return view('Project.ProjectManagement.projectFeatures')->with('project', $project)
+                                                                     ->with('exp_time', $exp_time)
+                                                                     ->with('backlogComments', $comments);
     }
 
     // SHOW EDIT MODAL
@@ -366,6 +383,7 @@ class ProjectManagementController extends Controller
         $backlog->backlog_start_date = $r->startdate;
         $backlog->backlog_end_date = $r->enddate;
         $backlog->backlog_priority = $r->priority;
+        $backlog->remark = $r->remark;
         $backlog->save();
 
         Session::flash('message', 'Feature Updated!');
@@ -378,6 +396,11 @@ class ProjectManagementController extends Controller
         $backlog = Backlog::findOrFail($r->backlog_id);
         $backlog->delete();
         return back();
+    }
+
+    public function getAllMyComments(Request $r){
+        $comments = BacklogComment::leftJoin('user', 'user.userId', 'backlog_comment.fk_comment_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
+        return view('Project.ProjectManagement.showAllComments')->with('comments', $comments);
     }
 
 

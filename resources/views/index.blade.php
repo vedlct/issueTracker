@@ -119,9 +119,9 @@
                     <div class="col-lg-2 col-md-6 mb-2">
                         <div class="card newCard">
                             <div class="card-body">
-                                <h4 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h4>
+                                <h5 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h5>
                                 <div class="text-right">
-                                    <h2 class="font-light m-b-0"> {{ $companyCount }} </h2>
+                                    <h4 class="font-light m-b-0"> {{ $companyCount }} </h4>
                                 </div>
 
                             </div>
