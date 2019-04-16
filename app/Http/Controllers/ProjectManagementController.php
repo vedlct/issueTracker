@@ -46,6 +46,13 @@ class ProjectManagementController extends Controller
         return view('Project.ProjectManagement.get_backlog_table')->with('backlogs', $backlog)->with('edit', $edit);
     }
 
+    // GET ALL BACKLOG FOR DATATABLE
+    public function getAllMyBacklog(Request $r){
+        $backlog = Backlog::where('fk_project_id', $r->project_id)->orderBy('backlog_id', 'desc');
+        $datatables = Datatables::of($backlog);
+        return $datatables->make(true);
+    }
+
     // Project Management Dashboard
     public function projectmanagementDashboard(){
 
@@ -186,7 +193,7 @@ class ProjectManagementController extends Controller
         {
             $backlog->backlog_state = 'Planned';
         }
-        if($backlog->backlog_start_date == null)
+        if($r->startdate == null)
         {
             $backlog->backlog_start_date = null;
         }
@@ -196,7 +203,7 @@ class ProjectManagementController extends Controller
         }
 
         // end date
-        if($backlog->backlog_end_date == null)
+        if($r->enddate == null)
         {
             $backlog->backlog_end_date = null;
         }
@@ -338,7 +345,10 @@ class ProjectManagementController extends Controller
     // SHOW FEATURES
     public function projectFeature($id){
         $project = Project::where('projectId', $id)->first();
-        return view('Project.ProjectManagement.projectFeatures')->with('project', $project);
+
+        $exp_time = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
+
+        return view('Project.ProjectManagement.projectFeatures')->with('project', $project)->with('exp_time', $exp_time);
     }
 
     // SHOW EDIT MODAL
@@ -369,5 +379,7 @@ class ProjectManagementController extends Controller
         $backlog->delete();
         return back();
     }
+
+
 
 }

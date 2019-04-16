@@ -12,6 +12,7 @@
     <div class="card">
         <h5 class="card-header mt-0">
             {{ $project->project_name }}
+            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.features', $project->projectId) }}">Dashboard</a>
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project_id) }}">ADD FEATURE (DETAILED)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
         </h5>
@@ -92,6 +93,8 @@
             var startdate = $('#startdate').val();
             var enddate = $('#enddate').val();
             var priority = $('#priority').val();
+
+            console.log( $('#startdate').val() );
 
             $.ajax({
                 type: 'POST',
