@@ -167,8 +167,15 @@ class DashBoardController extends Controller
 
             foreach ($projects as $project){
                 $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
-                $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();;
-                $percentage = ($completedBacklog*100)/$totalBacklog;
+                $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();
+                if($totalBacklog == 0)
+                {
+                    $percentage = 0;
+                }
+                else
+                {
+                    $percentage = ($completedBacklog*100)/$totalBacklog;
+                }
                 $percentage_all[$project->project_name] = round($percentage);
             }
         }
