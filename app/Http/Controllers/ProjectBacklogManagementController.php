@@ -123,6 +123,7 @@ class ProjectBacklogManagementController extends Controller
     public function updateBacklogDetails(Request $r){
         $backlog = Backlog::findOrFail($r->backlog_id);
         $backlog->backlog_details = $r->backlogDetails;
+        $backlog->remark = $r->remark;
 
         // if backlog state change then
         if($r->backlog_state != $backlog->backlog_state)
