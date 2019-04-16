@@ -1,11 +1,14 @@
 @extends('layouts.mainLayout')
 
 @section('css')
-<style >
-.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
-    padding: 1px;
-}
-</style>
+    <style >
+        .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+            padding: 1px;
+        }
+        .progress{
+             height: 1.5rem !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -24,6 +27,7 @@
                         <th>Project Status</th>
                         <th>Poject Created By</th>
                         <th>Company</th>
+                        <th>Completion Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -41,6 +45,8 @@
 <script>
 
         $(document).ready(function() {
+
+            var project_percentage = <?php echo json_encode($project_percentage); ?>
 
             dataTable=  $('#projectTable').DataTable({
                rowReorder: {
@@ -65,19 +71,23 @@
                    { data: 'statusData', name: 'status.statusData' },
                    { data: 'fullName', name: 'user.fullName' },
                    { data: 'companyName', name: 'company.companyName' },
+                   { "data": function(data)
+                       {
+                           for(var project_id in project_percentage){
 
-                   { "data": function(data){
-                           if(data.projectId == {{ $project_percentage }})
-                           {
+                               if(data.projectId == project_id)
+                               {
+                                   return '<div class="progress"> <div class="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+project_percentage[project_id]+'" aria-valuemin="0" aria-valuemax="100" style="width: '+project_percentage[project_id]+'% ">'+project_percentage[project_id]+' % </div> </div>';
+                               }
 
                            }
                        }
                    },
-
-                   { "data": function(data){
-                            return '<button class="btn btn-success btn-sm m-1" data-panel-id="'+data.projectId+'" onclick="editProject(this)"><i class="fa fa-cog"></i></button>'
-                                   // '<button class="btn btn-danger btn" data-panel-id="'+data.projectId+'" onclick="deleteProject(this)"><i class="fa fa-trash fa-lg"></i></button>'
-                            ;},
+                   { "data": function(data)
+                       {
+                            return '<button class="btn btn-success btn-sm m-1" data-panel-id="'+data.projectId+'" onclick="editProject(this)"><i class="fa fa-cog"></i></button>';
+                               //  '<button class="btn btn-danger btn" data-panel-id="'+data.projectId+'" onclick="deleteProject(this)"><i class="fa fa-trash fa-lg"></i></button>'
+                       },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                    },
                ]

@@ -46,22 +46,15 @@ class ProjectController extends Controller
         $userCompany = $this->getCompanyUserId();
 
         // catculate project percentage
-
         $projects = Project::where('fk_company_id', $userCompany)->get();
-
         $percentage_all = array();
-
 
         foreach ($projects as $project){
             $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
             $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();;
             $percentage = ($completedBacklog*100)/$totalBacklog;
-
-
             $percentage_all[$project->projectId] = round($percentage);
         }
-
-//        dd ($percentage_all);
 
         return view('Project.projectList')->with('project_percentage', $percentage_all);
     }

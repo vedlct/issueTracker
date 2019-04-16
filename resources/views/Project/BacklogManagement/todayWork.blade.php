@@ -4,7 +4,7 @@
 @section('css')
     <style>
         .card{
-            box-shadow: 1px 0 20px rgba(0, 0, 0, .09);
+            box-shadow: 0px 0 3px rgba(0, 0, 0, 0.39);
         }
         .changeMouse {
             cursor: pointer;
@@ -25,40 +25,96 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="backlog_details">
-
-
-
-                </div>
+                <div class="modal-body" id="backlog_details"></div>
             </div>
         </div>
     </div>
 
 
+    {{--<div id="backlog_panel">--}}
+        {{--@foreach($mybacklogs as $mybacklog)--}}
+            {{--<div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>--}}
+                {{--<div class="card-body">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--<b>Backlog : </b> {{ $mybacklog->backlog_title }}--}}
+                        {{--</div>--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--<b>Backlog State : </b> {{ $mybacklog->backlog_state }}--}}
+                        {{--</div>--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--<b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}--}}
+                        {{--</div>--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--<b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endforeach--}}
+    {{--</div>--}}
 
-    <div id="backlog_panel">
-
-        @foreach($mybacklogs as $mybacklog)
-            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <b>Backlog : </b> {{ $mybacklog->backlog_title }}
-                        </div>
-                        <div class="col-md-3">
-                            <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
-                        </div>
-                        <div class="col-md-3">
-                            <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
-                        </div>
-                        <div class="col-md-3">
-                            <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+    <div id="backlog_panel" style="margin-left: 20px">
+        <div class="card mb-3">
+            <h5 class="card-header mt-0">Today's Work</h5>
+            <div class="card-body">
+                @foreach($mybacklogs as $mybacklog)
+                    <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Backlog : </b> {{ $mybacklog->backlog_title }}
+                                </div>
+                                <div class="col-md-3">
+                                    <b>Project : </b> {{ $mybacklog->project_name }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+        </div>
+    </div>
 
+    {{-- MISSED DEADLINE --}}
+    <div id="backlog_panel" style="margin-left: 20px">
+        <div class="card">
+            <h5 class="card-header mt-0">Backlog (Missed Deadline)</h5>
+            <div class="card-body">
+                @foreach($mybacklogsMissed as $mybacklog)
+                    <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <b>Backlog : </b> {{ $mybacklog->backlog_title }}
+                                </div>
+                                <div class="col-md-3">
+                                    <b>Project : </b> {{ $mybacklog->project_name }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
+                                </div>
+                                <div class="col-md-2">
+                                    <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -69,7 +125,6 @@
 
     <script>
         function openItem(x){
-
             id = $(x).data('backlog-id');
             console.log(id);
 
@@ -87,8 +142,6 @@
                 }
             });
         }
-
-
     </script>
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BacklogAssignment;
 use App\Employee;
 use App\User;
+use App\Project;
 use Session;
 use Illuminate\Http\Request;
 use App\Backlog;
@@ -38,7 +39,11 @@ class ProjectBacklogManagementController extends Controller
 
     // Backlog Dashboard
     public function dashboard($id){
-        return view('Project.BacklogManagement.mybackloglist')->with('project_id', $id);
+
+        $project = Project::findOrFail($id);
+
+        return view('Project.BacklogManagement.mybackloglist')->with('project_id', $id)
+                                                                   ->with('project', $project);
     }
 
     // get all Backlog
@@ -138,6 +143,7 @@ class ProjectBacklogManagementController extends Controller
 
         $mybacklogs = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
                              ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+                             ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
                              ->where('user.userId', Auth::user()->userId)
                              ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
                              ->whereDate('backlog_end_date', '>=', date('Y-m-d'))
@@ -145,6 +151,17 @@ class ProjectBacklogManagementController extends Controller
                              ->where('backlog_state', '!=', 'Testing')
                              ->get();
 
-        return view('Project.BacklogManagement.todayWork')->with('mybacklogs', $mybacklogs);
+        $mybacklogsMissed = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
+            ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+            ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
+            ->where('user.userId', Auth::user()->userId)
+//            ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
+            ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+            ->where('backlog_state', '!=', 'Complete')
+            ->where('backlog_state', '!=', 'Testing')
+            ->get();
+
+        return view('Project.BacklogManagement.todayWork')->with('mybacklogs', $mybacklogs)
+                                                               ->with('mybacklogsMissed', $mybacklogsMissed);
     }
 }
