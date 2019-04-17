@@ -11,6 +11,7 @@ use App\Client;
 use App\Employee;
 use App\InternetBill;
 use App\InternetClient;
+use App\Notification;
 use App\Report;
 use App\Salary;
 use Illuminate\Http\Request;
@@ -271,6 +272,42 @@ class DashBoardController extends Controller
     {
         Session::flash('call_ticket_type', 'pending');
         return redirect()->route('ticket.showAllCTicket');
+    }
+
+    // SHOW ALL NOTIFICATION
+    public function showAllNotification()
+    {
+        $allNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+                                       ->where('assigned_emp_id', Auth::user()->userId)
+                                       ->get();
+
+        return view('Notification.allNotification')->with('allNotification', $allNotification);
+    }
+
+    // AJAX REQUEST TO GET UNSEEN NOTIFICATION
+    public function getAllNotificationData(){
+        $myNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+            ->where('assigned_emp_id', Auth::user()->userId)
+            ->where('seen', '0')
+            ->get();
+
+        return view('Notification.unseenNotification', $myNotification);
+    }
+
+    public function changeunseen(){
+
+        $notificationOld = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+            ->where('assigned_emp_id', Auth::user()->userId)
+            ->where('seen', '0')
+            ->get();
+
+        $notification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+            ->where('assigned_emp_id', Auth::user()->userId)
+            ->where('seen', '0')
+            ->update(['seen' => 1]);
+
+
+        return view('Notification.unseenNotification')->with('myNotification', $notification);
     }
 
 

@@ -11,6 +11,14 @@ Route::get('/call-close-ticket',  'DashBoardController@call_closeticket')  ->nam
 Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')->name('call_overdueticket');
 Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')->name('call_pendingticket');
 
+
+Route::get('/all-notification/user','DashBoardController@showAllNotification')->name('show.allNotification');
+
+
+Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData')->name('getMyallNotification');
+
+Route::post('/change-unseen-notification','DashBoardController@changeunseen')->name('notification.changeUnseen');
+
 // Company
 Route::get ('/company-list',     'CompanyController@index')         ->name('company.showAllCompany');
 Route::post('/company-list',     'CompanyController@getAllCompany') ->name('company.getAllCompany');
