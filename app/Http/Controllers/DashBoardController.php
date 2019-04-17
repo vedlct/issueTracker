@@ -291,7 +291,7 @@ class DashBoardController extends Controller
             ->where('seen', '0')
             ->get();
 
-        return view('Notification.unseenNotification', $myNotification);
+        return view('Notification.unseenNotification')->with('myNotificationOld', $myNotification);
     }
 
     public function changeunseen(){
@@ -301,13 +301,15 @@ class DashBoardController extends Controller
             ->where('seen', '0')
             ->get();
 
-        $notification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+        Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
             ->where('assigned_emp_id', Auth::user()->userId)
             ->where('seen', '0')
             ->update(['seen' => 1]);
 
+//        return $notificationOld;
 
-        return view('Notification.unseenNotification')->with('myNotification', $notification);
+
+        return view('Notification.unseenNotification')->with('myNotificationOld', $notificationOld);
     }
 
 

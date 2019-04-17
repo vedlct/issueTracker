@@ -38,11 +38,11 @@
 
 <script>
 
-    $( document ).ready(function() {
-        getMyNotification();
-    });
-
-    function getMyNotification(){
+    // $( document ).ready(function() {
+    //     getMyNotification();
+    // });
+    //
+    // function getMyNotification(){
         $.ajax({
             type: 'POST',
             url: "{!! route('getMyallNotification') !!}",
@@ -54,7 +54,7 @@
                 $('#mynotification').html(data);
             }
         });
-    }
+    // }
 
     function changeToseen() {
         console.log('p');
@@ -66,10 +66,12 @@
                 _token: "{{csrf_token()}}",
             },
             success: function (data) {
-                getMyNotification();
+                $('#mynotification').html(data);
+                $('#noti_val').html('0');
             }
         });
     }
+
 </script>
 
 @if(Session::has('message'))

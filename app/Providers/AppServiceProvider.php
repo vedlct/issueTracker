@@ -22,12 +22,17 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function($view) {
 
-            $myNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
-                                          ->where('assigned_emp_id', Auth::user()->userId)
-                                          ->where('seen', '0')
-                                          ->get();
+            if(Auth::check())
+            {
+                $myNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
+                    ->where('assigned_emp_id', Auth::user()->userId)
+                    ->where('seen', '0')
+                    ->count();
 
-            $view->with('myNotification', $myNotification);
+                $view->with('myNotification', $myNotification);
+            }
+
+
 
         });
 

@@ -63,17 +63,30 @@
                     <ul class="list-inline float-right mb-0">
 
                         {{-- NOTIFICATION --}}
+                        <li class="list-inline-item dropdown notification-list" >
 
-                            <li class="list-inline-item dropdown notification-list" onclick="changeToseen()">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" onclick="changeToseen()" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="mdi mdi-bell-outline noti-icon"></i>
+                                <span class="badge badge-danger noti-icon-badge" id="noti_val">{{ $myNotification }}</span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+
+                                <!-- Count-->
+                                {{--<div class="dropdown-item noti-title">--}}
+                                    {{--<h5>Notification ({{ count($myNotification) }})</h5>--}}
+                                {{--</div>--}}
 
 
+                                <span id="mynotification"></span>
 
-                                    <span id="mynotification"></span>
+                                <!-- All-->
+                                <a href="{{ route('show.allNotification') }}" class="dropdown-item notify-item">
+                                    View All
+                                </a>
 
-
-                            </li>
-
-
+                            </div>
+                        </li>
 
                         <li class="list-inline-item dropdown notification-list">
                             @if(Auth::user()->profilePhoto != null)
