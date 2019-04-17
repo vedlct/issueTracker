@@ -403,6 +403,11 @@ class ProjectManagementController extends Controller
         return view('Project.ProjectManagement.showAllComments')->with('comments', $comments);
     }
 
+    public function getAllOwners(Request $r){
+        $owners = BacklogAssignment::leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
+        return view('Project.ProjectManagement.showOwnerModal')->with('owners', $owners);
+    }
+
 
 
 }

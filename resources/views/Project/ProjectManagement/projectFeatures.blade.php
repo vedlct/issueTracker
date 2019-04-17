@@ -53,6 +53,23 @@
         </div>
     </div>
 
+    <!-- Show Owner Modal -->
+    <div class="modal fade" id="ownerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">All Owner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="allOwners">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <div class="card">
@@ -70,14 +87,15 @@
                 <thead>
                     <tr>
                         {{--<th style="text-align: center" scope="col">#</th>--}}
-                        <th scope="col">Name</th>
+                        <th scope="col">Feature</th>
                         <th scope="col">Total Hour</th>
                         <th scope="col">Status</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Priority</th>
-                        <th scope="col">Remark</th>
-                        <th scope="col">Last Comment</th>
+                        <th scope="col">Remarks</th>
+                        <th scope="col">Comments</th>
+                        <th scope="col">Owner</th>
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -89,6 +107,7 @@
                 <tr>
                     <td><b>Total Expected Hour</b></td>
                     <td>{{ $exp_time }}</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -159,6 +178,15 @@
                             {
                                 return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
                             }
+                        },
+
+                        "orderable": false, "searchable":false, "name":"selected_rows"
+                    },
+
+                    { "data": function(data)
+                        {
+
+                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
 
                         },
 
@@ -192,6 +220,22 @@
                 success: function (data) {
                     $('#allComments').html(data);
                     $('#commentModal').modal('show')
+                }
+            });
+        }
+
+        function showOwners(x){
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('backlog.show.owners') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'backlog_id': x,
+                },
+                success: function (data) {
+                    $('#allOwners').html(data);
+                    $('#ownerModal').modal('show')
                 }
             });
         }

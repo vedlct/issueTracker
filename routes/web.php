@@ -116,11 +116,12 @@ Route::post('/project-management/backlog/update',            'ProjectManagementC
 Route::post('/project-management/backlog/comment',           'ProjectManagementController@postComment')               ->name('backlog.comment.post');
 Route::post('/project-management/backlog/comment/load',      'ProjectManagementController@getComments')               ->name('backlog.comment.get');
 Route::post('/project-management/backlog/generate-report',   'ProjectManagementController@generateReport')            ->name('backlog.generate.report');
-Route::get('/project-management/project/gantt-chart/{id}',   'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
+Route::get ('/project-management/project/gantt-chart/{id}',  'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
 Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')                ->name('backlog.dashboard.getallData');
 
 
-Route::post('/project-management/dashboard/get-all-comments',    'ProjectManagementController@getAllMyComments')                ->name('backlog.show.getAllMyComments');
+Route::post('/project-management/dashboard/get-all-comments', 'ProjectManagementController@getAllMyComments')         ->name('backlog.show.getAllMyComments');
+Route::post('/project-management/dashboard/get-all-owners',   'ProjectManagementController@getAllOwners')             ->name('backlog.show.owners');
 
 
 //==================================Project backlog Management===============================

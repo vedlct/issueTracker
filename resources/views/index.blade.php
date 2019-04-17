@@ -112,9 +112,9 @@
     <div class="card mb-4" style="margin-left: 20px;">
         <div class="card-header mt-0">
             @if(Auth::user()->fk_userTypeId == 1)
-                <h5 style="margin: 0">Company & Project Information</h5>
+                <h5 style="margin: 0">Company & Project Summary</h5>
             @else
-                <h5 style="margin: 0">Project Information</h5>
+                <h5 style="margin: 0">Project Summary</h5>
             @endif
 
         </div>
@@ -166,7 +166,7 @@
     {{-- Ticket Information --}}
     <div class="card mb-4" style="margin-left: 20px;">
         <div class="card-header mt-0">
-            <h5 style="margin: 0">Ticket Information</h5>
+            <h5 style="margin: 0">Ticket Summary</h5>
         </div>
         <div class="card-body">
 
@@ -241,7 +241,7 @@
     {{-- Ticket Information For This Month --}}
     <div class="card" style="margin-left: 20px; margin-bottom: 90px;">
         <div class="card-header mt-0">
-            <h5 style="margin: 0">Ticket Information For This Month</h5>
+            <h5 style="margin: 0">Ticket Summary For This Month</h5>
         </div>
         <div class="card-body">
 

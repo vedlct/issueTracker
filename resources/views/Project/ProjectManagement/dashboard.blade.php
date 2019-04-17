@@ -2,7 +2,11 @@
 
 
 @section('css')
-
+    <style>
+        tr{
+            text-align: center;
+        }
+    </style>
 @endsection
 
 
@@ -23,8 +27,8 @@
                 <thead>
                     <tr>
                         <th style="text-align: center" scope="col">#</th>
-                        <th scope="col">Feature Name *</th>
-                        <th scope="col">Total Hour</th>
+                        <th scope="col">Feature *</th>
+                        <th scope="col">Hour</th>
                         <th scope="col">Feature State</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>

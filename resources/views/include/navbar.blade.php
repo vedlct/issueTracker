@@ -82,7 +82,7 @@
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">All Projects</a></li>
 
                         @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
-                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Project Overview</a></li>
+                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Projects Overview</a></li>
                         @endif
 
                         @if(Auth::user()->fk_userTypeId == 3)
