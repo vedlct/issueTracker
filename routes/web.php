@@ -104,6 +104,7 @@ Route::get ('/admin-list',          'UserManagementController@adminList')       
 Route::get ('/admin-edit/{id}',     'UserManagementController@editAdmin')          ->name('user.edit.admin');
 Route::post('/admin-update/',       'UserManagementController@updateAdmin')        ->name('admin.update');
 
+Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
 
 // Profile Management
 Route::get ('/profile', 'ProfileController@profile')    ->name('user.profile');

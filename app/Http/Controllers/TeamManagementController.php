@@ -116,10 +116,8 @@ class TeamManagementController extends Controller
     // remove employee
     public function removeEmployee(Request $r){
         $teamEmployee = AssignTeam::findOrFail($r->id);
-//        $teamEmployee->deleted_at = date('Y-m-d');
         $teamEmployee->delete();
 
-//        Session::flash('message', 'Company Deleted!');
 
         return back();
     }

@@ -114,14 +114,7 @@ class UserManagementController extends Controller
     public function addEmployee(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -147,14 +140,7 @@ class UserManagementController extends Controller
     public function addClient(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -254,14 +240,7 @@ class UserManagementController extends Controller
     public function editEmployee($id){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -336,14 +315,7 @@ class UserManagementController extends Controller
     public function editClient($id){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -480,7 +452,14 @@ class UserManagementController extends Controller
                                                     ->with('companyList', $companylist);
     }
 
-    // update admin info
+    public function deleteAdmin(Request $r){
+        User::findOrFail($r->id)->delete();
+        Employee::where('employeeUserId', $r->id)->delete();
+
+        return back();
+    }
+
+    // UPDATE ADMIN INFO
     public function updateAdmin(Request $r){
         $date = date('Y-m-d h:i:s');
 

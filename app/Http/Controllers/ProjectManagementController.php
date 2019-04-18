@@ -24,6 +24,31 @@ use App\BacklogComment;
 class ProjectManagementController extends Controller
 {
 
+    public $user_company_id;
+
+    // Get user's company user id
+    public function getCompanyUserId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
+    }
+
     // Project
     public function projectInformation($id){
         $project = Project::where('projectId', $id)->first();
@@ -67,22 +92,7 @@ class ProjectManagementController extends Controller
         $allStatus = Status::where('statusType', 'project_status')->get();
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -113,23 +123,7 @@ class ProjectManagementController extends Controller
     // Project Backlog Dashboard
     public function projectmanagement($id){
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get employee list
         if($userCompanyId == null)
@@ -256,22 +250,7 @@ class ProjectManagementController extends Controller
 
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get employee list
         if($userCompanyId == null)

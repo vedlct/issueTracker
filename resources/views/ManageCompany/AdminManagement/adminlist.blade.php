@@ -64,7 +64,7 @@
 
                                 <div class="form-group">
                                     <label>Phone</label>
-                                    <input type="tel" name="phone" class="form-control" required placeholder="Phone">
+                                    <input type="tel" name="phone" class="form-control" placeholder="Phone">
                                 </div>
                             </div>
 
@@ -156,8 +156,11 @@
                         { data: 'userPhoneNumber', name: 'user.userPhoneNumber' },
                         { "data": function(data)
                             {
-                                return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editAdmin(this)"><i class="fa fa-cog"></i></button>';
-                                       // '<button class="btn btn-danger btn-sm" data-panel-id="'+data.userId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
+                                {{--return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editAdmin(this)"><i class="fa fa-cog"></i></button>' +--}}
+                                       {{--'<button class="btn btn-danger btn-sm" onclick="deleteAdmin({{ $admin->userId }})"> <i class="fa fa-trash" aria-hidden="true"></i> </button>';--}}
+
+                                return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editAdmin(this)"><i class="fa fa-cog"></i></button>'+
+                                       '<button class="btn btn-danger btn-sm" data-panel-id="'+data.userId+'" onclick="deleteAdmin(this)"><i class="fa fa-trash"></i></button>';
                             },
                             "orderable": false, "searchable":false, "name":"selected_rows"
                         },
@@ -185,40 +188,34 @@
             });
         }
 
-        {{--// call delete dept--}}
-        {{--function deleteDept(x) {--}}
-            {{--btn = $(x).data('panel-id');--}}
-            {{--$.confirm({--}}
-                {{--title: 'Confirm!',--}}
-                {{--content: 'Are you sure want to delete!',--}}
-                {{--buttons: {--}}
-                    {{--confirm: function () {--}}
-                        {{--// delete--}}
-                        {{--$.ajax({--}}
-                            {{--type: 'POST',--}}
-                            {{--url: "{!! route('dept.delete') !!}",--}}
-                            {{--cache: false,--}}
-                            {{--data: {--}}
-                                {{--_token: "{{csrf_token()}}",--}}
-                                {{--'id': btn--}}
-                            {{--},--}}
-                            {{--success: function (data) {--}}
-                                {{--$.alert({--}}
-                                    {{--animationBounce: 2,--}}
-                                    {{--title: 'Success!',--}}
-                                    {{--content: 'Department Deleted',--}}
-                                {{--});--}}
-                                {{--dataTable.ajax.reload();--}}
-                            {{--}--}}
-                        {{--});--}}
+        function deleteAdmin(x) {
+            id = $(x).data('panel-id');
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure want to delete!',
+                buttons: {
+                    confirm: function () {
+                        // DELETE
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('user.delete.admin') }}",
+                            cache: false,
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                'id': id
+                            },
+                            success: function (data) {
+                                dataTable.ajax.reload();
+                            }
+                        });
+                    },
+                    cancel: function () {
 
-                    {{--},--}}
-                    {{--cancel: function () {--}}
+                    },
+                }
+            });
 
-                    {{--},--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+        }
 
 
     </script>

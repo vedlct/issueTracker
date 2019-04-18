@@ -31,27 +31,34 @@ class DashBoardController extends Controller
 //        $this->middleware('auth');
     }
 
+    // Get user's company user id
+    public function getCompanyUserId(){
 
-    public function index()
-    {
-        // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
-            $userCompanyId = null;
+            $this->user_company_id = null;
         }
 
+        return $this->user_company_id;
+    }
+
+
+    public function index()
+    {
+
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {

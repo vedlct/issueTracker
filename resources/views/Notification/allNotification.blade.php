@@ -5,6 +5,9 @@
 
     <div class="container">
         <ul class="list-group">
+            {{--@if($allNotification < 0)--}}
+
+
             @foreach($allNotification as $notification)
                 <li class="list-group-item ">
                     You are assigned to a new Task: {{ $notification->backlog_title }}.
