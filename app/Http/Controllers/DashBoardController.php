@@ -313,9 +313,6 @@ class DashBoardController extends Controller
             ->where('seen', '0')
             ->update(['seen' => 1]);
 
-//        return $notificationOld;
-
-
         return view('Notification.unseenNotification')->with('myNotificationOld', $notificationOld);
     }
 
