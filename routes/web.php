@@ -116,6 +116,7 @@ Route::post('/profile', 'ProfileController@updateProfile');
 
 //==================================Project Management===============================
 Route::get ('/project-management/dashboard',                 'ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
+Route::post ('/project-management/company/change',           'DashBoardController@changeCompany')->name('company.change');
 Route::post('/project-management/features-list',             'ProjectManagementController@getAllMyBacklog')            ->name('features.all');
 Route::get ('/project-management/project-feature/{id}',      'ProjectManagementController@projectFeature')            ->name('project.features');
 Route::post('/project-management/get-edit-backlog-data',     'ProjectManagementController@getEditModal')              ->name('backlog.dashboard.getEditModal');

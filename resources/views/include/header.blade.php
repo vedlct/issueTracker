@@ -60,8 +60,18 @@
                     </div>
                 </div>
                 <nav class="navbar-custom">
+{{--                    <select>--}}
+{{--                        <option>dfdf</option>--}}
+{{--                    </select>--}}
                     <ul class="list-inline float-right mb-0">
-
+                        <li class="list-inline-item dropdown notification-list" >
+                            <select class="form-control" id="myCompany" onchange="changeCompany(this)">
+                                <option value="">Select Company</option>
+                                @foreach($MY_Companies as $company)
+                                    <option value="{{$company->companyId}}" @if($company->companyId == Auth::user()->fkCompanyId) selected @endif>{{$company->companyName}}</option>
+                                @endforeach
+                            </select>
+                        </li>
                         {{-- NOTIFICATION --}}
                         <li class="list-inline-item dropdown notification-list" >
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\CompanyEmployee;
 use App\Notification;
 use Auth;
 use Illuminate\Support\Facades\Schema;
@@ -29,7 +30,13 @@ class AppServiceProvider extends ServiceProvider
                     ->where('seen', '0')
                     ->count();
 
+                $MY_Companies=CompanyEmployee::select('company.companyName','company.companyId')
+                    ->where('employeeUserId',Auth::user()->userId)
+                    ->leftJoin('company','company.companyId','companyemployee.fk_companyId')
+                    ->get();
+
                 $view->with('myNotification', $myNotification);
+                $view->with('MY_Companies', $MY_Companies);
             }
 
 

@@ -3,6 +3,7 @@
     <div class="left-side-logo d-block d-lg-none">
         <div>
             <h3 class="text-center">Issue Tracker</h3>
+
             {{--<a href="{{route('index')}}" class="logo"><img src="{{url('public/images/logo-dark.png')}}" height="20" alt="logo"></a>--}}
         </div>
     </div>
@@ -14,7 +15,7 @@
                 {{-- Dashboard --}}
                 <li>
                     <a href="{{route('index')}}" class="waves-effect">
-                        <i class="dripicons-blog"></i> <span> Dashboard </span>
+                        <i class="dripicons-blog"></i> <span> Dashboard</span>
                     </a>
                 </li>
 

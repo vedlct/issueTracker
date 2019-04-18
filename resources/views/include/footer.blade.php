@@ -71,6 +71,23 @@
             }
         });
     }
+    function changeCompany(x) {
+        var id=$(x).val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('company.change') !!}",
+            cache: false,
+            data: {
+                _token: "{{csrf_token()}}",
+                id:id
+            },
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+    }
 
 </script>
 
@@ -95,6 +112,8 @@
             type: 'red',
             content: '{{ Session::get('error_msg') }}',
         });
+
+
     </script>
 @endif
 
