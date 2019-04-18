@@ -14,6 +14,7 @@ use Session;
 use DB;
 use App\Client;
 use Auth;
+use Yajra\DataTables\DataTables;
 
 class UserManagementController extends Controller
 {
@@ -432,10 +433,8 @@ class UserManagementController extends Controller
     public function adminList(){
         $adminlist = DB::table('user')
                        ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
-
-            ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
-            ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
-
+                       ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                       ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
                        ->where('user.fk_userTypeId', 4)
                        ->get();
 
@@ -501,6 +500,22 @@ class UserManagementController extends Controller
         Session::flash('message', 'Admin Info Updated!');
 
         return back();
+    }
+
+    public function emp_to_manyCompany(){
+        $emp = User::where('fk_userTypeId', '3')->get();
+        $companylist = Company::all();
+
+        return view('Usermanagement.addEmpManyCompany')->with('emp', $emp)
+                                                            ->with('companyList', $companylist);
+    }
+
+    public function getEmpList(){
+        $allEmployeeList = Employee::leftJoin('user','user.userId', 'companyemployee.employeeUserId')
+                                   ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId');
+
+        $datatables = Datatables::of($allEmployeeList);
+        return $datatables->make(true);
     }
 
 

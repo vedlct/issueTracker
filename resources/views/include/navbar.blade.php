@@ -49,8 +49,8 @@
                             <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
                             <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
                             <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
-
                             <li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>
+                            <li><a href="{{ route('add.admin.otherCompany') }}" class="waves-effect">Add Employee to Other Company</a></li>
                         </ul>
                     </li>
                 @else

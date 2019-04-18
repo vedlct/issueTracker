@@ -103,8 +103,11 @@ Route::post('/add-company-admin',   'UserManagementController@insertCompanyAdmin
 Route::get ('/admin-list',          'UserManagementController@adminList')          ->name('user.show.allAdmin');
 Route::get ('/admin-edit/{id}',     'UserManagementController@editAdmin')          ->name('user.edit.admin');
 Route::post('/admin-update/',       'UserManagementController@updateAdmin')        ->name('admin.update');
-
 Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
+
+
+Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany') ->name('add.admin.otherCompany');
+Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')         ->name('get.all.EmpInfo');
 
 // Profile Management
 Route::get ('/profile', 'ProfileController@profile')    ->name('user.profile');
