@@ -5,30 +5,25 @@ Auth::routes();
 // Dashboard
 Route::get('/','DashBoardController@index')->middleware('auth')->name('index');
 
-Route::get('/call-all-ticket',    'DashBoardController@call_allticket')    ->name('call_allticket');
-Route::get('/call-open-ticket',   'DashBoardController@call_openticket')   ->name('call_openticket');
-Route::get('/call-close-ticket',  'DashBoardController@call_closeticket')  ->name('call_closeticket');
-Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')->name('call_overdueticket');
-Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')->name('call_pendingticket');
-
-
-Route::get('/all-notification/user','DashBoardController@showAllNotification')->name('show.allNotification');
-
-
-Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData')->name('getMyallNotification');
-
-Route::post('/change-unseen-notification','DashBoardController@changeunseen')->name('notification.changeUnseen');
+Route::get('/call-all-ticket',    'DashBoardController@call_allticket')                ->name('call_allticket');
+Route::get('/call-open-ticket',   'DashBoardController@call_openticket')               ->name('call_openticket');
+Route::get('/call-close-ticket',  'DashBoardController@call_closeticket')              ->name('call_closeticket');
+Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')            ->name('call_overdueticket');
+Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')            ->name('call_pendingticket');
+Route::get('/all-notification/user','DashBoardController@showAllNotification')         ->name('show.allNotification');
+Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData') ->name('getMyallNotification');
+Route::post('/change-unseen-notification','DashBoardController@changeunseen')          ->name('notification.changeUnseen');
 
 // Company
-Route::get ('/company-list',     'CompanyController@index')         ->name('company.showAllCompany');
-Route::post('/company-list',     'CompanyController@getAllCompany') ->name('company.getAllCompany');
-Route::get ('/create-company',   'CompanyController@create_company')->name('company.create');
-Route::post('/create-company',   'CompanyController@insert_company')->name('company.insert');
-Route::get ('/edit-company/{id}','CompanyController@edit_company')  ->name('company.edit');
-Route::post('/edit-company/{id}','CompanyController@update_company')->name('company.update');
-Route::post('/company/delete',   'CompanyController@delete_company')->name('company.delete');
-Route::get ('/company-list',     'CompanyController@index')         ->name('company.showAllCompany');
-Route::get ('/company-download', 'CompanyController@export')        ->name('company.export');
+Route::get ('/company-list',     'CompanyController@index')          ->name('company.showAllCompany');
+Route::post('/company-list',     'CompanyController@getAllCompany')  ->name('company.getAllCompany');
+Route::get ('/create-company',   'CompanyController@create_company') ->name('company.create');
+Route::post('/create-company',   'CompanyController@insert_company') ->name('company.insert');
+Route::get ('/edit-company/{id}','CompanyController@edit_company')   ->name('company.edit');
+Route::post('/edit-company/{id}','CompanyController@update_company') ->name('company.update');
+Route::post('/company/delete',   'CompanyController@delete_company') ->name('company.delete');
+Route::get ('/company-list',     'CompanyController@index')          ->name('company.showAllCompany');
+Route::get ('/company-download', 'CompanyController@export')         ->name('company.export');
 
 // ManageCompanyController
 Route::get ('/my-company',                          'ManageCompanyController@showmycompany')      ->name('mycompany');
@@ -44,6 +39,12 @@ Route::post('/my-company/get-all-designations',     'ManageCompanyController@get
 Route::post('/my-company/change-designations-info', 'ManageCompanyController@editDesignation')    ->name('designation.edit');
 Route::post('/my-company/update-designations-info', 'ManageCompanyController@updateDesignation')  ->name('designation.update');
 Route::post('/my-company/delete-designations-info', 'ManageCompanyController@deleteDesignation')  ->name('designation.delete');
+
+
+Route::get ('/my-company/admin-management',          'ManageCompanyController@adminlist')     ->name('mycompany.adminlist');
+Route::post('/my-company/get-admin-management-data', 'ManageCompanyController@getAdminData')  ->name('company.getAllAdmin');
+
+Route::post('/my-company/get-edit-admin', 'ManageCompanyController@editAdmin')  ->name('mycompany.admin.edit');
 
 // Project
 Route::get ('/project-list',      'ProjectController@index')          ->name('project.showAllProject');

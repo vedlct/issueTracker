@@ -19,10 +19,11 @@
                 <table id="adminTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Fullname</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>User Type</th>
+                        <th>Company Name</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -34,6 +35,8 @@
                             <td> {{ $admin->email }} </td>
                             <td> {{ $admin->userPhoneNumber }} </td>
                             <td> {{ $admin->userType }} </td>
+
+                            <td> {{ $admin->companyName }} </td>
                             <td>
                                 @if($admin->status == 1)
                                     Active
