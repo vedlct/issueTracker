@@ -20,6 +20,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
+    <style>
+        .hover_me:hover{
+            background-color: #d6d9db;
+            color: #d6d9db;
+        }
+    </style>
 
     @yield('css')
 </head>
@@ -55,6 +61,33 @@
                 </div>
                 <nav class="navbar-custom">
                     <ul class="list-inline float-right mb-0">
+
+                        {{-- NOTIFICATION --}}
+                        <li class="list-inline-item dropdown notification-list" >
+
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" onclick="changeToseen()" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="mdi mdi-bell-outline noti-icon"></i>
+                                <span class="badge badge-danger noti-icon-badge" id="noti_val">{{ $myNotification }}</span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+
+                                <!-- Count-->
+                                {{--<div class="dropdown-item noti-title">--}}
+                                    {{--<h5>Notification ({{ count($myNotification) }})</h5>--}}
+                                {{--</div>--}}
+
+
+                                <span id="mynotification"></span>
+
+                                <!-- All-->
+                                <a href="{{ route('show.allNotification') }}" class="dropdown-item notify-item">
+                                    View All
+                                </a>
+
+                            </div>
+                        </li>
+
                         <li class="list-inline-item dropdown notification-list">
                             @if(Auth::user()->profilePhoto != null)
                                 <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><img src="{{url('public/files/profileImage/'.Auth::user()->profilePhoto)}}" alt="user" class="rounded-circle"></a>
@@ -75,6 +108,7 @@
                                 </form>
                             </div>
                         </li>
+
                     </ul>
                     <ul class="list-inline menu-left mb-0">
                         <li class="list-inline-item">
@@ -98,8 +132,6 @@
                 </div>
             </div>
              <!-- end row -->
-
-
 
             @if ($errors->any())
                 <div class="alert alert-danger">

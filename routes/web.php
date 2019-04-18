@@ -11,6 +11,14 @@ Route::get('/call-close-ticket',  'DashBoardController@call_closeticket')  ->nam
 Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')->name('call_overdueticket');
 Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')->name('call_pendingticket');
 
+
+Route::get('/all-notification/user','DashBoardController@showAllNotification')->name('show.allNotification');
+
+
+Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData')->name('getMyallNotification');
+
+Route::post('/change-unseen-notification','DashBoardController@changeunseen')->name('notification.changeUnseen');
+
 // Company
 Route::get ('/company-list',     'CompanyController@index')         ->name('company.showAllCompany');
 Route::post('/company-list',     'CompanyController@getAllCompany') ->name('company.getAllCompany');
@@ -116,11 +124,12 @@ Route::post('/project-management/backlog/update',            'ProjectManagementC
 Route::post('/project-management/backlog/comment',           'ProjectManagementController@postComment')               ->name('backlog.comment.post');
 Route::post('/project-management/backlog/comment/load',      'ProjectManagementController@getComments')               ->name('backlog.comment.get');
 Route::post('/project-management/backlog/generate-report',   'ProjectManagementController@generateReport')            ->name('backlog.generate.report');
-Route::get('/project-management/project/gantt-chart/{id}',   'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
+Route::get ('/project-management/project/gantt-chart/{id}',  'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
 Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')                ->name('backlog.dashboard.getallData');
 
 
-Route::post('/project-management/dashboard/get-all-comments',    'ProjectManagementController@getAllMyComments')                ->name('backlog.show.getAllMyComments');
+Route::post('/project-management/dashboard/get-all-comments', 'ProjectManagementController@getAllMyComments')         ->name('backlog.show.getAllMyComments');
+Route::post('/project-management/dashboard/get-all-owners',   'ProjectManagementController@getAllOwners')             ->name('backlog.show.owners');
 
 
 //==================================Project backlog Management===============================

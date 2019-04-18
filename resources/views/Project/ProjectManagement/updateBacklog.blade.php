@@ -15,7 +15,7 @@
         </div>
         <div class="col">
             <label>Priority</label>
-            <select class="form-control" name="priority" required>
+            <select class="form-control" name="priority">
                 <option value="">Select Priority</option>
                 <option value="Low" @if($backlog->backlog_priority == 'Low') selected @endif>Low</option>
                 <option value="Medium" @if($backlog->backlog_priority == 'Medium') selected @endif>Medium</option>
@@ -46,7 +46,7 @@
         </div>
         <div class="col">
             <label>Backlog Time (Hour)</label>
-            <input type="number" class="form-control" value="{{ $backlog->backlog_time }}" placeholder="Backlog Time" name="backlog_time" required>
+            <input type="number" class="form-control" value="{{ $backlog->backlog_time }}" placeholder="Backlog Time" name="backlog_time">
         </div>
     </div>
     <div class="row mb-2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Backlog;
 use App\Exports\BacklogExport;
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Company;
@@ -233,6 +234,15 @@ class ProjectManagementController extends Controller
                 $assignment->fk_assigned_employee_user_id = $emp;
                 $assignment->backlog_assignment_created_at = date('Y-m-d H:i:s');
                 $assignment->save();
+
+                // FOR NOTIFICATION
+                $notification = new Notification();
+                $notification->assigned_emp_id = $emp;
+                $notification->assigned_type = 'Backlog';
+                $notification->task_id = $backlog->backlog_id;
+                $notification->assigned_time = date('Y-m-d H:i:s');
+                $notification->seen = 0;
+                $notification->save();
             }
         }
 
@@ -300,18 +310,27 @@ class ProjectManagementController extends Controller
         $backlog->save();
 
         BacklogAssignment::where('fk_backlog_id', $r->backlog_id)->delete();
+        Notification::where('assigned_type', 'Backlog')
+                    ->where('task_id', $r->backlog_id)
+                    ->delete();
 
         if($r->assigned_employee)
         {
-            if($r->assigned_employee)
-            {
-                foreach ($r->assigned_employee as $emp){
-                    $assignment = new BacklogAssignment();
-                    $assignment->fk_backlog_id = $backlog->backlog_id;
-                    $assignment->fk_assigned_employee_user_id = $emp;
-                    $assignment->backlog_assignment_created_at = date('Y-m-d H:i:s');
-                    $assignment->save();
-                }
+            foreach ($r->assigned_employee as $emp){
+                $assignment = new BacklogAssignment();
+                $assignment->fk_backlog_id = $backlog->backlog_id;
+                $assignment->fk_assigned_employee_user_id = $emp;
+                $assignment->backlog_assignment_created_at = date('Y-m-d H:i:s');
+                $assignment->save();
+
+                // FOR NOTIFICATION
+                $notification = new Notification();
+                $notification->assigned_emp_id = $emp;
+                $notification->assigned_type = 'Backlog';
+                $notification->task_id = $backlog->backlog_id;
+                $notification->assigned_time = date('Y-m-d H:i:s');
+                $notification->seen = 0;
+                $notification->save();
             }
         }
 
@@ -361,8 +380,6 @@ class ProjectManagementController extends Controller
                                 ->where('fk_project_id', $id)
                                 ->get();
 
-//        dd($comments);
-
         return view('Project.ProjectManagement.projectFeatures')->with('project', $project)
                                                                      ->with('exp_time', $exp_time)
                                                                      ->with('backlogComments', $comments);
@@ -401,6 +418,11 @@ class ProjectManagementController extends Controller
     public function getAllMyComments(Request $r){
         $comments = BacklogComment::leftJoin('user', 'user.userId', 'backlog_comment.fk_comment_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
         return view('Project.ProjectManagement.showAllComments')->with('comments', $comments);
+    }
+
+    public function getAllOwners(Request $r){
+        $owners = BacklogAssignment::leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')->where('fk_backlog_id', $r->backlog_id)->get();
+        return view('Project.ProjectManagement.showOwnerModal')->with('owners', $owners);
     }
 
 

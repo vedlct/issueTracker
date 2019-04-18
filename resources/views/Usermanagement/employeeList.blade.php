@@ -45,7 +45,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.employee.profile', ['emp_id'=>$employee->userId]) }}'"> <i class="fa fa-cog" aria-hidden="true"></i> </button>
+                                    <button class="btn btn-success btn-sm" onclick="location.href='{{ route('edit.employee.profile', ['emp_id'=>$employee->userId]) }}'"> <i class="fa fa-pencil-square" aria-hidden="true"></i> </button>
                                     {{--<button class="btn btn-danger" data-panel-id="{{ $employee->userId }}" onclick="deleteEmployee(this)"> <i class="fa fa-trash fa-lg" aria-hidden="true"></i> </button>--}}
                                 </td>
                             </tr>

@@ -42,7 +42,7 @@
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-success btn-sm" onclick="location.href='{{ route('user.edit.admin', ['emp_id'=>$admin->userId]) }}'"> <i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i> </button>
+                                <button class="btn btn-success btn-sm" onclick="location.href='{{ route('user.edit.admin', ['emp_id'=>$admin->userId]) }}'"> <i class="fa fa-pencil-square" aria-hidden="true"></i> </button>
                             </td>
                         </tr>
                     @endforeach

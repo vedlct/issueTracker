@@ -8,8 +8,12 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class TicketExport implements FromView
+class TicketExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
 {
     private $data;
 
@@ -30,5 +34,24 @@ class TicketExport implements FromView
                 ->groupBy('ticket.ticketId')
                 ->get(),
         ]);
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $cellRange = 'A1:W1'; // All headers
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
+
+                $event->sheet->getStyle('A1:W100')
+                    ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            },
+        ];
+    }
+
+    public function headings(): array
+    {
+        // TODO: Implement headings() method.
+
     }
 }

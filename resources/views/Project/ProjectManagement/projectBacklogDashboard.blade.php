@@ -4,7 +4,7 @@
 @section('css')
     <style>
         .card{
-            box-shadow: 1px 0 20px rgba(0, 0, 0, .09);
+            box-shadow: 0px 0 3px rgba(0, 0, 0, 0.39);
         }
         .select2-container{
             display: block;

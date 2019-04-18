@@ -36,6 +36,44 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<script>
+
+    // $( document ).ready(function() {
+    //     getMyNotification();
+    // });
+    //
+    // function getMyNotification(){
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('getMyallNotification') !!}",
+            cache: false,
+            data: {
+                _token: "{{csrf_token()}}",
+            },
+            success: function (data) {
+                $('#mynotification').html(data);
+            }
+        });
+    // }
+
+    function changeToseen() {
+        console.log('p');
+        $.ajax({
+            type: 'POST',
+            url: "{!! route('notification.changeUnseen') !!}",
+            cache: false,
+            data: {
+                _token: "{{csrf_token()}}",
+            },
+            success: function (data) {
+                $('#mynotification').html(data);
+                $('#noti_val').html('0');
+            }
+        });
+    }
+
+</script>
+
 @if(Session::has('message'))
     {{--<p class="alert alert-info">{{ Session::get('message') }}</p> --}}
     <script type="text/javascript">
