@@ -26,11 +26,11 @@ class ProjectController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id =Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {

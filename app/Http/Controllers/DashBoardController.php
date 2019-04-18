@@ -40,11 +40,11 @@ class DashBoardController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id =Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -147,23 +147,23 @@ class DashBoardController extends Controller
         $companyCount = Company::all()->count();
 
         // Project
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
-
+//        if(Auth::user()->fk_userTypeId == 2)
+//        {
+//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 3)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 1)
+//        {
+//            $userCompanyId = null;
+//        }
+        $userCompanyId = $this->getCompanyUserId();
         // only for super admin
         if($userCompanyId == null)
         {
