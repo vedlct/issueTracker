@@ -5,7 +5,7 @@
 
     <div class="container">
         <ul class="list-group">
-            @if($allNotification < 0)
+            @if(count($allNotification) < 0)
                 <p>No new message</p>
             @else
                 @foreach($allNotification as $notification)
@@ -15,7 +15,6 @@
                     </li>
                 @endforeach
             @endif
-
         </ul>
     </div>
 
