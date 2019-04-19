@@ -108,6 +108,8 @@ Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')     
 
 Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany') ->name('add.admin.otherCompany');
 Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')         ->name('get.all.EmpInfo');
+Route::post('deleteFromCompany/',               'UserManagementController@deleteFromCompany')         ->name('deleteFromCompany');
+Route::post('employee/company/assign',               'UserManagementController@assignEmployeeCompany')         ->name('employee.company.insert');
 
 // Profile Management
 Route::get ('/profile', 'ProfileController@profile')    ->name('user.profile');
