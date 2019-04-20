@@ -483,8 +483,6 @@ class TicketController extends Controller
     // insert ticket reply
     public function insertReply(Request $r){
 
-
-        // Send Mail
         $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
@@ -525,9 +523,14 @@ class TicketController extends Controller
             return back();
         }
 
+        $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+            ->where('user.fk_userTypeId', 4)
+            ->where('companyemployee.fk_companyId', $userCompanyId)
+            ->first()->email;
+
         $data=array(
             'name'=> 'Issuetracker',
-            'email'=> 'admin@gmail.com',
+            'email'=> $company_admin_mail,
             'message'=> $r->replyData,
             'reply_user'=> Auth::user()->fullName,
             'reply'=> $r->replyData,
