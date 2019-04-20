@@ -75,9 +75,11 @@
     <div class="card">
         <h5 class="card-header mt-0">
             {{ $project->project_name }}
+            @if(Auth::user()->fk_userTypeId != 2)
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
             <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
             <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+            @endif
         </h5>
 
         <div class="card-body">
@@ -116,7 +118,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    @if(Auth::user()->fk_userTypeId != 2)
                     <td></td>
+                        @endif
                 </tr>
 
             </table>
@@ -138,12 +142,12 @@
 
         $(document).ready(function() {
 
-            var comments = <?php echo json_encode($backlogComments); ?>
+
 
             dataTable=  $('#featurelist').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(0)'
-                },
+//                rowReorder: {
+//                    selector: 'td:nth-child(0)'
+//                },
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -168,18 +172,19 @@
                     { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
                     { data: 'backlog_priority', name: 'backlog.backlog_priority' },
                     { data: 'remark', name: 'backlog.remark' },
-                    // { data: 'comments', name: 'comments' },
+
 
                     { "data": function(data)
                         {
-                            if(data.comments == null)
-                            {
-                                return "";
-                            }
-                            else
-                            {
-                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
-                            }
+//                            if(data.comments == null)
+//                            {
+//                                return "";
+//                            }
+//                            else
+//                            {
+//                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
+//                            }
+                        return "";
                         },
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
@@ -188,13 +193,14 @@
                     { "data": function(data)
                         {
 
-                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
+//                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
+                            return '';
 
                         },
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-                        @if(Auth::user()->fk_userTypeId != 2)
+                    @if(Auth::user()->fk_userTypeId != 2)
                     { "data": function(data)
                         {
 

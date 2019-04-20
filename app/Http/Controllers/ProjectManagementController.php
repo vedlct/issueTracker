@@ -75,6 +75,7 @@ class ProjectManagementController extends Controller
 
     // GET ALL BACKLOG FOR DATATABLE
     public function getAllMyBacklog(Request $r){
+
         $backlog = Backlog::where('fk_project_id', $r->project_id)->orderBy('backlog_id', 'desc');
         $datatables = Datatables::of($backlog);
         return $datatables->addColumn('comments', function ($backlog) use ($r){
@@ -362,6 +363,7 @@ class ProjectManagementController extends Controller
 
     // SHOW FEATURES
     public function projectFeature($id){
+
         $project = Project::where('projectId', $id)->first();
 
         $exp_time = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
