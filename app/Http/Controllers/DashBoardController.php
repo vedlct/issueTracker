@@ -8,6 +8,7 @@ use App\CableBill;
 use App\CableClient;
 use App\CheckMonth;
 use App\Client;
+use App\ClientProjectRelation;
 use App\Employee;
 use App\InternetBill;
 use App\InternetClient;
@@ -59,34 +60,107 @@ class DashBoardController extends Controller
         return $this->user_company_id;
     }
 
-    // Get user's project id
-    public function getUserProjectId(){
 
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $this->user_company_id = Auth::user()->fkCompanyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-//            $this->user_company_id =Auth::user()->fkCompanyId;
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $this->user_company_id = null;
-        }
 
-        return $this->user_company_id;
-    }
-
-    public function rumi()
+    public function clientDashboard()
     {
+        $date = date('Y-m-d h:i:s');
 
-        return view('dashboard');
+
+
+            $clientId = Client::where('userId', Auth::user()->userId)->first()->clientId;
+            $projectCount= ClientProjectRelation::where('clientId', $clientId)->count();
+
+
+
+            // CALCULATE PROJECT PERCENTAGE
+            $projects = Project::leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
+                                ->where('client_project_relation.clientId', $clientId)->get();
+            $percentage_all = array();
+
+            foreach ($projects as $project){
+                $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
+                $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();
+                if($totalBacklog == 0)
+                {
+                    $percentage = 0;
+                }
+                else
+                {
+                    $percentage = ($completedBacklog*100)/$totalBacklog;
+                }
+                $percentage_all[$project->project_name] = round($percentage);
+            }
+            // END CALCULATE PROJECT PERCENTAGE
+
+
+            $openCount = Ticket::where('fk_ticketOpenerId', $clientId)
+                ->where('ticketStatus', 'Open')
+                ->count();
+
+            $overDueCount = Ticket::where('fk_ticketOpenerId', $clientId)
+                ->where('ticketStatus', '!=', 'Close')
+                ->whereDate('ticket.exp_end_date', '<=', $date)
+                ->count();
+
+            $pendingCount = Ticket::where('fk_ticketOpenerId', $clientId)
+                ->where('ticketStatus', 'Pending')
+                ->count();
+
+            $closeCount = Ticket::where('fk_ticketOpenerId', $clientId)
+                ->where('ticketStatus', 'Close')
+                ->count();
+
+            // Only for this month
+            $currntYear =  date("Y");
+            $currntMonth = date("m");
+
+            $allTicketMonth= Ticket::where(DB::raw('MONTH(created_at)'), $currntMonth)
+                ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                ->where('fk_ticketOpenerId', $clientId)
+                ->count();
+
+            $openCountMonth= Ticket::where('ticketStatus', 'Open')
+                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                ->where('fk_ticketOpenerId', $clientId)
+                ->count();
+
+            $overDueCountMonth = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
+                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                ->where('ticketStatus', '!=', 'Close')
+                ->where('fk_ticketOpenerId', $clientId)
+                ->count();
+
+            $pendingCountMonth = Ticket::where('ticketStatus', 'Pending')
+                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                ->where('fk_ticketOpenerId', $clientId)
+                ->count();
+
+            $closeCountMonth = Ticket::where('ticketStatus', 'Close')
+                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                ->where('fk_ticketOpenerId', $clientId)
+                ->count();
+
+
+        return view('clientDashboard')->with('openticket', $openCount)
+            ->with('overdue', $overDueCount)
+            ->with('pending', $pendingCount)
+//            ->with('allticket', $allTicket)
+            ->with('close', $closeCount)
+            ->with('projectCount', $projectCount)
+//            ->with('companyCount', $companyCount)
+            ->with('openticketMonth', $openCountMonth)
+            ->with('overdueMonth', $overDueCountMonth)
+            ->with('pendingMonth', $pendingCountMonth)
+            ->with('allticketMonth', $allTicketMonth)
+            ->with('closeMonth', $closeCountMonth)
+//            ->with('mybacklogs', $mybacklogs)
+//            ->with('mybacklogsMissed', $mybacklogsMissed)
+            ->with('project_percentage', $percentage_all);
 
 
     }
@@ -94,9 +168,12 @@ class DashBoardController extends Controller
 
     public function index()
     {
-//For Employee
+        //For Employee
         if(Auth::user()->fk_userTypeId == 3){
             return $this->employeeDashboard();
+        }
+        if(Auth::user()->fk_userTypeId == 2){
+            return $this->clientDashboard();
         }
 
 
@@ -198,8 +275,8 @@ class DashBoardController extends Controller
 
         // Project
 
-//        $userCompanyId = $this->getCompanyUserId();
-        $userCompanyId = $this->getUserProjectId();
+        $userCompanyId = $this->getCompanyUserId();
+
 //        return Auth::user();
         // only for super admin
         if($userCompanyId == null)

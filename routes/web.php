@@ -4,7 +4,6 @@ Auth::routes();
 
 // Dashboard
 Route::get('/','DashBoardController@index')->middleware('auth')->name('index');
-Route::get('/Rumi','DashBoardController@rumi')->middleware('auth')->name('index');
 
 Route::get('/call-all-ticket',    'DashBoardController@call_allticket')                ->name('call_allticket');
 Route::get('/call-open-ticket',   'DashBoardController@call_openticket')               ->name('call_openticket');
