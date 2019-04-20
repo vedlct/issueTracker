@@ -12,7 +12,6 @@
         .changeMouse {
             cursor: pointer;
         }
-
     </style>
 @endsection
 
@@ -76,9 +75,9 @@
         <h5 class="card-header mt-0">
             {{ $project->project_name }}
             @if(Auth::user()->fk_userTypeId != 2)
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
-            <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
+                <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
+                <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
             @endif
         </h5>
 
@@ -87,21 +86,21 @@
 
             <table class="table table-bordered table-sm table-condensed" id="featurelist">
                 <thead>
-                    <tr>
-                        {{--<th style="text-align: center" scope="col">#</th>--}}
-                        <th scope="col">Feature</th>
-                        <th scope="col">Total Hour</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Priority</th>
-                        <th scope="col">Remarks</th>
-                        <th scope="col">Comments</th>
-                        <th scope="col">Owner</th>
-                        @if(Auth::user()->fk_userTypeId != 2)
+                <tr>
+                    {{--<th style="text-align: center" scope="col">#</th>--}}
+                    <th scope="col">Feature</th>
+                    <th scope="col">Total Hour</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Remarks</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Owner</th>
+                    @if(Auth::user()->fk_userTypeId != 2)
                         <th scope="col" class="text-center">Action</th>
-                        @endif
-                    </tr>
+                    @endif
+                </tr>
                 </thead>
 
                 {{--<tbody id="table_space"></tbody>--}}
@@ -119,8 +118,8 @@
                     <td></td>
                     <td></td>
                     @if(Auth::user()->fk_userTypeId != 2)
-                    <td></td>
-                        @endif
+                        <td></td>
+                    @endif
                 </tr>
 
             </table>
@@ -135,18 +134,14 @@
 
 @section('js')
     <script>
-
         $(document).ready(function() {
             // getallData();
         });
-
         $(document).ready(function() {
-
             dataTable=  $('#featurelist').DataTable({
-               rowReorder: {
-                   selector: 'td:nth-child(0)'
-               },
-
+//                rowReorder: {
+//                    selector: 'td:nth-child(0)'
+//                },
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -163,7 +158,6 @@
                     },
                 },
                 columns: [
-
                     { data: 'backlog_title', name: 'backlog.backlog_title' },
                     { data: 'backlog_time', name: 'backlog.backlog_time' },
                     { data: 'backlog_state', name: 'backlog.backlog_state' },
@@ -171,8 +165,6 @@
                     { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
                     { data: 'backlog_priority', name: 'backlog.backlog_priority' },
                     { data: 'remark', name: 'backlog.remark' },
-
-
                     { "data": function(data)
                         {
 //                            if(data.comments == null)
@@ -183,39 +175,29 @@
 //                            {
 //                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
 //                            }
-                        return "";
+                            return "";
                         },
-
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-
                     { "data": function(data)
                         {
-
 //                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
                             return '';
-
                         },
-
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-                    @if(Auth::user()->fk_userTypeId != 2)
+                        @if(Auth::user()->fk_userTypeId != 2)
                     { "data": function(data)
                         {
-
                             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-pencil-square"></i></button>' +
                                 '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
                         },
-
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
                     @endif
                 ]
             } );
         } );
-
-
-
         function showComments(x){
             $.ajax({
                 type: 'POST',
@@ -231,7 +213,6 @@
                 }
             });
         }
-
         function showOwners(x){
             $.ajax({
                 type: 'POST',
@@ -247,7 +228,6 @@
                 }
             });
         }
-
         function generateReport(){
             var id = '{{ $project->projectId }}';
             $.ajax({
@@ -266,7 +246,6 @@
                 }
             });
         }
-
         function editFeature(x) {
             id = $(x).data('panel-id');
             $.ajax({
@@ -283,17 +262,13 @@
                 }
             });
         }
-
         function deleteFeature(x) {
-
             id = $(x).data('panel-id');
-
             $.confirm({
                 title: 'Delete Confirmation!',
                 content: 'Are you sure want to delete ?',
                 buttons: {
                     confirm: function () {
-
                         $.ajax({
                             type: 'POST',
                             url: "{!! route('backlog.dashboard.delete') !!}",
@@ -303,25 +278,15 @@
                                 'backlog_id': id,
                             },
                             success: function (data) {
-
                                 dataTable.ajax.reload();
-
                                 $.alert('Feature deleted!');
-
                             }
                         });
-
                     },
                     cancel: function () {
-
                     }
                 }
             });
-
-
-
         }
-
     </script>
 @endsection
-

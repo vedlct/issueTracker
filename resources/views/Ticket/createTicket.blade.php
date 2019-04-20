@@ -30,6 +30,7 @@
                         <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
+
                     {{--<div class="form-group col-md-3">--}}
                         {{--<label>Select Project</label>--}}
                         {{--<select class="form-control" name="project" required>--}}
@@ -55,7 +56,10 @@
                         </select>
                     </div>
 
+
+
                     <div class="form-group col-md-3">
+
                         <label for="exampleFormControlFile1">Choose file</label>
                         <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
                     </div>

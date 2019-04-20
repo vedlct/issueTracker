@@ -134,6 +134,7 @@
                                     <td>{{$ticket->ticketStatus}}</td>
                                 </tr>
                                 <tr>
+
                                     <th scope="col">Worked Hour</th>
                                     <td>{{$ticket->workedHour}}</td>
                                 </tr>
@@ -232,10 +233,12 @@
                 {{--Old reply end --}}
 
 
+
                 <br>
                 <button id="addcommnet" onclick="addcomment()" class="btn btn-warning">Add Comment</button>
                 {{-- Post a reply --}}
                 <form id="reply" method="post" enctype="multipart/form-data" style="clear: both; display: none">
+
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
                     <div class="form-group">
@@ -312,10 +315,12 @@
                 });
             }
 
+
             function addcomment() {
                 document.getElementById('addcommnet').style.display = "none";
                 document.getElementById('reply').style.display = "block";
             }
+
     </script>
 
 @endsection

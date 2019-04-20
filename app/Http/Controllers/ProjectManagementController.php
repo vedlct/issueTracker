@@ -363,13 +363,14 @@ class ProjectManagementController extends Controller
 
     // SHOW FEATURES
     public function projectFeature($id){
-        
-        $project = Project::where('projectId', $id)->first();
 
+
+        $project = Project::where('projectId', $id)->first();
 
         $exp_time = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
 
-         $comments = BacklogComment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
+        $comments = BacklogComment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
+
                                 ->where('fk_project_id', $id)
                                 ->get();
 

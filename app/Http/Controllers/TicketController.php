@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use App\TicketType;
+
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -333,7 +336,9 @@ class TicketController extends Controller
 
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
+
         $ticketType = TicketType::get();
+
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -345,9 +350,11 @@ class TicketController extends Controller
             $projectlist = Project::where('fk_company_id', $userCompanyId)->get();
         }
 
+
         return view('Ticket.createTicket')
                      ->with('projectlist', $projectlist)
                      ->with('tickettype', $ticketType);
+
     }
 
     // insert ticket
@@ -414,10 +421,12 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
+
         $ticket->created_at = Carbon::parse($r->create_date)->format('Y-m-d');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
         $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
+
         $ticket->fk_projectId = $r->project;
         $ticket->fkTicketTypeId = $r->tickettype;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
@@ -481,7 +490,9 @@ class TicketController extends Controller
         $ticketOpenerName = Auth::user()->fullName;
         $priority = $r->priroty;
         $details = $r->details;
+
       //  $projectName = Project::where('projectId', $r->project)->first()->project_name;
+
         $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                                   ->where('user.fk_userTypeId', 4)
                                   ->where('companyemployee.fk_companyId', $userCompanyId)

@@ -68,6 +68,7 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
+
                             <th>Number</th>
                             <th>Subject</th>
                             <th>Last Updated</th>
@@ -120,6 +121,7 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
+
                             <th>Number</th>
                             <th>Subject</th>
                             <th>Last Updated</th>
@@ -159,8 +161,43 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
+
     </div>
 </div>
+
+<!-- Assign Team to ticket-->
+{{--<div class="modal fade" id="teamModal" role="dialog" aria-hidden="true">--}}
+    {{--<div class="modal-dialog modal-lg" role="document">--}}
+        {{--<div class="modal-content ">--}}
+            {{--<div class="modal-header">--}}
+                {{--<h5 class="modal-title" id="exampleModalLabel">Team Assignment</h5>--}}
+                {{--<button type="hidden" class="close" data-dismiss="modal" aria-label="Close">--}}
+                    {{--<span aria-hidden="true">&times;</span>--}}
+                {{--</button>--}}
+            {{--</div>--}}
+            {{--<div class="modal-body">--}}
+
+                {{--<div class="form-group" id="assignTypeTeam">--}}
+                    {{--<label for="company">Select Team</label>--}}
+                    {{--<select class="form-control" id="team" name="teamId" required>--}}
+                        {{--<option value="">Select Team</option>--}}
+                        {{--@foreach($teams as $team)--}}
+                            {{--<option value="{{ $team->teamId }}">{{ $team->teamName }}</option>--}}
+                        {{--@endforeach--}}
+                    {{--</select>--}}
+                {{--</div>--}}
+
+                {{--<button onclick="assignTeam()" class="btn btn-primary">Assign Team</button>--}}
+
+            {{--</div>--}}
+            {{--<div class="modal-footer">--}}
+                {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 
 <!-- Assign Team to ticket-->
 <div class="modal fade" id="teamModal" role="dialog" aria-hidden="true">
@@ -193,6 +230,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -240,7 +278,9 @@
     var currentDate = Date.now();
     var currentUserType = "{{ Auth::user()->fk_userTypeId }}";
 
+
     $(document).ready(function() {
+
 
         dataTable=  $('#ticketTable').DataTable({
            rowReorder: {
@@ -264,6 +304,7 @@
                    d.ticketType=letter;
                    d.overDue=dueTicket;
                    d.allTicket=allTicket;
+
                },
            },
            columns: [
@@ -289,6 +330,7 @@
                    },
                    "orderable": false, "searchable":true, "name":"selected_rows"
                },
+
 
                { "data": function(data){
                        var d1 = Date.parse(data.exp_end_date);
@@ -725,10 +767,6 @@
         @endif
 
     });
-
-
-
-
 
 
 </script>
