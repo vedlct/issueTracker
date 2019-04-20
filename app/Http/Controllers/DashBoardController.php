@@ -59,6 +59,38 @@ class DashBoardController extends Controller
         return $this->user_company_id;
     }
 
+    // Get user's project id
+    public function getUserProjectId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id = Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+//            $this->user_company_id =Auth::user()->fkCompanyId;
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
+    }
+
+    public function rumi()
+    {
+
+        return view('dashboard');
+
+
+    }
+
 
     public function index()
     {
@@ -162,9 +194,12 @@ class DashBoardController extends Controller
         // Company
         $companyCount = Company::all()->count();
 
+
+
         // Project
 
-        $userCompanyId = $this->getCompanyUserId();
+//        $userCompanyId = $this->getCompanyUserId();
+        $userCompanyId = $this->getUserProjectId();
 //        return Auth::user();
         // only for super admin
         if($userCompanyId == null)
