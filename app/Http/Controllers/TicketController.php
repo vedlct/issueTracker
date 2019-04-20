@@ -364,10 +364,10 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-        $ticket->created_at = date('Y-m-d H:i:s');
+        $ticket->created_at = $r->create_date;
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
-        $ticket->exp_end_date = date('Y-m-d H:i:s');
+        $ticket->exp_end_date = $r->exp_end_date;
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 

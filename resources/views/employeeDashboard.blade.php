@@ -47,7 +47,7 @@
             <div class="card mb-3">
                 <h5 class="card-header mt-0">Today's List</h5>
                 @foreach($MY_Companies as $company)
-                    <h5><b>{{$company->companyName}}</b></h5>
+                    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
                 <div class="card-body">
                     @foreach($mybacklogs->where('fk_company_id',$company->companyId) as $mybacklog)
                         <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
@@ -82,7 +82,7 @@
             <div class="card">
                 <h5 class="card-header mt-0">Past Due</h5>
                 @foreach($MY_Companies as $company)
-                    <h5><b>{{$company->companyName}}</b></h5>
+                    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
                 <div class="card-body">
                     @foreach($mybacklogsMissed->where('fk_company_id',$company->companyId) as $mybacklog)
                         <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
@@ -133,7 +133,7 @@
                 {{-- Project --}}
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
-                        <div class="card-header">    <h5><b>{{$company->companyName}}</b></h5></div>
+                        <div class="card-header">    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5></div>
                         <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>
                             <div class="text-right">
@@ -151,7 +151,7 @@
             <div class="card mt-2">
 
 {{--                @foreach($MY_Companies as $company)--}}
-{{--                    <h5><b>{{$company->companyName}}</b></h5>--}}
+{{--                    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>--}}
                 <div class="card-body" style="padding: 5px; margin-bottom: 0;">
                     @foreach($project_percentage as $projectName => $percentage)
                         <div class="progress m-3" style="height: 25px; color: #0a1832">
@@ -172,7 +172,7 @@
         </div>
         <div class="card-body">
             @foreach($MY_Companies as $company)
-                <h5><b>{{$company->companyName}}</b></h5>
+                <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
             <div class="row" >
 
                 {{-- Open ticket --}}
@@ -227,7 +227,7 @@
         </div>
         <div class="card-body">
             @foreach($MY_Companies as $company)
-                <h5><b>{{$company->companyName}}</b></h5>
+                <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
             <div class="row" >
 
                 <div class="col-lg-2 col-md-6 mb-2">

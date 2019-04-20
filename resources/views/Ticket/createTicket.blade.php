@@ -22,7 +22,7 @@
 
                     <div class="form-group col-md-3">
                         <label>Expected End Date *</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date" required>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date">
                     </div>
 
                     <div class="form-group col-md-12">
