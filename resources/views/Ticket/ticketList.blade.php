@@ -68,13 +68,13 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
-                            <th>Ticket No.</th>
-                            <th>Ticket Topic</th>
+                            <th>Number</th>
+                            <th>Subject</th>
                             <th>Last Updated</th>
-                            <th>Ticket Opener</th>
-                            <th>Ticket Priority</th>
-                            <th>Ticket Assigned To</th>
-                            <th>Ticket Status</th>
+                            <th>From</th>
+                            <th>Priority</th>
+                            <th>Support Agent</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -120,13 +120,13 @@
                         <thead>
                         <tr>
                             <th> <input type="checkbox" id="selectall" onClick="selectAll(this)" /> </th>
-                            <th>Ticket No.</th>
-                            <th>Ticket Topic</th>
+                            <th>Number</th>
+                            <th>Subject</th>
                             <th>Last Updated</th>
-                            <th>Ticket Opener</th>
-                            <th>Ticket Priority</th>
-                            <th>Ticket Assigned To</th>
-                            <th>Ticket Status</th>
+                            <th>From</th>
+                            <th>Priority</th>
+                            <th>Support Agent</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>

@@ -518,5 +518,23 @@ class UserManagementController extends Controller
         return $datatables->make(true);
     }
 
+    public function deleteFromCompany(Request $r){
+        Employee::where('companyEmployeeId',$r->id)->delete();
+//        return $r;
+    }
+
+    public function assignEmployeeCompany(Request $r){
+        $count=Employee::where('employeeUserId',$r->empId)->where('fk_companyId',$r->companyId)
+            ->count();
+        if($count==0){
+            $empCompany=new Employee();
+            $empCompany->fk_companyId=$r->companyId;
+            $empCompany->employeeUserId=$r->empId;
+            $empCompany->save();
+        }
+
+        return back();
+    }
+
 
 }

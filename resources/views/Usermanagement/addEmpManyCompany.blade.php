@@ -19,7 +19,7 @@
             <div class="card-body">
 
                 <div class="">
-                    <form method="post" action="{{ route('employee.insert') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('employee.company.insert') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
 
@@ -72,27 +72,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {{--@foreach($adminlist as $admin)--}}
-                        {{--<tr>--}}
-                            {{--<td> {{ $admin->fullName }} </td>--}}
-                            {{--<td> {{ $admin->email }} </td>--}}
-                            {{--<td> {{ $admin->userPhoneNumber }} </td>--}}
-                            {{--<td> {{ $admin->userType }} </td>--}}
 
-                            {{--<td> {{ $admin->companyName }} </td>--}}
-                            {{--<td>--}}
-                                {{--@if($admin->status == 1)--}}
-                                    {{--Active--}}
-                                {{--@else--}}
-                                    {{--Inactive--}}
-                                {{--@endif--}}
-                            {{--</td>--}}
-                            {{--<td>--}}
-                                {{--<button class="btn btn-success btn-sm" onclick="location.href='{{ route('user.edit.admin', ['emp_id'=>$admin->userId]) }}'"> <i class="fa fa-pencil-square" aria-hidden="true"></i> </button>--}}
-                                {{--<button class="btn btn-danger btn-sm" onclick="deleteAdmin({{ $admin->userId }})"> <i class="fa fa-trash" aria-hidden="true"></i> </button>--}}
-                            {{--</td>--}}
-                        {{--</tr>--}}
-                    {{--@endforeach--}}
                     </tbody>
                 </table>
             </div>
@@ -131,14 +111,14 @@
                         { data: 'fullName', name: 'user.fullName' },
                         { data: 'email', name: 'user.email' },
                         { data: 'userPhoneNumber', name: 'user.userPhoneNumber' },
-                        { data: 'companyName', name: 'user.companyName' },
+                        { data: 'companyName', name: 'company.companyName' },
 
 
 
                         { "data": function(data)
                             {
                                 return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editDept(this)"><i class="fa fa-cog"></i></button>'+
-                                    '<button class="btn btn-danger btn-sm" data-panel-id="'+data.userId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
+                                    '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyEmployeeId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
                             },
                             "orderable": false, "searchable":false, "name":"selected_rows"
                         },
@@ -146,6 +126,27 @@
             });
         });
 
+        function deleteDept(x) {
+            var id=$(x).data('panel-id');
+
+            // alert(id);
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('deleteFromCompany') }}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'id': id
+                },
+                success: function (data) {
+                    console.log(data);
+                    dataTable.ajax.reload();
+
+                }
+            });
+
+
+        }
     </script>
 
 @endsection
