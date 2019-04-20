@@ -27,7 +27,8 @@ class ProjectBacklogManagementController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id =Auth::user()->fkCompanyId;
+//            $this->user_company_id =Auth::user()->fkCompanyId;
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
