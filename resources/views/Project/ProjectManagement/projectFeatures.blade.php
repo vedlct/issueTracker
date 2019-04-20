@@ -96,7 +96,9 @@
                         <th scope="col">Remarks</th>
                         <th scope="col">Comments</th>
                         <th scope="col">Owner</th>
+                        @if(Auth::user()->fk_userTypeId != 2)
                         <th scope="col" class="text-center">Action</th>
+                        @endif
                     </tr>
                 </thead>
 
@@ -192,7 +194,7 @@
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-
+                        @if(Auth::user()->fk_userTypeId != 2)
                     { "data": function(data)
                         {
 
@@ -202,6 +204,7 @@
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
+                    @endif
                 ]
             } );
         } );

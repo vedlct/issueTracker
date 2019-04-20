@@ -32,8 +32,10 @@
 
                     <div class="mt-4" style="margin-right: 11px;">
                         <a href="{{ route('project.features', $project->projectId) }}" class="card-link">Summary</a>
+                        @if(Auth::user()->fk_userTypeId != 2)
                         <a href="{{ route('backlog.dashboard', $project->projectId) }}" class="card-link">Backlog</a>
                         <a href="{{ route('backlog.ganttChart', $project->projectId) }}" class="card-link">Timeline</a>
+                        @endif
                     </div>
 
                 </div>
