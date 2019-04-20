@@ -56,11 +56,12 @@
                         <textarea class="form-control" placeholder="Project Summary" name="summary"></textarea>
                     </div>
                     <div class="form-group col-md-6">
+
                         <label>Select Client</label>
                         <select class="col-md-12 js-example-basic-multiple" name="clientList[]" multiple="multiple">
                             <option value="">Select Client</option>
                             @foreach($clients as $c)
-                                <option value="{{$c->clientId}}">{{$c->fullName}}</option>
+                                <option value="{{$c->clientId}}" >{{$c->fullName}}</option>
                             @endforeach
                         </select>
                     </div>

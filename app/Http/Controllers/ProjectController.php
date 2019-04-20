@@ -188,8 +188,24 @@ class ProjectController extends Controller
             $companylist = Company::where('companyId', $userCompanyId)->get();
         }
 
+        $array1 = array();
+        foreach ($companylist as $c)
+        {
+            array_push($array1, $c->companyId);
+        }
+
+        $clients=Client::select('clientId','user.fullName')->whereIn('companyId',$array1)
+            ->leftJoin('user','user.userId','client.userId')
+            ->get();
+
+
+        $assignedClients=ClientProjectRelation::select('clientId')->where('projectId',$id)->get();
+//                return $assignedClients;
+
         return view('Project.projectEdit')->with('project', $project)
                                                ->with('companylist', $companylist)
+                                               ->with('clients', $clients)
+                                               ->with('assignedClients', $assignedClients)
                                                ->with('allStatus', $allStatus);
     }
 
@@ -203,6 +219,18 @@ class ProjectController extends Controller
         $project->project_summary = $r->summary;
         $project->project_duration = $r->duration;
         $project->save();
+
+        ClientProjectRelation::where('projectId',$project->projectId)->delete();
+        if($r->clientList){
+            foreach ($r->clientList as $client){
+                $relation=new ClientProjectRelation();
+                $relation->clientId=$client;
+                $relation->projectId=$project->projectId;
+                $relation->assignBy=Auth::user()->userId;
+                $relation->save();
+
+            }
+        }
 
         Session::flash('message', 'Project Updated!');
 
