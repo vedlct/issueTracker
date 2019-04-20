@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Backlog;
+use App\ClientProjectRelation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
@@ -122,12 +123,27 @@ class ProjectController extends Controller
             $companylist = Company::where('companyId', $userCompanyId)->get();
         }
 
+        $array1 = array();
+        foreach ($companylist as $c)
+        {
+            array_push($array1, $c->companyId);
+        }
+
+
+
+        $clients=Client::select('clientId','user.fullName')->whereIn('companyId',$array1)
+            ->leftJoin('user','user.userId','client.userId')
+            ->get();
+//        return $clients;
+
         $status = Status::where('statusType', 'project_status')->get();
-        return view('Project.projectCreate', ['companylist' => $companylist, 'statusAll' => $status]);
+        return view('Project.projectCreate', ['companylist' => $companylist, 'statusAll' => $status,'clients'=>$clients]);
     }
 
     // insert company
     public function insert_project(Request $r){
+
+//        return $r;
 
         $project = new Project();
         $project->project_name = $r->projectname;
@@ -139,6 +155,17 @@ class ProjectController extends Controller
         $project->project_created_by = Auth::user()->userId;
         $project->project_created_at = date("Y-m-d H:i:s");
         $project->save();
+
+        if($r->clientList){
+            foreach ($r->clientList as $client){
+                $relation=new ClientProjectRelation();
+                $relation->clientId=$client;
+                $relation->projectId=$project->projectId;
+                $relation->assignBy=Auth::user()->userId;
+                $relation->save();
+
+            }
+        }
 
         Session::flash('message', 'Project Created!');
 
