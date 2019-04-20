@@ -8,7 +8,5 @@
 <br>
 <span><b>Ticket Priority : </b></span> {{ $priority }}
 <br>
-<span><b>Project Name : </b></span> {{ $projectName }}
-<br>
 <span><b>Ticket Details : </b></span> {!!  $details  !!}
 

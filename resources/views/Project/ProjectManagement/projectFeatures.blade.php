@@ -96,7 +96,9 @@
                         <th scope="col">Remarks</th>
                         <th scope="col">Comments</th>
                         <th scope="col">Owner</th>
+                        @if(Auth::user()->fk_userTypeId != 2)
                         <th scope="col" class="text-center">Action</th>
+                        @endif
                     </tr>
                 </thead>
 
@@ -138,7 +140,7 @@
 
             var comments = <?php echo json_encode($backlogComments); ?>
 
-            dataTable=  $('#featurelist').DataTable({
+                dataTable=  $('#featurelist').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
@@ -192,16 +194,17 @@
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-
+                        @if(Auth::user()->fk_userTypeId != 2)
                     { "data": function(data)
                         {
 
                             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-pencil-square"></i></button>' +
-                                   '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
+                                '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
                         },
 
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
+                    @endif
                 ]
             } );
         } );

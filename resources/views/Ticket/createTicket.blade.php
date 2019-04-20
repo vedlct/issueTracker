@@ -1,4 +1,4 @@
-@extends('layouts.mainLayout')
+  @extends('layouts.mainLayout')
 @section('content')
 
 <div class="container-fluid">
@@ -30,15 +30,22 @@
                         <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
+                    {{--<div class="form-group col-md-3">--}}
+                        {{--<label>Select Project</label>--}}
+                        {{--<select class="form-control" name="project" required>--}}
+                            {{--@foreach($projectlist as $project)--}}
+                                {{--<option value="{{ $project->projectId }}">{{ $project->project_name }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                    {{--</div>--}}
                     <div class="form-group col-md-3">
-                        <label>Select Project</label>
-                        <select class="form-control" name="project" required>
-                            @foreach($projectlist as $project)
-                                <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>
+                        <label>Ticket Type</label>
+                        <select class="form-control" name="tickettype" required>
+                            @foreach($tickettype as $tickettype)
+                                <option value="{{ $tickettype->id }}">{{ $tickettype->typeName }}</option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group col-md-3">
                         <label>Ticket Priroty</label>
                         <select class="form-control" name="priroty" required>

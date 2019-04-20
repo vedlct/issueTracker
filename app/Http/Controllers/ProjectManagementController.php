@@ -110,9 +110,19 @@ class ProjectManagementController extends Controller
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_status')
                                ->Join('company','project.fk_company_id','company.companyId')
                                ->Join('user','project.project_created_by','user.userId')
-                               ->Join('status','project.project_status','status.statusId')
-                               ->where('fk_company_id',$userCompanyId)
-                               ->where('project.project_deleted_at', null)
+                               ->Join('status','project.project_status','status.statusId');
+                                   if(Auth::user()->fk_userTypeId == 2)
+                                   {
+                                       $clientId = Client::where('userId', Auth::user()->userId)->first()->clientId;
+                                       $projects=$projects->leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
+                                           ->where('client_project_relation.clientId', $clientId);
+
+                                   }
+                                   else
+                                   {
+                                       $projects=$projects->where('fk_company_id',$userCompanyId);
+                                   }
+                                $projects=$projects->where('project.project_deleted_at', null)
                                ->get();
         }
 
@@ -352,11 +362,12 @@ class ProjectManagementController extends Controller
 
     // SHOW FEATURES
     public function projectFeature($id){
-        $project = Project::where('projectId', $id)->first();
+
+         $project = Project::where('projectId', $id)->first();
 
         $exp_time = Backlog::where('fk_project_id', $id)->get()->sum('backlog_time');
 
-        $comments = BacklogComment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
+         $comments = BacklogComment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
                                 ->where('fk_project_id', $id)
                                 ->get();
 

@@ -134,10 +134,6 @@
                                     <td>{{$ticket->ticketStatus}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="col">Project Name</th>
-                                    <td>{{$project->project_name}}</td>
-                                </tr>
-                                <tr>
                                     <th scope="col">Worked Hour</th>
                                     <td>{{$ticket->workedHour}}</td>
                                 </tr>
