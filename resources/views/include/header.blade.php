@@ -64,6 +64,9 @@
 {{--                        <option>dfdf</option>--}}
 {{--                    </select>--}}
                     <ul class="list-inline float-right mb-0">
+
+                        @if(Auth::user()->fk_userTypeId==3)
+
                         <li class="list-inline-item dropdown notification-list" >
                             <select class="form-control" id="myCompany" onchange="changeCompany(this)">
                                 <option value="">Select Company</option>
@@ -72,6 +75,7 @@
                                 @endforeach
                             </select>
                         </li>
+                        @endif
                         {{-- NOTIFICATION --}}
                         <li class="list-inline-item dropdown notification-list" >
 

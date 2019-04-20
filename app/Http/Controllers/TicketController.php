@@ -40,7 +40,8 @@ class TicketController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id = Auth::user()->fkCompanyId;
+//            $this->user_company_id = Auth::user()->fkCompanyId;
+            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -363,10 +364,10 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-        $ticket->created_at = date('Y-m-d H:i:s');
+        $ticket->created_at = $r->create_date;
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
-        $ticket->exp_end_date = date('Y-m-d H:i:s');
+        $ticket->exp_end_date = $r->exp_end_date;
         $ticket->fk_projectId = $r->project;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 
@@ -483,8 +484,6 @@ class TicketController extends Controller
     // insert ticket reply
     public function insertReply(Request $r){
 
-
-        // Send Mail
         $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
@@ -525,9 +524,14 @@ class TicketController extends Controller
             return back();
         }
 
+        $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+            ->where('user.fk_userTypeId', 4)
+            ->where('companyemployee.fk_companyId', $userCompanyId)
+            ->first()->email;
+
         $data=array(
             'name'=> 'Issuetracker',
-            'email'=> 'admin@gmail.com',
+            'email'=> $company_admin_mail,
             'message'=> $r->replyData,
             'reply_user'=> Auth::user()->fullName,
             'reply'=> $r->replyData,
