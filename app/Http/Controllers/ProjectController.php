@@ -82,10 +82,10 @@ class ProjectController extends Controller
     }
 
     // get all Company
-    public function getAllProject(Request $r){
+    public function getAllProject(Request $r)
+    {
 
         $userCompanyId = $this->getCompanyUserId();
-
         // get all project of user's company
         if($userCompanyId == null)
         {
@@ -100,13 +100,27 @@ class ProjectController extends Controller
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId')
                 ->Join('company','project.fk_company_id','company.companyId')
                 ->Join('user','project.project_created_by','user.userId')
-                ->Join('status','project.project_status','status.statusId')
-                ->where('fk_company_id',$userCompanyId)
-                ->where('project.project_deleted_at', null);
+                ->Join('status','project.project_status','status.statusId');
+                if(Auth::user()->fk_userTypeId == 2)
+                {
+                    $clientId = Client::where('userId', Auth::user()->userId)->first()->clientId;
+                    $projects=$projects->leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
+                        ->where('client_project_relation.clientId', $clientId);
+
+                }
+                else
+                {
+                    $projects=$projects->where('fk_company_id',$userCompanyId);
+                }
+
+            $projects=$projects->where('project.project_deleted_at', null);
         }
+
+
 
         $datatables = Datatables::of($projects);
         return $datatables->make(true);
+
     }
 
     // view create project form
