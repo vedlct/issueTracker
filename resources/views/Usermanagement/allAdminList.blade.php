@@ -19,10 +19,11 @@
                 <table id="adminTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Fullname</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>User Type</th>
+                        <th>Company Name</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -34,6 +35,8 @@
                             <td> {{ $admin->email }} </td>
                             <td> {{ $admin->userPhoneNumber }} </td>
                             <td> {{ $admin->userType }} </td>
+
+                            <td> {{ $admin->companyName }} </td>
                             <td>
                                 @if($admin->status == 1)
                                     Active
@@ -43,6 +46,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-success btn-sm" onclick="location.href='{{ route('user.edit.admin', ['emp_id'=>$admin->userId]) }}'"> <i class="fa fa-pencil-square" aria-hidden="true"></i> </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteAdmin({{ $admin->userId }})"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
                             </td>
                         </tr>
                     @endforeach
@@ -60,6 +64,40 @@
         $(document).ready(function() {
             $('#adminTable').DataTable();
         } );
+
+        function deleteAdmin(x) {
+            id = x;
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure want to delete!',
+                buttons: {
+                    confirm: function () {
+                        // DELETE
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('user.delete.admin') }}",
+                            cache: false,
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                'id': id
+                            },
+                            success: function (data) {
+                                location.reload(true);
+                                // $.alert({
+                                //     animationBounce: 2,
+                                //     title: 'Success!',
+                                //     content: 'Admin Deleted',
+                                // });
+                            }
+                        });
+                    },
+                    cancel: function () {
+
+                    },
+                }
+            });
+
+        }
 
     </script>
 @endsection

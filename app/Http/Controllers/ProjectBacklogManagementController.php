@@ -23,11 +23,11 @@ class ProjectBacklogManagementController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id =Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -79,23 +79,7 @@ class ProjectBacklogManagementController extends Controller
     public function backlogDetails(Request $r){
 
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get employee list
         if($userCompanyId == null)
@@ -153,14 +137,13 @@ class ProjectBacklogManagementController extends Controller
                              ->get();
 
         $mybacklogsMissed = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
-            ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
-            ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
-            ->where('user.userId', Auth::user()->userId)
-//            ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
-            ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
-            ->where('backlog_state', '!=', 'Complete')
-            ->where('backlog_state', '!=', 'Testing')
-            ->get();
+                                   ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+                                   ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
+                                   ->where('user.userId', Auth::user()->userId)
+                                   ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+                                   ->where('backlog_state', '!=', 'Complete')
+                                   ->where('backlog_state', '!=', 'Testing')
+                                   ->get();
 
         return view('Project.BacklogManagement.todayWork')->with('mybacklogs', $mybacklogs)
                                                                ->with('mybacklogsMissed', $mybacklogsMissed);

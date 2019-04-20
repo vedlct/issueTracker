@@ -14,6 +14,7 @@ use App\InternetClient;
 use App\Notification;
 use App\Report;
 use App\Salary;
+use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -31,27 +32,37 @@ class DashBoardController extends Controller
 //        $this->middleware('auth');
     }
 
+    public function changeCompany(Request $r){
+        User::where('userId',Auth::user()->userId)->update(['fkCompanyId'=>$r->id]);
+    }
+    // Get user's company user id
+    public function getCompanyUserId(){
 
-    public function index()
-    {
-        // Get user's company ID
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id =Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
-            $userCompanyId = null;
+            $this->user_company_id = null;
         }
 
+        return $this->user_company_id;
+    }
+
+
+    public function index()
+    {
+
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -140,23 +151,24 @@ class DashBoardController extends Controller
         $companyCount = Company::all()->count();
 
         // Project
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
-
+//        if(Auth::user()->fk_userTypeId == 2)
+//        {
+//            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 3)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
+//        if(Auth::user()->fk_userTypeId == 1)
+//        {
+//            $userCompanyId = null;
+//        }
+        $userCompanyId = $this->getCompanyUserId();
+//        return Auth::user();
         // only for super admin
         if($userCompanyId == null)
         {
@@ -184,6 +196,8 @@ class DashBoardController extends Controller
         {
             $projectCount = Project::where('fk_company_id', $userCompanyId)->count();
 
+
+
             // CALCULATE PROJECT PERCENTAGE
             $projects = Project::where('fk_company_id', $userCompanyId)->get();
             $percentage_all = array();
@@ -209,6 +223,7 @@ class DashBoardController extends Controller
             ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
             ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
             ->where('user.userId', Auth::user()->userId)
+            ->where('project.fk_company_id', Auth::user()->fkCompanyId)
             ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
             ->whereDate('backlog_end_date', '>=', date('Y-m-d'))
             ->where('backlog_state', '!=', 'Complete')
@@ -219,6 +234,7 @@ class DashBoardController extends Controller
             ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
             ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
             ->where('user.userId', Auth::user()->userId)
+            ->where('project.fk_company_id', Auth::user()->fkCompanyId)
 //            ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
             ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
             ->where('backlog_state', '!=', 'Complete')
@@ -305,9 +321,6 @@ class DashBoardController extends Controller
             ->where('assigned_emp_id', Auth::user()->userId)
             ->where('seen', '0')
             ->update(['seen' => 1]);
-
-//        return $notificationOld;
-
 
         return view('Notification.unseenNotification')->with('myNotificationOld', $notificationOld);
     }

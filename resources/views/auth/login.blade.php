@@ -40,7 +40,7 @@
                                         @csrf
                                         <div class="form-group row">
                                             <div class="col-12">
-                                                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Enter Mail" required autofocus>
+                                                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Enter mail" required autofocus>
                                                 @if ($errors->has('email'))
                                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>

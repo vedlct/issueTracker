@@ -3,6 +3,7 @@
     <div class="left-side-logo d-block d-lg-none">
         <div>
             <h3 class="text-center">Issue Tracker</h3>
+
             {{--<a href="{{route('index')}}" class="logo"><img src="{{url('public/images/logo-dark.png')}}" height="20" alt="logo"></a>--}}
         </div>
     </div>
@@ -14,7 +15,7 @@
                 {{-- Dashboard --}}
                 <li>
                     <a href="{{route('index')}}" class="waves-effect">
-                        <i class="dripicons-blog"></i> <span> Dashboard </span>
+                        <i class="dripicons-blog"></i> <span> Dashboard</span>
                     </a>
                 </li>
 
@@ -34,6 +35,8 @@
                             <li><a href="{{route('mycompany')}}" class="waves-effect"><i class="fa fa-university"></i> <span> Company Settings </span></a></li>
                             <li><a href="{{route('mycompany.departments')}}" class="waves-effect"><i class="fa fa-server"></i> <span> Department Settings </span></a></li>
                             <li><a href="{{route('mycompany.designation')}}" class="waves-effect"><i class="fa fa-id-badge"></i> <span> Designation Settings </span></a></li>
+
+                            <li><a href="{{route('mycompany.adminlist')}}" class="waves-effect"><i class="fa fa-user-secret"></i> <span> Admin Management </span></a></li>
                         </ul>
                     </li>
                 @endif
@@ -47,8 +50,8 @@
                             <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
                             <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
                             <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
-
                             <li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>
+                            <li><a href="{{ route('add.admin.otherCompany') }}" class="waves-effect">Add Employee to Other Company</a></li>
                         </ul>
                     </li>
                 @else
@@ -88,7 +91,6 @@
                         @if(Auth::user()->fk_userTypeId == 3)
                             <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' List</a></li>
                         @endif
-
                     </ul>
                 </li>
 

@@ -25,33 +25,36 @@ use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
-    public function __construct()
-    {
+    public $user_company_id;
 
+    // Get user's company user id
+    public function getCompanyUserId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id = Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $this->user_company_id = Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
     }
 
 
     // view Ticket list
     public function index(){
 
-        // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
-
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -149,22 +152,7 @@ class TicketController extends Controller
     public function getAllTicket(Request $r){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
 
         // get all ticket of user's company if ticketTye is not null
@@ -300,22 +288,7 @@ class TicketController extends Controller
     public function createTicket(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -334,22 +307,7 @@ class TicketController extends Controller
     public function insertTicket(Request $r){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         //
         if($userCompanyId != null)
@@ -527,22 +485,7 @@ class TicketController extends Controller
 
 
         // Send Mail
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
         if($userCompanyId != null)
@@ -631,22 +574,7 @@ class TicketController extends Controller
     public function ticketEdit(Request $r){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
 
         if($userCompanyId == null)
@@ -677,22 +605,7 @@ class TicketController extends Controller
     public function showGenerateExcel(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 2)
-        {
-            $userCompanyId = Client::where('userId', Auth::user()->userId)->first()->companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
 
         if($userCompanyId == null)

@@ -65,9 +65,6 @@ class CompanyController extends Controller
 
         $r->validate([
             'companyName' => 'required|max:45',
-//            'info' => 'required',
-            // 'companyEmail' => 'required|unique:company,email',
-//            'address' => 'required',
         ]);
 
         $company = Company::findOrFail($r->id);

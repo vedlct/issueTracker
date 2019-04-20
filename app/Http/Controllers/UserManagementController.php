@@ -14,11 +14,37 @@ use Session;
 use DB;
 use App\Client;
 use Auth;
+use Yajra\DataTables\DataTables;
 
 class UserManagementController extends Controller
 {
+    public $user_company_id;
+
+    // Get user's company user id
+    public function getCompanyUserId(){
+
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3)
+        {
+            $this->user_company_id =Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $this->user_company_id = Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+
+        return $this->user_company_id;
+    }
+
     // Employee list
-    public function employeelist(){
+    public function employeelist(){Auth::user()->fkCompanyId;
 
         // Get user's company ID
         if(Auth::user()->fk_userTypeId == 4)
@@ -89,14 +115,7 @@ class UserManagementController extends Controller
     public function addEmployee(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -122,14 +141,7 @@ class UserManagementController extends Controller
     public function addClient(){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -229,14 +241,7 @@ class UserManagementController extends Controller
     public function editEmployee($id){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -311,14 +316,7 @@ class UserManagementController extends Controller
     public function editClient($id){
 
         // Get user's company ID
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
@@ -416,7 +414,14 @@ class UserManagementController extends Controller
         // AS A EMPLOYEE
         $emp = new Employee();
         $emp->created_at = $date;
-        $emp->fk_companyId = $r->companyId;
+        if($r->myCompany == "myCompany")
+        {
+            $emp->fk_companyId = $this->getCompanyUserId();
+        }
+        else
+        {
+            $emp->fk_companyId = $r->companyId;
+        }
         $emp->employeeUserId = $user->userId;
         $emp->save();
 
@@ -426,7 +431,13 @@ class UserManagementController extends Controller
 
     // show all admin
     public function adminList(){
-        $adminlist = DB::table('user')->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')->where('user.fk_userTypeId', 4)->get();
+        $adminlist = DB::table('user')
+                       ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                       ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                       ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
+                       ->where('user.fk_userTypeId', 4)
+                       ->get();
+
         return view('Usermanagement.allAdminList')->with('adminlist', $adminlist);
     }
 
@@ -437,10 +448,17 @@ class UserManagementController extends Controller
                                              ->first();
 
         return view('Usermanagement.editAdmin')->with('employee', $employee)
-            ->with('companyList', $companylist);
+                                                    ->with('companyList', $companylist);
     }
 
-    // update admin info
+    public function deleteAdmin(Request $r){
+        User::findOrFail($r->id)->delete();
+        Employee::where('employeeUserId', $r->id)->delete();
+
+        return back();
+    }
+
+    // UPDATE ADMIN INFO
     public function updateAdmin(Request $r){
         $date = date('Y-m-d h:i:s');
 
@@ -474,11 +492,30 @@ class UserManagementController extends Controller
         }
 
         // AS A employee
-        Employee::where('employeeUserId', $r->userId)->update(['fk_companyId'=> $r->companyId]);
+        if(!$r->myCompany)
+        {
+            Employee::where('employeeUserId', $r->userId)->update(['fk_companyId'=> $r->companyId]);
+        }
 
         Session::flash('message', 'Admin Info Updated!');
 
         return back();
+    }
+
+    public function emp_to_manyCompany(){
+        $emp = User::where('fk_userTypeId', '3')->get();
+        $companylist = Company::all();
+
+        return view('Usermanagement.addEmpManyCompany')->with('emp', $emp)
+                                                            ->with('companyList', $companylist);
+    }
+
+    public function getEmpList(){
+        $allEmployeeList = Employee::leftJoin('user','user.userId', 'companyemployee.employeeUserId')
+                                   ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId');
+
+        $datatables = Datatables::of($allEmployeeList);
+        return $datatables->make(true);
     }
 
 

@@ -7,6 +7,7 @@ use App\Company;
 use App\Department;
 use App\Designation;
 use App\Employee;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
@@ -25,11 +26,11 @@ class ManageCompanyController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $this->user_company_id = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -105,8 +106,6 @@ class ManageCompanyController extends Controller
     }
 
 
-
-    //
     public function getDesignation()
     {
         return view('ManageCompany.Designation.designations');
@@ -158,5 +157,31 @@ class ManageCompanyController extends Controller
         $desg->save();
 
         return back();
+    }
+
+    /*  ADMIN MANAGEMENT */
+    public function adminlist(){
+        return view('ManageCompany.AdminManagement.adminlist');
+    }
+
+    public function getAdminData(){
+        $adminList =  User::leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+            ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+            ->where('companyemployee.fk_companyId', $this->getCompanyUserId())
+            ->where('user.fk_userTypeId', 4)
+            ->get();
+
+        $datatables = Datatables::of($adminList);
+        return $datatables->make(true);
+    }
+
+    public function editAdmin(Request $r){
+
+        $employee = User::where('userId',$r->admin_user_id)
+            ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+            ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId')
+            ->first();
+
+        return view('ManageCompany.AdminManagement.editAdmin')->with('employee', $employee);
     }
 }
