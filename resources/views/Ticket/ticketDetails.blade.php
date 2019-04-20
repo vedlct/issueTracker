@@ -236,8 +236,10 @@
                 {{--Old reply end --}}
 
 
+                <br>
+                <button id="addcommnet" onclick="addcomment()" class="btn btn-warning">Add Comment</button>
                 {{-- Post a reply --}}
-                <form method="post" enctype="multipart/form-data" style="clear: both;">
+                <form id="reply" method="post" enctype="multipart/form-data" style="clear: both; display: none">
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
                     <div class="form-group">
@@ -312,6 +314,11 @@
                         $('#ticketInformation').html(data);
                     }
                 });
+            }
+
+            function addcomment() {
+                document.getElementById('addcommnet').style.display = "none";
+                document.getElementById('reply').style.display = "block";
             }
     </script>
 

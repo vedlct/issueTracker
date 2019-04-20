@@ -1,4 +1,7 @@
 @extends('layouts.mainLayout')
+@section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 
 <div class="container-fluid">
@@ -53,6 +56,17 @@
                         <textarea class="form-control" placeholder="Project Summary" name="summary">{{ $project->project_summary }}</textarea>
                     </div>
 
+                    <div class="form-group col-md-6">
+
+                        <label>Select Client</label>
+                        <select class="col-md-12 js-example-basic-multiple" name="clientList[]" multiple="multiple">
+                            <option value="">Select Client</option>
+                            @foreach($clients as $c)
+                                <option value="{{$c->clientId}}" @if($assignedClients->where('clientId',$c->clientId)->count()>0) selected @endif>{{$c->fullName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group col-md-12">
                         <button class="btn btn-success pull-right">Update Project</button>
                     </div>
@@ -65,4 +79,16 @@
     </div>
 </div>
 
+@endsection
+@section('js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+        $(".datepicker").datepicker({
+            orientation: "bottom" // <-- and add this
+        });
+    </script>
 @endsection

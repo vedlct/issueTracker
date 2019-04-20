@@ -323,7 +323,9 @@ class TicketController extends Controller
                 array_push($array, $emp->employeeUserId);
             }
 
-            $allEmployeeEmails = User::whereIn('userId', $array)->select('email')->get();
+
+            $allEmployeeEmails = User::whereIn('userId', $array)
+                ->select('email')->get();
 
             $array1 = array();
             foreach ($allEmployeeEmails as $emp)
@@ -334,6 +336,8 @@ class TicketController extends Controller
 
             // get all client's company's all client user_id
             $allclient = Client::where('companyId', $userCompanyId)->get();
+
+//            return $allclient;
             $array = array();
 
             foreach ($allclient as $client)
