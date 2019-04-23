@@ -17,7 +17,9 @@
     <div class="card">
         <div class="card-header">
             <h5 class="float-left">Projects Information</h5>
-            <a href="{{ route('project.create') }}" class="btn btn-success btn-sm float-right mt-1" style="color: #0a1832" name="button">Create Project</a>
+            @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+                <a href="{{ route('project.create') }}" class="btn btn-success btn-sm float-right mt-1" style="color: #0a1832" name="button">Create Project</a>
+            @endif
         </div>
         <div class="card-body">
             <table id="projectTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">

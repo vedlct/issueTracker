@@ -174,7 +174,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\framework/cache/data',
+        'path' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -325,10 +325,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\fonts/',
-      'font_cache' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\TCL\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\xampp\\htdocs\\issueTracker',
+      'font_dir' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/fonts/',
+      'font_cache' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/fonts/',
+      'temp_dir' => '/tmp',
+      'chroot' => '/opt/lampp/htdocs/ticketpro/issueTracker',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -338,7 +338,7 @@
       'enable_php' => false,
       'enable_javascript' => true,
       'enable_remote' => true,
-      'font_height_ratio' => 1.1000000000000001,
+      'font_height_ratio' => 1.1,
       'enable_html5_parser' => false,
     ),
   ),
@@ -347,7 +347,7 @@
     'exports' => 
     array (
       'chunk_size' => 1000,
-      'temp_path' => 'C:\\Users\\TCL\\AppData\\Local\\Temp',
+      'temp_path' => '/tmp',
       'pre_calculate_formulas' => false,
       'csv' => 
       array (
@@ -397,12 +397,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\app',
+        'root' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\app/public',
+        'root' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -525,13 +525,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\logs/laravel.log',
+        'path' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\logs/laravel.log',
+        'path' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 7,
       ),
@@ -583,7 +583,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\issueTracker\\resources\\views/vendor/mail',
+        0 => '/opt/lampp/htdocs/ticketpro/issueTracker/resources/views/vendor/mail',
       ),
     ),
     'stream' => 
@@ -602,7 +602,7 @@
     'format' => 'A4',
     'default_font_size' => '13',
     'default_font' => 'sans-serif',
-    'custom_font_path' => 'C:\\xampp\\htdocs\\issueTracker\\/resources/fonts/',
+    'custom_font_path' => '/opt/lampp/htdocs/ticketpro/issueTracker//resources/fonts/',
     'direction' => 'rtl',
     'margin_left' => 10,
     'margin_right' => 10,
@@ -617,7 +617,7 @@
     'show_watermark' => false,
     'watermark_font' => 'sans-serif',
     'display_mode' => 'fullpage',
-    'watermark_text_alpha' => 0.10000000000000001,
+    'watermark_text_alpha' => 0.1,
   ),
   'queue' => 
   array (
@@ -696,7 +696,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\framework/sessions',
+    'files' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -716,9 +716,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\issueTracker\\resources\\views',
+      0 => '/opt/lampp/htdocs/ticketpro/issueTracker/resources/views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\issueTracker\\storage\\framework\\views',
+    'compiled' => '/opt/lampp/htdocs/ticketpro/issueTracker/storage/framework/views',
   ),
   'image' => 
   array (

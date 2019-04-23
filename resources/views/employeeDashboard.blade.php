@@ -47,32 +47,32 @@
             <div class="card mb-3">
                 <h5 class="card-header mt-0">Today's List</h5>
                 @foreach($MY_Companies as $company)
-                    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
-                <div class="card-body">
-                    @foreach($mybacklogs->where('fk_company_id',$company->companyId) as $mybacklog)
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <b>Backlog : </b> {{ $mybacklog->backlog_title }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        <b>Project : </b> {{ $mybacklog->project_name }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;""><b>{{$company->companyName}}</b></h5>
+                    <div class="card-body">
+                        @foreach($mybacklogs->where('fk_company_id',$company->companyId) as $mybacklog)
+                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <b>Backlog : </b> {{ $mybacklog->backlog_title }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <b>Project : </b> {{ $mybacklog->project_name }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -82,32 +82,32 @@
             <div class="card">
                 <h5 class="card-header mt-0">Past Due</h5>
                 @foreach($MY_Companies as $company)
-                    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
-                <div class="card-body">
-                    @foreach($mybacklogsMissed->where('fk_company_id',$company->companyId) as $mybacklog)
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <b>Backlog : </b> {{ $mybacklog->backlog_title }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        <b>Project : </b> {{ $mybacklog->project_name }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b>{{$company->companyName}}</b></h5>
+                    <div class="card-body">
+                        @foreach($mybacklogsMissed->where('fk_company_id',$company->companyId) as $mybacklog)
+                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <b>Backlog : </b> {{ $mybacklog->backlog_title }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <b>Project : </b> {{ $mybacklog->project_name }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog State : </b> {{ $mybacklog->backlog_state }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog Start Date : </b> {{ $mybacklog->backlog_start_date }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog End Date : </b> {{ $mybacklog->backlog_end_date }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
 
                 @endforeach
             </div>
@@ -118,35 +118,28 @@
     {{-- Company & Project Information --}}
     <div class="card mb-4" style="margin-left: 20px;">
         <div class="card-header mt-0">
-
-                <h5 style="margin: 0">Project Summary</h5>
-
-
+            <h5 style="margin: 0">Project Summary</h5>
         </div>
         <div class="card-body">
 
-
             <div class="row" >
                 @foreach($MY_Companies as $company)
-
-
-                {{-- Project --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-header">    <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5></div>
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $projectCount->where('fk_company_id',$company->companyId)->count() }} </h4>
+                    {{-- Project --}}
+                    <div class="col-lg-2 col-md-6 mb-2">
+                        <div class="card">
+                            <div class="card-header p-0">
+                                <h5 style="margin-left:20px;font-weight: 300;"><b>{{$company->companyName}}</b></h5>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>
+                                <div class="text-right">
+                                    <h4 class="font-light m-b-0"> {{ $projectCount->where('fk_company_id',$company->companyId)->count() }} </h4>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
-
-
-
 
             <div class="card mt-2">
 
@@ -172,7 +165,7 @@
         </div>
         <div class="card-body">
             @foreach($MY_Companies as $company)
-                <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
+                <h5 style="margin-left:10px;font-weight: 300;"><b>{{$company->companyName}}</b></h5>
             <div class="row" >
 
                 {{-- Open ticket --}}
@@ -227,7 +220,7 @@
         </div>
         <div class="card-body">
             @foreach($MY_Companies as $company)
-                <h5 style="margin-left:10px"><b>{{$company->companyName}}</b></h5>
+                <h5 style="margin-left:10px; font-weight: 300;"><b>{{$company->companyName}}</b></h5>
             <div class="row" >
 
                 <div class="col-lg-2 col-md-6 mb-2">

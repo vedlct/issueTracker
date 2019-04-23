@@ -8,6 +8,7 @@ use App\CableBill;
 use App\CableClient;
 use App\CheckMonth;
 use App\Client;
+use App\ClientContactPersonUserRelation;
 use App\ClientProjectRelation;
 use App\Employee;
 use App\InternetBill;
@@ -60,18 +61,12 @@ class DashBoardController extends Controller
         return $this->user_company_id;
     }
 
-
-
     public function clientDashboard()
     {
         $date = date('Y-m-d h:i:s');
 
-
-
-            $clientId = Client::where('userId', Auth::user()->userId)->first()->clientId;
+            $clientId = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->relationId;
             $projectCount= ClientProjectRelation::where('clientId', $clientId)->count();
-
-
 
             // CALCULATE PROJECT PERCENTAGE
             $projects = Project::leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
@@ -149,19 +144,14 @@ class DashBoardController extends Controller
         return view('clientDashboard')->with('openticket', $openCount)
             ->with('overdue', $overDueCount)
             ->with('pending', $pendingCount)
-//            ->with('allticket', $allTicket)
             ->with('close', $closeCount)
             ->with('projectCount', $projectCount)
-//            ->with('companyCount', $companyCount)
             ->with('openticketMonth', $openCountMonth)
             ->with('overdueMonth', $overDueCountMonth)
             ->with('pendingMonth', $pendingCountMonth)
             ->with('allticketMonth', $allTicketMonth)
             ->with('closeMonth', $closeCountMonth)
-//            ->with('mybacklogs', $mybacklogs)
-//            ->with('mybacklogsMissed', $mybacklogsMissed)
             ->with('project_percentage', $percentage_all);
-
 
     }
 

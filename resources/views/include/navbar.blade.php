@@ -35,11 +35,21 @@
                             <li><a href="{{route('mycompany')}}" class="waves-effect"><i class="fa fa-university"></i> <span> Company Settings </span></a></li>
                             <li><a href="{{route('mycompany.departments')}}" class="waves-effect"><i class="fa fa-server"></i> <span> Department Settings </span></a></li>
                             <li><a href="{{route('mycompany.designation')}}" class="waves-effect"><i class="fa fa-id-badge"></i> <span> Designation Settings </span></a></li>
-
                             <li><a href="{{route('mycompany.adminlist')}}" class="waves-effect"><i class="fa fa-user-secret"></i> <span> Admin Management </span></a></li>
                         </ul>
                     </li>
+
+                    <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-cubes"></i> <span>Manage Clients</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('client.list') }}" class="waves-effect"><i class="fa fa-university"></i> <span> Client List </span></a></li>
+                            {{--<li><a href="{{ route('subcompany.manageClient') }}" class="waves-effect"><i class="fa fa-server"></i> <span> Contact Person List </span></a></li>--}}
+                            {{--<li><a href="" class="waves-effect"><i class="fa fa-id-badge"></i> <span> ... </span></a></li>--}}
+                            {{--<li><a href="" class="waves-effect"><i class="fa fa-user-secret"></i> <span> ... </span></a></li>--}}
+                        </ul>
+                    </li>
                 @endif
+
+
 
                 {{-- Only For Super Admin --}}
                 @if(Auth::user()->fk_userTypeId == 1)
@@ -47,22 +57,22 @@
                         <ul class="list-unstyled">
                             <li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>
                             <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
-                            <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
+                            {{--<li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>--}}
                             <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
-                            <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
+                            {{--<li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>--}}
                             <li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>
                             <li><a href="{{ route('add.admin.otherCompany') }}" class="waves-effect">Add Employee to Other Company</a></li>
                         </ul>
                     </li>
                 @else
                     @if(Auth::user()->fk_userTypeId == 4)
-                        <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Manage Employee</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
                                 {{--<li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>--}}
                                 <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
-                                <li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>
+                                {{--<li><a href="{{ route('user.show.allClient') }}" class="waves-effect">All Client</a></li>--}}
                                 <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
-                                <li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>
+                                {{--<li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>--}}
                                 {{--<li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>--}}
                             </ul>
                         </li>

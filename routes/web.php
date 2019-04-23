@@ -43,8 +43,7 @@ Route::post('/my-company/delete-designations-info', 'ManageCompanyController@del
 
 Route::get ('/my-company/admin-management',          'ManageCompanyController@adminlist')     ->name('mycompany.adminlist');
 Route::post('/my-company/get-admin-management-data', 'ManageCompanyController@getAdminData')  ->name('company.getAllAdmin');
-
-Route::post('/my-company/get-edit-admin', 'ManageCompanyController@editAdmin')  ->name('mycompany.admin.edit');
+Route::post('/my-company/get-edit-admin',            'ManageCompanyController@editAdmin')     ->name('mycompany.admin.edit');
 
 // Project
 Route::get ('/project-list',      'ProjectController@index')          ->name('project.showAllProject');
@@ -97,7 +96,7 @@ Route::get ('/add-client',          'UserManagementController@addClient')       
 Route::post('/add-client',          'UserManagementController@insertClient')       ->name('insert.client');
 Route::get ('/client-list',         'UserManagementController@clientlist')         ->name('user.show.allClient');
 Route::get ('/client-edit/{id}',    'UserManagementController@editClient')         ->name('edit.client.profile');
-Route::post('/client-update',       'UserManagementController@updateClient')       ->name('update.client.profile');
+//Route::post('/client-update',       'UserManagementController@updateClient')       ->name('update.client.profile');
 Route::get ('/add-company-admin',   'UserManagementController@addCompanyAdmin')    ->name('add.company.admin');
 Route::post('/add-company-admin',   'UserManagementController@insertCompanyAdmin') ->name('company.admin.insert');
 Route::get ('/admin-list',          'UserManagementController@adminList')          ->name('user.show.allAdmin');
@@ -106,10 +105,10 @@ Route::post('/admin-update/',       'UserManagementController@updateAdmin')     
 Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
 
 
-Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany') ->name('add.admin.otherCompany');
-Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')         ->name('get.all.EmpInfo');
-Route::post('deleteFromCompany/',               'UserManagementController@deleteFromCompany')         ->name('deleteFromCompany');
-Route::post('employee/company/assign',               'UserManagementController@assignEmployeeCompany')         ->name('employee.company.insert');
+Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany')         ->name('add.admin.otherCompany');
+Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')                 ->name('get.all.EmpInfo');
+Route::post('deleteFromCompany/',                    'UserManagementController@deleteFromCompany')          ->name('deleteFromCompany');
+Route::post('employee/company/assign',               'UserManagementController@assignEmployeeCompany')      ->name('employee.company.insert');
 
 // Profile Management
 Route::get ('/profile', 'ProfileController@profile')    ->name('user.profile');
@@ -118,8 +117,8 @@ Route::post('/profile', 'ProfileController@updateProfile');
 
 //==================================Project Management===============================
 Route::get ('/project-management/dashboard',                 'ProjectManagementController@projectmanagementDashboard')->name('project.projectList');
-Route::post ('/project-management/company/change',           'DashBoardController@changeCompany')->name('company.change');
-Route::post('/project-management/features-list',             'ProjectManagementController@getAllMyBacklog')            ->name('features.all');
+Route::post ('/project-management/company/change',           'DashBoardController@changeCompany')                     ->name('company.change');
+Route::post('/project-management/features-list',             'ProjectManagementController@getAllMyBacklog')           ->name('features.all');
 Route::get ('/project-management/project-feature/{id}',      'ProjectManagementController@projectFeature')            ->name('project.features');
 Route::post('/project-management/get-edit-backlog-data',     'ProjectManagementController@getEditModal')              ->name('backlog.dashboard.getEditModal');
 Route::post('/project-management/update-backlog-data',       'ProjectManagementController@updateBacklogdata')         ->name('backlog.dashboard.updateData');
@@ -146,6 +145,43 @@ Route::post('/project-management/backlog/get-backlog-data', 'ProjectBacklogManag
 Route::post('/project-management/backlog/details',          'ProjectBacklogManagementController@backlogDetails')       ->name('backlog.open.details');
 Route::post('/project-management/backlog/details/update',   'ProjectBacklogManagementController@updateBacklogDetails') ->name('backlog.update.details');
 Route::get ('/project-management/my-backlogs',              'ProjectBacklogManagementController@myblacklog')           ->name('project.BacklogManagement.todayWork');
+
+
+//================================== ManageClientController ===============================
+Route::get ('/client-list',         'ManageClientController@clientList')     ->name('client.list');
+Route::post('/get-client-list',     'ManageClientController@getClientList')  ->name('client.getAllClient');
+Route::post('/client-insert',       'ManageClientController@insertClient')   ->name('client.insert');
+Route::post('/client-edit',         'ManageClientController@editClient')     ->name('client.edit');
+Route::post('/client-update',       'ManageClientController@updateClient')   ->name('client.update');
+Route::post('/client-delete',       'ManageClientController@deleteClient')   ->name('client.delete');
+
+
+Route::get ('/client/contact-person-list/{id}',   'ManageClientController@contactPersonList')      ->name('client.show.contactPerson');
+Route::post('/client/get-contact-person-list',    'ManageClientController@getcontactPersonList')   ->name('client.get.contactPerson');
+Route::post('/client/insert-contact-person',      'ManageClientController@insertContactPerson')   ->name('client.insert.contactPerson');
+Route::post('/client/edit-contact-person',        'ManageClientController@editContactPerson')     ->name('client.edit.contactPerson');
+Route::post('/client/update-contact-person',      'ManageClientController@updateContactPerson')   ->name('client.update.contactPerson');
+
+Route::post('/client/delete-contact-person',      'ManageClientController@deleteContactPerson')   ->name('client.delete.contactPerson');
+
+
+Route::get ('/sub-company/client-management',     'ManageSubCompanyController@clientList')   ->name('subcompany.manageClient');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

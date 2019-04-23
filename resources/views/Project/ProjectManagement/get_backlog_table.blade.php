@@ -1,6 +1,6 @@
 
     @if(count($backlogs) < 1)
-        <td colspan="7" style="text-align: center;"><b>NO FEATURE ADDED YET</b></td>
+        <td colspan="8" style="text-align: center;"><b>NO FEATURE ADDED YET</b></td>
     @else
         @foreach($backlogs as $key => $backlog)
             <tr>

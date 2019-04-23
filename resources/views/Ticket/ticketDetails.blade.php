@@ -234,8 +234,11 @@
 
 
 
-                <br>
-                <button id="addcommnet" onclick="addcomment()" class="btn btn-warning">Add Comment</button>
+                {{--<br>--}}
+                <div style="text-align: center">
+                    <button id="addcommnet" onclick="addcomment()" class="btn btn-success">Add Comment</button>
+                </div>
+
                 {{-- Post a reply --}}
                 <form id="reply" method="post" enctype="multipart/form-data" style="clear: both; display: none">
 
