@@ -487,9 +487,13 @@ class TicketController extends Controller
 
       //  $projectName = Project::where('projectId', $r->project)->first()->project_name;
 
+        $cliendId = $this->getCompanyUserId();
+        $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
+        $companyId = $ticketOpenerCompany;
+
         $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                                   ->where('user.fk_userTypeId', 4)
-                                  ->where('companyemployee.fk_companyId', $userCompanyId)
+                                  ->where('companyemployee.fk_companyId', $companyId)
                                   ->first()->email;
 
         $data=array(
