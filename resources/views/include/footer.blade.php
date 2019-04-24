@@ -1,5 +1,5 @@
 <!-- content -->
-<footer class="footer">© 2018 <b>TechCloud Ltd</b> </footer>
+<footer class="footer">© 2019</footer>
 </div>
 <!-- End Right content here -->
 </div>

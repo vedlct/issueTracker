@@ -1,10 +1,12 @@
 
-<h1>New Issue is created.</h1>
+<h3>New ticket has been created.</h3>
 
 {{-- Issue Information --}}
 <span> <b>Ticket ID : </b> </span> <a href="{{route('ticket.view',['id'=>$ticketId])}}">{{ $ticketNo }}</a>
 <br>
-<spqn><b>Ticket Opener Name : </b></spqn> {{ $ticketOpenerName }}
+<span><b>Ticket Topic : </b></span> {{ $ticketTopic }}
+<br>
+<span><b>Ticket Opener Name : </b></span> {{ $ticketOpenerName }}
 <br>
 <span><b>Ticket Priority : </b></span> {{ $priority }}
 <br>

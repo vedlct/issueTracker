@@ -48,11 +48,21 @@ Route::post('/my-company/get-edit-admin',            'ManageCompanyController@ed
 // Project
 Route::get ('/project-list',      'ProjectController@index')          ->name('project.showAllProject');
 Route::post('/project-list',      'ProjectController@getAllProject')  ->name('project.getAllProject');
+Route::post('/project-list2',      'ProjectController@getAllProject2')  ->name('project.getAllProject2');
 Route::get ('/create-project',    'ProjectController@create_project') ->name('project.create');
 Route::post('/create-project',    'ProjectController@insert_project') ->name('project.insert');
 Route::get ('/edit-project/{id}', 'ProjectController@edit_project')   ->name('project.edit');
 Route::post('/edit-project/{id}', 'ProjectController@update_project') ->name('project.update');
 Route::post('/project/delete',    'ProjectController@delete_project') ->name('project.delete');
+
+
+//new
+Route::post('/project/get-all-contact-person',    'ProjectController@getAllContactPerson') ->name('project.get.contactpersonlist');
+
+
+
+
+
 
 
 // Ticket

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Backlog;
+use App\ClientContactPersonUserRelation;
 use App\Exports\BacklogExport;
 use App\Notification;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class ProjectManagementController extends Controller
 
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+            $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
@@ -112,19 +113,17 @@ class ProjectManagementController extends Controller
                                ->Join('company','project.fk_company_id','company.companyId')
                                ->Join('user','project.project_created_by','user.userId')
                                ->Join('status','project.project_status','status.statusId');
-                                   if(Auth::user()->fk_userTypeId == 2)
-                                   {
-                                       $clientId = Client::where('userId', Auth::user()->userId)->first()->clientId;
-                                       $projects=$projects->leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
-                                           ->where('client_project_relation.clientId', $clientId);
 
-                                   }
-                                   else
-                                   {
-                                       $projects=$projects->where('fk_company_id',$userCompanyId);
-                                   }
-                                $projects=$projects->where('project.project_deleted_at', null)
-                               ->get();
+            if(Auth::user()->fk_userTypeId == 2)
+            {
+                $projects = $projects->where('fk_client_id',$userCompanyId);
+            }
+            else
+            {
+                $projects=$projects->where('fk_company_id',$userCompanyId);
+            }
+
+            $projects=$projects->where('project.project_deleted_at', null)->get();
         }
 
         return view('Project.ProjectManagement.projectList')->with('projects', $projects)

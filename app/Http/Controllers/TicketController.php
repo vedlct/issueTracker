@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\ClientContactPersonUserRelation;
 use App\TicketType;
 
 
@@ -36,7 +37,7 @@ class TicketController extends Controller
 
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+            $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
@@ -64,7 +65,6 @@ class TicketController extends Controller
         if($userCompanyId == null)
         {
             $date = date('Y-m-d h:i:s');
-
             $allTicket= Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->count();
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
@@ -75,8 +75,7 @@ class TicketController extends Controller
         {
             $date = date('Y-m-d h:i:s');
 
-
-             $openCount = Ticket::where('ticketStatus', 'Open');
+            $openCount = Ticket::where('ticketStatus', 'Open');
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
                 ->where('ticket.ticketStatus', '!=', 'Close');
             $pendingCount = Ticket::where('ticketStatus', 'Pending');
@@ -99,11 +98,9 @@ class TicketController extends Controller
 
             }
 
-
             $openCount=$openCount->count();
             $overDueCount = $overDueCount->count();
             $pendingCount=$pendingCount->count();
-
             $closeCount = $closeCount->count();
         }
 
@@ -336,9 +333,7 @@ class TicketController extends Controller
 
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
-
         $ticketType = TicketType::get();
-
 
         // get all project of user's company
         if($userCompanyId == null)
@@ -347,7 +342,7 @@ class TicketController extends Controller
         }
         else
         {
-            $projectlist = Project::where('fk_company_id', $userCompanyId)->get();
+            $projectlist = Project::where('fk_client_id',$userCompanyId)->get();
         }
 
 
@@ -376,9 +371,8 @@ class TicketController extends Controller
                 array_push($array, $emp->employeeUserId);
             }
 
-
             $allEmployeeEmails = User::whereIn('userId', $array)
-                ->select('email')->get();
+                                     ->select('email')->get();
 
             $array1 = array();
             foreach ($allEmployeeEmails as $emp)
@@ -387,15 +381,14 @@ class TicketController extends Controller
             }
 
 
-            // get all client's company's all client user_id
-            $allclient = Client::where('companyId', $userCompanyId)->get();
+            $clientId = Project::findOrFail($r->project)->fk_client_id;
+            $client_contact_person = ClientContactPersonUserRelation::where('clientId', $clientId)->get();
 
-//            return $allclient;
             $array = array();
 
-            foreach ($allclient as $client)
+            foreach ($client_contact_person as $client)
             {
-                array_push($array, $client->userId);
+                array_push($array, $client->person_userId);
             }
 
             $allClientEmails = User::whereIn('userId', $array)->select('email')->get();
@@ -434,8 +427,9 @@ class TicketController extends Controller
 
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $ticketOpenerCompany = Client::where('userId', Auth::user()->userId)->first();
-            $companyId = $ticketOpenerCompany->companyId;
+            $cliendId = $this->getCompanyUserId();
+            $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
+            $companyId = $ticketOpenerCompany;
 
             $ticket->ticketOpenerCompanyId = $companyId;
         }
@@ -507,6 +501,7 @@ class TicketController extends Controller
             'details'=> $details,
             'ticketNo'=> $ticket_no,
             'ticketId'=> $ticket->ticketId,
+            'ticketTopic'=> $ticket->ticketTopic,
         );
 
         Mail::send('Ticket.mailView', $data, function($message) use ($data, $array1)

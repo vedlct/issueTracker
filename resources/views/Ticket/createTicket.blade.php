@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label>Expected End Date *</label>
+                        <label>Expected End Date</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date">
                     </div>
 
@@ -31,14 +31,14 @@
                     </div>
 
 
-                    {{--<div class="form-group col-md-3">--}}
-                        {{--<label>Select Project</label>--}}
-                        {{--<select class="form-control" name="project" required>--}}
-                            {{--@foreach($projectlist as $project)--}}
-                                {{--<option value="{{ $project->projectId }}">{{ $project->project_name }}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
+                    <div class="form-group col-md-3">
+                        <label>Select Project</label>
+                        <select class="form-control" name="project" required>
+                            @foreach($projectlist as $project)
+                                <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="form-group col-md-3">
                         <label>Ticket Type</label>
                         <select class="form-control" name="tickettype" required>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="form-group col-md-12">
-                        <button class="btn btn-success">Create Ticket</button>
+                        <button class="btn btn-success pull-right">Create Ticket</button>
                     </div>
                 </div>
             </form>
