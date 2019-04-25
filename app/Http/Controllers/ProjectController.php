@@ -49,7 +49,7 @@ class ProjectController extends Controller
 
         $userCompany = $this->getCompanyUserId();
 
-        // catculate project percentage
+        // Calculate project percentage
         if($userCompany == null)
         {
             $projects = Project::all();
@@ -215,7 +215,6 @@ class ProjectController extends Controller
         {
             array_push($array1, $c->companyId);
         }
-
 
         $clients = Client::where('clientCompanyId', $this->getCompanyUserId())
                          ->where('deleted_at', null)

@@ -79,7 +79,6 @@ class ProjectBacklogManagementController extends Controller
     // Backlog Details
     public function backlogDetails(Request $r){
 
-
         $userCompanyId = $this->getCompanyUserId();
 
         // get employee list

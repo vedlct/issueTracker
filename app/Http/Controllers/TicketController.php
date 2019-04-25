@@ -342,7 +342,15 @@ class TicketController extends Controller
         }
         else
         {
-            $projectlist = Project::where('fk_client_id',$userCompanyId)->get();
+            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+            {
+                $projectlist = Project::where('fk_company_id',$userCompanyId)->get();
+            }
+            else
+            {
+                $projectlist = Project::where('fk_client_id',$userCompanyId)->get();
+            }
+
         }
 
 
@@ -358,7 +366,8 @@ class TicketController extends Controller
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
 
-        //
+//        dd($userCompanyId);
+
         if($userCompanyId != null)
         {
             // get all client's company's all employee user_id
@@ -414,12 +423,10 @@ class TicketController extends Controller
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-
         $ticket->created_at = Carbon::parse($r->create_date)->format('Y-m-d');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
         $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
-
         $ticket->fk_projectId = $r->project;
         $ticket->fkTicketTypeId = $r->tickettype;
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
@@ -427,25 +434,24 @@ class TicketController extends Controller
 
         if(Auth::user()->fk_userTypeId == 2)
         {
-            $cliendId = $this->getCompanyUserId();
-            $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
-            $companyId = $ticketOpenerCompany;
-
-            $ticket->ticketOpenerCompanyId = $companyId;
+//            $cliendId = $this->getCompanyUserId();
+//            $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
+//            $companyId = $ticketOpenerCompany;
+            $ticket->ticketOpenerCompanyId = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 3)
         {
-            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
-            $companyId = $ticketOpenerCompany->fk_companyId;
+//            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
+//            $companyId = $ticketOpenerCompany->fk_companyId;
 
-            $ticket->ticketOpenerCompanyId = $companyId;
+            $ticket->ticketOpenerCompanyId = $userCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
-            $companyId = $ticketOpenerCompany->fk_companyId;
+//            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
+//            $companyId = $ticketOpenerCompany->fk_companyId;
 
-            $ticket->ticketOpenerCompanyId = $companyId;
+            $ticket->ticketOpenerCompanyId = $userCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -487,13 +493,13 @@ class TicketController extends Controller
 
       //  $projectName = Project::where('projectId', $r->project)->first()->project_name;
 
-        $cliendId = $this->getCompanyUserId();
-        $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
-        $companyId = $ticketOpenerCompany;
+//        $cliendId = $this->getCompanyUserId();
+//        $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
+//        $companyId = $ticketOpenerCompany;
 
         $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                                   ->where('user.fk_userTypeId', 4)
-                                  ->where('companyemployee.fk_companyId', $companyId)
+                                  ->where('companyemployee.fk_companyId', Auth::user()->fkCompanyId)
                                   ->first()->email;
 
         $data=array(

@@ -174,6 +174,8 @@ class UserManagementController extends Controller
         $user->created_at = $date;
         $user->updated_at = $date;
         $user->fk_userTypeId = 2;
+        $user->fkCompanyId = Auth::user()->fkCompanyId;
+//        dd(Auth::user()->fkCompanyId);
         $user->save();
 
         if ($r->hasFile('profilePhoto')) {
@@ -217,6 +219,7 @@ class UserManagementController extends Controller
         $user->created_at = $date;
         $user->updated_at = $date;
         $user->fk_userTypeId = 3;
+        $user->fkCompanyId = $r->companyId;
         $user->save();
 
         if ($r->hasFile('profilePhoto')) {
@@ -401,6 +404,7 @@ class UserManagementController extends Controller
         $user->created_at = $date;
         $user->updated_at = $date;
         $user->fk_userTypeId = 4;
+        $user->fkCompanyId = $r->companyId;
         $user->save();
 
         if ($r->hasFile('profilePhoto')) {

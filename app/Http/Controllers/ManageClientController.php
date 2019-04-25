@@ -124,6 +124,7 @@ class ManageClientController extends Controller
         $user->created_at = date('Y-m-d h:i:s');
         $user->updated_at = date('Y-m-d h:i:s');
         $user->fk_userTypeId = 2;
+        $user->fkCompanyId = Auth::user()->fkCompanyId;
         $user->save();
 
         if ($r->hasFile('profilePhoto')) {
