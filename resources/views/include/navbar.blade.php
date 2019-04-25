@@ -2,7 +2,7 @@
     <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button>
     <div class="left-side-logo d-block d-lg-none">
         <div>
-            <h3 class="text-center">Issue Tracker</h3>
+            <h3 class="text-center">TicketPro</h3>
 
             {{--<a href="{{route('index')}}" class="logo"><img src="{{url('public/images/logo-dark.png')}}" height="20" alt="logo"></a>--}}
         </div>
@@ -10,12 +10,12 @@
     <div class="sidebar-inner slimscrollleft">
         <div id="sidebar-menu">
             <ul>
-                <li class="menu-title">Main</li>
+                {{--<li class="menu-title">Main</li>--}}
 
                 {{-- Dashboard --}}
-                <li>
+                <li class="mt-3">
                     <a href="{{route('index')}}" class="waves-effect">
-                        <i class="dripicons-blog"></i> <span> Dashboard</span>
+                        <i class="fa fa-area-chart"></i> <span> Dashboard</span>
                     </a>
                 </li>
 
@@ -39,7 +39,7 @@
                         </ul>
                     </li>
 
-                    <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-cubes"></i> <span>Manage Clients</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Manage Clients</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('client.list') }}" class="waves-effect"><i class="fa fa-university"></i> <span> Client List </span></a></li>
                             {{--<li><a href="{{ route('subcompany.manageClient') }}" class="waves-effect"><i class="fa fa-server"></i> <span> Contact Person List </span></a></li>--}}
@@ -53,7 +53,7 @@
 
                 {{-- Only For Super Admin --}}
                 @if(Auth::user()->fk_userTypeId == 1)
-                    <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>User Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Employee Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>
                             <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
@@ -61,12 +61,12 @@
                             <li><a href="{{ route('user.add.employee') }}" class="waves-effect">Add Employee</a></li>
                             {{--<li><a href="{{ route('add.client') }}" class="waves-effect">Add Client</a></li>--}}
                             <li><a href="{{ route('add.company.admin') }}" class="waves-effect">Add Company Admin</a></li>
-                            <li><a href="{{ route('add.admin.otherCompany') }}" class="waves-effect">Add Employee to Other Company</a></li>
+                            <li><a href="{{ route('add.admin.otherCompany') }}" class="waves-effect">Add Employee to Multiple Company</a></li>
                         </ul>
                     </li>
                 @else
                     @if(Auth::user()->fk_userTypeId == 4)
-                        <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Manage Employee</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <li class="has_sub"><a href="{{ route('user.show.allEmployee') }}" class="waves-effect"><i class="fa fa-user"></i> <span>Manage Employee</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
                                 {{--<li><a href="{{ route('user.show.allAdmin') }}" class="waves-effect">All Admin</a></li>--}}
                                 <li><a href="{{ route('user.show.allEmployee') }}" class="waves-effect">All Employee</a></li>
@@ -90,7 +90,7 @@
                 @endif
 
 
-                <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-hashtag fa-"></i> <span>Project Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                <li class="has_sub"><a href="{{ route('project.showAllProject') }}" class="waves-effect"><i class="fa fa-server"></i> <span>Project Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">All Projects</a></li>
 
@@ -108,7 +108,9 @@
                 <li class="has_sub"><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect"><i class="fa fa-ticket"></i> <span>Ticket</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect">All Ticket</a></li>
-                        <li><a href="{{ route('ticket.show.generateExcel') }}" class="waves-effect">Genarate Excel</a></li>
+                        @if(Auth::user()->fk_userTypeId != 2)
+                            <li><a href="{{ route('ticket.show.generateExcel') }}" class="waves-effect">Genarate Excel</a></li>
+                        @endif
                     </ul>
                 </li>
         </div>

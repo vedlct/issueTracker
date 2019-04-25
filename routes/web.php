@@ -25,6 +25,11 @@ Route::post('/company/delete',   'CompanyController@delete_company') ->name('com
 Route::get ('/company-list',     'CompanyController@index')          ->name('company.showAllCompany');
 Route::get ('/company-download', 'CompanyController@export')         ->name('company.export');
 
+
+
+Route::get ('/company-clients/{id}', 'CompanyController@showAllclients')         ->name('company.show.clients');
+Route::post('/get-company-clients',  'CompanyController@getAllclients')         ->name('company.get.clients');
+
 // ManageCompanyController
 Route::get ('/my-company',                          'ManageCompanyController@showmycompany')      ->name('mycompany');
 Route::get ('/my-company/departments',              'ManageCompanyController@getDepartments')     ->name('mycompany.departments');

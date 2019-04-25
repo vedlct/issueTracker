@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Company;
@@ -96,6 +97,23 @@ class CompanyController extends Controller
     public function export()
     {
         return Excel::download(new CompanyExport, 'companylist.xlsx');
+    }
+
+    // SHOW ALL CLIENTS
+    public function showAllclients($id){
+        $company = Company::findOrFail($id);
+
+//        $companylist = Company::where('deleted_at', null)->get();
+
+        return view('Company.CompanyClientsManagement.allClients')->with('company', $company);
+    }
+
+    public function getAllclients(Request $r){
+        $client = Client::where('clientCompanyId', $r->company_id)
+                        ->where('deleted_at', null);
+
+        $datatables = Datatables::of($client);
+        return $datatables->make(true);
     }
 
 

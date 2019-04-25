@@ -13,8 +13,8 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h4 class="float-left">Company Information</h4>
-            <a href="{{ route('company.create') }}" class="btn btn-success float-right" name="button">Create Company</a>
+            <h4 class="float-left">All Company Information</h4>
+            <a href="{{ route('company.create') }}" class="btn btn-success float-right" name="button" style="color: #0a1832">Create Company</a>
             {{--<a href="{{ route('company.export') }}" class="btn btn-secondary float-right mr-2" name="button">Export Companies</a>--}}
         </div>
         <div class="card-body">
@@ -69,7 +69,8 @@
 
                    { "data": function(data){
                             return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.companyId+'" onclick="editCompany(this)"><i class="fa fa-cog"></i></button>'+
-                                   '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash"></i></button>'
+                                   '<button class="btn btn-danger btn-sm mr-2" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash"></i></button>'+
+                                   '<button class="btn btn-primary btn-sm" data-panel-id="'+data.companyId+'" onclick="showClients(this)"><i class="fa fa-users"></i></button>'
                             ;},
                         "orderable": false, "searchable":false, "name":"selected_rows" },
                ]
@@ -109,6 +110,13 @@
                      }
                 });
             }
+        }
+
+        function showClients(x) {
+            btn = $(x).data('panel-id');
+            var url = '{{ route("company.show.clients", ":id") }}';
+            var newUrl = url.replace(':id', btn);
+            window.location.href = newUrl;
         }
 
     </script>

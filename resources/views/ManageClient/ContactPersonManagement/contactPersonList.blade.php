@@ -91,7 +91,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4 class="float-left" style="font-weight: 200";>Contact Persons  <b>[{{ $client->clientName }}]</b> </h4>
+                <h4 class="float-left" style="font-weight: 200";>Contact Persons - [{{ $client->clientName }}] </h4>
                 <button type="button" class="btn btn-success float-right" name="button" style="color: #0a1832" data-toggle="modal" data-target="#addClientModal">Add New Contact Person</button>
             </div>
             <div class="card-body">

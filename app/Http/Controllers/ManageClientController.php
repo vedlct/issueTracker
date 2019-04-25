@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\ClientContactPersonUserRelation;
+use App\Company;
 use App\Employee;
 use App\SubCompany;
 use App\User;
@@ -25,7 +26,8 @@ class ManageClientController extends Controller
 
     // SHOW CLIENT LIST PAGE
     public function clientList(){
-        return view('ManageClient.ClientManagement.clientlist');
+        $company = Company::where('deleted_at', null)->get();
+        return view('ManageClient.ClientManagement.clientlist')->with('companylist', $company);
     }
 
     // GET CLIENT INFORMATION
@@ -40,7 +42,14 @@ class ManageClientController extends Controller
     // CLIENT INSERT
     public function insertClient(Request $r){
         $client = new Client();
-        $client->clientCompanyId = $this->getCompanyUserId();
+        if($r->companyId)
+        {
+            $client->clientCompanyId = $r->companyId;
+        }
+        else
+        {
+            $client->clientCompanyId = $this->getCompanyUserId();
+        }
         $client->clientName = $r->name;
         $client->clientEmail = $r->email;
         $client->clientInfo = $r->info;

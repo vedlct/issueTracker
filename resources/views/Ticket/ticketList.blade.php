@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                    {{--<a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>--}}
 
                     {{-- Change Ticket Status --}}
                     <form class="float-right mr-2">
@@ -71,6 +71,7 @@
 
                             <th>Number</th>
                             <th>Subject</th>
+                            <th>Project</th>
                             <th>Last Updated</th>
                             <th>From</th>
                             <th>Priority</th>
@@ -91,7 +92,10 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="float-left">Tickets</h4>
-                    <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                    {{--@if(Auth::user()->fk_userTypeId != 1)--}}
+                        <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                    {{--@endif--}}
+
                     {{--<button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>--}}
 
                     <ul class="nav nav-tabs justify-content-center">
@@ -124,6 +128,7 @@
 
                             <th>Number</th>
                             <th>Subject</th>
+                            <th>Project</th>
                             <th>Last Updated</th>
                             <th>From</th>
                             <th>Priority</th>
@@ -315,6 +320,7 @@
                },
                { data: 'ticket_number', name: 'ticket_number' },
                { data: 'ticketTopic', name: 'ticketTopic' },
+               { data: 'project_name', name: 'project_name' },
                { data: 'lastUpdated', name: 'lastUpdated' },
                { data: 'createdFullName', name: 'createdFullName' },
                { data: 'ticketPriority', name: 'ticketPriority' },

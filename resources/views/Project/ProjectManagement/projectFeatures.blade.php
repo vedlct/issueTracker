@@ -167,22 +167,21 @@
                     { data: 'remark', name: 'backlog.remark' },
                     { "data": function(data)
                         {
-//                            if(data.comments == null)
-//                            {
-//                                return "";
-//                            }
-//                            else
-//                            {
-//                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
-//                            }
+                           if(data.comments == null)
+                           {
+                               return "";
+                           }
+                           else
+                           {
+                               return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
+                           }
                             return "";
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
                     { "data": function(data)
                         {
-//                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
-                            return '';
+                           return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },

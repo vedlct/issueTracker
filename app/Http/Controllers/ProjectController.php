@@ -218,8 +218,8 @@ class ProjectController extends Controller
 
 
         $clients = Client::where('clientCompanyId', $this->getCompanyUserId())
-                        ->where('deleted_at', null)
-                        ->get();
+                         ->where('deleted_at', null)
+                         ->get();
 
         $status = Status::where('statusType', 'project_status')->get();
 

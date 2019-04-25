@@ -183,7 +183,7 @@ class TicketController extends Controller
                 if($r->overDue == "overdue")
                 {
                     $date = date('Y-m-d h:i:s');
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -195,7 +195,7 @@ class TicketController extends Controller
                 }
                 elseif ($r->allTicket == "all")
                 {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -205,7 +205,7 @@ class TicketController extends Controller
                 }
                 else
                 {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -221,7 +221,7 @@ class TicketController extends Controller
                 if($r->overDue == "overdue")
                 {
                     $date = date('Y-m-d h:i:s');
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -241,7 +241,7 @@ class TicketController extends Controller
                 }
                 elseif ($r->allTicket == "all")
                 {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -258,7 +258,7 @@ class TicketController extends Controller
                 }
                 else
                 {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                         ->leftJoin('project','project.projectId','ticket.fk_projectId')
                         ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                         ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -281,7 +281,7 @@ class TicketController extends Controller
         {
             if($userCompanyId == null)
             {
-                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                     ->leftJoin('project','project.projectId','ticket.fk_projectId')
                     ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                     ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
@@ -291,7 +291,7 @@ class TicketController extends Controller
             }
             else
             {
-                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName')
+                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
                     ->leftJoin('project','project.projectId','ticket.fk_projectId')
                     ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
                     ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')

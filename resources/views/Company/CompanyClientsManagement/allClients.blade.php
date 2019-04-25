@@ -10,6 +10,7 @@
 
 @section('content')
 
+
     <!-- Add Sub Company Modal -->
     <div class="modal fade" id="addSubCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -30,6 +31,9 @@
                                 <input type="text" class="form-control" name="name" placeholder="Client name" required>
                             </div>
                         </div>
+
+                        <input type="hidden" value="{{ $company->companyId }}" name="companyId">
+
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Official Email</label>
                             <div class="col-sm-9">
@@ -74,20 +78,20 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4 class="float-left">Client List</h4>
+                <h4 class="float-left" style="font-weight: 100;">Client List - [{{ $company->companyName }}]</h4>
                 <button type="button" class="btn btn-success float-right" name="button" style="color: #0a1832" data-toggle="modal" data-target="#addSubCompanyModal">Create Client</button>
                 {{--<a href="{{ route('company.export') }}" class="btn btn-secondary float-right mr-2" name="button">Export Companies</a>--}}
             </div>
             <div class="card-body">
                 <table id="clientTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Information</th>
-                            <th>Created at</th>
-                            <th>Action</th>
-                        </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Information</th>
+                        <th>Created at</th>
+                        <th>Action</th>
+                    </tr>
                     </thead>
                     <tbody>
                     </tbody>
@@ -116,10 +120,11 @@
                 ordering:false,
                 type:"POST",
                 "ajax":{
-                    "url": "{!! route('client.getAllClient') !!}",
+                    "url": "{!! route('company.get.clients') !!}",
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
+                        d.company_id = "{{ $company->companyId }}";
                     },
                 },
                 columns:

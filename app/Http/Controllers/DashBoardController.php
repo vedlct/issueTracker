@@ -50,7 +50,6 @@ class DashBoardController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-//            $this->user_company_id =Auth::user()->fkCompanyId;
             $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
@@ -65,12 +64,12 @@ class DashBoardController extends Controller
     {
         $date = date('Y-m-d h:i:s');
 
-            $clientId = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->relationId;
-            $projectCount= ClientProjectRelation::where('clientId', $clientId)->count();
+            $clientId = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
+//            dd($clientId);
+            $projectCount= Project::where('fk_client_id', $clientId)->count();
 
             // CALCULATE PROJECT PERCENTAGE
-            $projects = Project::leftJoin('client_project_relation', 'client_project_relation.projectId', 'project.projectId')
-                                ->where('client_project_relation.clientId', $clientId)->get();
+            $projects = Project::where('fk_client_id', $clientId)->where('project_status', '!=' ,6)->get();
             $percentage_all = array();
 
             foreach ($projects as $project){
@@ -90,43 +89,43 @@ class DashBoardController extends Controller
 
 
             $openCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)
-                ->where('ticketStatus', 'Open')
-                ->count();
+                               ->where('ticketStatus', 'Open')
+                               ->count();
 
             $overDueCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)
-                ->where('ticketStatus', '!=', 'Close')
-                ->whereDate('ticket.exp_end_date', '<=', $date)
-                ->count();
+                                  ->where('ticketStatus', '!=', 'Close')
+                                  ->whereDate('ticket.exp_end_date', '<=', $date)
+                                  ->count();
 
             $pendingCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)
-                ->where('ticketStatus', 'Pending')
-                ->count();
+                                  ->where('ticketStatus', 'Pending')
+                                  ->count();
 
             $closeCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)
-                ->where('ticketStatus', 'Close')
-                ->count();
+                                ->where('ticketStatus', 'Close')
+                                ->count();
 
             // Only for this month
             $currntYear =  date("Y");
             $currntMonth = date("m");
 
             $allTicketMonth= Ticket::where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('fk_ticketOpenerId', Auth::user()->userId)
-                ->count();
+                                   ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                                   ->where('fk_ticketOpenerId', Auth::user()->userId)
+                                   ->count();
 
             $openCountMonth= Ticket::where('ticketStatus', 'Open')
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('fk_ticketOpenerId', Auth::user()->userId)
-                ->count();
+                                   ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                                   ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                                   ->where('fk_ticketOpenerId', Auth::user()->userId)
+                                   ->count();
 
             $overDueCountMonth = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('ticketStatus', '!=', 'Close')
-                ->where('fk_ticketOpenerId', Auth::user()->userId)
-                ->count();
+                                   ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+                                   ->where(DB::raw('YEAR(created_at)'), $currntYear)
+                                   ->where('ticketStatus', '!=', 'Close')
+                                   ->where('fk_ticketOpenerId', Auth::user()->userId)
+                                   ->count();
 
             $pendingCountMonth = Ticket::where('ticketStatus', 'Pending')
                 ->where(DB::raw('MONTH(created_at)'), $currntMonth)
@@ -166,7 +165,6 @@ class DashBoardController extends Controller
             return $this->clientDashboard();
         }
 
-
         $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
@@ -196,7 +194,6 @@ class DashBoardController extends Controller
         {
             $myCompanies=Employee::select('fk_companyId')->where('employeeUserId',Auth::user()->userId)->get();
 
-//            return $myCompanies;
             $date = date('Y-m-d h:i:s');
 
             $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)
@@ -207,7 +204,6 @@ class DashBoardController extends Controller
             $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                                ->where('ticketStatus', 'Open')
                                ->count();
-//                        return $openCount;
 
             $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                                   ->where('ticketStatus', '!=', 'Close')
@@ -361,74 +357,69 @@ class DashBoardController extends Controller
     public function employeeDashboard(){
         $userCompanyId = $this->getCompanyUserId();
 
+        $myCompanies=Employee::select('fk_companyId')
+                             ->where('employeeUserId',Auth::user()->userId)->get();
 
-            $myCompanies=Employee::select('fk_companyId')
-                ->where('employeeUserId',Auth::user()->userId)->get();
+        $date = date('Y-m-d h:i:s');
 
-//            return $myCompanies;
-            $date = date('Y-m-d h:i:s');
+        $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
 
-            $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-                ->count();
-
-
-
-            $openCount = Ticket::select('ticketId','ticketOpenerCompanyId')
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->where('ticketStatus', 'Open')
-                ->get();
+        $openCount = Ticket::select('ticketId','ticketOpenerCompanyId')
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->where('ticketStatus', 'Open')
+            ->get();
 
 
-            $overDueCount = Ticket::select('ticketId','ticketOpenerCompanyId')
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->where('ticketStatus', '!=', 'Close')
-                ->whereDate('ticket.exp_end_date', '<=', $date)
-                ->get();
+        $overDueCount = Ticket::select('ticketId','ticketOpenerCompanyId')
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->where('ticketStatus', '!=', 'Close')
+            ->whereDate('ticket.exp_end_date', '<=', $date)
+            ->get();
 
-            $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-                ->where('ticketStatus', 'Pending')
-                ->count();
+        $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
+            ->where('ticketStatus', 'Pending')
+            ->count();
 
-            $closeCount = Ticket::select('ticketId','ticketOpenerCompanyId')
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->where('ticketStatus', 'Close')
-                ->get();
+        $closeCount = Ticket::select('ticketId','ticketOpenerCompanyId')
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->where('ticketStatus', 'Close')
+            ->get();
 
-            // Only for this month
-            $currntYear =  date("Y");
-            $currntMonth = date("m");
+        // Only for this month
+        $currntYear =  date("Y");
+        $currntMonth = date("m");
 
-            $allTicketMonth= Ticket::where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('ticketOpenerCompanyId', $userCompanyId)
-                ->count();
+        $allTicketMonth= Ticket::where(DB::raw('MONTH(created_at)'), $currntMonth)
+            ->where(DB::raw('YEAR(created_at)'), $currntYear)
+            ->where('ticketOpenerCompanyId', $userCompanyId)
+            ->count();
 
-            $openCountMonth= Ticket:: select('ticketId','ticketOpenerCompanyId')
-                ->where('ticketStatus', 'Open')
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->get();
+        $openCountMonth= Ticket:: select('ticketId','ticketOpenerCompanyId')
+            ->where('ticketStatus', 'Open')
+            ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+            ->where(DB::raw('YEAR(created_at)'), $currntYear)
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->get();
 
-            $overDueCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')
-                ->whereDate('ticket.exp_end_date', '<=', $date)
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('ticketStatus', '!=', 'Close')
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->get();
+        $overDueCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')
+            ->whereDate('ticket.exp_end_date', '<=', $date)
+            ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+            ->where(DB::raw('YEAR(created_at)'), $currntYear)
+            ->where('ticketStatus', '!=', 'Close')
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->get();
 
-            $pendingCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')->where('ticketStatus', 'Pending')
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->whereIn('ticketOpenerCompanyId', $myCompanies)
-                ->get();
+        $pendingCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')->where('ticketStatus', 'Pending')
+            ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+            ->where(DB::raw('YEAR(created_at)'), $currntYear)
+            ->whereIn('ticketOpenerCompanyId', $myCompanies)
+            ->get();
 
-            $closeCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')->where('ticketStatus', 'Close')
-                ->where(DB::raw('MONTH(created_at)'), $currntMonth)
-                ->where(DB::raw('YEAR(created_at)'), $currntYear)
-                ->where('ticketOpenerCompanyId', $userCompanyId)
-                ->get();
+        $closeCountMonth = Ticket:: select('ticketId','ticketOpenerCompanyId')->where('ticketStatus', 'Close')
+            ->where(DB::raw('MONTH(created_at)'), $currntMonth)
+            ->where(DB::raw('YEAR(created_at)'), $currntYear)
+            ->where('ticketOpenerCompanyId', $userCompanyId)
+            ->get();
 
 
 
@@ -550,6 +541,7 @@ class DashBoardController extends Controller
     {
         $allNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
                                        ->where('assigned_emp_id', Auth::user()->userId)
+                                        ->orderBy('assigned_time', 'desc')
                                        ->get();
 
         return view('Notification.allNotification')->with('allNotification', $allNotification);
@@ -560,6 +552,7 @@ class DashBoardController extends Controller
         $myNotification = Notification::leftJoin('backlog', 'backlog.backlog_id', 'notification.task_id')
             ->where('assigned_emp_id', Auth::user()->userId)
             ->where('seen', '0')
+            ->orderBy('assigned_time', 'desc')
             ->get();
 
         return view('Notification.unseenNotification')->with('myNotificationOld', $myNotification);

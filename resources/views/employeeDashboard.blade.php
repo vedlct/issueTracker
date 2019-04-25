@@ -47,7 +47,7 @@
             <div class="card mb-3">
                 <h5 class="card-header mt-0">Today's List</h5>
                 @foreach($MY_Companies as $company)
-                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;""><b>{{$company->companyName}}</b></h5>
+                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b>{{$company->companyName}}</b></h5>
                     <div class="card-body">
                         @foreach($mybacklogs->where('fk_company_id',$company->companyId) as $mybacklog)
                             <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>

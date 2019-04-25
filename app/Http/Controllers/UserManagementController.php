@@ -236,7 +236,7 @@ class UserManagementController extends Controller
         $emp->save();
 
         Session::flash('message', 'Employee Created!');
-        return back();
+        return redirect()->route('user.show.allEmployee');
     }
 
     public function editEmployee($id){
