@@ -19,6 +19,14 @@
                     </a>
                 </li>
 
+                @if(Auth::user()->fk_userTypeId == 1)
+                    <li>
+                        <a href="{{route('show.allRequest')}}" class="waves-effect">
+                            <i class="fa fa-sign-in"></i> <span> Received Request </span>
+                        </a>
+                    </li>
+                @endif
+
                 {{-- All Company Settings --}}
                 @if(Auth::user()->fk_userTypeId == 1)
                     <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-cogs"></i> <span>Company Management</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>

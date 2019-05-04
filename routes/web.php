@@ -5,6 +5,7 @@ Auth::routes();
 // Dashboard
 Route::get('/','DashBoardController@index')->middleware('auth')->name('index');
 
+
 Route::get('/call-all-ticket',    'DashBoardController@call_allticket')                ->name('call_allticket');
 Route::get('/call-open-ticket',   'DashBoardController@call_openticket')               ->name('call_openticket');
 Route::get('/call-close-ticket',  'DashBoardController@call_closeticket')              ->name('call_closeticket');
@@ -13,6 +14,7 @@ Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')     
 Route::get('/all-notification/user','DashBoardController@showAllNotification')         ->name('show.allNotification');
 Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData') ->name('getMyallNotification');
 Route::post('/change-unseen-notification','DashBoardController@changeunseen')          ->name('notification.changeUnseen');
+
 
 // Company
 Route::get ('/company-list',     'CompanyController@index')          ->name('company.showAllCompany');
@@ -59,13 +61,7 @@ Route::post('/create-project',    'ProjectController@insert_project') ->name('pr
 Route::get ('/edit-project/{id}', 'ProjectController@edit_project')   ->name('project.edit');
 Route::post('/edit-project/{id}', 'ProjectController@update_project') ->name('project.update');
 Route::post('/project/delete',    'ProjectController@delete_project') ->name('project.delete');
-
-
-//new
 Route::post('/project/get-all-contact-person',    'ProjectController@getAllContactPerson') ->name('project.get.contactpersonlist');
-
-
-
 
 
 
@@ -180,11 +176,17 @@ Route::post('/client/update-contact-person',      'ManageClientController@update
 Route::post('/client/delete-contact-person',      'ManageClientController@deleteContactPerson')   ->name('client.delete.contactPerson');
 
 
-Route::get ('/sub-company/client-management',     'ManageSubCompanyController@clientList')   ->name('subcompany.manageClient');
 
 
+// JoinRequestController
+Route::get ('/send-request', 'JoinRequestController@index')->name('joinRequest');
+Route::post('/send-request', 'JoinRequestController@insertRequest')->name('insert.joinRequest');
 
+Route::get ('/all-requests', 'JoinRequestController@showAllRequest')->name('show.allRequest');
 
+Route::post('/get-all-request', 'JoinRequestController@getAllRequest')->name('join.getAllJoinRequest');
+Route::post('/show-request', 'JoinRequestController@showRequest')->name('join.request.show');
+Route::post('/delete-request', 'JoinRequestController@deleteRequest')->name('join.request.delete');
 
 
 

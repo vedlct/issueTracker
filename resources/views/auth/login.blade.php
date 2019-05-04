@@ -15,6 +15,7 @@
     <link href="{{url('public/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{url('public/css/icons.css')}}" rel="stylesheet" type="text/css">
     <link href="{{url('public/css/style.css')}}" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="fixed-left">
@@ -73,7 +74,7 @@
                                         </div>
                                         <div class="form-group m-t-10 mb-0 row">
                                             <div class="col-sm-7 m-t-20"><a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a></div>
-                                            {{--<div class="col-sm-5 m-t-20"><a href="pages-register.html" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a></div>--}}
+                                            <div class="col-sm-5 m-t-20"><a href="{{ route('joinRequest') }}" class="text-muted"><i class="mdi mdi-account-circle"></i> Request an account </a></div>
                                         </div>
                                     </form>
                                 </div>
