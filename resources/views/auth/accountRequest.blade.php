@@ -18,13 +18,17 @@
 
     <style>
         .accountbg{
-            background: url(../public/images/bg-2.jpg) !important;
-            background-position: center;
-            /*position: relative !important;*/
-            /*height: 100vh !important;*/
-            /*background-size: cover !important;*/
-            /*background-position: center !important;*/
+            background: url(public/images/bg-2.jpg) !important;
+            -webkit-background-size: cover !important;
+            -moz-background-size: cover !important;
+            -o-background-size: cover !important;
+            background-size: cover !important;
+
+
         }
+        /*body{*/
+            /*background-image: url(../public/images/bg-2.jpg) !important;*/
+        /*}*/
     </style>
 
 </head>
