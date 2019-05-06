@@ -26,6 +26,7 @@ class JoinRequestController extends Controller
         $joinRequest->company_email = $r->email;
         $joinRequest->company_phone = $r->phone;
         $joinRequest->additional_info = $r->additionalInfo;
+        $joinRequest->address = $r->address;
         $joinRequest->created_at = date('Y-m-d h:i:s');
         $joinRequest->save();
 

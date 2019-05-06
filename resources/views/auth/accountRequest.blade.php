@@ -23,8 +23,6 @@
             -moz-background-size: cover !important;
             -o-background-size: cover !important;
             background-size: cover !important;
-
-
         }
         /*body{*/
             /*background-image: url(../public/images/bg-2.jpg) !important;*/
@@ -78,6 +76,11 @@
                                         <div class="form-group row">
                                             <div class="col-12">
                                                 <input class="form-control" type="tel" name="phone" placeholder="Phone">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-12">
+                                                <textarea class="form-control" name="address"  rows="3" placeholder="Company Address"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">

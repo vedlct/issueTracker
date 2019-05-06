@@ -21,6 +21,11 @@
     </div>
     <div class="form-group row">
         <div class="col-12">
-            <textarea class="form-control" name="additionalInfo"  rows="3" placeholder="Additional Information">{{ $req->additional_info }}</textarea>
+            <textarea class="form-control" rows="3" placeholder="Company Address">{{ $req->address }}</textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12">
+            <textarea class="form-control"  rows="3" placeholder="Additional Information">{{ $req->additional_info }}</textarea>
         </div>
     </div>
