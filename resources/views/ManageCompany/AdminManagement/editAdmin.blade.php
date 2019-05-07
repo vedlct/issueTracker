@@ -30,15 +30,6 @@
                 <label>Email Address</label>
                 <input type="email" value="{{ $employee->email }}" name="email" class="form-control" required placeholder="example@gmail.com">
             </div>
-            {{--<div class="form-group">--}}
-                {{--<label for="company">Select Company</label>--}}
-                {{--<select class="form-control" id="company" name="companyId" required>--}}
-                    {{--<option value="">Select Company</option>--}}
-                    {{--@foreach($companyList as $company)--}}
-                        {{--<option value="{{ $company->companyId }}"  @if($company->companyId == $employee->fk_companyId) selected @endif>{{ $company->companyName }}</option>--}}
-                    {{--@endforeach--}}
-                {{--</select>--}}
-            {{--</div>--}}
 
             <div class="form-group">
                 <label>Confirm Password</label>
