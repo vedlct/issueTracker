@@ -105,6 +105,7 @@ class ProjectManagementController extends Controller
                                 ->Join('user','project.project_created_by','user.userId')
                                 ->Join('status','project.project_status','status.statusId')
                                 ->where('project.project_deleted_at', null)
+                                ->where('project.project_status', '!=', 6)
                                 ->get();
         }
         else
@@ -123,7 +124,8 @@ class ProjectManagementController extends Controller
                 $projects=$projects->where('fk_company_id',$userCompanyId);
             }
 
-            $projects=$projects->where('project.project_deleted_at', null)->get();
+            $projects=$projects->where('project.project_deleted_at', null)
+                               ->where('project.project_status', '!=', 6)->get();
         }
 
         return view('Project.ProjectManagement.projectList')->with('projects', $projects)
