@@ -5,8 +5,9 @@
 
     <div class="container">
         <h3 style="font-weight: 300; margin-bottom: 20px;">Notifications</h3>
+        <hr>
         <ul class="list-group">
-            @if(count($allNotification) < 0)
+            @if(count($allNotification) == 0)
                 <p>No new message</p>
             @else
                 @foreach($allNotification as $notification)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\JoinRequest;
+use App\Notification;
 use Illuminate\Http\Request;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -29,6 +30,14 @@ class JoinRequestController extends Controller
         $joinRequest->address = $r->address;
         $joinRequest->created_at = date('Y-m-d h:i:s');
         $joinRequest->save();
+
+//        $notification = new Notification();
+//        $notification->assigned_emp_id = $emp;
+//        $notification->assigned_type = 'Backlog';
+//        $notification->task_id = $backlog->backlog_id;
+//        $notification->assigned_time = date('Y-m-d H:i:s');
+//        $notification->seen = 0;
+//        $notification->save();
 
         Session::flash('message', 'Request Sent Successfully. We will contact you soon.');
 
