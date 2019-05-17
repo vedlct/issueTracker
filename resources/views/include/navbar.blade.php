@@ -109,6 +109,9 @@
                         @if(Auth::user()->fk_userTypeId == 3)
                             <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' List</a></li>
                         @endif
+                        @if(Auth::user()->fk_userTypeId == 4)
+                            <li><a href="{{ route('project.partner.showAllProject') }}" class="waves-effect">Partner Project List</a></li>
+                        @endif
                     </ul>
                 </li>
 

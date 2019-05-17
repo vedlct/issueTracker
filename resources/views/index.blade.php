@@ -148,6 +148,20 @@
                     </div>
                 </div>
 
+                @if(Auth::user()->fk_userTypeId == 4)
+
+                <div class="col-lg-2 col-md-6 mb-2">
+                    <div class="card newCard">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{ route('project.partner.showAllProject') }}">partner Project</a></h5>
+                            <div class="text-right">
+                                <h4 class="font-light m-b-0"> {{ $totalPartnerProject }} </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
             </div>
 
             <div class="card mt-2">

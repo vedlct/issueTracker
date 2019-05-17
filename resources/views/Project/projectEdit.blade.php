@@ -63,6 +63,16 @@
                         @endif
                     @endif
 
+                    <div class="form-group col-md-4" id="CompanyPartner">
+                        <label>Select Partner</label>
+                        <select class="form-control" name="fkPartnerCompanyId" id="setCompanyPartner">
+                            <option value="">Select Partner</option>
+                            @foreach($partnerCompany as $pC)
+                                <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group col-md-12">
                         <label>Project Summary</label>
                         <textarea class="form-control" placeholder="Project Summary" name="summary">{{ $status->project_summary }}</textarea>
@@ -75,6 +85,49 @@
                     </div>
                 </div>
             </form>
+
+            @if(!$projectPartnerList->isEmpty())
+                <br>
+
+                <div class="card">
+
+                    <h3 class="card-header">
+                        <div class="row">
+                            <div align="center" class="col-md-12">
+                                <span style="display: inline;">Project Partners</span>
+                            </div>
+
+                        </div>
+                    </h3>
+
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>
+                                    Company Name
+                                </td>
+                                <td>
+                                    Action
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($projectPartnerList as $pPL)
+                                <tr>
+                                    <td>
+                                        {{$pPL->companyName}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('project.partner.delete',['id'=>$pPL->projectPartnerId])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-trash fa-lg"></i>Delete</a>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
         </div>
 
         {{--<div class="card-body">--}}

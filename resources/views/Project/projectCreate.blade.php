@@ -1,6 +1,5 @@
 @extends('layouts.mainLayout')
 
-
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -71,7 +70,18 @@
                                 @endforeach
                             </select>
                         </div>
+
                     @endif
+
+                    <div class="form-group col-md-4" id="CompanyPartner">
+                        <label>Select Partner</label>
+                        <select class="form-control" name="fkPartnerCompanyId" id="setCompanyPartner">
+                            <option value="">Select Partner</option>
+                            @foreach($partnerCompany as $pC)
+                                <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="form-group col-md-12">
                         <label>Project Summary</label>
