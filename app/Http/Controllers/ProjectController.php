@@ -282,12 +282,18 @@ class ProjectController extends Controller
 //            }
 //        }
 
-        if ($r->fkPartnerCompanyId){
+        if (!empty($r->fkPartnerCompanyId)&& array_filter($r->fkPartnerCompanyId)){
 
-            $projectPartner=new ProjectPartner();
-            $projectPartner->fkProjectId=$project->projectId;
-            $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId;
-            $projectPartner->save();
+            for ($i=0;$i<count($r->fkPartnerCompanyId);$i++){
+
+                $projectPartner=new ProjectPartner();
+                $projectPartner->fkProjectId=$project->projectId;
+                $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId[$i];
+                $projectPartner->save();
+
+            }
+
+
 
         }
 
@@ -384,12 +390,18 @@ class ProjectController extends Controller
         $project->project_duration = $r->duration;
         $project->save();
 
-        if ($r->fkPartnerCompanyId){
+        if (!empty($r->fkPartnerCompanyId)&& array_filter($r->fkPartnerCompanyId)){
 
-            $projectPartner=new ProjectPartner();
-            $projectPartner->fkProjectId=$project->projectId;
-            $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId;
-            $projectPartner->save();
+            for ($i=0;$i<count($r->fkPartnerCompanyId);$i++){
+
+                $projectPartner=new ProjectPartner();
+                $projectPartner->fkProjectId=$project->projectId;
+                $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId[$i];
+                $projectPartner->save();
+
+            }
+
+
 
         }
 

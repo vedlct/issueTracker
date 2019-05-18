@@ -65,7 +65,7 @@
 
                     <div class="form-group col-md-4" id="CompanyPartner">
                         <label>Select Partner</label>
-                        <select class="form-control" name="fkPartnerCompanyId" id="setCompanyPartner">
+                        <select class="form-control js-example-basic-multiple" name="fkPartnerCompanyId[]" multiple="multiple"id="setCompanyPartner">
                             <option value="">Select Partner</option>
                             @foreach($partnerCompany as $pC)
                                 <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
