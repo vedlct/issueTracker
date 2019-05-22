@@ -50,17 +50,26 @@
                     </div>
 
                     @if(Auth::user()->fk_userTypeId != 2)
-                        @if($project->fk_client_id)
+                        {{--@if($project->fk_client_id)--}}
                             <div class="form-group col-md-4" id="client">
                                 <label>Select Client *</label>
-                                <select class="form-control" name="client" id="setClientId" onchange="getAllContactPersonList()">
+                                <select class="form-control" name="client" id="setClientId" onchange="clientNamechk()">
                                     <option value="">Select Client</option>
                                     @foreach($clients as $c)
                                         <option value="{{$c->clientId}}" @if($c->clientId == $project->fk_client_id) selected @endif>{{$c->clientName}}</option>
                                     @endforeach
+                                    <option value="{{OTHERS}}">{{OTHERS}}</option>
                                 </select>
                             </div>
-                        @endif
+
+
+
+                        {{--@endif--}}
+
+                            <div class="form-group col-md-4" style="display: none" id="clientNameDiv">
+                                <label>Client Name *</label>
+                                <input type="text" class="form-control" id="clientName" placeholder="Client Name" name="clientName">
+                            </div>
                     @endif
 
                     <div class="form-group col-md-4" id="CompanyPartner">
@@ -206,10 +215,44 @@
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+            changeProjectType();
         });
         $(".datepicker").datepicker({
             orientation: "bottom" ,
             format: 'yyyy-mm-dd',
         });
+
+        function clientNamechk() {
+
+            if($('#projectType').val() == "Company Client" && $('#setClientId').val() == "{{OTHERS}}")
+            {
+                $('#clientNameDiv').show();
+                $('#clientName').prop('required',true);
+            }else {
+
+                $('#clientNameDiv').hide();
+                $('#clientName').prop('required',false);
+            }
+        }
+
+        function changeProjectType() {
+
+            if($('#projectType').val() == "Company Personal")
+            {
+                $('#client').hide();
+                $('#setClientId').prop('required',false);
+            }
+            if($('#projectType').val() == "Company Client")
+            {
+                $('#client').show();
+                $('#setClientId').prop('required',true);
+            }
+            clientNamechk();
+
+
+        }
+
     </script>
+
+
 @endsection

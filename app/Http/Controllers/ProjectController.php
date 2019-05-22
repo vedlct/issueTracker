@@ -48,7 +48,16 @@ class ProjectController extends Controller
     // view Project list
     public function index(){
 
-        $userCompany = $this->getCompanyUserId();
+         $userCompany = $this->getCompanyUserId();
+
+        $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
+            ->leftjoin('company','project.fk_company_id','company.companyId')
+            ->leftjoin('user','project.project_created_by','user.userId')
+            ->leftjoin('status','project.project_status','status.statusId')
+            ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+            ->where('project.project_status', '!=' ,6)
+            ->orderBy('project.projectId','desc')
+            ->where('project.project_deleted_at', null);
 
         // Calculate project percentage
         if($userCompany == null)
@@ -87,6 +96,8 @@ class ProjectController extends Controller
             $percentage_all[$project->projectId] = round($percentage);
         }
 
+//        return $percentage_all;
+
         return view('Project.projectList')->with('project_percentage', $percentage_all);
     }
 
@@ -104,12 +115,13 @@ class ProjectController extends Controller
         if($userCompanyId == null)
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
-                               ->Join('company','project.fk_company_id','company.companyId')
-                               ->Join('user','project.project_created_by','user.userId')
-                               ->Join('status','project.project_status','status.statusId')
-                               ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
-                               ->where('project.project_status', '!=' ,6)
-                               ->where('project.project_deleted_at', null);
+                ->leftjoin('company','project.fk_company_id','company.companyId')
+                ->leftjoin('user','project.project_created_by','user.userId')
+                ->leftjoin('status','project.project_status','status.statusId')
+                ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+                ->where('project.project_status', '!=' ,6)
+                ->orderBy('project.projectId','desc')
+                ->where('project.project_deleted_at', null);
         }
         else
         {
@@ -121,6 +133,7 @@ class ProjectController extends Controller
                                    ->leftJoin('status','project.project_status','status.statusId')
                                    ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                                    ->where('project.project_status', '!=' ,6)
+                                    ->orderBy('project.projectId','desc')
                                    ->where('fk_company_id',$userCompanyId);
             }
             else
@@ -132,6 +145,7 @@ class ProjectController extends Controller
                                    ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                                    ->leftJoin('status','project.project_status','status.statusId')
                                    ->where('project.project_status', '!=' ,6)
+                    ->orderBy('project.projectId','desc')
                                    ->where('fk_client_id', $this->getCompanyUserId());
 
 //                if(Auth::user()->fk_userTypeId == 2)
@@ -160,11 +174,12 @@ class ProjectController extends Controller
         if($userCompanyId == null)
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
-                ->Join('company','project.fk_company_id','company.companyId')
-                ->Join('user','project.project_created_by','user.userId')
-                ->Join('status','project.project_status','status.statusId')
+                ->leftjoin('company','project.fk_company_id','company.companyId')
+                ->leftjoin('user','project.project_created_by','user.userId')
+                ->leftjoin('status','project.project_status','status.statusId')
                 ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                 ->where('project.project_status', 6)
+                ->orderBy('project.projectId','desc')
                 ->where('project.project_deleted_at', null);
         }
         else
@@ -177,6 +192,7 @@ class ProjectController extends Controller
                     ->leftJoin('status','project.project_status','status.statusId')
                     ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                     ->where('project.project_status', 6)
+                    ->orderBy('project.projectId','desc')
                     ->where('fk_company_id',$userCompanyId);
             }
             else
@@ -186,6 +202,7 @@ class ProjectController extends Controller
                     ->leftJoin('user','project.project_created_by','user.userId')
                     ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                     ->leftJoin('status','project.project_status','status.statusId')
+                    ->orderBy('project.projectId','desc')
                     ->where('project.project_status', 6);
 
                 $projects = $projects->where('project.project_deleted_at', null);
@@ -260,8 +277,23 @@ class ProjectController extends Controller
         else
         {
 
-            $project->fk_client_id = $r->client;
+
             $project->fk_company_id = $this->getCompanyUserId();
+
+            if ($r->client==OTHERS){
+
+                $client=new Client();
+                $client->clientName=$r->clientName;
+                $client->clientCompanyId=$this->getCompanyUserId();
+                $client->created_at=date("Y-m-d H:i:s");
+                $client->save();
+
+                $project->fk_client_id = $client->clientId;
+
+            }else{
+
+                $project->fk_client_id = $r->client;
+            }
         }
         $project->project_type = $r->projectType;
         $project->project_status = $r->status;
@@ -307,7 +339,8 @@ class ProjectController extends Controller
     // view edit company form
     public function edit_project($id){
 
-        $allStatus = Status::where('statusType', 'project_status')->get();
+         $allStatus = Status::where('statusType', 'project_status')->get();
+
         $project = Project::findOrFail($id);
 
          $projectPartnerList=ProjectPartner::select('project_partner.projectPartnerId','company.companyId','company.companyName')
@@ -325,7 +358,7 @@ class ProjectController extends Controller
 
         if($userCompanyId == null)
         {
-            $partnerCompany=Company::whereNotIn('company.companyId',$thisProjectPartnerList)->all();
+            $partnerCompany=Company::whereNotIn('company.companyId',$thisProjectPartnerList)->get();
         }
         else
         {
@@ -380,8 +413,27 @@ class ProjectController extends Controller
         }
         else
         {
-            $project->fk_client_id = $r->client;
+//            $project->fk_client_id = $r->client;
+//            $project->fk_company_id = $this->getCompanyUserId();
+
             $project->fk_company_id = $this->getCompanyUserId();
+
+            if ($r->client==OTHERS){
+
+                $client=new Client();
+
+                $client->clientName=$r->clientName;
+                $client->clientCompanyId=$this->getCompanyUserId();
+                $client->created_at=date("Y-m-d H:i:s");
+                $client->save();
+
+                $project->fk_client_id = $client->clientId;
+
+            }else{
+
+                $project->fk_client_id = $r->client;
+            }
+
         }
         $project->project_type = $r->projectType;
         $project->project_status = $r->status;
@@ -470,8 +522,9 @@ class ProjectController extends Controller
             ->leftJoin('user','project.project_created_by','user.userId')
             ->leftJoin('status','project.project_status','status.statusId')
             ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
-            ->leftjoin('project_partner', 'project_partner.fkPartnerCompanyId', 'project.projectId')
+            ->leftjoin('project_partner', 'project_partner.fkProjectId', 'project.projectId')
             ->where('project.project_status', '!=' ,6)
+            ->orderBy('project.projectId','desc')
             ->where('project_partner.fkPartnerCompanyId',$userCompanyId);
 
 

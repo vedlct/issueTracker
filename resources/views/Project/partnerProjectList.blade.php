@@ -84,35 +84,28 @@
                     { data: 'statusData', name: 'status.statusData' },
                     { data: 'fullName', name: 'user.fullName' },
                     { data: 'clientName', name: 'client.clientName' },
-                    { data: 'clientName', name: 'client.clientName' },
+//                    { data: 'clientName', name: 'client.clientName' },
 
 
-                    // {
-                    //     "data": function(data)
-                    //     {
-                    //         if(data.companyName == null)
-                    //         {
-                    //             return "";
-                    //         }
-                    //         else
-                    //         {
-                    //             return data.companyName;
-                    //         }
-                    //     },
-                    // },
+//                     {
+//                         "data": function(data)
+//                         {
+//                             return data.projectId;
+//                         },
+//                     },
 
-//                    {
-//                        "data": function(data)
-//                        {
-//                            for(var project_id in project_percentage)
-//                            {
-//                                if(data.projectId == project_id)
-//                                {
-//                                    return '<div class="progress ml-2 mr-2"> <div class="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+project_percentage[project_id]+'" aria-valuemin="0" aria-valuemax="100" style="width: '+project_percentage[project_id]+'% "> <span style="color:#0a1832; margin-left: 10px;"> '+project_percentage[project_id]+' % </span>  </div> </div>';
-//                                }
-//                            }
-//                        }
-//                    },
+                    {
+                        "data": function(data)
+                        {
+                            for(var project_id in project_percentage)
+                            {
+                                if(data.projectId == project_id)
+                                {
+                                    return '<div class="progress ml-2 mr-2"> <div class="progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+project_percentage[project_id]+'" aria-valuemin="0" aria-valuemax="100" style="width: '+project_percentage[project_id]+'% "> <span style="color:#0a1832; margin-left: 10px;"> '+project_percentage[project_id]+' % </span>  </div> </div>';
+                                }
+                            }
+                        }
+                    },
 
                     { "data": function(data)
                     {

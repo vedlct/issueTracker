@@ -174,6 +174,8 @@ class DashBoardController extends Controller
         {
             $date = date('Y-m-d h:i:s');
 
+            $totalPartnerProject=null;
+
             // all
             $allTicket= Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->count();
@@ -359,12 +361,15 @@ class DashBoardController extends Controller
                                  ->with('closeMonth', $closeCountMonth)
                                  ->with('mybacklogs', $mybacklogs)
                                  ->with('mybacklogsMissed', $mybacklogsMissed)
-                                 ->with('totalPartnerProject', $totalPartnerProject)
+
+                                ->with('totalPartnerProject', $totalPartnerProject)
+
                                  ->with('project_percentage', $percentage_all);
     }
 
     public function employeeDashboard(){
         $userCompanyId = $this->getCompanyUserId();
+
 
         $myCompanies=Employee::select('fk_companyId')
                              ->where('employeeUserId',Auth::user()->userId)->get();
