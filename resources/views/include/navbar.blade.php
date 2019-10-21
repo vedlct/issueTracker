@@ -124,7 +124,7 @@
                         @endif
                     </ul>
                 </li>
-                @if(Auth::user()->fk_userTypeId === 4)
+                @if(Auth::user()->fk_userTypeId == 4)
                 <li>
                     <a href="{{route('today.work')}}" class="waves-effect">
                         <i class="fa fa-briefcase"></i> <span> Today Work</span>
