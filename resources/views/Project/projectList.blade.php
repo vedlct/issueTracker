@@ -122,20 +122,14 @@
                    { data: 'statusData', name: 'status.statusData' },
                    { data: 'fullName', name: 'user.fullName' },
                    { data: 'clientName', name: 'client.clientName' },
+//                   { data: 'clientName', name: 'client.clientName' },
 
-                   // {
-                   //     "data": function(data)
-                   //     {
-                   //         if(data.companyName == null)
-                   //         {
-                   //             return "";
-                   //         }
-                   //         else
-                   //         {
-                   //             return data.companyName;
-                   //         }
-                   //     },
-                   // },
+//                    {
+//                        "data": function(data)
+//                        {
+//                            return data.project_name;
+//                        },
+//                    },
 
                    {
                        "data": function(data)

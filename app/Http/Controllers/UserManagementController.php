@@ -80,6 +80,47 @@ class UserManagementController extends Controller
         return view('Usermanagement.employeeList')->with('employeelist', $employeelist);
     }
 
+    public function today_work()
+    {
+        if(Auth::user()->fk_userTypeId == 4)
+        {
+            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $userCompanyId = null;
+        }
+
+        // get all user of current user's company
+        if($userCompanyId == null)
+        {
+            $employeelist = DB::table('user')
+                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
+                ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
+                ->leftJoin('project','project.projectId','backlog.fk_project_id')
+                ->where('user.fk_userTypeId', 3)
+                ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
+                ->leftJoin('designation','designation.designation_id','user.designation')
+                ->get();
+        }
+        else
+        {
+            $employeelist = DB::table('user')
+                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                ->leftJoin('designation','designation.designation_id','user.designation')
+                ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
+                ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
+                ->leftJoin('project','project.projectId','backlog.fk_project_id')
+                ->where('user.fk_userTypeId', 3)
+                ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
+                ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->get();
+        }
+        return view('Usermanagement.todayWork')->with('employeelist', $employeelist);
+    }
+
     // client list
     public function clientlist(){
 

@@ -13,7 +13,7 @@ Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')     
 Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')            ->name('call_pendingticket');
 Route::get('/all-notification/user','DashBoardController@showAllNotification')         ->name('show.allNotification');
 Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData') ->name('getMyallNotification');
-Route::post('/change-unseen-notification','DashBoardController@changeunseen')          ->name('notification.changeUnseen');
+Route::post('/change-unseen-notification','DashBoardComy-companyntroller@changeunseen')          ->name('notification.changeUnseen');
 
 
 // Company
@@ -59,9 +59,15 @@ Route::post('/project-list2',      'ProjectController@getAllProject2')  ->name('
 Route::get ('/create-project',    'ProjectController@create_project') ->name('project.create');
 Route::post('/create-project',    'ProjectController@insert_project') ->name('project.insert');
 Route::get ('/edit-project/{id}', 'ProjectController@edit_project')   ->name('project.edit');
+
+
 Route::post('/edit-project/{id}', 'ProjectController@update_project') ->name('project.update');
 Route::post('/project/delete',    'ProjectController@delete_project') ->name('project.delete');
 Route::post('/project/get-all-contact-person',    'ProjectController@getAllContactPerson') ->name('project.get.contactpersonlist');
+
+Route::get ('/project-partner/delete/{id}', 'ProjectController@projectPartnerDelete')   ->name('project.partner.delete');
+Route::get ('/project-partner/project-list', 'ProjectController@projectPartnerProjectList')   ->name('project.partner.showAllProject');
+Route::post ('/project-partner/project-list', 'ProjectController@getAllprojectPartnerProjectList')   ->name('project.partner.getAllProject');
 
 
 
@@ -116,6 +122,7 @@ Route::post('/admin-update/',       'UserManagementController@updateAdmin')     
 Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
 
 
+Route::get ('/today-work', 'UserManagementController@today_work')         ->name('today.work');
 Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany')         ->name('add.admin.otherCompany');
 Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')                 ->name('get.all.EmpInfo');
 Route::post('deleteFromCompany/',                    'UserManagementController@deleteFromCompany')          ->name('deleteFromCompany');

@@ -50,18 +50,37 @@
                     </div>
 
                     @if(Auth::user()->fk_userTypeId != 2)
-                        @if($project->fk_client_id)
+                        {{--@if($project->fk_client_id)--}}
                             <div class="form-group col-md-4" id="client">
                                 <label>Select Client *</label>
-                                <select class="form-control" name="client" id="setClientId" onchange="getAllContactPersonList()">
+                                <select class="form-control" name="client" id="setClientId" onchange="clientNamechk()">
                                     <option value="">Select Client</option>
                                     @foreach($clients as $c)
                                         <option value="{{$c->clientId}}" @if($c->clientId == $project->fk_client_id) selected @endif>{{$c->clientName}}</option>
                                     @endforeach
+                                    <option value="{{OTHERS}}">{{OTHERS}}</option>
                                 </select>
                             </div>
-                        @endif
+
+
+
+                        {{--@endif--}}
+
+                            <div class="form-group col-md-4" style="display: none" id="clientNameDiv">
+                                <label>Client Name *</label>
+                                <input type="text" class="form-control" id="clientName" placeholder="Client Name" name="clientName">
+                            </div>
                     @endif
+
+                    <div class="form-group col-md-4" id="CompanyPartner">
+                        <label>Select Partner</label>
+                        <select class="form-control js-example-basic-multiple" name="fkPartnerCompanyId[]" multiple="multiple"id="setCompanyPartner">
+                            <option value="">Select Partner</option>
+                            @foreach($partnerCompany as $pC)
+                                <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="form-group col-md-12">
                         <label>Project Summary</label>
@@ -75,6 +94,49 @@
                     </div>
                 </div>
             </form>
+
+            @if(!$projectPartnerList->isEmpty())
+                <br>
+
+                <div class="card">
+
+                    <h3 class="card-header">
+                        <div class="row">
+                            <div align="center" class="col-md-12">
+                                <span style="display: inline;">Project Partners</span>
+                            </div>
+
+                        </div>
+                    </h3>
+
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>
+                                    Company Name
+                                </td>
+                                <td>
+                                    Action
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($projectPartnerList as $pPL)
+                                <tr>
+                                    <td>
+                                        {{$pPL->companyName}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('project.partner.delete',['id'=>$pPL->projectPartnerId])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-trash fa-lg"></i>Delete</a>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
         </div>
 
         {{--<div class="card-body">--}}
@@ -153,10 +215,44 @@
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+            changeProjectType();
         });
         $(".datepicker").datepicker({
             orientation: "bottom" ,
             format: 'yyyy-mm-dd',
         });
+
+        function clientNamechk() {
+
+            if($('#projectType').val() == "Company Client" && $('#setClientId').val() == "{{OTHERS}}")
+            {
+                $('#clientNameDiv').show();
+                $('#clientName').prop('required',true);
+            }else {
+
+                $('#clientNameDiv').hide();
+                $('#clientName').prop('required',false);
+            }
+        }
+
+        function changeProjectType() {
+
+            if($('#projectType').val() == "Company Personal")
+            {
+                $('#client').hide();
+                $('#setClientId').prop('required',false);
+            }
+            if($('#projectType').val() == "Company Client")
+            {
+                $('#client').show();
+                $('#setClientId').prop('required',true);
+            }
+            clientNamechk();
+
+
+        }
+
     </script>
+
+
 @endsection

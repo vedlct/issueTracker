@@ -1,6 +1,5 @@
 @extends('layouts.mainLayout')
 
-
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -62,16 +61,33 @@
                     </div>
 
                     @if(Auth::user()->fk_userTypeId != 2)
-                        <div class="form-group col-md-4" id="client">
+                        <div class="form-group col-md-4" onchange="clientNamechk()" id="client">
                             <label>Select Client *</label>
-                            <select class="form-control" name="client" id="setClientId">
+                            <select class="form-control js-example-basic-single" name="client" id="setClientId">
                                 <option value="">Select Client</option>
                                 @foreach($clients as $c)
                                     <option value="{{$c->clientId}}" >{{$c->clientName}}</option>
                                 @endforeach
+                                <option value="{{OTHERS}}">{{OTHERS}}</option>
                             </select>
                         </div>
+
+                        <div class="form-group col-md-4" style="display: none" id="clientNameDiv">
+                            <label>Client Name *</label>
+                            <input type="text" class="form-control" id="clientName" placeholder="Client Name" name="clientName">
+                        </div>
+
                     @endif
+
+                    <div class="form-group col-md-4" id="CompanyPartner">
+                        <label>Select Partner</label>
+                        <select class="form-control js-example-basic-multiple" name="fkPartnerCompanyId[]" multiple="multiple" id="setCompanyPartner">
+                            <option value="">Select Partner</option>
+                            @foreach($partnerCompany as $pC)
+                                <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="form-group col-md-12">
                         <label>Project Summary</label>
@@ -99,6 +115,10 @@
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-single').select2();
+
+            clientNamechk();
+
         });
         $(".datepicker").datepicker({
             orientation: "bottom" // <-- and add this
@@ -109,11 +129,26 @@
             if($('#projectType').val() == "Company Personal")
             {
                 $('#client').hide();
+                $('#setClientId').prop('required',false);
             }
             if($('#projectType').val() == "Company Client")
             {
                 $('#client').show();
                 $('#setClientId').prop('required',true);
+            }
+            clientNamechk();
+        }
+        function clientNamechk() {
+
+
+            if($('#projectType').val() == "Company Client" && $('#setClientId :selected').val() == "{{OTHERS}}")
+            {
+                $('#clientNameDiv').show();
+                $('#clientName').prop('required',true);
+            }else {
+
+                $('#clientNameDiv').hide();
+                $('#clientName').prop('required',false);
             }
         }
 

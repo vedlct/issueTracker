@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Backlog;
 use App\ClientContactPersonUserRelation;
 use App\ClientProjectRelation;
+use App\ProjectPartner;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,7 +48,16 @@ class ProjectController extends Controller
     // view Project list
     public function index(){
 
-        $userCompany = $this->getCompanyUserId();
+         $userCompany = $this->getCompanyUserId();
+
+        $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
+            ->leftjoin('company','project.fk_company_id','company.companyId')
+            ->leftjoin('user','project.project_created_by','user.userId')
+            ->leftjoin('status','project.project_status','status.statusId')
+            ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+            ->where('project.project_status', '!=' ,6)
+            ->orderBy('project.projectId','desc')
+            ->where('project.project_deleted_at', null);
 
         // Calculate project percentage
         if($userCompany == null)
@@ -86,6 +96,8 @@ class ProjectController extends Controller
             $percentage_all[$project->projectId] = round($percentage);
         }
 
+//        return $percentage_all;
+
         return view('Project.projectList')->with('project_percentage', $percentage_all);
     }
 
@@ -103,12 +115,13 @@ class ProjectController extends Controller
         if($userCompanyId == null)
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
-                               ->Join('company','project.fk_company_id','company.companyId')
-                               ->Join('user','project.project_created_by','user.userId')
-                               ->Join('status','project.project_status','status.statusId')
-                               ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
-                               ->where('project.project_status', '!=' ,6)
-                               ->where('project.project_deleted_at', null);
+                ->leftjoin('company','project.fk_company_id','company.companyId')
+                ->leftjoin('user','project.project_created_by','user.userId')
+                ->leftjoin('status','project.project_status','status.statusId')
+                ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+                ->where('project.project_status', '!=' ,6)
+                ->orderBy('project.projectId','desc')
+                ->where('project.project_deleted_at', null);
         }
         else
         {
@@ -120,6 +133,7 @@ class ProjectController extends Controller
                                    ->leftJoin('status','project.project_status','status.statusId')
                                    ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                                    ->where('project.project_status', '!=' ,6)
+                                    ->orderBy('project.projectId','desc')
                                    ->where('fk_company_id',$userCompanyId);
             }
             else
@@ -131,6 +145,7 @@ class ProjectController extends Controller
                                    ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                                    ->leftJoin('status','project.project_status','status.statusId')
                                    ->where('project.project_status', '!=' ,6)
+                    ->orderBy('project.projectId','desc')
                                    ->where('fk_client_id', $this->getCompanyUserId());
 
 //                if(Auth::user()->fk_userTypeId == 2)
@@ -159,11 +174,12 @@ class ProjectController extends Controller
         if($userCompanyId == null)
         {
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
-                ->Join('company','project.fk_company_id','company.companyId')
-                ->Join('user','project.project_created_by','user.userId')
-                ->Join('status','project.project_status','status.statusId')
+                ->leftjoin('company','project.fk_company_id','company.companyId')
+                ->leftjoin('user','project.project_created_by','user.userId')
+                ->leftjoin('status','project.project_status','status.statusId')
                 ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                 ->where('project.project_status', 6)
+                ->orderBy('project.projectId','desc')
                 ->where('project.project_deleted_at', null);
         }
         else
@@ -176,6 +192,7 @@ class ProjectController extends Controller
                     ->leftJoin('status','project.project_status','status.statusId')
                     ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                     ->where('project.project_status', 6)
+                    ->orderBy('project.projectId','desc')
                     ->where('fk_company_id',$userCompanyId);
             }
             else
@@ -185,6 +202,7 @@ class ProjectController extends Controller
                     ->leftJoin('user','project.project_created_by','user.userId')
                     ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                     ->leftJoin('status','project.project_status','status.statusId')
+                    ->orderBy('project.projectId','desc')
                     ->where('project.project_status', 6);
 
                 $projects = $projects->where('project.project_deleted_at', null);
@@ -201,13 +219,30 @@ class ProjectController extends Controller
 
         $userCompanyId = $this->getCompanyUserId();
 
+
         if($userCompanyId == null)
         {
             $companylist = Company::all();
+
+//            $partnerCompany=User::select('company.companyName','user.userId')
+//                ->where('user.fk_userTypeId',4)
+//                ->leftJoin('companyemployee','companyemployee.employeeUserId','user.userId')
+//                ->leftJoin('company','companyemployee.fk_companyId','company.companyId')
+//                ->get();
+            $partnerCompany=$companylist;
         }
         else
         {
             $companylist = Company::where('companyId', $userCompanyId)->get();
+
+//            $partnerCompany=User::select('company.companyName','user.userId')
+//                ->where('user.fk_userTypeId',4)
+//                ->where('company.companyId','!=', $userCompanyId)
+//                ->leftJoin('companyemployee','companyemployee.employeeUserId','user.userId')
+//                ->leftJoin('company','companyemployee.fk_companyId','company.companyId')
+//                ->get();
+            $partnerCompany=Company::where('companyId', '!=',$userCompanyId)->get();
+
         }
 
         $array1 = array();
@@ -222,12 +257,16 @@ class ProjectController extends Controller
 
         $status = Status::where('statusType', 'project_status')->get();
 
-        return view('Project.projectCreate', ['companylist' => $companylist, 'statusAll' => $status,'clients'=>$clients]);
+
+        return view('Project.projectCreate', ['companylist' => $companylist, 'statusAll' => $status,
+            'clients'=>$clients,'partnerCompany'=>$partnerCompany]);
     }
 
 
     // insert company
     public function insert_project(Request $r){
+
+
 
         $project = new Project();
         $project->project_name = $r->projectname;
@@ -237,8 +276,24 @@ class ProjectController extends Controller
         }
         else
         {
-            $project->fk_client_id = $r->client;
+
+
             $project->fk_company_id = $this->getCompanyUserId();
+
+            if ($r->client==OTHERS){
+
+                $client=new Client();
+                $client->clientName=$r->clientName;
+                $client->clientCompanyId=$this->getCompanyUserId();
+                $client->created_at=date("Y-m-d H:i:s");
+                $client->save();
+
+                $project->fk_client_id = $client->clientId;
+
+            }else{
+
+                $project->fk_client_id = $r->client;
+            }
         }
         $project->project_type = $r->projectType;
         $project->project_status = $r->status;
@@ -259,6 +314,23 @@ class ProjectController extends Controller
 //            }
 //        }
 
+        if (!empty($r->fkPartnerCompanyId)&& array_filter($r->fkPartnerCompanyId)){
+
+            for ($i=0;$i<count($r->fkPartnerCompanyId);$i++){
+
+                $projectPartner=new ProjectPartner();
+                $projectPartner->fkProjectId=$project->projectId;
+                $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId[$i];
+                $projectPartner->save();
+
+            }
+
+
+
+        }
+
+
+
         Session::flash('message', 'Project Created!');
 
         return back();
@@ -267,31 +339,43 @@ class ProjectController extends Controller
     // view edit company form
     public function edit_project($id){
 
-        $allStatus = Status::where('statusType', 'project_status')->get();
+         $allStatus = Status::where('statusType', 'project_status')->get();
+
         $project = Project::findOrFail($id);
+
+         $projectPartnerList=ProjectPartner::select('project_partner.projectPartnerId','company.companyId','company.companyName')
+            ->leftJoin('company','company.companyId','project_partner.fkPartnerCompanyId')
+            ->where('fkProjectId',$id)
+            ->get();
+
+         $thisProjectPartnerList=ProjectPartner::select('company.companyId')
+             ->leftJoin('company','company.companyId','project_partner.fkPartnerCompanyId')
+             ->where('fkProjectId',$id)
+             ->get();
+
 
         $userCompanyId = $this->getCompanyUserId();
 
-//        if($userCompanyId == null)
-//        {
-//            $companylist = Company::all();
-//        }
-//        else
-//        {
-//            $companylist = Company::where('companyId', $userCompanyId)->get();
-//        }
-//
-//        $array1 = array();
-//        foreach ($companylist as $c)
-//        {
-//            array_push($array1, $c->companyId);
-//        }
-//
+        if($userCompanyId == null)
+        {
+            $partnerCompany=Company::whereNotIn('company.companyId',$thisProjectPartnerList)->get();
+        }
+        else
+        {
+            $partnerCompany=Company::where('companyId', '!=',$userCompanyId)
+                ->whereNotIn('company.companyId',$thisProjectPartnerList)
+                ->get();
+        }
+
         $clients = Client::where('clientCompanyId',$this->getCompanyUserId())->get();
+
+       // return $partnerCompany;
 
         return view('Project.projectEdit')->with('project', $project)
 //                                               ->with('companylist', $companylist)
                                                ->with('clients', $clients)
+                                               ->with('partnerCompany', $partnerCompany)
+                                               ->with('projectPartnerList', $projectPartnerList)
 //                                               ->with('assignedClients', $assignedClients)
                                                ->with('statusAll', $allStatus);
     }
@@ -320,6 +404,7 @@ class ProjectController extends Controller
 //        }
 
 
+
         $project = Project::findOrFail($r->id);
         $project->project_name = $r->projectname;
         if($r->projectType == "Company Personal")
@@ -328,8 +413,27 @@ class ProjectController extends Controller
         }
         else
         {
-            $project->fk_client_id = $r->client;
+//            $project->fk_client_id = $r->client;
+//            $project->fk_company_id = $this->getCompanyUserId();
+
             $project->fk_company_id = $this->getCompanyUserId();
+
+            if ($r->client==OTHERS){
+
+                $client=new Client();
+
+                $client->clientName=$r->clientName;
+                $client->clientCompanyId=$this->getCompanyUserId();
+                $client->created_at=date("Y-m-d H:i:s");
+                $client->save();
+
+                $project->fk_client_id = $client->clientId;
+
+            }else{
+
+                $project->fk_client_id = $r->client;
+            }
+
         }
         $project->project_type = $r->projectType;
         $project->project_status = $r->status;
@@ -338,9 +442,95 @@ class ProjectController extends Controller
         $project->project_duration = $r->duration;
         $project->save();
 
+        if (!empty($r->fkPartnerCompanyId)&& array_filter($r->fkPartnerCompanyId)){
+
+            for ($i=0;$i<count($r->fkPartnerCompanyId);$i++){
+
+                $projectPartner=new ProjectPartner();
+                $projectPartner->fkProjectId=$project->projectId;
+                $projectPartner->fkPartnerCompanyId=$r->fkPartnerCompanyId[$i];
+                $projectPartner->save();
+
+            }
+
+
+
+        }
+
         Session::flash('message', 'Project Updated!');
 
         return back();
+    }
+
+    public function projectPartnerDelete($id){
+
+        $projectPartner=ProjectPartner::findOrFail($id);
+        $projectPartner->delete();
+
+        Session::flash('message', 'Project Partner Deleted!');
+
+        return back();
+
+    }
+    public function projectPartnerProjectList(){
+
+        $userCompany = $this->getCompanyUserId();
+
+        // Calculate project percentage
+        if($userCompany == null)
+        {
+            $projects = ProjectPartner::all();
+        }
+        else
+        {
+
+            $projects = ProjectPartner::where('fkPartnerCompanyId', $userCompany)->get();
+
+        }
+
+        $percentage_all = array();
+
+        foreach ($projects as $project)
+        {
+            $completedBacklog = Backlog::where('fk_project_id', $project->fkProjectId)
+                ->where('backlog_state', 'complete')
+                ->count();
+
+            $totalBacklog = Backlog::where('fk_project_id', $project->fkProjectId)->count();
+            if($totalBacklog == 0)
+            {
+                $percentage = 0;
+            }
+            else
+            {
+                $percentage = ($completedBacklog*100)/$totalBacklog;
+            }
+            $percentage_all[$project->fkProjectId] = round($percentage);
+        }
+
+        // return $percentage_all;
+        return view('Project.partnerProjectList')->with('project_percentage', $percentage_all);
+
+    }
+
+    public function getAllprojectPartnerProjectList(Request $r)
+    {
+        $userCompanyId = $this->getCompanyUserId();
+
+        $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
+            ->leftJoin('company','project.fk_company_id','company.companyId')
+            ->leftJoin('user','project.project_created_by','user.userId')
+            ->leftJoin('status','project.project_status','status.statusId')
+            ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+            ->leftjoin('project_partner', 'project_partner.fkProjectId', 'project.projectId')
+            ->where('project.project_status', '!=' ,6)
+            ->orderBy('project.projectId','desc')
+            ->where('project_partner.fkPartnerCompanyId',$userCompanyId);
+
+
+            $datatables = Datatables::of($projects);
+            return $datatables->make(true);
+
     }
 
 

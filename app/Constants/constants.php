@@ -38,6 +38,7 @@ define('USER_STATUS',array(
     "2"=>'active',
     "3"=>'free',
 ));
+define('OTHERS',"Others");
 
 
 

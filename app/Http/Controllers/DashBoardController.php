@@ -14,6 +14,7 @@ use App\Employee;
 use App\InternetBill;
 use App\InternetClient;
 use App\Notification;
+use App\ProjectPartner;
 use App\Report;
 use App\Salary;
 use App\User;
@@ -165,11 +166,15 @@ class DashBoardController extends Controller
             return $this->clientDashboard();
         }
 
+
+
         $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
         {
             $date = date('Y-m-d h:i:s');
+
+            $totalPartnerProject=null;
 
             // all
             $allTicket= Ticket::all()->count();
@@ -192,6 +197,11 @@ class DashBoardController extends Controller
         }
         else
         {
+
+
+             $totalPartnerProject=ProjectPartner::where('fkPartnerCompanyId',$userCompanyId)->groupBy('fkPartnerCompanyId')->count();
+
+
             $myCompanies=Employee::select('fk_companyId')->where('employeeUserId',Auth::user()->userId)->get();
 
             $date = date('Y-m-d h:i:s');
@@ -351,11 +361,15 @@ class DashBoardController extends Controller
                                  ->with('closeMonth', $closeCountMonth)
                                  ->with('mybacklogs', $mybacklogs)
                                  ->with('mybacklogsMissed', $mybacklogsMissed)
+
+                                ->with('totalPartnerProject', $totalPartnerProject)
+
                                  ->with('project_percentage', $percentage_all);
     }
 
     public function employeeDashboard(){
         $userCompanyId = $this->getCompanyUserId();
+
 
         $myCompanies=Employee::select('fk_companyId')
                              ->where('employeeUserId',Auth::user()->userId)->get();
