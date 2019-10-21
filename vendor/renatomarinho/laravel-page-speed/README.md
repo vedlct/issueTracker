@@ -1,8 +1,5 @@
 # Laravel Page Speed
 [![Project on GitScrum](https://gitscrum.com/badges/project.svg?project=gitscrum/bulls-eye-gitscrum-37)](https://gitscrum.com)
-[![Laravel 5.3][icon-l53]][link-laravel]
-[![Laravel 5.4][icon-l54]][link-laravel]
-[![Laravel 5.5][icon-l55]][link-laravel]
 [![Build Status](https://travis-ci.org/renatomarinho/laravel-page-speed.svg?branch=master)](https://travis-ci.org/renatomarinho/laravel-page-speed)
 [![License](https://poser.pugx.org/renatomarinho/laravel-page-speed/license)](https://packagist.org/packages/renatomarinho/laravel-page-speed)
 [![Latest Stable Version](https://poser.pugx.org/renatomarinho/laravel-page-speed/version)](https://packagist.org/packages/renatomarinho/laravel-page-speed)
@@ -10,7 +7,7 @@
 
 ### Simple package to minify HTML output on demand which results in a 35%+ optimization.
 
-## Installation is easy
+## Installation
 
 You can install the package via composer:
 
@@ -19,19 +16,21 @@ $ composer require renatomarinho/laravel-page-speed
 ```
 ### Laravel 5.5 and up
  
-You don't have to do anything else, this package uses the Package Auto-Discovery feature, and should be available as soon as you install it via Composer.
+Laravel 5.5 and up uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
 
 ### Laravel 5.4 or 5.3
 
-Add the Service Provider to your **config/app.php**: `RenatoMarinho\LaravelPageSpeed\ServiceProvider::class`
+Add the Service Provider to the providers array in **config/app.php**: 
+
+`RenatoMarinho\LaravelPageSpeed\ServiceProvider::class`
 
  *This is required for publishing the configuration file:* 
  
-#### Publish configuration file
+### Publish configuration file
 
  `php artisan vendor:publish --provider="RenatoMarinho\LaravelPageSpeed\ServiceProvider"`
 
-#### Register Middlewares
+## Do not forget to register middlewares
 
 Next, the `\RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class` and other middleware must be registered in the kernel:
 
@@ -208,12 +207,12 @@ protected $middleware = [
     </tr>
     <tr>
         <td>outline_css</td>
-        <td>Moves large inline <style> tags into external files for cacheability</td>
+        <td>Moves large inline 'style' tags into external files for cacheability</td>
         <td>NO</td>
     </tr>
     <tr>
         <td>outline_javascript</td>
-        <td>Moves large inline <script> tags into external files for cacheability</td>
+        <td>Moves large inline 'script' tags into external files for cacheability</td>
         <td>NO</td>
     </tr>
     <tr>
@@ -302,7 +301,11 @@ You would probably like to configure the package to skip some routes.
 
 By default this field comes configured with some options, so feel free to configure according to your needs...
 
-*Notice*: This package skip automatically binary response. See [File Downloads][link-file-download].
+> *Notice*: This package skip automatically 'binary' and 'streamed' responses. See [File Downloads][link-file-download].
+
+## Warning
+
+**\RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class** is considered **medium risk**. It can cause problems if it uses the wrong base URL. This can happen, for example, if you serve HTML that will be pasted verbatim into other HTML pages. If URLs are trimmed on the first page, they will be incorrect for the page they are inserted into. In this case, just disable the middleware.
 
 ## Testing
 
@@ -317,6 +320,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Renato Marinho][link-author]
+- [João Roberto P. Borges][link-maintainer]
 - [All Contributors][link-contributors]
 
 ## Inspiration 
@@ -327,9 +331,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[icon-l53]: https://img.shields.io/badge/Laravel-5.3-brightgreen.svg?style=flat-square
-[icon-l54]: https://img.shields.io/badge/Laravel-5.4-brightgreen.svg?style=flat-square
-[icon-l55]: https://img.shields.io/badge/Laravel-5.5-brightgreen.svg?style=flat-square
 [icon-downloads]: https://poser.pugx.org/renatomarinho/laravel-page-speed/downloads
 
 [link-laravel]: https://laravel.com
@@ -337,5 +338,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-before]: https://i.imgur.com/cN3MWYh.png
 [link-after]: https://i.imgur.com/IKWKLkL.png
 [link-author]: https://github.com/renatomarinho
+[link-maintainer]: https://github.com/joaorobertopb
 [link-contributors]: ../../contributors
-[link-file-download]: https://laravel.com/docs/5.5/responses#file-downloads
+[link-file-download]: https://laravel.com/docs/6.0/responses#file-downloads

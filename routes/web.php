@@ -13,7 +13,7 @@ Route::get('/call-overdue-ticket','DashBoardController@call_overdueticket')     
 Route::get('/call-pending-ticket','DashBoardController@call_pendingticket')            ->name('call_pendingticket');
 Route::get('/all-notification/user','DashBoardController@showAllNotification')         ->name('show.allNotification');
 Route::post('/get-all-notification-data','DashBoardController@getAllNotificationData') ->name('getMyallNotification');
-Route::post('/change-unseen-notification','DashBoardController@changeunseen')          ->name('notification.changeUnseen');
+Route::post('/change-unseen-notification','DashBoardComy-companyntroller@changeunseen')          ->name('notification.changeUnseen');
 
 
 // Company
@@ -122,6 +122,7 @@ Route::post('/admin-update/',       'UserManagementController@updateAdmin')     
 Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
 
 
+Route::get ('/today-work', 'UserManagementController@today_work')         ->name('today.work');
 Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany')         ->name('add.admin.otherCompany');
 Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')                 ->name('get.all.EmpInfo');
 Route::post('deleteFromCompany/',                    'UserManagementController@deleteFromCompany')          ->name('deleteFromCompany');
