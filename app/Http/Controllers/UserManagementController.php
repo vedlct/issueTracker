@@ -100,6 +100,7 @@ class UserManagementController extends Controller
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
+                ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->leftJoin('designation','designation.designation_id','user.designation')
                 ->get();
@@ -114,6 +115,7 @@ class UserManagementController extends Controller
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
+                ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->where('companyemployee.fk_companyId', $userCompanyId)
                 ->get();

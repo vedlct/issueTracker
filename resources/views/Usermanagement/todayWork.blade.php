@@ -33,7 +33,13 @@
                             <td> {{ $employee->fullName }} </td>
                             <td> {{ $employee->project_name }} </td>
                             <td> {{ $employee->backlog_title }} </td>
-                            <td> {{ $employee->backlog_state }} </td>
+                            <td>
+                                @if($employee->backlog_state==='Planned')
+                                    {{'Assigned'}}
+                                @else
+                                    {{ $employee->backlog_state }}
+                                @endif
+                            </td>
                             <td> {{ $employee->backlog_start_date }} </td>
                             <td> {{ $employee->backlog_end_date }} </td>
                         </tr>
