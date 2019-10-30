@@ -195,9 +195,12 @@ Route::post('/get-all-request', 'JoinRequestController@getAllRequest')->name('jo
 Route::post('/show-request', 'JoinRequestController@showRequest')->name('join.request.show');
 Route::post('/delete-request', 'JoinRequestController@deleteRequest')->name('join.request.delete');
 
+// Project Proposal
 
-
-
+Route::get ('/project-proposal', 'ProjectController@projectProposal')->name('project.proposal');
+Route::post ('/project-proposal-submit', 'ProjectController@projectProposalSubmit')->name('project.proposal.submit');
+Route::post ('/project-getProposed-Project', 'ProjectController@proposedProject')->name('project.getProposedProject');
+Route::post ('/proposed-project-feature', 'ProjectController@proposedfeature')->name('proposed.project.feature');
 
 
 

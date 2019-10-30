@@ -131,6 +131,11 @@
                     </a>
                 </li>
                 @endif
+                <li>
+                    <a href="{{route('project.proposal')}}" class="waves-effect">
+                        <i class="fa fa-life-ring" aria-hidden="true"></i><span> Project Proposal</span>
+                    </a>
+                </li>
         </div>
         <div class="clearfix"></div>
     </div>
