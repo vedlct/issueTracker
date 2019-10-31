@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Company;
 use Auth;
+use Illuminate\Support\Facades\Mail;
 use Session;
 use Yajra\DataTables\DataTables;
 use App\Status;
@@ -536,32 +537,44 @@ class ProjectController extends Controller
     }
 
     public function projectProposalSubmit(Request $data){
-        $project = new Project();
-        $project->project_name = $data->projectname;
-        if (!empty($data->clientname)){
-            $client=new Client();
-            $client->clientName=$data->clientname;
-            $client->clientCompanyId=$this->getCompanyUserId();
-            $client->created_at=date("Y-m-d H:i:s");
-            $client->save();
-            $project->fk_client_id = $client->clientId;
-        }
-        $project->project_status = '7';
-        $project->project_duration = $data->duration;
-        $project->project_created_by = Auth::user()->userId;
-        $project->project_created_at = date("Y-m-d H:i:s");
-        $project->save();
-
-        if (count($data->feature)>0){
-            foreach ($data->feature as $feature){
-                if (!empty($feature)){
-                    $backlog = new Backlog();
-                    $backlog->backlog_title = $feature;
-                    $backlog->fk_project_id = $project->projectId;
-                    $backlog->backlog_state = 'Proposed';
-                    $backlog->backlog_created_at = date("Y-m-d H:i:s");
-                    $backlog->save();
-                }
+//        $project = new Project();
+//        $project->project_name = $data->projectname;
+//        if (!empty($data->clientname)){
+//            $client=new Client();
+//            $client->clientName=$data->clientname;
+//            $client->clientCompanyId=$this->getCompanyUserId();
+//            $client->created_at=date("Y-m-d H:i:s");
+//            $client->save();
+//            $project->fk_client_id = $client->clientId;
+//        }
+//        $project->project_status = '7';
+//        $project->project_duration = $data->duration;
+//        $project->project_created_by = Auth::user()->userId;
+//        $project->project_created_at = date("Y-m-d H:i:s");
+//        $project->save();
+//
+//        if (count($data->feature)>0){
+//            foreach ($data->feature as $feature){
+//                if (!empty($feature)){
+//                    $backlog = new Backlog();
+//                    $backlog->backlog_title = $feature;
+//                    $backlog->fk_project_id = $project->projectId;
+//                    $backlog->backlog_state = 'Proposed';
+//                    $backlog->backlog_created_at = date("Y-m-d H:i:s");
+//                    $backlog->save();
+//                }
+//            }
+//        }
+        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
+        if (count($froMail)>0){
+            foreach ($froMail as $mailAddress){
+//                echo $mailAddress['email'];
+                Mail::send('Ticket.mailView', $mailAddress, function($message) use ($mailAddress)
+                {
+                    $message->to([$mailAddress['email']], 'Company Admin')
+//                        ->cc($froMail['email'])
+                        ->subject('New Ticket Created');
+                });
             }
         }
 

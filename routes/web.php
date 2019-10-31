@@ -106,6 +106,8 @@ Route::post('/team-edit/{id}',            'TeamManagementController@teamUpdate')
 // User Management
 Route::get ('/employee-list',       'UserManagementController@employeelist')       ->name('user.show.allEmployee');
 Route::get ('/add-employee',        'UserManagementController@addEmployee')        ->name('user.add.employee');
+Route::get ('/employee-make-manager/{id}',        'UserManagementController@employeeMakeManager')        ->name('employee.make.manager');
+Route::get ('/employee-remove-manager/{id}',        'UserManagementController@employeeRemoveManager')        ->name('employee.remove.manager');
 Route::post('/add-employee',        'UserManagementController@insertEmployee')     ->name('employee.insert');
 Route::get ('/employee-edit/{id}',  'UserManagementController@editEmployee')       ->name('edit.employee.profile');
 Route::post('/employee-update/',    'UserManagementController@updateEmployee')     ->name('employee.update');

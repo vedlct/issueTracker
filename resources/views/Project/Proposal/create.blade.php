@@ -29,11 +29,9 @@
                         <input type="text" class="form-control" placeholder="Enter Duration" value="" name="duration">
                     </div>
 
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label>Features</label>
+                    <div class="form-group col-md-1">
+                            <label>Features - </label>
                         </div>
-                    </div>
                     <div class="col-md-5">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Enter Feature" name="feature[]">
@@ -69,10 +67,10 @@
                         <div class="form-group">
                             <input type="button" value="Add a field" class="add" id="add" />
                         </div>
-                    </div>
 
-                    <div class="form-group col-md-12">
-                        <button class="btn btn-success pull-right" style="color: #0a1832">Create</button>
+                        <div class="form-group">
+                            <button class="btn btn-success pull-right" style="color: #0a1832">Create</button>
+                        </div>
                     </div>
                 </div>
             </form>

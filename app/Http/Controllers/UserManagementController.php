@@ -45,9 +45,9 @@ class UserManagementController extends Controller
     }
 
     // Employee list
-    public function employeelist(){Auth::user()->fkCompanyId;
+    public function employeelist(){
+        Auth::user()->fkCompanyId;
 
-        // Get user's company ID
         if(Auth::user()->fk_userTypeId == 4)
         {
             $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
@@ -62,7 +62,7 @@ class UserManagementController extends Controller
         {
             $employeelist = DB::table('user')
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
-                ->where('user.fk_userTypeId', 3)
+                ->whereIn('user.fk_userTypeId', [3,5])
                 ->leftJoin('designation','designation.designation_id','user.designation')
                 ->get();
         }
@@ -72,7 +72,7 @@ class UserManagementController extends Controller
                                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                                 ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                                 ->leftJoin('designation','designation.designation_id','user.designation')
-                                ->where('user.fk_userTypeId', 3)
+                                ->whereIn('user.fk_userTypeId', [3,5])
                                 ->where('companyemployee.fk_companyId', $userCompanyId)
                                 ->get();
         }
@@ -562,8 +562,21 @@ class UserManagementController extends Controller
         $allEmployeeList = Employee::leftJoin('user','user.userId', 'companyemployee.employeeUserId')
                                    ->leftJoin('company', 'company.companyId', 'companyemployee.fk_companyId');
 
-        $datatables = Datatables::of($allEmployeeList);
-        return $datatables->make(true);
+        return Datatables::of($allEmployeeList)->make(true);
+    }
+
+    public function employeeMakeManager($id){
+        $user = User::find($id);
+        $user->fk_userTypeId = '5';
+        $user->save();
+        return redirect(route('user.show.allEmployee'));
+    }
+
+    public function employeeRemoveManager($id){
+        $user = User::find($id);
+        $user->fk_userTypeId = '3';
+        $user->save();
+        return redirect(route('user.show.allEmployee'));
     }
 
     public function deleteFromCompany(Request $r){
