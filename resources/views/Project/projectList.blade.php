@@ -83,7 +83,7 @@
 
     <div class="card mt-4">
         <div class="card-header">
-            <h5 class="float-left">Projects for Issue</h5>
+            <h5 class="float-left">Proposed projects</h5>
         </div>
         <div class="card-body">
             <table id="proposedProject" class="table-bordered table-condensed text-center table-hover" style="width:100%">
