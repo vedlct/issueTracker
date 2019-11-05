@@ -2,7 +2,7 @@
     <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button>
     <div class="left-side-logo d-block d-lg-none">
         <div>
-            <h3 class="text-center">TicketPro</h3>
+            <h3 class="text-center">Myject</h3>
 
             {{--<a href="{{route('index')}}" class="logo"><img src="{{url('public/images/logo-dark.png')}}" height="20" alt="logo"></a>--}}
         </div>

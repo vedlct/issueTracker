@@ -263,6 +263,7 @@
                                 @foreach($backlogsOverdue as $key => $backlogsOverdues)
                                 <tr>
                                     <th scope="row">{{$key+1}}</th>
+                                    <td>{{$backlogsOverdues->project_name}}</td>
                                     <td>{{$backlogsOverdues->backlog_title}}</td>
                                     <td style="color: red;">{{ \Carbon\Carbon::parse($backlogsOverdues->backlog_end_date)->diffForHumans() }}</td>
                                 </tr>
