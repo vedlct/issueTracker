@@ -20,8 +20,8 @@ use App\Salary;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Auth;
 use App\Ticket;
 use App\Company;
 use App\Project;
@@ -194,9 +194,8 @@ class DashBoardController extends Controller
             $pendingCountMonth = Ticket::where('ticketStatus', 'Pending')->where(DB::raw('MONTH(created_at)'), $currntMonth)->where(DB::raw('YEAR(created_at)'), $currntYear)->count();
             $closeCountMonth = Ticket::where('ticketStatus', 'Close')->where(DB::raw('MONTH(created_at)'), $currntMonth)->where(DB::raw('YEAR(created_at)'), $currntYear)->count();
 
-        }
-        else
-        {
+        }else{
+
             $totalPartnerProject=ProjectPartner::where('fkPartnerCompanyId',$userCompanyId)->groupBy('fkPartnerCompanyId')->count();
 
             $employee=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
@@ -204,6 +203,7 @@ class DashBoardController extends Controller
                                 ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
                                 ->where('companyemployee.fk_companyId',$userCompanyId)
                                 ->groupBy('companyemployee.employeeUserId')
+                                ->orderBy('backlog_count', 'desc')
                                 ->get();
 
             $employeeTicket=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
@@ -211,6 +211,7 @@ class DashBoardController extends Controller
                 ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
                 ->groupBy('companyemployee.employeeUserId')
+                ->orderBy('ticket_count', 'desc')
                 ->get();
 
             $backlogsOverdue = Backlog::leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
@@ -287,7 +288,8 @@ class DashBoardController extends Controller
 
         // Project
 
-        $userCompanyId = $this->getCompanyUserId();
+//        $userCompanyId = $this->getCompanyUserId();
+        $userCompanyId = Auth::user()->fkCompanyId;
 
 //        return Auth::user();
         // only for super admin
@@ -325,9 +327,7 @@ class DashBoardController extends Controller
         else
         {
             $projectCount = Project::where('fk_company_id', $userCompanyId)->count();
-            $projectCompleteCount = Project::where('project_status', '5')->count();
-
-
+            $projectCompleteCount = Project::where('fk_company_id', $userCompanyId)->where('project_status', '5')->count();
 
             // CALCULATE PROJECT PERCENTAGE
             $projects = Project::where('fk_company_id', $userCompanyId)->get();
