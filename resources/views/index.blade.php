@@ -117,17 +117,18 @@
                 <div class="card m-b-30">
                     <div class="card-body">
 
-                        <h4 class="mt-0 header-title">Project Status</h4>
+                        <h4 class="mt-0 header-title">All Project Status</h4>
 
                         <canvas id="doughnut" height="260"></canvas>
 
                         <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                             <li>
-                                <h4 class=""><b>{{ $projectCount }}</b></h4>
+{{--                                <input type="text" id="total_project" value="{{ $projectCount }}">--}}
+                                <h4 class=""><b id="total_project">{{ $projectCount }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('project.showAllProject') }}">Total</a></p>
                             </li>
                             <li>
-                                <h4 class=""><b>954</b></h4>
+                                <h4 class=""><b  id="total_project_complete">{{$projectCompleteCount}}</b></h4>
                                 <p class="text-muted">Complete</p>
                             </li>
                             <li>
@@ -142,21 +143,21 @@
                 <div class="card m-b-30">
                     <div class="card-body">
 
-                        <h4 class="mt-0 header-title">Issue Status</h4>
+                        <h4 class="mt-0 header-title">Issue Monthly Status</h4>
 
                         <canvas id="pie" height="260"></canvas>
 
                         <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                             <li>
-                                <h4 class=""><b>{{ $openticket }}</b></h4>
+                                <h4 class=""><b id="openticketMonth">{{ $openticketMonth }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('call_openticket') }}">Open</a></p>
                             </li>
                             <li>
-                                <h4 class=""><b>{{ $close }}</b></h4>
+                                <h4 class=""><b id="closeMonth">{{ $closeMonth }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('call_closeticket') }}">Closed</a></p>
                             </li>
                             <li>
-                                <h4 class=""><b>{{ $overdue }}</b></h4>
+                                <h4 class=""><b id="overdueMonth">{{ $overdueMonth }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('call_overdueticket') }}">Overdue</a></p>
                             </li>
                         </ul>
@@ -166,27 +167,19 @@
 
             <div class="col-xl-3">
                 <div class="card m-b-30">
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: scroll; height:435px;">
 
                         <h4 class="mt-0 header-title">Timesheet Summery</h4>
 
-                        <canvas id="timesheet" height="260"></canvas>
+                        <canvas id="timesheet" height="260" style="display: none"></canvas>
 
-                        <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
-                            <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Marketplace</p>
-                            </li>
-                            <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Last week</p>
-                            </li>
-                            <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Last Month</p>
-                            </li>
+                        <ul class="text-center">
+                            @foreach($project_percentage as $projectName => $percentage)
+                                <li class="progress m-3" style="height: 25px; color: #0a1832">
+                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>
+                                </li>
+                            @endforeach
                         </ul>
-
                     </div>
                 </div>
             </div> <!-- end col -->
@@ -200,16 +193,12 @@
 
                         <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                             <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Marketplace</p>
+                                <h4 class=""><b id="monthlyBacklogCount">{{ $monthlyBacklogCount }}</b></h4>
+                                <p class="text-muted">Total</p>
                             </li>
                             <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Last week</p>
-                            </li>
-                            <li>
-                                <h4 class=""><b>0</b></h4>
-                                <p class="text-muted">Last Month</p>
+                                <h4 class=""><b id="monthlyBacklogCompleteCount">{{ $monthlyBacklogCompleteCount }}</b></h4>
+                                <p class="text-muted">Completed</p>
                             </li>
                         </ul>
                     </div>
@@ -220,30 +209,19 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="card m-b-30">
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: scroll; height:435px;">
 
-                        <h4 class="mt-0 header-title">Top 5 issues Fixers</h4>
-                        <p class="text-muted m-b-30 font-14">User With Maximum Closed</p>
+                        <h4 class="mt-0 header-title">Employee Backlog</h4>
 
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @foreach($employes as $employe)
                                 <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
+                                    <th scope="row">{{$employe->fullName}}</th>
+                                    <td>{{$employe->backlog_count}}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -253,30 +231,19 @@
             </div> <!-- end col -->
             <div class="col-lg-3">
                 <div class="card m-b-30">
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: scroll; height:435px;">
 
-                        <h4 class="mt-0 header-title">Top 5 Go-getters</h4>
-                        <p class="text-muted m-b-30 font-14">User with maximum closed tasks</p>
+                        <h4 class="mt-0 header-title">Employee Ticket</h4>
 
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @foreach($employeeTicket as $employeeTic)
                                 <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
+                                    <th scope="row">{{$employeeTic->fullName}}</th>
+                                    <td>{{$employeeTic->ticket_count}}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>1</td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -286,34 +253,20 @@
             </div> <!-- end col -->
             <div class="col-lg-6">
                 <div class="card m-b-30">
-                    <div class="card-body">
+                    <div class="card-body" style="overflow-y: scroll; height:435px;">
 
-                        <h4 class="mt-0 header-title" style="color: red;font-size: 22px;">Overdue Work Items</h4>
-                        <p class="text-muted m-b-30 font-14">Know the work items that are past their due date</p>
+                        <h4 class="mt-0 header-title" style="color: red;font-size: 22px;">Overdue Backlogs</h4>
 
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @foreach($backlogsOverdue as $key => $backlogsOverdues)
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td style="color: red;">Late by 10 days</td>
+                                    <th scope="row">{{$key+1}}</th>
+                                    <td>{{$backlogsOverdues->backlog_title}}</td>
+                                    <td style="color: red;">{{ \Carbon\Carbon::parse($backlogsOverdues->backlog_end_date)->diffForHumans() }}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td style="color: red;">Late by 10 days</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td style="color: red;">Late by 10 days</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td style="color: red;">Late by 10 days</td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -326,221 +279,221 @@
     </div><!-- container fluid -->
 
 
-    <div class="card mb-4" style="margin-left: 20px;">
-        <div class="card-header mt-0">
-            @if(Auth::user()->fk_userTypeId == 1)
-                <h5 style="margin: 0">Company & Project Summary</h5>
-            @else
-                <h5 style="margin: 0">Project Summary</h5>
-            @endif
+{{--    <div class="card mb-4" style="margin-left: 20px;">--}}
+{{--        <div class="card-header mt-0">--}}
+{{--            @if(Auth::user()->fk_userTypeId == 1)--}}
+{{--                <h5 style="margin: 0">Company & Project Summary</h5>--}}
+{{--            @else--}}
+{{--                <h5 style="margin: 0">Project Summary</h5>--}}
+{{--            @endif--}}
 
-        </div>
-        <div class="card-body">
-            <div class="row" >
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <div class="row" >--}}
 
-                @if(Auth::user()->fk_userTypeId == 1)
-                    {{-- Company --}}
-                    <div class="col-lg-2 col-md-6 mb-2">
-                        <div class="card newCard">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h5>
-                                <div class="text-right">
-                                    <h4 class="font-light m-b-0"> {{ $companyCount }} </h4>
-                                </div>
+{{--                @if(Auth::user()->fk_userTypeId == 1)--}}
+{{--                    --}}{{-- Company --}}
+{{--                    <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                        <div class="card newCard">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h5 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h5>--}}
+{{--                                <div class="text-right">--}}
+{{--                                    <h4 class="font-light m-b-0"> {{ $companyCount }} </h4>--}}
+{{--                                </div>--}}
 
-                            </div>
-                        </div>
-                    </div>
-                @endif
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
 
-                {{-- Project --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $projectCount }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Project --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $projectCount }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                @if(Auth::user()->fk_userTypeId == 4)
+{{--                @if(Auth::user()->fk_userTypeId == 4)--}}
 
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('project.partner.showAllProject') }}">partner Project</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $totalPartnerProject }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="{{ route('project.partner.showAllProject') }}">partner Project</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $totalPartnerProject }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                @endif--}}
 
-            </div>
+{{--            </div>--}}
 
-            <div class="card mt-2">
-                <div class="card-body" style="padding: 5px; margin-bottom: 0;">
-                    @foreach($project_percentage as $projectName => $percentage)
-                        <div class="progress m-3" style="height: 25px; color: #0a1832">
-                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+{{--            <div class="card mt-2">--}}
+{{--                <div class="card-body" style="padding: 5px; margin-bottom: 0;">--}}
+{{--                    @foreach($project_percentage as $projectName => $percentage)--}}
+{{--                        <div class="progress m-3" style="height: 25px; color: #0a1832">--}}
+{{--                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        </div>
-    </div>
+{{--        </div>--}}
+{{--    </div>--}}
 
-    {{-- Ticket Information --}}
-    <div class="card mb-4" style="margin-left: 20px;">
-        <div class="card-header mt-0">
-            <h5 style="margin: 0">Ticket Summary</h5>
-        </div>
-        <div class="card-body">
+{{--    --}}{{-- Ticket Information --}}
+{{--    <div class="card mb-4" style="margin-left: 20px;">--}}
+{{--        <div class="card-header mt-0">--}}
+{{--            <h5 style="margin: 0">Ticket Summary</h5>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
 
-            <div class="row" >
-                {{-- All ticket --}}
-                {{--<div class="col-lg-2 col-md-6 mb-2">--}}
-                    {{--<div class="card newCard">--}}
-                        {{--<div class="card-body">--}}
-                            {{--<h5 class="card-title"><a href="{{ route('call_allticket') }}" >All Ticket</a></h5>--}}
-                            {{--<div class="text-right">--}}
-                                {{--<h4 class="font-light m-b-0"> {{ $allticket }} </h4>--}}
-                                {{--<span class="text-muted">This Month</span>--}}
-                            {{--</div>--}}
+{{--            <div class="row" >--}}
+{{--                --}}{{-- All ticket --}}
+{{--                --}}{{--<div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    --}}{{--<div class="card newCard">--}}
+{{--                        --}}{{--<div class="card-body">--}}
+{{--                            --}}{{--<h5 class="card-title"><a href="{{ route('call_allticket') }}" >All Ticket</a></h5>--}}
+{{--                            --}}{{--<div class="text-right">--}}
+{{--                                --}}{{--<h4 class="font-light m-b-0"> {{ $allticket }} </h4>--}}
+{{--                                --}}{{--<span class="text-muted">This Month</span>--}}
+{{--                            --}}{{--</div>--}}
 
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+{{--                        --}}{{--</div>--}}
+{{--                    --}}{{--</div>--}}
+{{--                --}}{{--</div>--}}
 
-                {{-- Open ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_openticket') }}">Open Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $openticket }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Open ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="{{ route('call_openticket') }}">Open Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $openticket }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Close ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_closeticket') }}">Closed Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $close }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Close ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="{{ route('call_closeticket') }}">Closed Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $close }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Overdue ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_overdueticket') }}">Overdue Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $overdue }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Overdue ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="{{ route('call_overdueticket') }}">Overdue Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $overdue }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Pending ticket --}}
-                {{--<div class="col-lg-2 col-md-6 mb-2">--}}
-                    {{--<div class="card newCard">--}}
-                        {{--<div class="card-body">--}}
-                            {{--<h5 class="card-title"><a href="{{ route('call_pendingticket') }}">Pending Ticket</a></h5>--}}
-                            {{--<div class="text-right">--}}
-                                {{--<h4 class="font-light m-b-0"> {{ $pending }} </h4>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            </div>
-        </div>
-    </div>
+{{--                --}}{{-- Pending ticket --}}
+{{--                --}}{{--<div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    --}}{{--<div class="card newCard">--}}
+{{--                        --}}{{--<div class="card-body">--}}
+{{--                            --}}{{--<h5 class="card-title"><a href="{{ route('call_pendingticket') }}">Pending Ticket</a></h5>--}}
+{{--                            --}}{{--<div class="text-right">--}}
+{{--                                --}}{{--<h4 class="font-light m-b-0"> {{ $pending }} </h4>--}}
+{{--                            --}}{{--</div>--}}
+{{--                        --}}{{--</div>--}}
+{{--                    --}}{{--</div>--}}
+{{--                --}}{{--</div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 
 
-    {{-- Ticket Information For This Month --}}
-    <div class="card" style="margin-left: 20px; margin-bottom: 90px;">
-        <div class="card-header mt-0">
-            <h5 style="margin: 0">Ticket Summary For This Month</h5>
-        </div>
-        <div class="card-body">
+{{--    --}}{{-- Ticket Information For This Month --}}
+{{--    <div class="card" style="margin-left: 20px; margin-bottom: 90px;">--}}
+{{--        <div class="card-header mt-0">--}}
+{{--            <h5 style="margin: 0">Ticket Summary For This Month</h5>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
 
-            <div class="row" >
+{{--            <div class="row" >--}}
 
-                {{-- All ticket --}}
-                {{--<div class="col-lg-2 col-md-6 mb-2">--}}
-                    {{--<div class="card newCard">--}}
-                        {{--<div class="card-body">--}}
-                            {{--<h5 class="card-title"><a href="#">All Ticket</a></h5>--}}
-                            {{--<div class="text-right">--}}
-                                {{--<h4 class="font-light m-b-0"> {{ $allticketMonth }} </h4>--}}
-                            {{--</div>--}}
+{{--                --}}{{-- All ticket --}}
+{{--                --}}{{--<div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    --}}{{--<div class="card newCard">--}}
+{{--                        --}}{{--<div class="card-body">--}}
+{{--                            --}}{{--<h5 class="card-title"><a href="#">All Ticket</a></h5>--}}
+{{--                            --}}{{--<div class="text-right">--}}
+{{--                                --}}{{--<h4 class="font-light m-b-0"> {{ $allticketMonth }} </h4>--}}
+{{--                            --}}{{--</div>--}}
 
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+{{--                        --}}{{--</div>--}}
+{{--                    --}}{{--</div>--}}
+{{--                --}}{{--</div>--}}
 
-                {{-- Open ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">Open Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $openticketMonth }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Open ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="#">Open Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $openticketMonth }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Close ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">Closed Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $closeMonth }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Close ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="#">Closed Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $closeMonth }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Overdue ticket --}}
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">Overdue Ticket</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $overdueMonth }} </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                --}}{{-- Overdue ticket --}}
+{{--                <div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    <div class="card newCard">--}}
+{{--                        <div class="card-body">--}}
+{{--                            <h5 class="card-title"><a href="#">Overdue Ticket</a></h5>--}}
+{{--                            <div class="text-right">--}}
+{{--                                <h4 class="font-light m-b-0"> {{ $overdueMonth }} </h4>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                {{-- Pending ticket --}}
-                {{--<div class="col-lg-2 col-md-6 mb-2">--}}
-                    {{--<div class="card newCard">--}}
-                        {{--<div class="card-body">--}}
-                            {{--<h5 class="card-title"><a href="#">Pending Ticket</a></h5>--}}
-                            {{--<div class="text-right">--}}
-                                {{--<h4 class="font-light m-b-0"> {{ $pendingMonth }} </h4>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            </div>
-        </div>
-    </div>
+{{--                --}}{{-- Pending ticket --}}
+{{--                --}}{{--<div class="col-lg-2 col-md-6 mb-2">--}}
+{{--                    --}}{{--<div class="card newCard">--}}
+{{--                        --}}{{--<div class="card-body">--}}
+{{--                            --}}{{--<h5 class="card-title"><a href="#">Pending Ticket</a></h5>--}}
+{{--                            --}}{{--<div class="text-right">--}}
+{{--                                --}}{{--<h4 class="font-light m-b-0"> {{ $pendingMonth }} </h4>--}}
+{{--                            --}}{{--</div>--}}
+{{--                        --}}{{--</div>--}}
+{{--                    --}}{{--</div>--}}
+{{--                --}}{{--</div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 
 

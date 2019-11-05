@@ -128,7 +128,7 @@
             ],
             datasets: [
                 {
-                    data: [300, 210],
+                    data: [$('#total_project').text(), $('#total_project_complete').text()],
                     backgroundColor: [
                         "#508aeb",
                         "#ebeff2"
@@ -170,7 +170,7 @@
             ],
             datasets: [
                 {
-                    data: [650, 40],
+                    data: [$('#monthlyBacklogCount').text(), $('#monthlyBacklogCompleteCount').text()],
                     backgroundColor: [
                         "red",
                         "green"
@@ -188,19 +188,22 @@
         //Pie chart
         var pieChart = {
             labels: [
-                "Total",
-                "Complete"
+                "Open",
+                "Close",
+                "Overdue"
             ],
             datasets: [
                 {
-                    data: [300, 180],
+                    data: [$('#openticketMonth').text(), $('#closeMonth').text(), $('#overdueMonth').text()],
                     backgroundColor: [
                         "#fcc24c",
-                        "#ebeff2"
+                        "#ebeff2",
+                        "red"
                     ],
                     hoverBackgroundColor: [
                         "#fcc24c",
-                        "#ebeff2"
+                        "#ebeff2",
+                        "red"
                     ],
                     hoverBorderColor: "#fff"
                 }]
