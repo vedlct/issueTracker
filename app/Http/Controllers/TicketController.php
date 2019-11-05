@@ -657,7 +657,7 @@ class TicketController extends Controller
             $teams = Team::where('fk_companyId', $userCompanyId)->get();
 
             $employee = DB::table('user')->leftJoin('companyemployee', 'user.userId', 'companyemployee.employeeUserId')
-                                         ->where('user.fk_userTypeId',3)
+                                         ->whereIn('user.fk_userTypeId',[3,5])
                                          ->where('companyemployee.fk_companyId', $userCompanyId)
                                          ->get();
         }

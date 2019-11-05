@@ -14,6 +14,9 @@
                 <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
             </select>
         </div>
+        <div class="col-6">
+            <button class="btn btn-success pull-right" style="color: #0a1832">Continue</button>
+        </div>
     </div>
 
     <table class="table table-sm table-bordered">

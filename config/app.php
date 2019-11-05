@@ -164,6 +164,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -217,6 +218,7 @@ return [
 //        'PDF' => Barryvdh\DomPDF\Facade::class,
         'PDF' => ZanySoft\LaravelPDF\Facades\PDF::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

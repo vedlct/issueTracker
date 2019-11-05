@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\Company;
 use Auth;
+use Illuminate\Support\Facades\Mail;
 use Session;
 use Yajra\DataTables\DataTables;
 use App\Status;
@@ -265,8 +266,6 @@ class ProjectController extends Controller
 
     // insert company
     public function insert_project(Request $r){
-
-
 
         $project = new Project();
         $project->project_name = $r->projectname;
@@ -531,6 +530,77 @@ class ProjectController extends Controller
             $datatables = Datatables::of($projects);
             return $datatables->make(true);
 
+    }
+
+    public function projectProposal(){
+        return view('Project.Proposal.create');
+    }
+
+    public function projectProposalSubmit(Request $data){
+        $project = new Project();
+        $project->project_name = $data->projectname;
+        if (!empty($data->clientname)){
+            $client=new Client();
+            $client->clientName=$data->clientname;
+            $client->clientCompanyId=$this->getCompanyUserId();
+            $client->created_at=date("Y-m-d H:i:s");
+            $client->save();
+            $project->fk_client_id = $client->clientId;
+        }
+        $project->project_status = '7';
+        $project->project_duration = $data->duration;
+        $project->project_created_by = Auth::user()->userId;
+        $project->project_created_at = date("Y-m-d H:i:s");
+        $project->save();
+
+        if (count($data->feature)>0){
+            foreach ($data->feature as $feature){
+                if (!empty($feature)){
+                    $backlog = new Backlog();
+                    $backlog->backlog_title = $feature;
+                    $backlog->fk_project_id = $project->projectId;
+                    $backlog->backlog_state = 'Proposed';
+                    $backlog->backlog_created_at = date("Y-m-d H:i:s");
+                    $backlog->save();
+                }
+            }
+        }
+        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
+        if (count($froMail)>0){
+            $address = $froMail->where('fk_userTypeId',4)->first()->email;
+            $mailAddresses = [];
+            foreach ($froMail as $mailAddress) {
+                if ($mailAddress->email != $address){
+                    $mailAddresses[] = $mailAddress->email;
+                }
+            }
+
+            Mail::send('mail.acknowledgement', ['info' => $data], function($message)use($mailAddresses,$address)
+            {
+                $message->to($address, 'Admin')
+                    ->cc($mailAddresses)
+                    ->subject('New Proposal Created');
+            });
+        }
+        return redirect('/');
+    }
+
+    public function proposedProject(Request $data){
+
+        $projects = Project::select('project.project_created_at','project.project_duration','project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
+            ->leftJoin('company','project.fk_company_id','company.companyId')
+            ->leftJoin('user','project.project_created_by','user.userId')
+            ->leftJoin('status','project.project_status','status.statusId')
+            ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
+            ->leftjoin('project_partner', 'project_partner.fkProjectId', 'project.projectId')
+            ->where('project.project_status', '=' ,7)
+            ->orderBy('project.projectId','desc');
+
+        return Datatables::of($projects)->make(true);
+    }
+
+    public function proposedfeature(Request $data){
+        return Backlog::select('backlog_title')->where('fk_project_id', $data->projectId)->get();
     }
 
 

@@ -10,6 +10,11 @@
         <div class="card">
             <div class="card-header bg-dark text-white custom-2">
                 <h4 class="float-left font-weight-normal">Update Employee Information</h4>
+                @if($employee->fk_userTypeId==3)
+                    <a href="{{url('/employee-make-manager/'.$employee->userId)}}" class="btn btn-success pull-right" style="color: #0a1832">Make Manager</a>
+                @elseif($employee->fk_userTypeId==5)
+                    <a href="{{url('/employee-remove-manager/'.$employee->userId)}}" class="btn btn-danger pull-right" style="color: #0a1832">Remove Manager</a>
+                @endif
             </div>
 
             <div class="card-body">

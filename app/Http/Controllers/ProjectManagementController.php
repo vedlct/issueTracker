@@ -147,7 +147,7 @@ class ProjectManagementController extends Controller
         {
             $allEmp = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
-                ->where('user.fk_userTypeId', 3)
+                ->whereIn('user.fk_userTypeId', [3,5])
                 ->get();
         }
 
@@ -274,7 +274,7 @@ class ProjectManagementController extends Controller
         {
             $allEmp = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
-                ->where('user.fk_userTypeId', 3)
+                ->whereIn('user.fk_userTypeId', [3,5])
                 ->get();
         }
 
