@@ -216,6 +216,8 @@
             });
 
             proposedProject=  $('#proposedProject').DataTable({
+                // "searching": false,
+                // "lengthChange": false,
                 rowReorder: {
                     selector: 'td:nth-child(0)'
                 },
