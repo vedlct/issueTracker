@@ -229,8 +229,6 @@ class DashBoardController extends Controller
             $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                               ->count();
 
-
-
             $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                                ->where('ticketStatus', 'Open')
                                ->count();
@@ -286,8 +284,6 @@ class DashBoardController extends Controller
 
         // Company
         $companyCount = Company::all()->count();
-
-
 
         // Project
 
@@ -389,7 +385,7 @@ class DashBoardController extends Controller
             ->where('user.userId', Auth::user()->userId)
             ->where('project.fk_company_id', Auth::user()->fkCompanyId)
 //            ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
-            ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+            ->whereDate('backlog_end_date', '<', date('Y-m-d'))
             ->where('backlog_state', '!=', 'Complete')
             ->where('backlog_state', '!=', 'Testing')
             ->get();
@@ -415,14 +411,12 @@ class DashBoardController extends Controller
                                  ->with('employeeTicket', $employeeTicket)
                                 ->with('totalPartnerProject', $totalPartnerProject)
                                 ->with('backlogsOverdue', $backlogsOverdue)
-
-                                 ->with('project_percentage', $percentage_all);
+                                ->with('project_percentage', $percentage_all);
     }
 
     public function employeeDashboard(){
+
         $userCompanyId = $this->getCompanyUserId();
-
-
         $myCompanies=Employee::select('fk_companyId')
                              ->where('employeeUserId',Auth::user()->userId)->get();
 

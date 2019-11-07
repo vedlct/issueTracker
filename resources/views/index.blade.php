@@ -173,13 +173,13 @@
 
                         <canvas id="timesheet" height="260" style="display: none"></canvas>
 
-                        <ul class="text-center">
-                            @foreach($project_percentage as $projectName => $percentage)
-                                <li class="progress m-3" style="height: 25px; color: #0a1832">
-                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        <ol class="text-center">
+                        @foreach($project_percentage as $projectName => $percentage)
+                            <li class="progress m-3" style="height: 25px; color: #0a1832">
+                                <span class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></span>
+                            </li>
+                        @endforeach
+                        </ol>
                     </div>
                 </div>
             </div> <!-- end col -->
