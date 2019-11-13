@@ -105,7 +105,6 @@
                 </div>
             </div>
         </div>
-
     @endif
 
     {{-- Company & Project Information --}}
