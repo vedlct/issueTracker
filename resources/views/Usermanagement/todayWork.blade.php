@@ -16,6 +16,7 @@
                 <h4 class="float-left">Today Work</h4>
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
@@ -46,6 +47,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

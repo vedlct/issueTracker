@@ -17,6 +17,14 @@
 
 
 @section('content')
+    <style>
+        @media only screen and (max-width: 386px){
+            .top{
+                margin-top: 5%;
+            }
+
+        }
+    </style>
 
     <!-- EDIT Modal -->
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,14 +84,14 @@
             {{ $project->project_name }}
             @if(Auth::user()->fk_userTypeId != 2)
                 <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
-                <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
-                <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                <a class="btn btn-primary btn-sm pull-right ml-2 top" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
+                <a class="btn btn-sm btn-secondary pull-right top" style="color: white" onclick="generateReport()">Generate Project Excel</a>
             @endif
         </h5>
 
         <div class="card-body">
 
-
+            <div class="table table-responsive">
             <table class="table table-bordered table-sm table-condensed" id="featurelist">
                 <thead>
                 <tr>
@@ -123,7 +131,10 @@
                 </tr>
 
             </table>
+                <div>
 
+        </div>
+    </div>
         </div>
     </div>
 
@@ -288,4 +299,5 @@
             });
         }
     </script>
+
 @endsection
