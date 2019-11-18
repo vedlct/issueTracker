@@ -22,6 +22,7 @@
             @endif
         </div>
         <div class="card-body">
+            <div class="table table-responsive">
             <table id="projectTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                 <thead>
                     <tr>
@@ -38,6 +39,7 @@
                 <tbody>
                 </tbody>
             </table>
+            </div>
 
 
             {{-- Project for Issue --}}
@@ -66,6 +68,7 @@
             <h5 class="float-left">Projects for Issue</h5>
         </div>
         <div class="card-body">
+            <div class="table table-responsive">
             <table id="projectTable2" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                 <thead>
                 <tr>
@@ -78,6 +81,7 @@
                 </tr>
                 </thead>
             </table>
+            </div>
         </div>
     </div>
 
@@ -86,6 +90,7 @@
             <h5 class="float-left">Proposed projects</h5>
         </div>
         <div class="card-body">
+            <div class="table table-responsive">
             <table id="proposedProject" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                 <thead>
                 <tr>
@@ -98,6 +103,7 @@
                 </tr>
                 </thead>
             </table>
+            </div>
         </div>
     </div>
 
