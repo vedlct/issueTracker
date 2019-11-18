@@ -209,14 +209,19 @@ class DashBoardController extends Controller
                                 ->get();
 
             $employeeTicket=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
-                ->select(array('user.*','companyemployee.*','ticket.*', DB::raw('COUNT(ticket.ticket_number) as ticket_count')))
-                ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
+//                ->select(array('user.*','companyemployee.*','ticket.*', DB::raw('COUNT(ticket.ticket_number) as ticket_count')))
+//                ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
 //                ->where(DB::raw('MONTH(ticket.created_at)'), date("m"))
+                ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
+                ->leftJoin('backlog', 'backlog_assignment.fk_backlog_id', '=', 'backlog.backlog_id')
+                ->leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
+                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
-                ->groupBy('companyemployee.employeeUserId')
-                ->orderBy('ticket_count', 'desc')
+//                ->groupBy('companyemployee.employeeUserId')
+//                ->groupBy('backlog.fk_project_id')
+//                ->orderBy('ticket_count', 'desc')
                 ->get();
-
+//dd($employeeTicket);
             $backlogsOverdue = Backlog::leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
                         ->where('project.fk_company_id', $userCompanyId)
                         ->whereDate('backlog_end_date', '<=', date('Y-m-d'))

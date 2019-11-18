@@ -232,17 +232,19 @@
                 <div class="card m-b-30">
                     <div class="card-body" style="overflow-y: scroll; height:435px;">
 
-                        <h4 class="mt-0 header-title">Employee Ticket</h4>
+                        <h4 class="mt-0 header-title">Today Employee Task</h4>
 
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if($employeeTicket)
                                 @foreach($employeeTicket as $employeeTic)
                                 <tr>
                                     <th scope="row">{{$employeeTic->fullName}}</th>
-                                    <td>{{$employeeTic->ticket_count}}</td>
+                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}">{{$employeeTic->project_name}}</a></td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -495,7 +497,26 @@
 {{--        </div>--}}
 {{--    </div>--}}
 
-
+    <div class="modal fade" id="backLogDetailsModal" tabindex="-1" role="dialog" is="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="backLogDetailsModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 30px"><strong>Backlog Tittle - </strong><span id="baclogtittle"></span> </p>
+                    <p style="font-size: 30px"><strong>Backlog Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
+                    <p style="font-size: 30px"><strong>Backlog End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -509,9 +530,16 @@
     <script src="{{ url('/public/assets/pages/chartjs.init.js')}}"></script>
 
     <script>
+        function backLogDetailsShow(r) {
+            $('#backLogDetailsModalTitle').text("Project - "+$(r).attr('project_name'));
+            $('#baclogtittle').text($(r).attr('backlog_title'));
+            $('#baclogstartdate').text($(r).attr('backlog_start_date'));
+            $('#baclogenddate').text($(r).attr('backlog_end_date'));
+            $('#backLogDetailsModal').modal('toggle');
+        }
+
         function openItem(x){
             id = $(x).data('backlog-id');
-            console.log(id);
 
             $.ajax({
                 type: 'POST',
