@@ -221,7 +221,7 @@ class DashBoardController extends Controller
 //                ->groupBy('backlog.fk_project_id')
 //                ->orderBy('ticket_count', 'desc')
                 ->get();
-//dd($employeeTicket);
+
             $backlogsOverdue = Backlog::leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
                         ->where('project.fk_company_id', $userCompanyId)
                         ->whereDate('backlog_end_date', '<=', date('Y-m-d'))

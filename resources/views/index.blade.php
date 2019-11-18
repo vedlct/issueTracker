@@ -122,7 +122,6 @@
 
                         <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                             <li>
-{{--                                <input type="text" id="total_project" value="{{ $projectCount }}">--}}
                                 <h4 class=""><b id="total_project">{{ $projectCount }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('project.showAllProject') }}">Total</a></p>
                             </li>
@@ -215,12 +214,14 @@
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if($employes)
                                 @foreach($employes as $employe)
                                 <tr>
                                     <th scope="row">{{$employe->fullName}}</th>
                                     <td>{{$employe->backlog_count}}</td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -261,6 +262,7 @@
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if(isset($backlogsOverdue))
                                 @foreach($backlogsOverdue as $key => $backlogsOverdues)
                                 <tr>
                                     <th scope="row">{{$key+1}}</th>
@@ -269,6 +271,7 @@
                                     <td style="color: red;">{{ \Carbon\Carbon::parse($backlogsOverdues->backlog_end_date)->diffForHumans() }}</td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
