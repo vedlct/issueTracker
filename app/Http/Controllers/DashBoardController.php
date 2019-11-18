@@ -201,6 +201,8 @@ class DashBoardController extends Controller
             $employee=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
                                 ->select(array('user.*','companyemployee.*','backlog_assignment.*', DB::raw('COUNT(backlog_assignment.fk_backlog_id) as backlog_count')))
                                 ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
+                                ->leftJoin('backlog', 'backlog.backlog_id', '=', 'backlog_assignment.fk_backlog_id')
+                                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
                                 ->where('companyemployee.fk_companyId',$userCompanyId)
                                 ->groupBy('companyemployee.employeeUserId')
                                 ->orderBy('backlog_count', 'desc')
@@ -209,6 +211,7 @@ class DashBoardController extends Controller
             $employeeTicket=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
                 ->select(array('user.*','companyemployee.*','ticket.*', DB::raw('COUNT(ticket.ticket_number) as ticket_count')))
                 ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
+                ->where(DB::raw('MONTH(ticket.created_at)'), date("m"))
                 ->where('companyemployee.fk_companyId',$userCompanyId)
                 ->groupBy('companyemployee.employeeUserId')
                 ->orderBy('ticket_count', 'desc')
@@ -306,10 +309,10 @@ class DashBoardController extends Controller
 
             foreach ($projects as $project){
                 $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
-                if(!empty(Backlog::where('fk_project_id', $project->projectId)->where(DB::raw('MONTH(backlog_end_date)'), date("m"))->get())){
+                if(!empty(Backlog::where('fk_project_id', $project->projectId)->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')->get())){
                     $monthlyBacklogCount++;
                 }
-                if (!empty(Backlog::where('fk_project_id', $project->projectId)->where(DB::raw('MONTH(backlog_end_date)'), date("m"))->where('backlog_state', 'Complete')->get())){
+                if (!empty(Backlog::where('fk_project_id', $project->projectId)->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')->where('backlog_state', 'Complete')->get())){
                     $monthlyBacklogCompleteCount++;
                 }
                 $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();
