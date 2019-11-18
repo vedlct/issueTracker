@@ -9,6 +9,45 @@
 @endsection
 
 @section('content')
+    <style>
+        @media only screen and (max-width: 490px){
+            .top{
+                margin-top: 5%;
+            }
+            .left{
+                margin-left: -4%;
+            }
+            .right{
+                margin-left: 5%;
+            }
+
+        }
+
+        @media only screen and (min-width: 490px) and (max-width: 518px){
+
+            .left1{
+                margin-right: 4%;
+            }
+
+
+        }
+        @media only screen and (min-width: 519px) and (max-width: 518px) {
+
+            .right1{
+                margin-left: -20%;
+            }
+
+
+        }
+        @media only screen and (min-width: 830px) and (max-width: 838px) {
+
+            .rotate{
+              margin-left: -5%;
+            }
+
+
+        }
+    </style>
 
     <!-- Add Sub Company Modal -->
     <div class="modal fade" id="addSubCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,6 +118,7 @@
                 {{--<a href="{{ route('company.export') }}" class="btn btn-secondary float-right mr-2" name="button">Export Companies</a>--}}
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="clientTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                         <tr>
@@ -92,6 +132,7 @@
                     <tbody>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -131,9 +172,9 @@
 
                         {
                             "data": function(data){
-                                return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.clientId+'" onclick="editClient(this)"><i class="fa fa-cog"></i></button>'+
-                                       '<button class="btn btn-danger btn-sm mr-2" data-panel-id="'+data.clientId+'" onclick="deleteClient(this)"><i class="fa fa-trash"></i></button>'+
-                                       '<button class="btn btn-primary btn-sm" data-panel-id="'+data.clientId+'" onclick="showContactPerson(this)"><i class="fa fa-users"></i></button>'
+                                return '<button class="btn btn-success btn-sm mr-2 m-1 left1" data-panel-id="'+data.clientId+'" onclick="editClient(this)"><i class="fa fa-cog"></i></button>'+
+                                       '<button class="btn btn-danger btn-sm mr-2 right" data-panel-id="'+data.clientId+'" onclick="deleteClient(this)"><i class="fa fa-trash"></i></button>'+
+                                       '<button class="btn btn-primary btn-sm top left right1 rotate" data-panel-id="'+data.clientId+'" onclick="showContactPerson(this)"><i class="fa fa-users" style="width: 12px;"></i></button>'
                                     ;},
                             "orderable": false, "searchable":false, "name":"selected_rows"
                         },

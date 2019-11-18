@@ -9,6 +9,20 @@
 @endsection
 
 @section('content')
+    <style>
+        @media only screen and (min-width: 360px) and (max-width: 420px){
+            .top{
+                margin-top: 20%;
+            }
+        }
+        @media only screen and (max-width: 359px){
+            .to1{
+                margin-top: 50%;
+            }
+        }
+
+
+    </style>
 
     <div class="container-fluid row">
 
@@ -50,7 +64,7 @@
                         <h4 class="float-left">Tickets</h4>
                         <button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>
 
-                        <ul class="nav nav-tabs" style="border-bottom: 0px;">
+                        <ul class="nav nav-tabs top to1" style="border-bottom: 0px;">
                             <li class="nav-item">
                                 <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
                             </li>
@@ -74,6 +88,7 @@
 
                     </div>
                     <div class="card-body">
+                        <div class="table table-responsive">
                         <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                             <thead>
                             <tr>
@@ -89,6 +104,7 @@
                             <tbody>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

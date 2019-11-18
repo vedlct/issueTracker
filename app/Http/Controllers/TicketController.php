@@ -380,14 +380,14 @@ class TicketController extends Controller
                 array_push($array, $emp->employeeUserId);
             }
 
-            $allEmployeeEmails = User::whereIn('userId', $array)
-                                     ->select('email')->get();
-
-            $array1 = array();
-            foreach ($allEmployeeEmails as $emp)
-            {
-                array_push($array1, $emp->email);
-            }
+//            $allEmployeeEmails = User::whereIn('userId', $array)
+//                                     ->select('email')->get();
+//
+//            $array1 = array();
+//            foreach ($allEmployeeEmails as $emp)
+//            {
+//                array_push($array1, $emp->email);
+//            }
 
 
             $clientId = Project::findOrFail($r->project)->fk_client_id;
@@ -514,13 +514,30 @@ class TicketController extends Controller
             'ticketTopic'=> $ticket->ticketTopic,
         );
 
-        Mail::send('Ticket.mailView', $data, function($message) use ($data, $array1)
-        {
-            $message->to($data['email'], 'Company Admin')
-                    ->cc($array1)
-                    ->subject('New Ticket Created');
-        });
+//        Mail::send('Ticket.mailView', $data, function($message) use ($data, $array1)
+//        {
+//            $message->to($data['email'], 'Company Admin')
+//                    ->cc($array1)
+//                    ->subject('New Ticket Created');
+//        });
         // End Send Mail
+        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
+        if (count($froMail)>0){
+            $address = $froMail->where('fk_userTypeId',4)->first()->email;
+            $mailAddresses = [];
+            foreach ($froMail as $mailAddress) {
+                if ($mailAddress->email != $address){
+                    $mailAddresses[] = $mailAddress->email;
+                }
+            }
+
+            Mail::send('Ticket.mailView', $data, function($message)use($mailAddresses,$address)
+            {
+                $message->to($address, 'Admin')
+                    ->cc($mailAddresses)
+                    ->subject('New Ticket Created');
+            });
+        }
 
 
         Session::flash('message', 'Ticket Created!');
@@ -557,9 +574,11 @@ class TicketController extends Controller
         {
             // get ticket opener email
             $array1 = array();
-            $ticketopenerId = Ticket::where('ticketId', $r->ticketId)->first()->fk_ticketOpenerId;
-            $ticketTopic = Ticket::where('ticketId', $r->ticketId)->first()->ticketTopic;
-            $ticketId = Ticket::where('ticketId', $r->ticketId)->first()->ticket_number;
+            $ticketDetails = Ticket::where('ticketId', $r->ticketId)->first();
+            $ticketopenerId = $ticketDetails->fk_ticketOpenerId;
+            $ticketAssignPersonUserId = $ticketDetails->ticketAssignPersonUserId;
+            $ticketTopic = $ticketDetails->ticketTopic;
+            $ticketId = $ticketDetails->ticket_number;
             $ticketOpener = User::where('userId', $ticketopenerId)->first()->fullName;
             $userId = User::where('userId', $ticketopenerId)->first()->email;
             array_push($array1, $userId);
@@ -567,21 +586,21 @@ class TicketController extends Controller
             // get company admin email
 
             // get all client's company's all employee user_id
-            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
-
-            $array = array();
-
-            foreach ($allEmp as $emp)
-            {
-                array_push($array, $emp->employeeUserId);
-            }
-
-            $allEmployeeEmails = User::whereIn('userId', $array)->where('fk_userTypeId', 4)->select('email')->get();
-
-            foreach ($allEmployeeEmails as $emp)
-            {
-                array_push($array1, $emp->email);
-            }
+//            $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
+//
+//            $array = array();
+//
+//            foreach ($allEmp as $emp)
+//            {
+//                array_push($array, $emp->employeeUserId);
+//            }
+//
+//            $allEmployeeEmails = User::whereIn('userId', $array)->where('fk_userTypeId', 4)->select('email')->get();
+//
+//            foreach ($allEmployeeEmails as $emp)
+//            {
+//                array_push($array1, $emp->email);
+//            }
         }
         else
         {
@@ -608,13 +627,35 @@ class TicketController extends Controller
         );
 
 
-        Mail::send('Ticket.replyMailView', $data, function($message) use ($data,$array1)
-        {
-            $message->to($data['email'], 'Ticket Reply Mail')
-                    ->cc($array1)
-                    ->subject('New Ticket Reply');
-        });
+//        Mail::send('Ticket.replyMailView', $data, function($message) use ($data,$array1)
+//        {
+//            $message->to($data['email'], 'Ticket Reply Mail')
+//                    ->cc($array1)
+//                    ->subject('New Ticket Reply');
+//        });
 
+        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
+        if (count($froMail)>0){
+            $address = $froMail->where('fk_userTypeId',4)->first()->email;
+            $mailAddresses = [];
+            $mailAddresses[] = Auth::user()->email;
+            $related = User::whereIn('userId',[$ticketopenerId,$ticketAssignPersonUserId])->get();
+            foreach ($related as $relatedMail){
+                $mailAddresses[] = $relatedMail->email;
+            }
+            foreach ($froMail as $mailAddress) {
+                if ($mailAddress->email != $address){
+                    $mailAddresses[] = $mailAddress->email;
+                }
+            }
+
+            Mail::send('Ticket.replyMailView', $data, function($message)use($mailAddresses,$address)
+            {
+                $message->to($address, 'Ticket Reply Mail')
+                    ->cc($mailAddresses)
+                    ->subject('New Ticket Reply');
+            });
+        }
 
         $time = date('Y-m-d h:i:s');
 

@@ -105,7 +105,6 @@
                 </div>
             </div>
         </div>
-
     @endif
 
     {{-- Company & Project Information --}}
@@ -123,7 +122,6 @@
 
                         <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
                             <li>
-{{--                                <input type="text" id="total_project" value="{{ $projectCount }}">--}}
                                 <h4 class=""><b id="total_project">{{ $projectCount }}</b></h4>
                                 <p class="text-muted"><a href="{{ route('project.showAllProject') }}">Total</a></p>
                             </li>
@@ -173,13 +171,13 @@
 
                         <canvas id="timesheet" height="260" style="display: none"></canvas>
 
-                        <ul class="text-center">
-                            @foreach($project_percentage as $projectName => $percentage)
-                                <li class="progress m-3" style="height: 25px; color: #0a1832">
-                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        <ol class="text-center">
+                        @foreach($project_percentage as $projectName => $percentage)
+                            <li class="progress m-3" style="height: 25px; color: #0a1832">
+                                <span class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></span>
+                            </li>
+                        @endforeach
+                        </ol>
                     </div>
                 </div>
             </div> <!-- end col -->
@@ -216,12 +214,14 @@
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if($employes)
                                 @foreach($employes as $employe)
                                 <tr>
                                     <th scope="row">{{$employe->fullName}}</th>
                                     <td>{{$employe->backlog_count}}</td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -233,17 +233,19 @@
                 <div class="card m-b-30">
                     <div class="card-body" style="overflow-y: scroll; height:435px;">
 
-                        <h4 class="mt-0 header-title">Employee Ticket</h4>
+                        <h4 class="mt-0 header-title">Today Employee Task</h4>
 
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if($employeeTicket)
                                 @foreach($employeeTicket as $employeeTic)
                                 <tr>
                                     <th scope="row">{{$employeeTic->fullName}}</th>
-                                    <td>{{$employeeTic->ticket_count}}</td>
+                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}">{{$employeeTic->project_name}}</a></td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -260,6 +262,7 @@
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
+                                @if(isset($backlogsOverdue))
                                 @foreach($backlogsOverdue as $key => $backlogsOverdues)
                                 <tr>
                                     <th scope="row">{{$key+1}}</th>
@@ -268,6 +271,7 @@
                                     <td style="color: red;">{{ \Carbon\Carbon::parse($backlogsOverdues->backlog_end_date)->diffForHumans() }}</td>
                                 </tr>
                                 @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -496,7 +500,26 @@
 {{--        </div>--}}
 {{--    </div>--}}
 
-
+    <div class="modal fade" id="backLogDetailsModal" tabindex="-1" role="dialog" is="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="backLogDetailsModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 30px"><strong>Backlog Tittle - </strong><span id="baclogtittle"></span> </p>
+                    <p style="font-size: 30px"><strong>Backlog Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
+                    <p style="font-size: 30px"><strong>Backlog End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -510,9 +533,16 @@
     <script src="{{ url('/public/assets/pages/chartjs.init.js')}}"></script>
 
     <script>
+        function backLogDetailsShow(r) {
+            $('#backLogDetailsModalTitle').text("Project - "+$(r).attr('project_name'));
+            $('#baclogtittle').text($(r).attr('backlog_title'));
+            $('#baclogstartdate').text($(r).attr('backlog_start_date'));
+            $('#baclogenddate').text($(r).attr('backlog_end_date'));
+            $('#backLogDetailsModal').modal('toggle');
+        }
+
         function openItem(x){
             id = $(x).data('backlog-id');
-            console.log(id);
 
             $.ajax({
                 type: 'POST',

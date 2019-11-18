@@ -201,20 +201,25 @@ class DashBoardController extends Controller
             $employee=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
                                 ->select(array('user.*','companyemployee.*','backlog_assignment.*', DB::raw('COUNT(backlog_assignment.fk_backlog_id) as backlog_count')))
                                 ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
-                                ->leftJoin('backlog', 'backlog.backlog_id', '=', 'backlog_assignment.fk_backlog_id')
-                                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
+//                                ->leftJoin('backlog', 'backlog.backlog_id', '=', 'backlog_assignment.fk_backlog_id')
+//                                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
                                 ->where('companyemployee.fk_companyId',$userCompanyId)
                                 ->groupBy('companyemployee.employeeUserId')
                                 ->orderBy('backlog_count', 'desc')
                                 ->get();
 
             $employeeTicket=Employee::leftJoin('user', 'user.userId', '=', 'companyemployee.employeeUserId')
-                ->select(array('user.*','companyemployee.*','ticket.*', DB::raw('COUNT(ticket.ticket_number) as ticket_count')))
-                ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
-                ->where(DB::raw('MONTH(ticket.created_at)'), date("m"))
+//                ->select(array('user.*','companyemployee.*','ticket.*', DB::raw('COUNT(ticket.ticket_number) as ticket_count')))
+//                ->leftJoin('ticket', 'ticket.ticketAssignPersonUserId', '=', 'companyemployee.employeeUserId')
+//                ->where(DB::raw('MONTH(ticket.created_at)'), date("m"))
+                ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
+                ->leftJoin('backlog', 'backlog_assignment.fk_backlog_id', '=', 'backlog.backlog_id')
+                ->leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
+                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
-                ->groupBy('companyemployee.employeeUserId')
-                ->orderBy('ticket_count', 'desc')
+//                ->groupBy('companyemployee.employeeUserId')
+//                ->groupBy('backlog.fk_project_id')
+//                ->orderBy('ticket_count', 'desc')
                 ->get();
 
             $backlogsOverdue = Backlog::leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
@@ -228,8 +233,6 @@ class DashBoardController extends Controller
 
             $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                               ->count();
-
-
 
             $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                                ->where('ticketStatus', 'Open')
@@ -287,14 +290,9 @@ class DashBoardController extends Controller
         // Company
         $companyCount = Company::all()->count();
 
-
-
         // Project
 
-//        $userCompanyId = $this->getCompanyUserId();
         $userCompanyId = Auth::user()->fkCompanyId;
-
-//        return Auth::user();
         // only for super admin
         if($userCompanyId == null)
         {
@@ -304,24 +302,15 @@ class DashBoardController extends Controller
             // CALCULATE PROJECT PERCENTAGE
             $projects = Project::all();
             $percentage_all = array();
-            $monthlyBacklogCount = 0;
-            $monthlyBacklogCompleteCount = 0;
 
             foreach ($projects as $project){
                 $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
-                if(!empty(Backlog::where('fk_project_id', $project->projectId)->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')->get())){
-                    $monthlyBacklogCount++;
-                }
-                if (!empty(Backlog::where('fk_project_id', $project->projectId)->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')->where('backlog_state', 'Complete')->get())){
-                    $monthlyBacklogCompleteCount++;
-                }
+
                 $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();
                 if($totalBacklog == 0)
                 {
                     $percentage = 0;
-                }
-                else
-                {
+                }else{
                     $percentage = ($completedBacklog*100)/$totalBacklog;
                 }
                 $percentage_all[$project->project_name] = round($percentage);
@@ -335,20 +324,21 @@ class DashBoardController extends Controller
             // CALCULATE PROJECT PERCENTAGE
             $projects = Project::where('fk_company_id', $userCompanyId)->get();
             $percentage_all = array();
-            $monthlyBacklogCount = 0;
-            $monthlyBacklogCompleteCount = 0;
-//            $completeProject = 0;
+            $monthlyBacklogCount = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
+                                            ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+                                            ->where('user.fkCompanyId', $userCompanyId)
+                                            ->where(DB::raw('MONTH(backlog.backlog_end_date)'), date("m"))
+                                            ->count();
+            $monthlyBacklogCompleteCount = Backlog::leftJoin('backlog_assignment', 'backlog_assignment.fk_backlog_id', 'backlog.backlog_id')
+                                            ->leftJoin('user', 'user.userId', 'backlog_assignment.fk_assigned_employee_user_id')
+                                            ->where('user.fkCompanyId', $userCompanyId)
+                                            ->where('backlog.backlog_state', 'Complete')
+                                            ->where(DB::raw('MONTH(backlog.backlog_end_date)'), date("m"))
+                                            ->count();
 
             foreach ($projects as $project){
                 $completedBacklog = Backlog::where('fk_project_id', $project->projectId)->where('backlog_state', 'complete')->count();
-//                $completeProject = $completeProject+$completedBacklog;
                 $totalBacklog = Backlog::where('fk_project_id', $project->projectId)->count();
-                if(!empty(Backlog::where('fk_project_id', $project->projectId)->where(DB::raw('MONTH(backlog_end_date)'), date("m"))->get())){
-                    $monthlyBacklogCount++;
-                }
-                if (!empty(Backlog::where('fk_project_id', $project->projectId)->where(DB::raw('MONTH(backlog_end_date)'), date("m"))->where('backlog_state', 'Complete')->get())){
-                    $monthlyBacklogCompleteCount++;
-                }
                 if($totalBacklog == 0)
                 {
                     $percentage = 0;
@@ -380,7 +370,7 @@ class DashBoardController extends Controller
             ->where('user.userId', Auth::user()->userId)
             ->where('project.fk_company_id', Auth::user()->fkCompanyId)
 //            ->whereDate('backlog_start_date', '<=', date('Y-m-d'))
-            ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+            ->whereDate('backlog_end_date', '<', date('Y-m-d'))
             ->where('backlog_state', '!=', 'Complete')
             ->where('backlog_state', '!=', 'Testing')
             ->get();
@@ -400,22 +390,19 @@ class DashBoardController extends Controller
                                  ->with('closeMonth', $closeCountMonth)
                                  ->with('mybacklogs', $mybacklogs)
                                  ->with('mybacklogsMissed', $mybacklogsMissed)
-                                 ->with('monthlyBacklogCount', $monthlyBacklogCount)
-                                 ->with('monthlyBacklogCompleteCount', $monthlyBacklogCompleteCount)
-                                 ->with('employes', $employee)
-                                 ->with('employeeTicket', $employeeTicket)
+                                 ->with('monthlyBacklogCount', @$monthlyBacklogCount)
+                                 ->with('monthlyBacklogCompleteCount', @$monthlyBacklogCompleteCount)
+                                 ->with('employes', @$employee)
+                                 ->with('employeeTicket', @$employeeTicket)
                                 ->with('totalPartnerProject', $totalPartnerProject)
-                                ->with('backlogsOverdue', $backlogsOverdue)
-
-                                 ->with('project_percentage', $percentage_all);
+                                ->with('backlogsOverdue', @$backlogsOverdue)
+                                ->with('project_percentage', $percentage_all);
     }
 
     public function employeeDashboard(){
+
         $userCompanyId = $this->getCompanyUserId();
-
-
-        $myCompanies=Employee::select('fk_companyId')
-                             ->where('employeeUserId',Auth::user()->userId)->get();
+        $myCompanies=Employee::select('fk_companyId')->where('employeeUserId',Auth::user()->userId)->get();
 
         $date = date('Y-m-d h:i:s');
 

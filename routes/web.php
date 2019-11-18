@@ -204,29 +204,5 @@ Route::post ('/project-proposal-submit', 'ProjectController@projectProposalSubmi
 Route::post ('/project-getProposed-Project', 'ProjectController@proposedProject')->name('project.getProposedProject');
 Route::post ('/proposed-project-feature', 'ProjectController@proposedfeature')->name('proposed.project.feature');
 
-
-
-
-
-
-
-
-
-
-
-
 // test purpose
 Route::get('/project-management/test','ProjectController@test')->name('test');
-
-
-
-
-
-
-
-
-
-
-
-
-

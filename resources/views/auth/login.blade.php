@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from themesdesign.in/drixo/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Nov 2018 08:39:22 GMT -->
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <title>TicketPro</title>
+    <title>Myject</title>
     <meta content="Admin Dashboard" name="description">
     <meta content="ThemeDesign" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,13 +18,7 @@
 </head>
 
 <body class="fixed-left">
-<!-- Loader -->
-{{--<div id="preloader">--}}
-    {{--<div id="status">--}}
-        {{--<div class="spinner"></div>--}}
-    {{--</div>--}}
-{{--</div>--}}
-<!-- Begin page -->
+
 <div class="accountbg">
     <div class="content-center">
         <div class="content-desc-center">
@@ -57,7 +50,7 @@
                                         <div class="form-group row">
                                             <div class="col-12">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
                                                     @if ($errors->has('password'))
                                                         <span class="invalid-feedback" role="alert">
 																<strong>{{ $errors->first('password') }}</strong>
@@ -73,7 +66,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group m-t-10 mb-0 row">
-                                            <div class="col-sm-7 m-t-20"><a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a></div>
+                                            <div class="col-sm-7 m-t-20"><a href="{{ url('/password/reset') }}" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a></div>
                                             <div class="col-sm-5 m-t-20"><a href="{{ route('joinRequest') }}" class="text-muted"><i class="mdi mdi-account-circle"></i> Request an account </a></div>
                                         </div>
                                     </form>
@@ -98,9 +91,5 @@
 <script src="{{url('public/js/waves.js')}}"></script>
 <script src="{{url('public/js/jquery.nicescroll.js')}}"></script>
 <script src="{{url('public/js/jquery.scrollTo.min.js')}}"></script>
-<!-- App js -->
-{{--<script src="{{url('public/js/app.js')}}"></script>--}}
 </body>
-<!-- Mirrored from themesdesign.in/drixo/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Nov 2018 08:39:22 GMT -->
-
 </html>

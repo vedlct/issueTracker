@@ -97,6 +97,7 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="deptTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
@@ -109,6 +110,7 @@
                     <tbody>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

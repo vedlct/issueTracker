@@ -10,14 +10,33 @@
 
 @section('content')
 
+<style>
+    @media only screen and (max-width: 400px){
+        .left{
+            margin-left:10%;
+        }
+        .top{
+            margin-top: 5%;
+        }
+        .top1{
+            margin-top: 90%;
+        }
+    }
 
+    @media only screen and (min-width: 400px) and (max-width: 460px){
+        .top{
+            margin-top: 5%;
+        }
+
+    }
+</style>
 
 <div class="container-fluid row">
 
     {{-- view for admin --}}
     @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 3)
 
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
                     @if(Auth::user()->fk_userTypeId != 1)
@@ -26,7 +45,7 @@
                     {{--<a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>--}}
 
                     {{-- Change Ticket Status --}}
-                    <form class="float-right mr-2">
+                    <form class="float-right mr-2 top left">
                         <select class="form-control" onchange="changeTicketStatus(this)" id="selectDefault">
                             <option value="">Change Ticket Status</option>
                             <option value="Open">Open</option>
@@ -34,7 +53,7 @@
                         </select>
                     </form>
 
-                    <form class="float-right mr-2">
+                    <form class="float-right mr-2 top left">
                         <select class="form-control" onchange="changeTicketAssignment(this)" id="selectDefault2">
                             <option value="">Select Assign Type</option>
                             <option value="team">Team Assign</option>
@@ -44,7 +63,7 @@
                     </form>
 
 
-                    <ul class="nav nav-tabs" style="border-bottom: 0px;">
+                    <ul class="nav nav-tabs top1" style="border-bottom: 0px;">
                         <li class="nav-item">
                             <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
                         </li>
@@ -67,6 +86,7 @@
                     </ul>
                 </div>
                 <div class="card-body">
+                    <div class="table table-responsive">
                     <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                         <thead>
                         <tr>
@@ -86,6 +106,7 @@
                         <tbody>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,6 +145,7 @@
                     </ul>
                 </div>
                 <div class="card-body">
+                    <div class="table table-responsive">
                     <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                         <thead>
                         <tr>
@@ -143,6 +165,7 @@
                         <tbody>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
