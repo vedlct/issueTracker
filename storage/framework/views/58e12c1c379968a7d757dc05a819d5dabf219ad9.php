@@ -1,10 +1,8 @@
-@extends('layouts.mainLayout')
+<?php $__env->startSection('css'); ?>
 
-@section('css')
+<?php $__env->stopSection(); ?>
 
-@endsection
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <!-- Add Sub Company Modal -->
     <div class="modal fade" id="addClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -18,9 +16,9 @@
                 </div>
                 <div class="modal-body">
 
-                    <form method="post" action="{{ route('client.insert.contactPerson') }}">
-                        @csrf
-                        <input type="hidden" value="{{ $client->clientId }}" name="clientId">
+                    <form method="post" action="<?php echo e(route('client.insert.contactPerson')); ?>">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" value="<?php echo e($client->clientId); ?>" name="clientId">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Full Name *</label>
                             <div class="col-sm-9">
@@ -33,18 +31,18 @@
                                 <input type="text" class="form-control" name="email" placeholder="mail@gmail.com">
                             </div>
                         </div>
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="col-sm-3 col-form-label">Password</label>--}}
-{{--                            <div class="col-sm-9">--}}
-{{--                                <input type="password" class="form-control" name="Password" placeholder="password" required>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="col-sm-3 col-form-label">Confirm Password</label>--}}
-{{--                            <div class="col-sm-9">--}}
-{{--                                <input type="password" class="form-control" name="Confirm_Password" placeholder="confirm password" required>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Phone</label>
                             <div class="col-sm-9">
@@ -71,7 +69,7 @@
         </div>
     </div>
 
-    {{-- Edit Sub Company --}}
+    
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -91,7 +89,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4 class="float-left" style="font-weight: 200";>Contact Persons - [{{ $client->clientName }}] </h4>
+                <h4 class="float-left" style="font-weight: 200";>Contact Persons - [<?php echo e($client->clientName); ?>] </h4>
                 <button type="button" class="btn btn-success float-right" name="button" style="color: #0a1832" data-toggle="modal" data-target="#addClientModal">Add New Contact Person</button>
             </div>
             <div class="card-body">
@@ -112,9 +110,9 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
 
     <script>
 
@@ -132,11 +130,11 @@
                 ordering:false,
                 type:"POST",
                 "ajax":{
-                    "url": "{!! route('client.get.contactPerson') !!}",
+                    "url": "<?php echo route('client.get.contactPerson'); ?>",
                     "type": "POST",
                     data:function (d){
-                        d._token="{{csrf_token()}}";
-                        d.client_id="{{ $client->clientId }}";
+                        d._token="<?php echo e(csrf_token()); ?>";
+                        d.client_id="<?php echo e($client->clientId); ?>";
                     },
                 },
                 columns: [
@@ -155,16 +153,16 @@
 
         } );
 
-        {{-- CALL EDIT MODAL --}}
+        
         function editContactPerson(x) {
             id = $(x).data('panel-id');
 
             $.ajax({
                 type: 'POST',
-                url: "{!! route('client.edit.contactPerson') !!}",
+                url: "<?php echo route('client.edit.contactPerson'); ?>",
                 cache: false,
                 data: {
-                    _token: "{{csrf_token()}}",
+                    _token: "<?php echo e(csrf_token()); ?>",
                     'person_userId': id,
                 },
                 success: function (data) {
@@ -174,7 +172,7 @@
             });
         }
 
-        {{-- CALL DELETE CONTACT PERSON --}}
+        
         function deleteContactPerson(x) {
             btn = $(x).data('panel-id');
             $.confirm({
@@ -185,10 +183,10 @@
                         // delete
                         $.ajax({
                             type: 'POST',
-                            url: "{!! route('client.delete.contactPerson') !!}",
+                            url: "<?php echo route('client.delete.contactPerson'); ?>",
                             cache: false,
                             data: {
-                                _token: "{{csrf_token()}}",
+                                _token: "<?php echo e(csrf_token()); ?>",
                                 'userId': btn
                             },
                             success: function (data) {
@@ -211,4 +209,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

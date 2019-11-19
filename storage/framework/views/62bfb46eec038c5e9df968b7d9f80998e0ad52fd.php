@@ -1,16 +1,14 @@
-@extends('layouts.mainLayout')
+<?php $__env->startSection('css'); ?>
 
-@section('css')
+<?php $__env->stopSection(); ?>
 
-@endsection
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid">
-        {{-- INSERT --}}
+        
         <div class="card">
-            {{--<div class="card-header bg-dark text-white custom-2">--}}
-                {{--<h4 class="float-left font-weight-normal">Add employee to other company</h4>--}}
-            {{--</div>--}}
+            
+                
+            
 
             <div class="card-header bg-dark text-white custom-2">
                 Add employee to other company
@@ -19,8 +17,8 @@
             <div class="card-body">
 
                 <div class="">
-                    <form method="post" action="{{ route('employee.company.insert') }}" enctype="multipart/form-data">
-                        @csrf
+                    <form method="post" action="<?php echo e(route('employee.company.insert')); ?>" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -28,9 +26,9 @@
                                     <label for="company">Select Employee</label>
                                     <select class="form-control" name="empId" required>
                                         <option value="">Employee List</option>
-                                        @foreach($emp as $emp)
-                                            <option value="{{ $emp->userId }}">{{ $emp->fullName }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $emp; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $emp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($emp->userId); ?>"><?php echo e($emp->fullName); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -40,9 +38,9 @@
                                     <label for="company">Select Company</label>
                                     <select class="form-control" id="company" name="companyId" required>
                                         <option value="">Company List</option>
-                                        @foreach($companyList as $company)
-                                            <option value="{{ $company->companyId }}">{{ $company->companyName }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $companyList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($company->companyId); ?>"><?php echo e($company->companyName); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -55,7 +53,7 @@
             </div>
         </div>
 
-        {{-- Employee List --}}
+        
         <div class="card mt-4">
             <div class="card-header bg-dark text-white custom-2">
                 Employee Information
@@ -80,9 +78,9 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
 
     <script>
 
@@ -100,10 +98,10 @@
                 ordering:false,
                 type:"POST",
                 "ajax":{
-                    "url": "{!! route('get.all.EmpInfo') !!}",
+                    "url": "<?php echo route('get.all.EmpInfo'); ?>",
                     "type": "POST",
                     data:function (d){
-                        d._token="{{csrf_token()}}";
+                        d._token="<?php echo e(csrf_token()); ?>";
                     },
                 },
                 columns:
@@ -133,10 +131,10 @@
             // alert(id);
             $.ajax({
                 type: 'POST',
-                url: "{{ route('deleteFromCompany') }}",
+                url: "<?php echo e(route('deleteFromCompany')); ?>",
                 cache: false,
                 data: {
-                    _token: "{{csrf_token()}}",
+                    _token: "<?php echo e(csrf_token()); ?>",
                     'id': id
                 },
                 success: function (data) {
@@ -150,4 +148,6 @@
         }
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
