@@ -30,14 +30,14 @@ class ProjectController extends Controller
         {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
-        if(Auth::user()->fk_userTypeId == 3)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
         if(Auth::user()->fk_userTypeId == 1)
         {
             $this->user_company_id = null;
@@ -96,8 +96,6 @@ class ProjectController extends Controller
             }
             $percentage_all[$project->projectId] = round($percentage);
         }
-
-//        return $percentage_all;
 
         return view('Project.projectList')->with('project_percentage', $percentage_all);
     }

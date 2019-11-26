@@ -45,14 +45,14 @@ class DashBoardController extends Controller
         {
             $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
         }
-        if(Auth::user()->fk_userTypeId == 3)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+//            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
         if(Auth::user()->fk_userTypeId == 1)
         {
             $this->user_company_id = null;

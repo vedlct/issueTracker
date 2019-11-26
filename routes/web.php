@@ -97,7 +97,7 @@ Route::get ('/assign-team',               'TeamManagementController@index')     
 Route::post('/insert-team',               'TeamManagementController@insertTeam')       ->name('team.insert');
 Route::get ('/assignteam',                'TeamManagementController@assignTeamView')   ->name('team.assign');
 Route::post('/insert-team-employee',      'TeamManagementController@teamAssign')       ->name('team.employee.insert');
-Route::get ('/assign-team-members',       'TeamManagementController@teamMembers')      ->name('assign.team.member');
+Route::get ('/assign-team-members',       'Tadmin-add-employee-to-other-companyeamManagementController@teamMembers')      ->name('assign.team.member');
 Route::post('/get-all-team-members',      'TeamManagementController@getAllTeamMembers')->name('getAllTeamMembers');
 Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')   ->name('remove.employee');
 Route::get ('/team-edit/{id}',            'TeamManagementController@teamEdit')         ->name('team.edit');

@@ -27,15 +27,15 @@ class UserManagementController extends Controller
         {
             $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
         }
-        if(Auth::user()->fk_userTypeId == 3)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
         {
             $this->user_company_id =Auth::user()->fkCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
-//            $this->user_company_id = Auth::user()->fkCompanyId;
-            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
+//        if(Auth::user()->fk_userTypeId == 4)
+//        {
+////            $this->user_company_id = Auth::user()->fkCompanyId;
+//            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//        }
         if(Auth::user()->fk_userTypeId == 1)
         {
             $this->user_company_id = null;
@@ -50,7 +50,8 @@ class UserManagementController extends Controller
 
         if(Auth::user()->fk_userTypeId == 4)
         {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+//            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
+            $userCompanyId = Auth::user()->fkCompanyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
         {
@@ -552,7 +553,7 @@ class UserManagementController extends Controller
     }
 
     public function emp_to_manyCompany(){
-        $emp = User::where('fk_userTypeId', '3')->get();
+        $emp = User::wherein('fk_userTypeId', ['3','4'])->get();
         $companylist = Company::all();
 
         return view('Usermanagement.addEmpManyCompany')->with('emp', $emp)
