@@ -41,20 +41,33 @@ class ManageClientController extends Controller
 
     // CLIENT INSERT
     public function insertClient(Request $r){
+//        $user = new User();
+//        $user->fullName = $r->name;
+//        $user->password = '$2y$10$kPqOSR1MWPPGDS//dnaLGeTPo4Qm32gOWPE/0F3FxYw1Pa22ZDywW';
+//        $user->email = $r->email;
+//        $user->status = '1';
+//        $user->created_at = date('Y-m-d H:i:s');
+//        $user->fk_userTypeId = '2';
+//        $user->save();
+
         $client = new Client();
         if($r->companyId)
         {
             $client->clientCompanyId = $r->companyId;
-        }
-        else
-        {
+        }else{
             $client->clientCompanyId = $this->getCompanyUserId();
         }
+//        $client->userId = $user->userId;
         $client->clientName = $r->name;
         $client->clientEmail = $r->email;
         $client->clientInfo = $r->info;
         $client->created_at = date('Y-m-d H:i:s');
         $client->save();
+
+//        $ClientContactPersonUserRelation = new ClientContactPersonUserRelation();
+//        $ClientContactPersonUserRelation->clientId = $client->clientId;
+//        $ClientContactPersonUserRelation->person_userId = $user->userId;
+//        $ClientContactPersonUserRelation->save();
 
         Session::flash('message', 'New Client Created!');
 
@@ -110,14 +123,14 @@ class ManageClientController extends Controller
     // CONTACT PERSON INSERT
     public function insertContactPerson(Request $r){
 
-        $r->validate([
-            'Password' => 'required|same:Confirm_Password'
-        ]);
+//        $r->validate([
+//            'Password' => 'required|same:Confirm_Password'
+//        ]);
 
         // AS A USER
         $user = new User();
         $user->fullName = $r->name;
-        $user->password = Hash::make($r->password1);
+        $user->password = '$2y$10$VAMHKPgG.ruAmRaYME.1X.CGPYG/.eKsRt.QCrL5ucs043yNqInqu';
         $user->email = $r->email;
         $user->status = 1;
         $user->userPhoneNumber = $r->phone;
@@ -156,20 +169,20 @@ class ManageClientController extends Controller
 
     public function updateContactPerson(Request $r){
 
-        if($r->Password)
-        {
-            $r->validate([
-                'Password' => 'required|same:Confirm_Password'
-            ]);
-        }
+//        if($r->Password)
+//        {
+//            $r->validate([
+//                'Password' => 'required|same:Confirm_Password'
+//            ]);
+//        }
 
         // AS A USER
         $user = User::findOrFail($r->userId);
         $user->fullName = $r->name;
-        if($r->Password)
-        {
-            $user->password = Hash::make($r->password1);
-        }
+//        if($r->Password)
+//        {
+//            $user->password = Hash::make($r->password1);
+//        }
         $user->email = $r->email;
         $user->status = 1;
         $user->userPhoneNumber = $r->phone;

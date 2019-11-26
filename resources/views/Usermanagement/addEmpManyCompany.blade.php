@@ -117,8 +117,9 @@
 
                         { "data": function(data)
                             {
-                                return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editDept(this)"><i class="fa fa-cog"></i></button>'+
-                                    '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyEmployeeId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
+                                // return '<button class="btn btn-success btn-sm mr-2 m-1" data-panel-id="'+data.userId+'" onclick="editDept(this)"><i class="fa fa-cog"></i></button>'+
+                                //     '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyEmployeeId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
+                                return '<button class="btn btn-danger btn-sm" data-panel-id="'+data.companyEmployeeId+'" onclick="deleteDept(this)"><i class="fa fa-trash"></i></button>';
                             },
                             "orderable": false, "searchable":false, "name":"selected_rows"
                         },

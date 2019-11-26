@@ -66,7 +66,9 @@ class DashBoardController extends Controller
         $date = date('Y-m-d h:i:s');
 
             $clientId = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
-//            dd($clientId);
+
+//        $clientId = Client::where('userId',Auth::user()->userId)->first();
+
             $projectCount= Project::where('fk_client_id', $clientId)->count();
 
             // CALCULATE PROJECT PERCENTAGE

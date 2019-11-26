@@ -82,12 +82,13 @@ class UserManagementController extends Controller
 
     public function today_work()
     {
-        if(Auth::user()->fk_userTypeId == 4)
+        if(Auth::user()->fk_userTypeId == 4||Auth::user()->fk_userTypeId == 5)
         {
             $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }
-        if(Auth::user()->fk_userTypeId == 1)
+        }elseif(Auth::user()->fk_userTypeId == 1)
         {
+            $userCompanyId = null;
+        }else{
             $userCompanyId = null;
         }
 
