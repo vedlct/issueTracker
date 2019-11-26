@@ -30,7 +30,6 @@ class ManageCompanyController extends Controller
         }
         if(Auth::user()->fk_userTypeId == 4)
         {
-//            $this->user_company_id = Auth::user()->fkCompanyId;
             $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
         }
         if(Auth::user()->fk_userTypeId == 1)
@@ -43,6 +42,7 @@ class ManageCompanyController extends Controller
 
     public function showmycompany(){
         $id = $this->getCompanyUserId();
+//        echo $id;exit();
         $company = Company::findOrFail($id);
         return view('ManageCompany.myCompany')->with('company', $company);
     }
