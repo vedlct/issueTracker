@@ -36,7 +36,9 @@ class DashBoardController extends Controller
     }
 
     public function changeCompany(Request $r){
-        User::where('userId',Auth::user()->userId)->update(['fkCompanyId'=>$r->id]);
+        if (!empty($r->id)){
+            User::where('userId',Auth::user()->userId)->update(['fkCompanyId'=>$r->id]);
+        }
     }
     // Get user's company user id
     public function getCompanyUserId(){
