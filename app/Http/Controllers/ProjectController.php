@@ -547,6 +547,7 @@ class ProjectController extends Controller
         }
         $project->project_status = '7';
         $project->project_duration = $data->duration;
+        $project->fk_company_id = $this->getCompanyUserId();
         $project->project_created_by = Auth::user()->userId;
         $project->project_created_at = date("Y-m-d H:i:s");
         $project->save();
@@ -591,6 +592,7 @@ class ProjectController extends Controller
             ->leftJoin('status','project.project_status','status.statusId')
             ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
             ->leftjoin('project_partner', 'project_partner.fkProjectId', 'project.projectId')
+            ->where('project.fk_company_id', $this->getCompanyUserId())
             ->where('project.project_status', '=' ,7)
             ->orderBy('project.projectId','desc');
 
