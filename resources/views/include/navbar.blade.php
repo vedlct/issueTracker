@@ -102,14 +102,12 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">All Projects</a></li>
 
-                        @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 2 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
-                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Projects Overview</a></li>
-                        @endif
+                        <li><a href="{{ route('project.projectList') }}" class="waves-effect">Projects Overview</a></li>
 
-                        @if(Auth::user()->fk_userTypeId == 3)
+                        @if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)
                             <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' List</a></li>
                         @endif
-                        @if(Auth::user()->fk_userTypeId == 4)
+                        @if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                             <li><a href="{{ route('project.partner.showAllProject') }}" class="waves-effect">Partner Project List</a></li>
                         @endif
                     </ul>
