@@ -83,19 +83,9 @@ class UserManagementController extends Controller
 
     public function today_work()
     {
-        if(Auth::user()->fk_userTypeId == 4||Auth::user()->fk_userTypeId == 5)
-        {
-            $userCompanyId = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
-        }elseif(Auth::user()->fk_userTypeId == 1)
-        {
-            $userCompanyId = null;
-        }else{
-            $userCompanyId = null;
-        }
+        $userCompanyId = $this->getCompanyUserId();
 
-        // get all user of current user's company
-        if($userCompanyId == null)
-        {
+        if($userCompanyId == null){
             $employeelist = DB::table('user')
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
@@ -106,9 +96,7 @@ class UserManagementController extends Controller
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->leftJoin('designation','designation.designation_id','user.designation')
                 ->get();
-        }
-        else
-        {
+        }else{
             $employeelist = DB::table('user')
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
