@@ -15,7 +15,7 @@ use Session;
 use App\Project;
 use App\Ticket;
 use App\Status;
-use Auth;
+use \Illuminate\Support\Facades\Auth;
 use App\User;
 use App\TicketReply;
 use App\Team;
@@ -39,7 +39,7 @@ class TicketController extends Controller
         {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
-        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }

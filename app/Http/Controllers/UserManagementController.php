@@ -13,7 +13,7 @@ use Hash;
 use Session;
 use DB;
 use App\Client;
-use Auth;
+use \Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class UserManagementController extends Controller
@@ -27,7 +27,7 @@ class UserManagementController extends Controller
         {
             $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
         }
-        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
         {
             $this->user_company_id =Auth::user()->fkCompanyId;
         }

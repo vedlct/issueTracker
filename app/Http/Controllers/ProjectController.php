@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\Company;
-use Auth;
+use \Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -30,7 +30,7 @@ class ProjectController extends Controller
         {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
-        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
