@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\Company;
-use Auth;
+use \Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Session;
 use Yajra\DataTables\DataTables;
@@ -30,7 +30,7 @@ class ProjectController extends Controller
         {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
-        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
@@ -547,6 +547,7 @@ class ProjectController extends Controller
         }
         $project->project_status = '7';
         $project->project_duration = $data->duration;
+        $project->fk_company_id = $this->getCompanyUserId();
         $project->project_created_by = Auth::user()->userId;
         $project->project_created_at = date("Y-m-d H:i:s");
         $project->save();
@@ -591,6 +592,7 @@ class ProjectController extends Controller
             ->leftJoin('status','project.project_status','status.statusId')
             ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
             ->leftjoin('project_partner', 'project_partner.fkProjectId', 'project.projectId')
+            ->where('project.fk_company_id', $this->getCompanyUserId())
             ->where('project.project_status', '=' ,7)
             ->orderBy('project.projectId','desc');
 
