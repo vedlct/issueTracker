@@ -66,7 +66,7 @@
 
                     <ul class="list-inline float-right mb-0">
 
-                        <?php if(Auth::user()->fk_userTypeId==3 || Auth::user()->fk_userTypeId==4): ?>
+                        <?php if(Auth::user()->fk_userTypeId==3 || Auth::user()->fk_userTypeId==4 || Auth::user()->fk_userTypeId == 5): ?>
 
                         <li class="list-inline-item dropdown notification-list" >
                             <select class="form-control" id="myCompany" onchange="changeCompany(this)">

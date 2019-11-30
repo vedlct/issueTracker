@@ -46,7 +46,8 @@
                             <li><a href="{{route('mycompany.adminlist')}}" class="waves-effect"><i class="fa fa-user-secret"></i> <span> Admin Management </span></a></li>
                         </ul>
                     </li>
-
+                      @endif
+                    @if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                     <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Manage Clients</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('client.list') }}" class="waves-effect"><i class="fa fa-university"></i> <span> Client List </span></a></li>
@@ -55,7 +56,8 @@
                             {{--<li><a href="" class="waves-effect"><i class="fa fa-user-secret"></i> <span> ... </span></a></li>--}}
                         </ul>
                     </li>
-                @endif
+              
+                 @endif
 
 
 
@@ -102,14 +104,12 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('project.showAllProject') }}" class="waves-effect">All Projects</a></li>
 
-                        @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 2 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4)
-                            <li><a href="{{ route('project.projectList') }}" class="waves-effect">Projects Overview</a></li>
-                        @endif
+                        <li><a href="{{ route('project.projectList') }}" class="waves-effect">Projects Overview</a></li>
 
-                        @if(Auth::user()->fk_userTypeId == 3)
+                        @if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)
                             <li><a href="{{ route('project.BacklogManagement.todayWork') }}" class="waves-effect">Today' List</a></li>
                         @endif
-                        @if(Auth::user()->fk_userTypeId == 4)
+                        @if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                             <li><a href="{{ route('project.partner.showAllProject') }}" class="waves-effect">Partner Project List</a></li>
                         @endif
                     </ul>
