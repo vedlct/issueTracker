@@ -105,8 +105,8 @@ class TeamManagementController extends Controller
 
     // get all team member
     public function getAllTeamMembers(){
-        $teamMembers = AssignTeam::Join('user','user.userId','assignteam_new.fk_userId')
-                                    ->Join('team','team.teamId','assignteam_new.fkteamId')
+        $teamMembers = AssignTeam::leftJoin('user','user.userId','assignteam_new.fk_userId')
+                                    ->leftJoin('team','team.teamId','assignteam_new.fkteamId')
                                     ->get();
 
         $datatables = Datatables::of($teamMembers);
