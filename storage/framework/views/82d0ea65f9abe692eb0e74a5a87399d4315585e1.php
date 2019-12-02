@@ -1,5 +1,5 @@
 <!-- content -->
-<footer class="footer">© 2018 <b>TechCloud Ltd</b> </footer>
+<footer class="footer">© 2019</footer>
 </div>
 <!-- End Right content here -->
 </div>
@@ -12,15 +12,12 @@
 <script src="<?php echo e(url('public/js/fastclick.js')); ?>"></script>
 <script src="<?php echo e(url('public/js/jquery.slimscroll.js')); ?>"></script>
 <script src="<?php echo e(url('public/js/jquery.blockUI.js')); ?>"></script>
-
 <script src="<?php echo e(url('public/js/jquery.nicescroll.js')); ?>"></script>
 <script src="<?php echo e(url('public/js/jquery.scrollTo.min.js')); ?>"></script>
 <!-- skycons -->
 <script src="<?php echo e(url('public/plugins/skycons/skycons.min.js')); ?>"></script>
 <!-- skycons -->
 <script src="<?php echo e(url('public/plugins/peity/jquery.peity.min.js')); ?>"></script>
-<!--Morris Chart-->
-
 <script src="<?php echo e(url('public/plugins/raphael/raphael-min.js')); ?>"></script>
 <!-- dashboard -->
 
@@ -36,25 +33,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+
+
 <script>
 
-    // $( document ).ready(function() {
-    //     getMyNotification();
-    // });
-    //
-    // function getMyNotification(){
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo route('getMyallNotification'); ?>",
-            cache: false,
-            data: {
-                _token: "<?php echo e(csrf_token()); ?>",
-            },
-            success: function (data) {
-                $('#mynotification').html(data);
-            }
-        });
-    // }
+    $.ajax({
+        type: 'POST',
+        url: "<?php echo route('getMyallNotification'); ?>",
+        cache: false,
+        data: {
+            _token: "<?php echo e(csrf_token()); ?>",
+        },
+        success: function (data) {
+            $('#mynotification').html(data);
+        }
+    });
 
     function changeToseen() {
         console.log('p');
@@ -71,6 +64,7 @@
             }
         });
     }
+
     function changeCompany(x) {
         var id=$(x).val();
 
@@ -86,36 +80,52 @@
                 location.reload();
             }
         });
-
     }
 
 </script>
 
-<?php if(Session::has('message')): ?>
+
     
-    <script type="text/javascript">
-        $.alert({
-             animationBounce: 2,
-             title: 'Success!',
-             type: 'green',
-             content: '<?php echo e(Session::get('message')); ?>',
-         });
+    
+        
+             
+             
+             
+             
+         
+    
+
+
+<?php if(Session::has('message')): ?>
+    <script>
+        toastr.options.timeOut = 3000;
+        toastr.options.closeButton = false;
+        toastr.options.progressBar = false;
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.success("<?php echo e(Session::get('message')); ?>", {timeOut: 4000})
     </script>
 <?php endif; ?>
 
 <?php if(Session::has('error_msg')): ?>
-    
-    <script type="text/javascript">
-        $.alert({
-            animationBounce: 2,
-            title: 'Errors!',
-            type: 'red',
-            content: '<?php echo e(Session::get('error_msg')); ?>',
-        });
-
-
+    <script>
+        toastr.options.timeOut = 3000;
+        toastr.options.closeButton = false;
+        toastr.options.progressBar = false;
+        toastr.options.positionClass = "toast-bottom-right";
+        toastr.error("<?php echo e(Session::get('error_msg')); ?>", {timeOut: 4000})
     </script>
 <?php endif; ?>
+
+
+    
+        
+            
+            
+            
+            
+        
+    
+
 
 
 <?php echo $__env->yieldContent('js'); ?>

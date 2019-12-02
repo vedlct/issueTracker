@@ -14,6 +14,32 @@
 
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        @media  only screen and (max-width: 395px){
+            .top{
+                margin-top: 8%;
+            }
+
+        }
+        @media  only screen and (min-width: 397px) and (max-width: 540px){
+            .top1{
+                margin-top: 5%;
+            }
+
+        }
+        @media  only screen and (min-width: 540px) and (max-width: 709px){
+            .top2{
+                margin-top: 5%;
+            }
+
+        }
+        @media  only screen and (min-width: 769px) and (max-width: 948px){
+            .top3{
+                margin-top: 5%;
+            }
+
+        }
+    </style>
 
     <!-- EDIT Modal -->
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,18 +96,24 @@
 
     <div class="card">
         <h5 class="card-header mt-0">
-            <?php echo e($project->project_name); ?>
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <?php echo e($project->project_name); ?>
 
-            <?php if(Auth::user()->fk_userTypeId != 2): ?>
-                <a class="btn btn-primary btn-sm pull-right ml-2" href="<?php echo e(route('project.Information', $project->projectId)); ?>">ADD FEATURE</a>
-                <a class="btn btn-primary btn-sm pull-right ml-2" href="<?php echo e(route('project.projectmanagement', $project->projectId)); ?>">ADD FEATURE (ADVANCE)</a>
-                <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                </div>
+                <?php if(Auth::user()->fk_userTypeId != 2): ?>
+                    <div class="col-md-9 col-sm-9">
+                        <a class="btn btn-primary btn-sm pull-right ml-2" href="<?php echo e(route('project.Information', $project->projectId)); ?>">ADD FEATURE</a>
+                        <a class="btn btn-primary btn-sm pull-right ml-2 top" href="<?php echo e(route('project.projectmanagement', $project->projectId)); ?>">ADD FEATURE (ADVANCE)</a>
+                        <a class="btn btn-sm btn-secondary pull-right top top1 top2 top3" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                    </div>
+            </div>
             <?php endif; ?>
         </h5>
 
         <div class="card-body">
 
-
+            <div class="table table-responsive">
             <table class="table table-bordered table-sm table-condensed" id="featurelist">
                 <thead>
                 <tr>
@@ -121,7 +153,10 @@
                 </tr>
 
             </table>
+                <div>
 
+        </div>
+    </div>
         </div>
     </div>
 
@@ -165,22 +200,21 @@
                     { data: 'remark', name: 'backlog.remark' },
                     { "data": function(data)
                         {
-//                            if(data.comments == null)
-//                            {
-//                                return "";
-//                            }
-//                            else
-//                            {
-//                                return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
-//                            }
+                           if(data.comments == null)
+                           {
+                               return "";
+                           }
+                           else
+                           {
+                               return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
+                           }
                             return "";
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
                     { "data": function(data)
                         {
-//                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
-                            return '';
+                           return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
@@ -287,6 +321,7 @@
             });
         }
     </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

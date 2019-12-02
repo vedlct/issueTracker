@@ -15,20 +15,20 @@
                 
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
-                        
                         <th>Employee Name</th>
                         <th>Team Name</th>
                         <th>Team ID</th>
-                        
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

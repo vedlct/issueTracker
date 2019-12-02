@@ -18,8 +18,26 @@
 
 @section('content')
     <style>
-        @media only screen and (max-width: 386px){
+        @media only screen and (max-width: 395px){
             .top{
+                margin-top: 8%;
+            }
+
+        }
+        @media only screen and (min-width: 397px) and (max-width: 540px){
+            .top1{
+                margin-top: 5%;
+            }
+
+        }
+        @media only screen and (min-width: 540px) and (max-width: 709px){
+            .top2{
+                margin-top: 5%;
+            }
+
+        }
+        @media only screen and (min-width: 769px) and (max-width: 948px){
+            .top3{
                 margin-top: 5%;
             }
 
@@ -81,11 +99,17 @@
 
     <div class="card">
         <h5 class="card-header mt-0">
-            {{ $project->project_name }}
-            @if(Auth::user()->fk_userTypeId != 2)
-                <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
-                <a class="btn btn-primary btn-sm pull-right ml-2 top" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
-                <a class="btn btn-sm btn-secondary pull-right top" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    {{ $project->project_name }}
+                </div>
+                @if(Auth::user()->fk_userTypeId != 2)
+                    <div class="col-md-9 col-sm-9">
+                        <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.Information', $project->projectId) }}">ADD FEATURE</a>
+                        <a class="btn btn-primary btn-sm pull-right ml-2 top" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
+                        <a class="btn btn-sm btn-secondary pull-right top top1 top2 top3" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                    </div>
+            </div>
             @endif
         </h5>
 

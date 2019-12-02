@@ -7,15 +7,53 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        @media  only screen and (min-width: 1021px) and (max-width: 1050px) {
+            .left {
+                height: 30px;
+                width: 25px;
+            }
+            .icone{
+                margin-left: -40%;
+            }
+        }
+        @media  only screen and (min-width: 900px) and (max-width: 1020px) {
+            .size {
+                height: 28px;
+                width: 26px;
+            }
+            .icone1{
+                margin-left: -30%;
+            }
+            .width1{
+                width: 30%;
+            }
+        }
+        @media  only screen and (min-width: 1009px) and (max-width: 1013px) {
+            .size1 {
+                height: 25px;
+                width: 23px;
+            }
+            .icone2{
+                margin-left: -60%;
+            }
+        }
+        @media  only screen and (min-width: 683px) and (max-width: 768px) {
+            .width{
+                width: 30%;
+            }
+        }
+    </style>
 
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h4 class="float-left">Company Information</h4>
-            <a href="<?php echo e(route('company.create')); ?>" class="btn btn-success float-right" name="button">Create Company</a>
-            <a href="<?php echo e(route('company.export')); ?>" class="btn btn-secondary float-right mr-2" name="button">Export Companies</a>
+            <h4 class="float-left">All Company Information</h4>
+            <a href="<?php echo e(route('company.create')); ?>" class="btn btn-success float-right" name="button" style="color: #0a1832">Create Company</a>
+            
         </div>
         <div class="card-body">
+            <div class="table table-responsive">
             <table id="companyTable" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -23,12 +61,13 @@
                         <th>Company Information</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Action</th>
+                        <th class="width width1">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
@@ -66,10 +105,11 @@
                    { data: 'companyPhone1', name: 'company.companyPhone1' },
 
                    { "data": function(data){
-                            return '<button class="btn btn-success btn mr-2" data-panel-id="'+data.companyId+'" onclick="editCompany(this)"><i class="fa fa-edit fa-lg"></i></button>'+
-                                   '<button class="btn btn-danger btn" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash fa-lg"></i></button>'
-                            ;},
-                        "orderable": false, "searchable":false, "name":"selected_rows" },
+                       return '<button type="button " class="btn btn-success btn-sm m-1 left size size1 size2" data-panel-id="'+data.companyId+'" onclick="editCompany(this)"><i class="fa fa-cog fa-1x icone icone1 icone2"></i></button>'+
+                           '<button type="button" class="btn btn-danger btn-sm m-1 left size size1 size2" data-panel-id="'+data.companyId+'" onclick="deleteCompany(this)"><i class="fa fa-trash fa-1x icone icone1 icone2"></i></button>'+
+                           '<button type="button" class="btn btn-primary btn-sm m-1 left size size1 size2" data-panel-id="'+data.companyId+'" onclick="showClients(this)"><i class="fa fa-users fa-1x icone icone1 icone2" style="width: 13px;"></i></button>'
+                           ;},
+                       "orderable": false, "searchable":false, "name":"selected_rows" },
                ]
             } );
 
@@ -107,6 +147,13 @@
                      }
                 });
             }
+        }
+
+        function showClients(x) {
+            btn = $(x).data('panel-id');
+            var url = '<?php echo e(route("company.show.clients", ":id")); ?>';
+            var newUrl = url.replace(':id', btn);
+            window.location.href = newUrl;
         }
 
     </script>
