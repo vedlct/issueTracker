@@ -525,7 +525,7 @@ class DashBoardController extends Controller
             ->leftJoin('project', 'project.projectId', 'backlog.fk_project_id')
             ->where('user.userId', Auth::user()->userId)
             ->whereIn('project.fk_company_id', $myCompanies)
-            ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+            ->whereDate('backlog_end_date', '<', date('Y-m-d'))
             ->where('backlog_state', '!=', 'Complete')
             ->where('backlog_state', '!=', 'Testing')
             ->get();
