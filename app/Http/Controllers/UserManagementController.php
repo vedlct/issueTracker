@@ -541,7 +541,7 @@ class UserManagementController extends Controller
     }
 
     public function emp_to_manyCompany(){
-        $emp = User::wherein('fk_userTypeId', ['3','4'])->get();
+        $emp = User::wherein('fk_userTypeId', ['3','4','5'])->get();
         $companylist = Company::all();
 
         return view('Usermanagement.addEmpManyCompany')->with('emp', $emp)
