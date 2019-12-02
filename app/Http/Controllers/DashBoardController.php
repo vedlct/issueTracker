@@ -32,7 +32,7 @@ class DashBoardController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function changeCompany(Request $r){
@@ -170,8 +170,6 @@ class DashBoardController extends Controller
             return $this->clientDashboard();
         }
 
-
-
         $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId == null)
@@ -219,7 +217,7 @@ class DashBoardController extends Controller
                 ->leftJoin('backlog_assignment', 'backlog_assignment.fk_assigned_employee_user_id', '=', 'companyemployee.employeeUserId')
                 ->leftJoin('backlog', 'backlog_assignment.fk_backlog_id', '=', 'backlog.backlog_id')
                 ->leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
-                ->whereRaw('(now() between backlog.backlog_start_date and backlog.backlog_end_date)')
+                ->whereRaw('"'.date('Y-m-d').'" between backlog.backlog_start_date and backlog.backlog_end_date')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
 //                ->groupBy('companyemployee.employeeUserId')
 //                ->groupBy('backlog.fk_project_id')
@@ -228,7 +226,7 @@ class DashBoardController extends Controller
 
             $backlogsOverdue = Backlog::leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
                         ->where('project.fk_company_id', $userCompanyId)
-                        ->whereDate('backlog_end_date', '<=', date('Y-m-d'))
+                        ->whereDate('backlog_end_date', '<', date('Y-m-d'))
                         ->where('backlog_state', '!=', 'Complete')
                         ->where('backlog_state', '!=', 'Testing')
                         ->get();

@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-header">
             <h5 class="float-left">Projects Information</h5>
-            @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+            @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)
                 <a href="{{ route('project.create') }}" class="btn btn-success btn-sm float-right mt-1" style="color: #0a1832" name="button">Create Project</a>
             @endif
         </div>
@@ -129,7 +129,6 @@
 
     </div>
 </div>
-
 @endsection
 
 @section('js')

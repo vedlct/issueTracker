@@ -67,7 +67,7 @@ class ProjectController extends Controller
         }
         else
         {
-            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)
             {
                 $projects = Project::where('fk_company_id', $userCompany)->get();
             }
@@ -111,8 +111,7 @@ class ProjectController extends Controller
         $userCompanyId = $this->getCompanyUserId();
 
         // GET ALL PROJECTS OF USERS COMPANY
-        if($userCompanyId == null)
-        {
+        if($userCompanyId == null){
             $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
                 ->leftjoin('company','project.fk_company_id','company.companyId')
                 ->leftjoin('user','project.project_created_by','user.userId')
@@ -121,10 +120,8 @@ class ProjectController extends Controller
                 ->where('project.project_status', '!=' ,6)
                 ->orderBy('project.projectId','desc')
                 ->where('project.project_deleted_at', null);
-        }
-        else
-        {
-            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+        }else{
+            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)
             {
                 $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
                                    ->leftJoin('company','project.fk_company_id','company.companyId')
@@ -134,18 +131,15 @@ class ProjectController extends Controller
                                    ->where('project.project_status', '!=' ,6)
                                     ->orderBy('project.projectId','desc')
                                    ->where('fk_company_id',$userCompanyId);
-            }
-            else
-            {
-                // client
+            }else{
                 $projects = Project::select('project.project_name','status.statusData','user.fullName','company.companyName','project.projectId', 'project.project_type', 'client.clientName')
                                    ->leftJoin('company','project.fk_company_id','company.companyId')
                                    ->leftJoin('user','project.project_created_by','user.userId')
                                    ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                                    ->leftJoin('status','project.project_status','status.statusId')
                                    ->where('project.project_status', '!=' ,6)
-                    ->orderBy('project.projectId','desc')
-                                   ->where('fk_client_id', $this->getCompanyUserId());
+                                    ->orderBy('project.projectId','desc')
+                                   ->where('fk_client_id', $userCompanyId);
 
 //                if(Auth::user()->fk_userTypeId == 2)
 //                {
