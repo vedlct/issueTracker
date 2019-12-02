@@ -46,7 +46,8 @@
                             <li><a href="{{route('mycompany.adminlist')}}" class="waves-effect"><i class="fa fa-user-secret"></i> <span> Admin Management </span></a></li>
                         </ul>
                     </li>
-
+                      @endif
+                    @if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                     <li class="has_sub"><a href="{{ route('company.showAllCompany') }}" class="waves-effect"><i class="fa fa-users"></i> <span>Manage Clients</span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="list-unstyled">
                             <li><a href="{{ route('client.list') }}" class="waves-effect"><i class="fa fa-university"></i> <span> Client List </span></a></li>
@@ -55,7 +56,8 @@
                             {{--<li><a href="" class="waves-effect"><i class="fa fa-user-secret"></i> <span> ... </span></a></li>--}}
                         </ul>
                     </li>
-                @endif
+              
+                 @endif
 
 
 
