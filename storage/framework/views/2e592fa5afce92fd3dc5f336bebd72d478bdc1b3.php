@@ -249,7 +249,12 @@
                                 <?php $__currentLoopData = $employeeTicket; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employeeTic): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <th scope="row"><?php echo e($employeeTic->fullName); ?></th>
+
+                                <?php if($employeeTic->backlog_state == 'Ongoing'): ?>
+                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>" style="color: red;"><?php echo e($employeeTic->project_name); ?></a></td>
+                                <?php else: ?>
                                     <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>"><?php echo e($employeeTic->project_name); ?></a></td>
+                                <?php endif; ?>
                                 </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
