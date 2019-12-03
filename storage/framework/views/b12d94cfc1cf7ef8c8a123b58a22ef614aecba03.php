@@ -31,7 +31,7 @@
                         <a href="<?php echo e(route('project.features', $project->projectId)); ?>" class="card-link">Summary</a>
                         <?php if(Auth::user()->fk_userTypeId != 2): ?>
                         <a href="<?php echo e(route('backlog.dashboard', $project->projectId)); ?>" class="card-link">Backlog</a>
-                        <a href="<?php echo e(route('backlog.ganttChart', $project->projectId)); ?>" class="card-link">Timeline</a>
+                        
                         <?php endif; ?>
                     </div>
 

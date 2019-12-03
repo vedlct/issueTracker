@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>TicketPro</title>
+    <title>Myject</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.standalone.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
 
     <style>
         .hover_me:hover{
@@ -55,7 +56,7 @@
             <div class="topbar">
                 <div class="topbar-left	d-none d-lg-block">
                     <div class="text-center">
-                       <h2 style="color: white; margin-top: 16px;">TicketPro</h2>
+                       <h2 style="color: white; margin-top: 16px;">Myject</h2>
                         
                     </div>
                 </div>
@@ -65,7 +66,7 @@
 
                     <ul class="list-inline float-right mb-0">
 
-                        <?php if(Auth::user()->fk_userTypeId==3): ?>
+                        <?php if(Auth::user()->fk_userTypeId==3 || Auth::user()->fk_userTypeId==4 || Auth::user()->fk_userTypeId == 5): ?>
 
                         <li class="list-inline-item dropdown notification-list" >
                             <select class="form-control" id="myCompany" onchange="changeCompany(this)">

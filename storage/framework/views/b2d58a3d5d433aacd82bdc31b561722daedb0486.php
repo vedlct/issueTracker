@@ -6,6 +6,7 @@
                 <h4>Team Assignment</h4>
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="freeEmployee" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
@@ -19,7 +20,7 @@
                     <tbody>
                         <?php $__currentLoopData = $allEmployee; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td><input type='checkbox' class="checkboxvar" name="checkboxvar[]" value="<?php echo e($employee->userId); ?>"></td>
+                                <td> <input type='checkbox' class="checkboxvar" name="checkboxvar[]" value="<?php echo e($employee->userId); ?>"> </td>
                                 <td> <?php echo e($employee->userId); ?> </td>
                                 <td> <?php echo e($employee->fullName); ?> </td>
                                 <td> <?php echo e($employee->email); ?> </td>
@@ -32,6 +33,7 @@
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
+                </div>
             </div>
             
             <div class="row">
@@ -45,8 +47,6 @@
                     </select>
                 </div>
             </div>
-
-
         </div>
     </div>
 
@@ -99,24 +99,12 @@
 
                         alert('Successfully Employee Assigned');
 
-
                         location.reload();
                         $('#freeEmployee').load(document.URL +  ' #freeEmployee');
 
 
-                        // $.alert({
-                        //     animationBounce: 2,
-                        //     title: 'Success!',
-                        //     content: 'Employee Assigned',
-                        // });
-
                         $('#alert').html(' <strong>Success!</strong> Assigned');
                         $('#alert').show();
-
-
-
-
-
 
                     }
                 }

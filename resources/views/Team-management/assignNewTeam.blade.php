@@ -7,6 +7,7 @@
                 <h4>Team Assignment</h4>
             </div>
             <div class="card-body">
+                <div class="table table-responsive">
                 <table id="freeEmployee" class="table-bordered table-condensed text-center table-striped" style="width:100%">
                     <thead>
                     <tr>
@@ -33,6 +34,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
             {{-- Select Team --}}
             <div class="row">

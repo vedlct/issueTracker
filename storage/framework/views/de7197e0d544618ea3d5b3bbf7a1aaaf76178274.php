@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from themesdesign.in/drixo/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Nov 2018 08:39:22 GMT -->
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <title>Issue Tracker</title>
+    <title>Myject</title>
     <meta content="Admin Dashboard" name="description">
     <meta content="ThemeDesign" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,16 +14,11 @@
     <link href="<?php echo e(url('public/css/bootstrap.min.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(url('public/css/icons.css')); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo e(url('public/css/style.css')); ?>" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="fixed-left">
-<!-- Loader -->
 
-    
-        
-    
-
-<!-- Begin page -->
 <div class="accountbg">
     <div class="content-center">
         <div class="content-desc-center">
@@ -56,7 +50,7 @@
                                         <div class="form-group row">
                                             <div class="col-12">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
                                                     <?php if($errors->has('password')): ?>
                                                         <span class="invalid-feedback" role="alert">
 																<strong><?php echo e($errors->first('password')); ?></strong>
@@ -72,8 +66,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group m-t-10 mb-0 row">
-                                            <div class="col-sm-7 m-t-20"><a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a></div>
-                                            <div class="col-sm-5 m-t-20"><a href="pages-register.html" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a></div>
+                                            <div class="col-sm-7 m-t-20"><a href="<?php echo e(url('/password/reset')); ?>" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a></div>
+                                            <div class="col-sm-5 m-t-20"><a href="<?php echo e(route('joinRequest')); ?>" class="text-muted"><i class="mdi mdi-account-circle"></i> Request an account </a></div>
                                         </div>
                                     </form>
                                 </div>
@@ -97,9 +91,5 @@
 <script src="<?php echo e(url('public/js/waves.js')); ?>"></script>
 <script src="<?php echo e(url('public/js/jquery.nicescroll.js')); ?>"></script>
 <script src="<?php echo e(url('public/js/jquery.scrollTo.min.js')); ?>"></script>
-<!-- App js -->
-
 </body>
-<!-- Mirrored from themesdesign.in/drixo/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Nov 2018 08:39:22 GMT -->
-
 </html>

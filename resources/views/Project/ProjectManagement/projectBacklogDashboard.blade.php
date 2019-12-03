@@ -28,15 +28,47 @@
 
 
 @section('content')
+    <style>
+        @media only screen and (max-width: 406px){
+            .top{
+                margin-top: 8%;
+            }
+
+        }
+        @media only screen and (min-width: 360px) and (max-width: 540px){
+            .top1{
+                margin-top: 5%;
+            }
+
+        }
+        @media only screen and (min-width: 540px) and (max-width: 709px){
+            .top2{
+                margin-top: 5%;
+            }
+
+        }
+        @media only screen and (min-width: 769px) and (max-width: 948px){
+            .top3{
+                margin-top: 5%;
+            }
+
+        }
+    </style>
 
     <div class="card" style="margin-left: 20px;">
         <div class="card-header">
-            <b>{{ $project->project_name }} : </b> Create New Backlog
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <b>{{ $project->project_name }} : </b> Create New Backlog
+                </div>
+                <div class="col-md-9 col-sm-9">
 
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.features', $project->projectId) }}">Dashboard</a>
-            <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
+                    <a class="btn btn-primary btn-sm pull-right ml-2" href="{{ route('project.features', $project->projectId) }}">Dashboard</a>
+                    <a class="btn btn-primary btn-sm pull-right ml-2 top" href="{{ route('project.projectmanagement', $project->projectId) }}">ADD FEATURE (ADVANCE)</a>
 
-            <a class="btn btn-sm btn-secondary pull-right" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                    <a class="btn btn-sm btn-secondary pull-right top top1 top2 top3" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             {{-- Backlog add form --}}
