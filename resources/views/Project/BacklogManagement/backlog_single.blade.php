@@ -6,7 +6,7 @@
     <div class="row mb-3">
         <div class="col-6">
             <label>Change Backlog State</label>
-            <select class="form-control pull-right" name="backlog_state" required>
+            <select class="form-control pull-right" name="backlog_state" id="backlog_state" required>
                 <option value="Planned" @if($backlog->backlog_state == 'Planned') selected @endif>Planned</option>
                 <option value="Ongoing" @if($backlog->backlog_state == 'Ongoing') selected @endif>Ongoing</option>
                 <option value="Pause" @if($backlog->backlog_state == 'Pause') selected @endif>Pause</option>
@@ -15,8 +15,14 @@
                 <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
             </select>
         </div>
-        <div class="col-6">
-            <a href="JavaScript:void(0);"class="btn btn-success pull-right" style="color: #0a1832">Continue</a>
+        <div class="col-6" @if($backlog->backlog_state != 'Ongoing') style="display: none;" @endif id="changeState">
+            <label>Hour</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="backLogHour">
+                <div class="input-group-append">
+                    <a href="JavaScript:void(0)" class="btn btn-outline-secondary" type="button" style="color: #0a1832" id="backLogContinue" backlog_id="{{ $backlog->backlog_id }}">Continue</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -91,6 +97,57 @@
 
 
 <script>
+
+    $("#backlog_state").change(function() {
+        if($("#backlog_state").val() == 'Ongoing') {
+            $("#changeState").show();
+            $("#backLogHour").prop('disabled', false);
+        }else{
+            $("#changeState").hide();
+            $("#backLogHour").prop('disabled', true);
+        }
+    });
+
+    $("#backLogContinue").click(function () {
+        var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+        if($("#backLogHour").val() == '' || !numberRegex.test($("#backLogHour").val())) {
+            $.alert({
+                title: 'Alert!',
+                type: 'red',
+                content: 'Please check hour',
+                buttons: {
+                    tryAgain: {
+                        text: 'Ok',
+                        btnClass: 'btn-blue'
+                    }
+                }
+            });
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('backlog.continue') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'backlog_id': "{{ $backlog->backlog_id }}",
+                    'hour': $("#backLogHour").val()
+                },
+                success: function () {
+                    $.alert({
+                        title: 'Success',
+                        type: 'green',
+                        content: 'Time saved successfully.',
+                        buttons: {
+                            tryAgain: {
+                                text: 'Ok',
+                                btnClass: 'btn-blue'
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
 
     $(".datepicker").datepicker({
         orientation: "bottom",

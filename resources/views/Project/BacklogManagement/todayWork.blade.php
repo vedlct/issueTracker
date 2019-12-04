@@ -126,7 +126,6 @@
     <script>
         function openItem(x){
             id = $(x).data('backlog-id');
-            console.log(id);
 
             $.ajax({
                 type: 'POST',

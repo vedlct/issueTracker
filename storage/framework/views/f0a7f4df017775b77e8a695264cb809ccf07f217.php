@@ -47,7 +47,7 @@
                     <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b><?php echo e($company->companyName); ?></b></h5>
                     <div class="card-body">
                         <?php $__currentLoopData = $mybacklogs->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
+                            <div <?php if($mybacklog->backlog_state == 'Planned'): ?> style="background-color: #FFFF00;" <?php endif; ?> class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -87,7 +87,7 @@
                     <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b><?php echo e($company->companyName); ?></b></h5>
                     <div class="card-body">
                         <?php $__currentLoopData = $mybacklogsMissed->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
+                            <div <?php if($mybacklog->backlog_state == 'Planned'): ?> style="background-color: #FFFF00;" <?php endif; ?> class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -315,4 +315,5 @@
     </script>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
