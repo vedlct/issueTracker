@@ -97,7 +97,7 @@ class UserManagementController extends Controller
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->leftJoin('designation','designation.designation_id','user.designation')
-                ->groupBy('backlog.backlog_id')
+                ->groupBy('user.userId')
                 ->get();
         }else{
             $employeelist = DB::table('user')
@@ -113,7 +113,7 @@ class UserManagementController extends Controller
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->where('companyemployee.fk_companyId', $userCompanyId)
-                ->groupBy('backlog.backlog_id')
+                ->groupBy('user.userId')
                 ->get();
         }
 //        dd($employeelist);
