@@ -107,7 +107,13 @@ class UserManagementController extends Controller
                 ->leftJoin('designation','designation.designation_id','user.designation')
                 ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
-                ->leftJoin('backlog_time_chart','backlog_time_chart.backlog_id','backlog.backlog_id')
+//                ->leftJoin('backlog_time_chart','backlog_time_chart.backlog_id','backlog.backlog_id')
+//                ->Join('backlog_time_chart','backlog_time_chart.user_id','user.userId')
+                ->leftJoin('backlog_time_chart',function ($join) {
+                    $join->on('backlog_time_chart.backlog_id', '=' , 'backlog.backlog_id') ;
+                    $join->on('backlog_time_chart.user_id','=','user.userId') ;
+                })
+
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
