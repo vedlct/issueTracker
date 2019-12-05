@@ -87,7 +87,7 @@ class UserManagementController extends Controller
 
         if($userCompanyId == null){
             $employeelist = DB::table('user')
-                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('count(backlog_time_chart.hour) as declare_hour'))
+                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
