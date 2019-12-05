@@ -153,6 +153,7 @@ Route::post('/project-management/backlog/comment/load',      'ProjectManagementC
 Route::post('/project-management/backlog/generate-report',   'ProjectManagementController@generateReport')            ->name('backlog.generate.report');
 Route::get ('/project-management/project/gantt-chart/{id}',  'ProjectManagementController@showGanttChart')            ->name('backlog.ganttChart');
 Route::post('/project-management/dashboard/get-all-data',    'ProjectManagementController@getAllData')                ->name('backlog.dashboard.getallData');
+Route::post('/project-management/backlog/continue',          'ProjectManagementController@backlogContinue')           ->name('backlog.continue');
 
 
 Route::post('/project-management/dashboard/get-all-comments', 'ProjectManagementController@getAllMyComments')         ->name('backlog.show.getAllMyComments');

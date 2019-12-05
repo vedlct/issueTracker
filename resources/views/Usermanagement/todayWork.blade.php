@@ -20,9 +20,11 @@
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Fullname</th>
+                        <th>Full name</th>
                         <th>Project</th>
                         <th>Feature</th>
+                        <th>Time Allocated</th>
+                        <th>Time Declare</th>
                         <th>State</th>
                         <th>Start Time</th>
                         <th>End Time</th>
@@ -34,6 +36,8 @@
                             <td> {{ $employee->fullName }} </td>
                             <td> {{ $employee->project_name }} </td>
                             <td> {{ $employee->backlog_title }} </td>
+                            <td> {{ $employee->backlog_time }} </td>
+                            <td> {{ number_format((float)$employee->declare_hour, 2, '.', '') }} </td>
                             <td>
                                 @if($employee->backlog_state==='Planned')
                                     {{'Assigned'}}

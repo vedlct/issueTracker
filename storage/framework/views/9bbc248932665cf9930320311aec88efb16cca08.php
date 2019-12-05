@@ -18,9 +18,11 @@
                 <table id="employeeTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Fullname</th>
+                        <th>Full name</th>
                         <th>Project</th>
                         <th>Feature</th>
+                        <th>Time Allocated</th>
+                        <th>Time Declare</th>
                         <th>State</th>
                         <th>Start Time</th>
                         <th>End Time</th>
@@ -32,6 +34,8 @@
                             <td> <?php echo e($employee->fullName); ?> </td>
                             <td> <?php echo e($employee->project_name); ?> </td>
                             <td> <?php echo e($employee->backlog_title); ?> </td>
+                            <td> <?php echo e($employee->backlog_time); ?> </td>
+                            <td> <?php echo e(number_format((float)$employee->declare_hour, 2, '.', '')); ?> </td>
                             <td>
                                 <?php if($employee->backlog_state==='Planned'): ?>
                                     <?php echo e('Assigned'); ?>

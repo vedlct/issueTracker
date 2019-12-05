@@ -87,29 +87,36 @@ class UserManagementController extends Controller
 
         if($userCompanyId == null){
             $employeelist = DB::table('user')
+                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('count(backlog_time_chart.hour) as declare_hour'))
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
+                ->leftJoin('backlog_time_chart','backlog_time_chart.backlog_id','backlog.backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->leftJoin('designation','designation.designation_id','user.designation')
+                ->groupBy('backlog.backlog_id')
                 ->get();
         }else{
             $employeelist = DB::table('user')
+                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
                 ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
                 ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
                 ->leftJoin('designation','designation.designation_id','user.designation')
                 ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
+                ->leftJoin('backlog_time_chart','backlog_time_chart.backlog_id','backlog.backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
                 ->whereRaw('? between backlog.backlog_start_date and backlog.backlog_end_date', [date('Y-m-d')])
                 ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->groupBy('backlog.backlog_id')
                 ->get();
         }
+//        dd($employeelist);
         return view('Usermanagement.todayWork')->with('employeelist', $employeelist);
     }
 

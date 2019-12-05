@@ -50,7 +50,7 @@
                     <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b>{{$company->companyName}}</b></h5>
                     <div class="card-body">
                         @foreach($mybacklogs->where('fk_company_id',$company->companyId) as $mybacklog)
-                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                            <div @if($mybacklog->backlog_state == 'Planned') style="background-color: #FFFF00;" @endif class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -85,7 +85,7 @@
                     <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b>{{$company->companyName}}</b></h5>
                     <div class="card-body">
                         @foreach($mybacklogsMissed->where('fk_company_id',$company->companyId) as $mybacklog)
-                            <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                            <div @if($mybacklog->backlog_state == 'Planned') style="background-color: #FFFF00;" @endif class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">

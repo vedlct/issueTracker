@@ -220,7 +220,7 @@ class DashBoardController extends Controller
                 ->whereRaw('"'.date('Y-m-d').'" between backlog.backlog_start_date and backlog.backlog_end_date')
                 ->where('companyemployee.fk_companyId',$userCompanyId)
                 ->orwhere('backlog.backlog_state','=','Ongoing')
-//                ->groupBy('companyemployee.employeeUserId')
+                ->orderBy('backlog.backlog_state', 'desc')
 //                ->groupBy('backlog.fk_project_id')
 //                ->orderBy('ticket_count', 'desc')
                 ->get();

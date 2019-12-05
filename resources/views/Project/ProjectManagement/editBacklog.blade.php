@@ -14,7 +14,7 @@
 
     <div class="form-group">
         <label for="exampleFormControlSelect1">Change Feature State</label>
-        <select class="form-control pull-right" name="backlog_state">
+        <select class="form-control pull-right" name="backlog_state" id="backlog_state">
             <option value="Planned" @if($backlog->backlog_state == 'Planned') selected @endif>Planned</option>
             <option value="Ongoing" @if($backlog->backlog_state == 'Ongoing') selected @endif>Ongoing</option>
             <option value="Pause" @if($backlog->backlog_state == 'Pause') selected @endif>Pause</option>
@@ -22,6 +22,11 @@
             <option value="Testing" @if($backlog->backlog_state == 'Testing') selected @endif>Testing</option>
             <option value="Complete" @if($backlog->backlog_state == 'Complete') selected @endif>Complete</option>
         </select>
+    </div>
+
+    <div class="form-group" @if($backlog->backlog_state != 'Ongoing') style="display: none;" @endif id="changeState">
+        <label>Hour</label>
+        <input type="text" autocomplete="off" class="form-control" name="hour" id="backLogHour">
     </div>
 
     <div class="form-group">
@@ -53,6 +58,16 @@
 </form>
 
 <script>
+    $("#backlog_state").change(function() {
+        if($("#backlog_state").val() == 'Ongoing') {
+            $("#changeState").show();
+            $("#backLogHour").prop('disabled', false);
+        }else{
+            $("#changeState").hide();
+            $("#backLogHour").prop('disabled', true);
+        }
+    });
+
     $(".datepicker").datepicker({
         orientation: "bottom",
         format: 'yyyy/mm/dd'

@@ -20,6 +20,7 @@ use App\User;
 use Carbon\Carbon;
 use App\BacklogAssignment;
 use App\BacklogComment;
+use App\BacklogTimeChart;
 
 
 class ProjectManagementController extends Controller
@@ -398,6 +399,15 @@ class ProjectManagementController extends Controller
         $backlog->remark = $r->remark;
         $backlog->save();
 
+        if($r->backlog_state == 'Ongoing'){
+            $backlogTimeChart = new BacklogTimeChart();
+            $backlogTimeChart->backlog_id = $r->backlog_id;
+            $backlogTimeChart->hour = $r->hour;
+            $backlogTimeChart->user_id = Auth::user()->userId;
+            $backlogTimeChart->date = date('Y-m-d');
+            $backlogTimeChart->save();
+        }
+
         Session::flash('message', 'Feature Updated!');
 
         return back();
@@ -420,6 +430,13 @@ class ProjectManagementController extends Controller
         return view('Project.ProjectManagement.showOwnerModal')->with('owners', $owners);
     }
 
-
-
+    public function backlogContinue(Request $r){
+        $backlogTimeChart = new BacklogTimeChart();
+        $backlogTimeChart->backlog_id = $r->backlog_id;
+        $backlogTimeChart->hour = $r->hour;
+        $backlogTimeChart->user_id = Auth::user()->userId;
+        $backlogTimeChart->date = date('Y-m-d');
+        $backlogTimeChart->save();
+        return;
+    }
 }
