@@ -15,8 +15,9 @@
     <div class="form-group">
         <label for="exampleFormControlSelect1">Change Feature State</label>
         <select class="form-control pull-right" name="backlog_state">
-            <option value="Planned" <?php if($backlog->backlog_state == 'Backlog'): ?> selected <?php endif; ?>>Planned</option>
-            <option value="Ongoing" <?php if($backlog->backlog_state == 'Doing'): ?> selected <?php endif; ?>>Ongoing</option>
+            <option value="Planned" <?php if($backlog->backlog_state == 'Planned'): ?> selected <?php endif; ?>>Planned</option>
+            <option value="Ongoing" <?php if($backlog->backlog_state == 'Ongoing'): ?> selected <?php endif; ?>>Ongoing</option>
+            <option value="Pause" <?php if($backlog->backlog_state == 'Pause'): ?> selected <?php endif; ?>>Pause</option>
             <option value="Code Done" <?php if($backlog->backlog_state == 'Code Done'): ?> selected <?php endif; ?>>Code Done</option>
             <option value="Testing" <?php if($backlog->backlog_state == 'Testing'): ?> selected <?php endif; ?>>Testing</option>
             <option value="Complete" <?php if($backlog->backlog_state == 'Complete'): ?> selected <?php endif; ?>>Complete</option>

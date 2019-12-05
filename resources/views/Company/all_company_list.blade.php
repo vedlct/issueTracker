@@ -45,6 +45,7 @@
                 width: 30%;
             }
         }
+
     </style>
 
 <div class="container-fluid">
