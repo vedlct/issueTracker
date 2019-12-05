@@ -73,11 +73,11 @@
                 <?php echo csrf_field(); ?>
                 <div class="row mb-2">
                     <input type="hidden" name="project_id" value="<?php echo e($project->projectId); ?>">
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Backlog Title *</label>
                         <input type="text" class="form-control" placeholder="Backlog Title" name="backlog_title" required>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Priority</label>
                         <select class="form-control" name="priority" required>
                             <option value="">Select Priority</option>
@@ -86,14 +86,14 @@
                             <option value="High">High</option>
                         </select>
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Backlog Time (Hour) *</label>
                         <input type="number" class="form-control" placeholder="Backlog Time" name="backlog_time" required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-md-12 col-sm-4">
                         <label style="display: block">Assign Employee</label>
                         <select class="js-example-basic-multiple form-control " name="assigned_employee[]" multiple="multiple" style="width: 100%;">
                             <?php $__currentLoopData = $allEmp; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $emp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -104,28 +104,28 @@
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Backlog Start Date</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Start Date" name="startdate">
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Backlog End Date</label>
                         <input type="text" autocomplete="off" class="form-control datepicker" placeholder="End Date" name="enddate">
                     </div>
-                    <div class="col">
+                    <div class="col-sm-4">
                         <label>Remark</label>
                         <input type="text" class="form-control" placeholder="Remark" name="remark">
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-md-12 col-sm-4">
                         <label>Backlog Details</label>
                         <textarea class="form-control ckeditor" name="backlogDetails" id="editor"></textarea>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-sm-4">
                         <button class="btn btn-success pull-right">Create Backlog</button>
                     </div>
                 </div>
