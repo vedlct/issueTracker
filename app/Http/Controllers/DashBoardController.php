@@ -218,7 +218,7 @@ class DashBoardController extends Controller
                 ->leftJoin('backlog', 'backlog_assignment.fk_backlog_id', '=', 'backlog.backlog_id')
                 ->leftJoin('project', 'project.projectId', '=', 'backlog.fk_project_id')
                 ->whereRaw('"'.date('Y-m-d').'" between backlog.backlog_start_date and backlog.backlog_end_date')
-                ->where('companyemployee.fk_companyId',$userCompanyId)
+                ->where('project.fk_company_id', '=', $userCompanyId)
                 ->orwhere('backlog.backlog_state','=','Ongoing')
                 ->orderBy('backlog.backlog_state', 'desc')
 //                ->groupBy('backlog.fk_project_id')

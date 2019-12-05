@@ -240,15 +240,17 @@
                                 <tbody>
                                 @if($employeeTicket)
                                 @foreach($employeeTicket as $employeeTic)
-                                <tr>
-                                    <th scope="row">{{$employeeTic->fullName}}</th>
+                                    @if($employeeTic->fk_company_id == Auth::user()->fkCompanyId)
+                                        <tr>
+                                            <th scope="row">{{$employeeTic->fullName}}</th>
 
-                                @if($employeeTic->backlog_state == 'Ongoing')
-                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}" style="color: red;">{{$employeeTic->project_name}}</a></td>
-                                @else
-                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}">{{$employeeTic->project_name}}</a></td>
-                                @endif
-                                </tr>
+                                        @if($employeeTic->backlog_state == 'Ongoing')
+                                            <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}" style="color: red;">{{$employeeTic->project_name}}</a></td>
+                                        @else
+                                            <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="{{$employeeTic->backlog_title}}" backlog_start_date="{{\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()}}" backlog_end_date="{{\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()}}" project_name="{{$employeeTic->project_name}}">{{$employeeTic->project_name}}</a></td>
+                                        @endif
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 @endif
                                 </tbody>
