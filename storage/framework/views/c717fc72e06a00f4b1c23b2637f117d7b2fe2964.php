@@ -18,6 +18,11 @@
                 margin-top: 50%;
             }
         }
+        @media  only screen and (min-width: 768px) and (max-width: 1295px){
+            .width{
+                width: 50%;
+            }
+        }
 
 
     </style>
@@ -26,7 +31,7 @@
 
         <?php if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4): ?>
             
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="float-left">Filter Ticket</h4>
@@ -56,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="float-left">Tickets</h4>
@@ -138,6 +143,7 @@
                         </ul>
                     </div>
                     <div class="card-body">
+                        <div class="table table-responsive">
                         <table id="ticketTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
                             <thead>
                             <tr>
@@ -154,6 +160,7 @@
                             <tbody>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

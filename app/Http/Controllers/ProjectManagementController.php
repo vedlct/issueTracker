@@ -78,16 +78,9 @@ class ProjectManagementController extends Controller
     // GET ALL BACKLOG FOR DATATABLE
     public function getAllMyBacklog(Request $r){
 
-        $backlog = Backlog::where('fk_project_id', $r->project_id)->orderBy('backlog_id', 'desc');
-        $datatables = Datatables::of($backlog);
-        return $datatables->addColumn('comments', function ($backlog) use ($r){
-            $q = BacklogComment::select('comment')->leftJoin('backlog', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')
-                ->where('backlog.fk_project_id', $r->project_id)
-                ->where('backlog_comment.fk_backlog_id', $backlog->backlog_id)
-                ->orderBy('backlog_comment_id','desc')
-                ->first();
-            return $q['comment'];
-        })->make(true);
+        $backlog = Backlog::where('fk_project_id', $r->project_id)
+            ->leftJoin('backlog_comment', 'backlog.backlog_id', 'backlog_comment.fk_backlog_id')->orderBy('backlog_id', 'desc');
+        return $datatables = Datatables::of($backlog)->make(true);
     }
 
     // Project Management Dashboard
@@ -132,8 +125,6 @@ class ProjectManagementController extends Controller
         return view('Project.ProjectManagement.projectList')->with('projects', $projects)
                                                                  ->with('allStatus', $allStatus);
     }
-
-
     // Project Backlog Dashboard
     public function projectmanagement($id){
 
@@ -160,7 +151,6 @@ class ProjectManagementController extends Controller
                                      ->groupBy('backlog.backlog_id')
                                      ->orderBy('backlog.backlog_id','desc' )
                                      ->get();
-
 
         // select backlog assigned employee list
         $backlog = BacklogAssignment::leftJoin('backlog', 'backlog.backlog_id', 'backlog_assignment.fk_backlog_id')
@@ -205,17 +195,13 @@ class ProjectManagementController extends Controller
         if($r->backlog_state)
         {
             $backlog->backlog_state = $r->backlog_state;
-        }
-        else
-        {
+        }else{
             $backlog->backlog_state = 'Planned';
         }
         if($r->startdate == null)
         {
             $backlog->backlog_start_date = null;
-        }
-        else
-        {
+        }else{
             $backlog->backlog_start_date = Carbon::parse($r->startdate)->format('Y-m-d h:i:s');
         }
 
@@ -223,9 +209,7 @@ class ProjectManagementController extends Controller
         if($r->enddate == null)
         {
             $backlog->backlog_end_date = null;
-        }
-        else
-        {
+        }elseW{
             $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         }
         $backlog->backlog_details = $r->backlogDetails;
