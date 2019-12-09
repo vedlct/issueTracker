@@ -56,7 +56,7 @@
                             
                         </ul>
                     </li>
-              
+
                  <?php endif; ?>
 
 
@@ -124,6 +124,13 @@
                         <?php endif; ?>
                     </ul>
                 </li>
+                <?php if(Auth::user()->fk_userTypeId != 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5): ?>
+                <li>
+                    <a href="<?php echo e(route('team.work')); ?>" class="waves-effect">
+                        <i class="fa fa-user"></i> <span> Employee Work</span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <?php if(Auth::user()->fk_userTypeId != 1): ?>
                 <li>
                     <a href="<?php echo e(route('today.work')); ?>" class="waves-effect">

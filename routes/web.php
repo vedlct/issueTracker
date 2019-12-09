@@ -102,6 +102,8 @@ Route::post('/get-all-team-members',      'TeamManagementController@getAllTeamMe
 Route::post('/remove-employee-from-list', 'TeamManagementController@removeEmployee')   ->name('remove.employee');
 Route::get ('/team-edit/{id}',            'TeamManagementController@teamEdit')         ->name('team.edit');
 Route::post('/team-edit/{id}',            'TeamManagementController@teamUpdate')       ->name('team.update');
+Route::get ('/team-work',                 'TeamManagementController@teamWork')         ->name('team.work');
+Route::post('/team-work-data',            'TeamManagementController@teamWorkData')     ->name('team.work.data');
 
 // User Management
 Route::get ('/employee-list',       'UserManagementController@employeelist')       ->name('user.show.allEmployee');
@@ -124,7 +126,7 @@ Route::post('/admin-update/',       'UserManagementController@updateAdmin')     
 Route::post('/admin-delete/',       'UserManagementController@deleteAdmin')        ->name('user.delete.admin');
 
 
-Route::get ('/today-work', 'UserManagementController@today_work')         ->name('today.work');
+Route::get ('/today-work',                           'UserManagementController@today_work')         ->name('today.work');
 Route::get ('/admin-add-employee-to-other-company/', 'UserManagementController@emp_to_manyCompany')         ->name('add.admin.otherCompany');
 Route::post('/get-employee-all-data/',               'UserManagementController@getEmpList')                 ->name('get.all.EmpInfo');
 Route::post('deleteFromCompany/',                    'UserManagementController@deleteFromCompany')          ->name('deleteFromCompany');

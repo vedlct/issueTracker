@@ -2,17 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Company;
 use App\Team;
+use Illuminate\Support\Facades\Auth;
 use Session;
 use DB;
 use App\AssignTeam;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 class TeamManagementController extends Controller
 {
+    public function getCompanyUserId(){
+        if(Auth::user()->fk_userTypeId == 2)
+        {
+            $this->user_company_id = Client::where('userId', Auth::user()->userId)->first()->companyId;
+        }
+        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
+        {
+            $this->user_company_id =Auth::user()->fkCompanyId;
+        }
+        if(Auth::user()->fk_userTypeId == 1)
+        {
+            $this->user_company_id = null;
+        }
+        return $this->user_company_id;
+    }
+
     public function index(){
         $companylist = Company::all();
         $teamlist = DB::table('team')->select('team.*','company.companyId','company.companyName')
@@ -117,14 +136,48 @@ class TeamManagementController extends Controller
     public function removeEmployee(Request $r){
         $teamEmployee = AssignTeam::findOrFail($r->id);
         $teamEmployee->delete();
-
-
         return back();
     }
 
+    public function teamWork(){
+        return view('Team-management.teamWork');
+    }
 
+    public function teamWorkData(Request $data){
+//        echo date('d/m/y',$data->date);
+        echo $data->date;
+        exit();
+        if ($data->month){
+            $month = $data->month;
+        }else{
+            $month = Carbon::now()->month;
+        };
+        $userCompanyId = $this->getCompanyUserId();
 
-
+        if($userCompanyId != null){
+            $employeelist = DB::table('user')
+//                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
+//                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
+                ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+//                ->leftJoin('designation','designation.designation_id','user.designation')
+                ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
+                ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
+                ->leftJoin('backlog_time_chart',function ($join) {
+                    $join->on('backlog_time_chart.backlog_id', '=' , 'backlog.backlog_id') ;
+                    $join->on('backlog_time_chart.user_id','=','user.userId') ;
+                })
+//                ->leftJoin('project','project.projectId','backlog.fk_project_id')
+                ->where('user.fk_userTypeId', 3)
+                ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
+//                ->whereMonth('backlog_time_chart.date', $month)
+//                ->whereRaw('MONTH(backlog_time_chart.date)', $month)
+                ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->groupBy('user.userId')
+                ->get();
+            $datatables = Datatables::of($employeelist);
+            return $datatables->make(true);
+        }
+    }
 
 
 }

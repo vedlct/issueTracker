@@ -209,7 +209,7 @@ class ProjectManagementController extends Controller
         if($r->enddate == null)
         {
             $backlog->backlog_end_date = null;
-        }elseW{
+        }else{
             $backlog->backlog_end_date = Carbon::parse($r->enddate)->format('Y-m-d h:i:s');
         }
         $backlog->backlog_details = $r->backlogDetails;

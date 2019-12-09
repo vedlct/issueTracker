@@ -56,7 +56,7 @@
                             {{--<li><a href="" class="waves-effect"><i class="fa fa-user-secret"></i> <span> ... </span></a></li>--}}
                         </ul>
                     </li>
-              
+
                  @endif
 
 
@@ -124,6 +124,13 @@
                         @endif
                     </ul>
                 </li>
+                @if(Auth::user()->fk_userTypeId != 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
+                <li>
+                    <a href="{{route('team.work')}}" class="waves-effect">
+                        <i class="fa fa-user"></i> <span> Employee Work</span>
+                    </a>
+                </li>
+                @endif
                 @if(Auth::user()->fk_userTypeId != 1)
                 <li>
                     <a href="{{route('today.work')}}" class="waves-effect">
