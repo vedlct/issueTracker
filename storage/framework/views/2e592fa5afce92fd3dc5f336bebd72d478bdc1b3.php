@@ -524,9 +524,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p style="font-size: 30px"><strong>Backlog Tittle - </strong><span id="baclogtittle"></span> </p>
-                    <p style="font-size: 30px"><strong>Backlog Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
-                    <p style="font-size: 30px"><strong>Backlog End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
+                    <p style="font-size: 30px"><strong>Tittle - </strong><span id="baclogtittle"></span> </p>
+                    <p style="font-size: 30px"><strong>Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
+                    <p style="font-size: 30px"><strong>End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

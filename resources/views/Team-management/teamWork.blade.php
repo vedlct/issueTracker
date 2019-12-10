@@ -21,8 +21,7 @@
             <div class="card-header">
                 <h4 class="float-left">Employee Work</h4>
                 <div class="pull-right">
-                    <button class="btn small" id="Select_month" data-date-format="yyyy-mm-dd" data-date="2012-02-20">Select</button>
-{{--                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#exampleModal">Add New Admin</button>--}}
+                    <button class="btn btn-sm btn-success" id="Select_month">Select Month</button>
                 </div>
             </div>
             <div class="card-body">
@@ -31,13 +30,13 @@
                         <thead>
                         <tr>
                             <th>Full name</th>
-{{--                            <th>Project</th>--}}
-{{--                            <th>Feature</th>--}}
-{{--                            <th>Time Allocated</th>--}}
-{{--                            <th>Time Declare</th>--}}
-{{--                            <th>State</th>--}}
-{{--                            <th>Start Time</th>--}}
-{{--                            <th>End Time</th>--}}
+                            <th>Project</th>
+                            <th>Feature</th>
+                            <th>Time Allocated</th>
+                            <th>Time Declare</th>
+                            <th>State</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                         </tr>
                         </thead>
                     </table>
@@ -55,35 +54,40 @@
             viewMode: "months",
             minViewMode: "months"
         })
-        .on('changeDate', function(ev){
+        .on('changeDate', function(){
             $('#Select_month').datepicker('hide');
-            console.log($(this).datepicker('getDate'));
-            // alert(ev.date.formatDate/("yy-mm-dd"));
+            dataTable.ajax.reload();
         });
 
         $(document).ready(function() {
-            dataTable=  $('#employeeWorkTable').DataTable({
+            dataTable = $('#employeeWorkTable').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
                 ordering:false,
-                // type:"POST",
                 "ajax":{
                     "url": "{!! route('team.work.data') !!}",
                     "type": "POST",
                     data:function (d){
                         d._token="{{csrf_token()}}";
-                        d.date=$('#Select_month').datepicker('getDate');
+                        var jsDate = $('#Select_month').datepicker('getDate');
+                        if (jsDate !== null) {
+                            jsDate instanceof Date;
+                            d.month = jsDate.getMonth() + 1;
+                        }
                     },
                 },
                 columns: [
                     { data: 'fullName', name: 'user.fullName' },
-                    // { data: 'project_type', name: 'project.project_type' },
-                    // { data: 'statusData', name: 'status.statusData' },
-                    // { data: 'fullName', name: 'user.fullName' },
-                    // { data: 'clientName', name: 'client.clientName' },
+                    { data: 'project_name', name: 'project.project_name' },
+                    { data: 'backlog_title', name: 'backlog.backlog_title' },
+                    { data: 'backlog_time', name: 'backlog.backlog_time' },
+                    { data: 'declare_hour', name: 'backlog_time_chart.hour' },
+                    { data: 'backlog_state', name: 'backlog.backlog_state' },
+                    { data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
+                    { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
                 ]
             } );
         } );
