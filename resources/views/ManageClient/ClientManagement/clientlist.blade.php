@@ -49,6 +49,21 @@
         }
     </style>
 
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top1{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top2{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
+
     <!-- Add Sub Company Modal -->
     <div class="modal fade" id="addSubCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -111,7 +126,7 @@
     </div>
 
     <div class="container-fluid">
-        <div class="card">
+        <div class="card top1 top2">
             <div class="card-header">
                 <h4 class="float-left">Client List</h4>
                 <button type="button" class="btn btn-success float-right" name="button" style="color: #0a1832" data-toggle="modal" data-target="#addSubCompanyModal">Create Client</button>

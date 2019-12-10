@@ -5,9 +5,23 @@
 @endsection
 
 @section('content')
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
     <div class="container-fluid">
         {{--  Basic Information --}}
-        <div class="card">
+        <div class="card top top1">
             <div class="card-header bg-dark text-white custom-2">
                 <h4 class="float-left font-weight-normal">Add New Employee</h4>
             </div>

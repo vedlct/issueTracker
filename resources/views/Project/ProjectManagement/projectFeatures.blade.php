@@ -41,6 +41,20 @@
 
         }
     </style>
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top4{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top5{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
     <!-- EDIT Modal -->
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -93,7 +107,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card top4 top5">
         <h5 class="card-header mt-0">
             <div class="row">
                 <div class="col-md-3 col-sm-3">

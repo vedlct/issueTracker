@@ -12,7 +12,6 @@
     </style>
 <?php $__env->stopSection(); ?>
 
-
 <?php $__env->startSection('content'); ?>
     <style>
         @media  only screen and (max-width: 395px){
@@ -36,6 +35,20 @@
         @media  only screen and (min-width: 769px) and (max-width: 948px){
             .top3{
                 margin-top: 5%;
+            }
+
+        }
+    </style>
+    <style>
+        @media  only screen and (min-width: 338px) and (max-width: 379px){
+            .top4{
+                margin-top: 20%;
+            }
+
+        }
+        @media  only screen and (max-width: 337px){
+            .top5{
+                margin-top: 60%;
             }
 
         }
@@ -92,9 +105,7 @@
         </div>
     </div>
 
-
-
-    <div class="card">
+    <div class="card top4 top5">
         <h5 class="card-header mt-0">
             <div class="row">
                 <div class="col-md-3 col-sm-3">
@@ -102,74 +113,44 @@
 
                 </div>
                 <?php if(Auth::user()->fk_userTypeId != 2): ?>
-                    <div class="col-md-9 col-sm-9">
-                        <a class="btn btn-primary btn-sm pull-right ml-2" href="<?php echo e(route('project.Information', $project->projectId)); ?>">ADD FEATURE</a>
-                        <a class="btn btn-primary btn-sm pull-right ml-2 top" href="<?php echo e(route('project.projectmanagement', $project->projectId)); ?>">ADD FEATURE (ADVANCE)</a>
-                        <a class="btn btn-sm btn-secondary pull-right top top1 top2 top3" style="color: white" onclick="generateReport()">Generate Project Excel</a>
-                    </div>
+                <div class="col-md-9 col-sm-9">
+                    <a class="btn btn-primary btn-sm pull-right ml-2" href="<?php echo e(route('project.Information', $project->projectId)); ?>">ADD FEATURE</a>
+                    <a class="btn btn-primary btn-sm pull-right ml-2 top" href="<?php echo e(route('project.projectmanagement', $project->projectId)); ?>">ADD FEATURE (ADVANCE)</a>
+                    <a class="btn btn-sm btn-secondary pull-right top top1 top2 top3" style="color: white" onclick="generateReport()">Generate Project Excel</a>
+                </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
         </h5>
 
         <div class="card-body">
 
             <div class="table table-responsive">
-            <table class="table table-bordered table-sm table-condensed" id="featurelist">
-                <thead>
-                <tr>
-                    
-                    <th scope="col">Feature</th>
-                    <th scope="col">Total Hour</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">End Date</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col">Remarks</th>
-                    <th scope="col">Comments</th>
-                    <th scope="col">Owner</th>
-                    <?php if(Auth::user()->fk_userTypeId != 2): ?>
-                        <th scope="col" class="text-center">Action</th>
-                    <?php endif; ?>
-                </tr>
-                </thead>
-
-                
-
-                <tbody></tbody>
-
-                <tr>
-                    <td><b>Total Expected Hour</b></td>
-                    <td><?php echo e($exp_time); ?></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <?php if(Auth::user()->fk_userTypeId != 2): ?>
+                <table class="table table-bordered table-sm table-condensed" id="featurelist">
+                    <tr>
+                        <td><b>Total Expected Hour</b></td>
+                        <td><?php echo e($exp_time); ?></td>
                         <td></td>
-                    <?php endif; ?>
-                </tr>
-
-            </table>
-                <div>
-
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <?php if(Auth::user()->fk_userTypeId != 2): ?>
+                        <td></td>
+                        <?php endif; ?>
+                    </tr>
+                </table>
+            <div>
         </div>
     </div>
-        </div>
-    </div>
-
-
-
+</div>
+</div   >
 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
     <script>
-        $(document).ready(function() {
-            // getallData();
-        });
         $(document).ready(function() {
             dataTable=  $('#featurelist').DataTable({
 //                rowReorder: {
@@ -191,35 +172,32 @@
                     },
                 },
                 columns: [
-                    { data: 'backlog_title', name: 'backlog.backlog_title' },
-                    { data: 'backlog_time', name: 'backlog.backlog_time' },
-                    { data: 'backlog_state', name: 'backlog.backlog_state' },
-                    { data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
-                    { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
-                    { data: 'backlog_priority', name: 'backlog.backlog_priority' },
-                    { data: 'remark', name: 'backlog.remark' },
-                    { "data": function(data)
+                    { title: 'Feature', data: 'backlog_title', name: 'backlog.backlog_title' },
+                    { title: 'Total Hour', data: 'backlog_time', name: 'backlog.backlog_time' },
+                    { title: 'Status', data: 'backlog_state', name: 'backlog.backlog_state' },
+                    { title: 'Start Date', data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
+                    { title: 'End Date', data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
+                    { title: 'Priority', data: 'backlog_priority', name: 'backlog.backlog_priority' },
+                    { title: 'Remarks', data: 'remark', name: 'backlog.remark' },
+                    { title: 'Comments', "data": function(data)
                         {
-                           if(data.comments == null)
+                           if(data.comment != null )
                            {
-                               return "";
+                               return '<a class="changeMouse" onclick="showComments('+data.backlog_id+')"><i class="fa fa-comments"></i></a>';
+                           }else{
+                               return 'N/A';
                            }
-                           else
-                           {
-                               return '<a style="text-decoration: underline;" class="changeMouse" onclick="showComments('+data.backlog_id+')">'+(data.comments).substring(0,20)+'</a>';
-                           }
-                            return "";
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-                    { "data": function(data)
+                    { title: 'Owner', "data": function(data)
                         {
                            return '<a style="text-decoration: underline;" class="changeMouse" onclick="showOwners('+data.backlog_id+')">Show Owner</a>';
                         },
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
-                        <?php if(Auth::user()->fk_userTypeId != 2): ?>
-                    { "data": function(data)
+                    <?php if(Auth::user()->fk_userTypeId != 2): ?>
+                    { title: 'Action', "data": function(data)
                         {
                             return '<button class="btn btn-success btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="editFeature(this)"><i class="fa fa-pencil-square"></i></button>' +
                                 '<button class="btn btn-danger btn-xs m-1" data-panel-id="' + data.backlog_id + '" onclick="deleteFeature(this)"><i class="fa fa-trash-o"></i></button>';
@@ -228,7 +206,7 @@
                     },
                     <?php endif; ?>
                 ]
-            } );
+            });
         } );
         function showComments(x){
             $.ajax({
@@ -321,7 +299,6 @@
             });
         }
     </script>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
