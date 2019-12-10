@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BacklogTimeChart;
 use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -144,35 +145,23 @@ class TeamManagementController extends Controller
     }
 
     public function teamWorkData(Request $data){
-//        echo date('d/m/y',$data->date);
-        echo $data->date;
-        exit();
         if ($data->month){
             $month = $data->month;
         }else{
             $month = Carbon::now()->month;
-        };
+        }
         $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId != null){
-            $employeelist = DB::table('user')
-//                ->select('usertype.*','backlog_assignment.*','backlog.*','backlog_time_chart.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
-//                ->leftJoin('usertype','usertype.userTypeId','user.fk_userTypeId')
-                ->leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
-//                ->leftJoin('designation','designation.designation_id','user.designation')
-                ->leftJoin('backlog_assignment','backlog_assignment.fk_assigned_employee_user_id','user.userId')
-                ->leftJoin('backlog','backlog.backlog_id','backlog_assignment.fk_backlog_id')
-                ->leftJoin('backlog_time_chart',function ($join) {
-                    $join->on('backlog_time_chart.backlog_id', '=' , 'backlog.backlog_id') ;
-                    $join->on('backlog_time_chart.user_id','=','user.userId') ;
-                })
-//                ->leftJoin('project','project.projectId','backlog.fk_project_id')
+            $employeelist = BacklogTimeChart::select('backlog.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
+                ->leftJoin('user','user.userId','backlog_time_chart.user_id')
+                ->leftJoin('backlog','backlog.backlog_id','backlog_time_chart.backlog_id')
+                ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
                 ->whereNotIn('backlog.backlog_state',['Complete','Code Done'])
-//                ->whereMonth('backlog_time_chart.date', $month)
-//                ->whereRaw('MONTH(backlog_time_chart.date)', $month)
-                ->where('companyemployee.fk_companyId', $userCompanyId)
-                ->groupBy('user.userId')
+                ->whereMonth('backlog_time_chart.date', $month)
+                ->where('project.fk_company_id', $userCompanyId)
+                ->groupBy('backlog.backlog_id')
                 ->get();
             $datatables = Datatables::of($employeelist);
             return $datatables->make(true);
