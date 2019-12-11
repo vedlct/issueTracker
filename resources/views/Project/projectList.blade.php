@@ -12,9 +12,23 @@
 @endsection
 
 @section('content')
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
 <div class="container-fluid">
-    <div class="card">
+    <div class="card top top1">
         <div class="card-header">
             <h5 class="float-left">Projects Information</h5>
             @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 5)

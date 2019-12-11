@@ -28,8 +28,22 @@
 
 
     </style>
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top1{
+                margin-top: 20%;
+            }
 
-    <div class="container-fluid row">
+        }
+        @media only screen and (max-width: 337px){
+            .top2{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
+
+    <div class="container-fluid row top1 top2">
 
         @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4)
             {{-- view for Admin personal --}}
@@ -122,7 +136,7 @@
                         {{--<a href="{{ route('ticket.create') }}" class="btn btn-secondary float-right" name="button">Create Ticket</a>--}}
                         <button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>
 
-                        <ul class="nav nav-tabs justify-content-center">
+                        <ul class="nav nav-tabs top to1">
                             <li class="nav-item">
                                 <a class="nav-link c2" onClick = "ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-primary"> {{ $allticket }} </span> @endif </a>
                             </li>

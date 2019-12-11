@@ -44,9 +44,23 @@
 
         }
     </style>
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top5{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top6{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
 
-    <div class="card">
+    <div class="card top5 top6">
         <h5 class="card-header mt-0">
             <div class="row">
                 <div class="col-md-3 col-sm-3">

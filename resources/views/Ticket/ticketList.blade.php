@@ -30,8 +30,22 @@
 
     }
 </style>
+<style>
+    @media only screen and (min-width: 338px) and (max-width: 379px){
+        .top2{
+            margin-top: 20%;
+        }
 
-<div class="container-fluid row">
+    }
+    @media only screen and (max-width: 337px){
+        .top3{
+            margin-top: 60%;
+        }
+
+    }
+</style>
+
+<div class="container-fluid row top2 top3">
 
     {{-- view for admin --}}
     @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 3)

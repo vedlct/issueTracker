@@ -21,6 +21,20 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        @media  only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media  only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
     
     <?php if(Auth::user()->fk_userTypeId == 3): ?>
@@ -119,7 +133,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-xl-3 top top1">
                 <div class="card m-b-30">
                     <div class="card-body">
 
@@ -247,15 +261,17 @@
                                 <tbody>
                                 <?php if($employeeTicket): ?>
                                 <?php $__currentLoopData = $employeeTicket; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employeeTic): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr>
-                                    <th scope="row"><?php echo e($employeeTic->fullName); ?></th>
+                                    <?php if($employeeTic->fk_company_id == Auth::user()->fkCompanyId): ?>
+                                        <tr>
+                                            <th scope="row"><?php echo e($employeeTic->fullName); ?></th>
 
-                                <?php if($employeeTic->backlog_state == 'Ongoing'): ?>
-                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>" style="color: red;"><?php echo e($employeeTic->project_name); ?></a></td>
-                                <?php else: ?>
-                                    <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>"><?php echo e($employeeTic->project_name); ?></a></td>
-                                <?php endif; ?>
-                                </tr>
+                                        <?php if($employeeTic->backlog_state == 'Ongoing'): ?>
+                                            <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>" style="color: red;"><?php echo e($employeeTic->project_name); ?></a></td>
+                                        <?php else: ?>
+                                            <td><a href="javascript:void(0)" onclick="backLogDetailsShow(this)" backlog_title="<?php echo e($employeeTic->backlog_title); ?>" backlog_start_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_start_date)->toFormattedDateString()); ?>" backlog_end_date="<?php echo e(\Carbon\Carbon::parse($employeeTic->backlog_end_date)->toFormattedDateString()); ?>" project_name="<?php echo e($employeeTic->project_name); ?>"><?php echo e($employeeTic->project_name); ?></a></td>
+                                        <?php endif; ?>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                                 </tbody>
@@ -522,9 +538,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p style="font-size: 30px"><strong>Backlog Tittle - </strong><span id="baclogtittle"></span> </p>
-                    <p style="font-size: 30px"><strong>Backlog Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
-                    <p style="font-size: 30px"><strong>Backlog End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
+                    <p style="font-size: 30px"><strong>Tittle - </strong><span id="baclogtittle"></span> </p>
+                    <p style="font-size: 30px"><strong>Start Date - </strong><span id="baclogstartdate" style="color: green"></span> </p>
+                    <p style="font-size: 30px"><strong>End Date - </strong><span id="baclogenddate" style="color: red"></span> </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

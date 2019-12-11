@@ -10,6 +10,20 @@
 
 
 @section('content')
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
     {{--<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">--}}
         {{--<div class="modal-dialog" role="document">--}}
@@ -89,7 +103,7 @@
 
 
     <div class="container-fluid">
-        <div class="card">
+        <div class="card top top1">
             <div class="card-header">
                 <h4 style="font-weight: 300; display: inline;">Department Settings</h4>
                 <div class="pull-right">

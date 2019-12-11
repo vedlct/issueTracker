@@ -11,8 +11,22 @@
 
 
 @section('content')
+    <style>
+        @media only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
 
-    <div class="row ml-3">
+        }
+        @media only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
+
+    <div class="row ml-3 top top1">
         @foreach($projects as $project)
 
             <div class="card m-4" style="width: 20rem;">

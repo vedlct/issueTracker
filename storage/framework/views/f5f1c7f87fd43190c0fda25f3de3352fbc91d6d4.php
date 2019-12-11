@@ -44,37 +44,37 @@
             <div class="card mb-3">
                 <h5 class="card-header mt-0">Today's List</h5>
                 <?php $__currentLoopData = $MY_Companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <h5 style="margin-left:10px"><b><?php echo e($company->companyName); ?></b></h5>
-                <div class="card-body">
-                    <?php $__currentLoopData = $mybacklogs->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <b>Backlog : </b> <?php echo e($mybacklog->backlog_title); ?>
+                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b><?php echo e($company->companyName); ?></b></h5>
+                    <div class="card-body">
+                        <?php $__currentLoopData = $mybacklogs->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div <?php if($mybacklog->backlog_state == 'Planned'): ?> style="background-color: #FFFF00;" <?php endif; ?> class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <b>Backlog : </b> <?php echo e($mybacklog->backlog_title); ?>
 
-                                    </div>
-                                    <div class="col-md-3">
-                                        <b>Project : </b> <?php echo e($mybacklog->project_name); ?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <b>Project : </b> <?php echo e($mybacklog->project_name); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog State : </b> <?php echo e($mybacklog->backlog_state); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog State : </b> <?php echo e($mybacklog->backlog_state); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog Start Date : </b> <?php echo e($mybacklog->backlog_start_date); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog Start Date : </b> <?php echo e($mybacklog->backlog_start_date); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog End Date : </b> <?php echo e($mybacklog->backlog_end_date); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog End Date : </b> <?php echo e($mybacklog->backlog_end_date); ?>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
@@ -84,37 +84,37 @@
             <div class="card">
                 <h5 class="card-header mt-0">Past Due</h5>
                 <?php $__currentLoopData = $MY_Companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <h5 style="margin-left:10px"><b><?php echo e($company->companyName); ?></b></h5>
-                <div class="card-body">
-                    <?php $__currentLoopData = $mybacklogsMissed->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <b>Backlog : </b> <?php echo e($mybacklog->backlog_title); ?>
+                    <h5 style="margin-left:20px;font-weight: 300; text-decoration: underline;"><b><?php echo e($company->companyName); ?></b></h5>
+                    <div class="card-body">
+                        <?php $__currentLoopData = $mybacklogsMissed->where('fk_company_id',$company->companyId); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mybacklog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div <?php if($mybacklog->backlog_state == 'Planned'): ?> style="background-color: #FFFF00;" <?php endif; ?> class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= <?php echo e($mybacklog->backlog_id); ?>>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <b>Backlog : </b> <?php echo e($mybacklog->backlog_title); ?>
 
-                                    </div>
-                                    <div class="col-md-3">
-                                        <b>Project : </b> <?php echo e($mybacklog->project_name); ?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <b>Project : </b> <?php echo e($mybacklog->project_name); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog State : </b> <?php echo e($mybacklog->backlog_state); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog State : </b> <?php echo e($mybacklog->backlog_state); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog Start Date : </b> <?php echo e($mybacklog->backlog_start_date); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog Start Date : </b> <?php echo e($mybacklog->backlog_start_date); ?>
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <b>Backlog End Date : </b> <?php echo e($mybacklog->backlog_end_date); ?>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Backlog End Date : </b> <?php echo e($mybacklog->backlog_end_date); ?>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
 
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
@@ -125,35 +125,28 @@
     
     <div class="card mb-4" style="margin-left: 20px;">
         <div class="card-header mt-0">
-
-                <h5 style="margin: 0">Project Summary</h5>
-
-
+            <h5 style="margin: 0">Project Summary</h5>
         </div>
         <div class="card-body">
 
-
             <div class="row" >
                 <?php $__currentLoopData = $MY_Companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-
-                
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card newCard">
-                        <div class="card-header">    <h5 style="margin-left:10px"><b><?php echo e($company->companyName); ?></b></h5></div>
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="<?php echo e(route('project.showAllProject')); ?>">No. of Project</a></h5>
-                            <div class="text-right">
-                                <h4 class="font-light m-b-0"> <?php echo e($projectCount->where('fk_company_id',$company->companyId)->count()); ?> </h4>
+                    
+                    <div class="col-lg-2 col-md-6 mb-2">
+                        <div class="card">
+                            <div class="card-header p-0">
+                                <h5 style="margin-left:20px;font-weight: 300;"><b><?php echo e($company->companyName); ?></b></h5>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="<?php echo e(route('project.showAllProject')); ?>">No. of Project</a></h5>
+                                <div class="text-right">
+                                    <h4 class="font-light m-b-0"> <?php echo e($projectCount->where('fk_company_id',$company->companyId)->count()); ?> </h4>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-
-
-
 
             <div class="card mt-2">
 
@@ -179,7 +172,7 @@
         </div>
         <div class="card-body">
             <?php $__currentLoopData = $MY_Companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <h5 style="margin-left:10px"><b><?php echo e($company->companyName); ?></b></h5>
+                <h5 style="margin-left:10px;font-weight: 300;"><b><?php echo e($company->companyName); ?></b></h5>
             <div class="row" >
 
                 
@@ -234,7 +227,7 @@
         </div>
         <div class="card-body">
             <?php $__currentLoopData = $MY_Companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <h5 style="margin-left:10px"><b><?php echo e($company->companyName); ?></b></h5>
+                <h5 style="margin-left:10px; font-weight: 300;"><b><?php echo e($company->companyName); ?></b></h5>
             <div class="row" >
 
                 <div class="col-lg-2 col-md-6 mb-2">
@@ -322,4 +315,5 @@
     </script>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.mainLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
