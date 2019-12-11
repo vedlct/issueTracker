@@ -1,5 +1,9 @@
 @extends('layouts.mainLayout')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+@endsection
+
 @section('content')
 
     <div class="container-fluid">
@@ -7,7 +11,11 @@
             <div class="card-header">
                 <h4 class="float-left">Employee Work</h4>
                 <div class="pull-right">
-                    <button class="btn btn-sm btn-success" id="Select_month">Select Month</button>
+{{--                    <button class="btn btn-sm btn-success" id="Select_month">Select Month</button>--}}
+                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -34,49 +42,69 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <script>
-        $('#Select_month').datepicker({
-            format: "mm-yyyy",
-            viewMode: "months",
-            minViewMode: "months"
-        })
-        .on('changeDate', function(){
-            $('#Select_month').datepicker('hide');
-            dataTable.ajax.reload();
-        });
 
         $(document).ready(function() {
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+            cb(start, end);
+
+            table(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+
+            $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+                table(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'));
+            });
+        } );
+
+        function table(start_,end_) {
             dataTable = $('#employeeWorkTable').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
-                ordering:false,
-                "ajax":{
+                ordering: false,
+                "bDestroy": true,
+                "ajax": {
                     "url": "{!! route('team.work.data') !!}",
                     "type": "POST",
-                    data:function (d){
-                        d._token="{{csrf_token()}}";
-                        var jsDate = $('#Select_month').datepicker('getDate');
-                        if (jsDate !== null) {
-                            jsDate instanceof Date;
-                            d.month = jsDate.getMonth() + 1;
-                        }
-                    },
+                    data: function (d) {
+                        d._token = "{{csrf_token()}}";
+                        d.start_date = start_;
+                        d.end_date = end_;
+                    }
                 },
                 columns: [
-                    { data: 'fullName', name: 'user.fullName' },
-                    { data: 'project_name', name: 'project.project_name' },
-                    { data: 'backlog_title', name: 'backlog.backlog_title' },
-                    { data: 'backlog_time', name: 'backlog.backlog_time' },
-                    { data: 'declare_hour', name: 'backlog_time_chart.hour' },
-                    { data: 'backlog_state', name: 'backlog.backlog_state' },
-                    { data: 'backlog_start_date', name: 'backlog.backlog_start_date' },
-                    { data: 'backlog_end_date', name: 'backlog.backlog_end_date' },
+                    {data: 'fullName', name: 'user.fullName'},
+                    {data: 'project_name', name: 'project.project_name'},
+                    {data: 'backlog_title', name: 'backlog.backlog_title'},
+                    {data: 'backlog_time', name: 'backlog.backlog_time'},
+                    {data: 'hour', name: 'backlog_time_chart.hour'},
+                    {data: 'backlog_state', name: 'backlog.backlog_state'},
+                    {data: 'backlog_start_date', name: 'backlog.backlog_start_date'},
+                    {data: 'backlog_end_date', name: 'backlog.backlog_end_date'},
                 ]
-            } );
-        } );
-
+            });
+        }
     </script>
 @endsection
