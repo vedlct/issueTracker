@@ -34,20 +34,7 @@
             </div>
             <div class="card-body">
                 <div class="table table-responsive">
-                    <table id="employeeWorkTable" class="table-bordered table-condensed text-center table-hover" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>Full name</th>
-                            <th>Project</th>
-                            <th>Feature</th>
-                            <th>Time Allocated</th>
-                            <th>Time Declare</th>
-                            <th>State</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <table id="employeeWorkTable" class="table-bordered table-condensed text-center table-hover" style="width:100%"></table>
                 </div>
             </div>
         </div>
@@ -92,13 +79,10 @@
 
         function table(start_,end_) {
             dataTable = $('#employeeWorkTable').DataTable({
-                responsive: true,
                 processing: true,
                 serverSide: true,
-                Filter: true,
-                stateSave: true,
-                ordering: false,
-                "bDestroy": true,
+                bDestroy: true,
+                responsive: true,
                 "ajax": {
                     "url": "{!! route('team.work.data') !!}",
                     "type": "POST",
@@ -109,14 +93,15 @@
                     }
                 },
                 columns: [
-                    {data: 'fullName', name: 'user.fullName'},
-                    {data: 'project_name', name: 'project.project_name'},
-                    {data: 'backlog_title', name: 'backlog.backlog_title'},
-                    {data: 'backlog_time', name: 'backlog.backlog_time'},
-                    {data: 'hour', name: 'backlog_time_chart.hour'},
-                    {data: 'backlog_state', name: 'backlog.backlog_state'},
-                    {data: 'backlog_start_date', name: 'backlog.backlog_start_date'},
-                    {data: 'backlog_end_date', name: 'backlog.backlog_end_date'},
+                    { title: 'Full name', data: 'fullName', orderable: true, searchable:true},
+                    { title: 'Project', data: 'project_name', orderable: false, searchable:true },
+                    { title: 'Feature', data: 'backlog_title', orderable: false, searchable:true },
+                    { title: 'Allocated Time', data: 'backlog_time',"orderable": true, searchable:true },
+                    { title: 'Declared Time', data: 'hour', "orderable": true, searchable:true },
+                    { title: 'Declared Date', data: 'date', "orderable": true, searchable:true },
+                    { title: 'State', data: 'backlog_state', "orderable": true, searchable:true },
+                    { title: 'Start Time', data: 'backlog_start_date', "orderable": false, searchable:true },
+                    { title: 'End Time', data: 'backlog_end_date', orderable: false, searchable:true }
                 ]
             });
         }

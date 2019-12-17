@@ -21,6 +21,20 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        @media  only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media  only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
     
     <?php if(Auth::user()->fk_userTypeId == 3): ?>
@@ -119,7 +133,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-xl-3 top top1">
                 <div class="card m-b-30">
                     <div class="card-body">
 

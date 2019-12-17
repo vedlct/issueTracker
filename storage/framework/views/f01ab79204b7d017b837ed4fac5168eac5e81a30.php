@@ -7,9 +7,23 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        @media  only screen and (min-width: 338px) and (max-width: 379px){
+            .top{
+                margin-top: 20%;
+            }
+
+        }
+        @media  only screen and (max-width: 337px){
+            .top1{
+                margin-top: 60%;
+            }
+
+        }
+    </style>
 
     <div class="container-fluid">
-        <div class="card">
+        <div class="card top top1">
             <div class="card-header">
                 <h4 class="float-left">Employee List</h4>
                 <a href="<?php echo e(route('user.add.employee')); ?>" class="btn btn-success float-right" name="button">Add Employee</a>

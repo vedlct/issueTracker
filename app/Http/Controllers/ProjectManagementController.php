@@ -100,6 +100,7 @@ class ProjectManagementController extends Controller
                                 ->Join('status','project.project_status','status.statusId')
                                 ->where('project.project_deleted_at', null)
                                 ->where('project.project_status', '!=', 6)
+                                ->orderBy('project.projectId', 'DESC')
                                 ->get();
         }
         else
@@ -119,7 +120,9 @@ class ProjectManagementController extends Controller
             }
 
             $projects=$projects->where('project.project_deleted_at', null)
-                               ->where('project.project_status', '!=', 6)->get();
+                                ->where('project.project_status', '!=', 6)
+                                ->orderBy('project.projectId', 'DESC')
+                                ->get();
         }
 
         return view('Project.ProjectManagement.projectList')->with('projects', $projects)
@@ -386,7 +389,9 @@ class ProjectManagementController extends Controller
         if($r->backlog_state == 'Ongoing'){
             $backlogTimeChart = new BacklogTimeChart();
             $backlogTimeChart->backlog_id = $r->backlog_id;
-            $backlogTimeChart->hour = $r->hour;
+            if ($r->hour){
+                $backlogTimeChart->hour = $r->hour;
+            }
             $backlogTimeChart->user_id = Auth::user()->userId;
             $backlogTimeChart->date = date('Y-m-d');
             $backlogTimeChart->save();

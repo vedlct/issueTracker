@@ -148,16 +148,13 @@ class TeamManagementController extends Controller
         $userCompanyId = $this->getCompanyUserId();
 
         if($userCompanyId != null){
-            $employeelist = BacklogTimeChart::
-//            select('backlog.*','project.*','user.*',DB::raw('SUM(backlog_time_chart.hour) as declare_hour'))
-//                ->
-                leftJoin('user','user.userId','backlog_time_chart.user_id')
+            $employeelist = BacklogTimeChart::select('user.*','backlog.*','project.*','backlog_time_chart.*')
+                ->leftJoin('user','user.userId','backlog_time_chart.user_id')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_time_chart.backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
                 ->where('user.fk_userTypeId', 3)
                 ->whereBetween('backlog_time_chart.date', [$data->start_date, $data->end_date])
                 ->where('project.fk_company_id', $userCompanyId)
-//                ->groupBy('backlog.backlog_id')
                 ->get();
             $datatables = Datatables::of($employeelist);
             return $datatables->make(true);
