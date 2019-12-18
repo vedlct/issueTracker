@@ -152,7 +152,7 @@ class TeamManagementController extends Controller
                 ->leftJoin('user','user.userId','backlog_time_chart.user_id')
                 ->leftJoin('backlog','backlog.backlog_id','backlog_time_chart.backlog_id')
                 ->leftJoin('project','project.projectId','backlog.fk_project_id')
-                ->where('user.fk_userTypeId', 3)
+                ->whereIn('user.fk_userTypeId',[5,4])
                 ->whereBetween('backlog_time_chart.date', [$data->start_date, $data->end_date])
                 ->where('project.fk_company_id', $userCompanyId)
                 ->get();
