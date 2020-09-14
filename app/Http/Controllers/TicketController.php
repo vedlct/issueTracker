@@ -342,7 +342,7 @@ class TicketController extends Controller
         }
         else
         {
-            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
+            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
             {
                 $projectlist = Project::where('fk_company_id',$userCompanyId)->get();
             }
@@ -383,7 +383,7 @@ class TicketController extends Controller
 //            $allEmployeeEmails = User::whereIn('userId', $array)
 //                                     ->select('email')->get();
 //
-//            $array1 = array();
+            $array1 = array();
 //            foreach ($allEmployeeEmails as $emp)
 //            {
 //                array_push($array1, $emp->email);
@@ -457,7 +457,6 @@ class TicketController extends Controller
         {
             $ticket->ticketOpenerCompanyId = null;
         }
-
 
         $ticket->save();
 
@@ -611,6 +610,7 @@ class TicketController extends Controller
 
         $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
             ->where('user.fk_userTypeId', 4)
+            ->orWhere('user.fk_userTypeId', 2)
             ->where('companyemployee.fk_companyId', $userCompanyId)
             ->first()->email;
 
@@ -683,7 +683,7 @@ class TicketController extends Controller
 
     // show ticket edit
     public function ticketEdit(Request $r){
-
+        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4,2])->get();
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
 
@@ -706,10 +706,12 @@ class TicketController extends Controller
 
 
         $ticket = Ticket::findOrFail($r->id);
-
+        $ticket_reply = TicketReply::where('fk_ticketId',  $ticket->ticketId)->get();
         return view('Ticket.ticketEdit')->with('ticket', $ticket)
                                              ->with('employeeList', $employee)
-                                             ->with('teams', $teams);
+                                             ->with('teams', $teams)
+                                             ->with('froMail', $froMail)
+                                             ->with('ticket_reply', $ticket_reply);
     }
 
     // show generate excel page
@@ -766,8 +768,6 @@ class TicketController extends Controller
                                                  ->with('teams', $teams)
                                                  ->with('allEmp', $allEmp)
                                                  ->with('close', $closeCount);
-
-
     }
 
     // Update ticket main
@@ -784,6 +784,39 @@ class TicketController extends Controller
             $ticket->workedTimeType = $r->workTimeType;
         }
 
+        if($r->ticketStatus == 'Close'){
+
+            $userCompanyId = $this->getCompanyUserId();
+//            $ticketDetails = Ticket::where('ticketId', $r->ticketId)->first();
+            $ticketTopic = $ticket->ticketTopic;
+            $ticketId = $ticket->ticket_number;
+
+            $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
+                ->where('user.fk_userTypeId', 4)
+                ->orWhere('user.fk_userTypeId', 2)
+                ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->first()->email;
+            $data=array(
+                'name'=> 'Issuetracker',
+                'email'=> $company_admin_mail,
+                'personal_note'=> $r->personal_note,
+                'ticketTopic' => $ticketTopic,
+                'ticketNo' => $ticketId,
+                'ticketId' => $r->ticketId,
+            );
+
+            $mailAddresses = $r->email;
+
+            Mail::send('Ticket.closeMailView', $data, function($message)use($mailAddresses)
+            {
+                $message->to($mailAddresses, 'Ticket Close Mail')
+                    ->subject('Ticket Close');
+            });
+            $ticket->ticketStatus = $r->ticketStatus;
+
+        }else{
+            $ticket->ticketStatus = $r->ticketStatus;
+        }
         $ticket->ticketStatus = $r->ticketStatus;
         $ticket->end_at = $time;
 
@@ -799,7 +832,6 @@ class TicketController extends Controller
         }
 
         $ticket->save();
-
 
         Session::flash('message', 'Ticket Updated!');
 

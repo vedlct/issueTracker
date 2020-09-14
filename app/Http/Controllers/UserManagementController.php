@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\ClientContactPersonUserRelation;
 use App\Department;
 use App\Designation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Company;
 use App\User;
 use App\Employee;
-use Hash;
 use Session;
 use DB;
 use App\Client;
@@ -213,7 +214,7 @@ class UserManagementController extends Controller
         // AS A USER
         $user = new User();
         $user->fullName = $r->fullname;
-        $user->password = Hash::make($r->password1);
+        $user->password = Hash::make($r->password);
         $user->email = $r->email;
         $user->status = 1;
         $user->userPhoneNumber = $r->phone;
@@ -239,6 +240,11 @@ class UserManagementController extends Controller
         $client->userId = $user->userId;
         $client->companyId = $r->companyId;
         $client->save();
+
+        $ClientContactPersonUserRelation = new ClientContactPersonUserRelation();
+        $ClientContactPersonUserRelation->clientId = $client->clientId;
+        $ClientContactPersonUserRelation->person_userId = $user->userId;
+        $ClientContactPersonUserRelation->save();
 
         Session::flash('message', 'Client Created!');
 

@@ -38,6 +38,26 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label>Emails</label>
+                        <select class="form-control" id="" name="email">
+                            <option selected disabled>Select Email</option>
+                            @foreach($froMail as $email)
+                            <option value="{{ $email->email }}">{{ $email->email }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Personal Note</label>
+                        <select class="form-control" id="" name="personal_note">
+                            <option selected disabled">Select Previous Comment</option>
+                            @foreach($ticket_reply as $reply)
+                                <option value="{{ $reply->replyData }}">{{ $reply->replyData }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     {{-- New Code --}}
 
                     @if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)

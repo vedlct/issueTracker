@@ -49,7 +49,7 @@ class ManageClientController extends Controller
 //        $user->created_at = date('Y-m-d H:i:s');
 //        $user->fk_userTypeId = '2';
 //        $user->save();
-
+        $date = date('Y-m-d h:i:s');
         $client = new Client();
         if($r->companyId)
         {
@@ -64,10 +64,23 @@ class ManageClientController extends Controller
         $client->created_at = date('Y-m-d H:i:s');
         $client->save();
 
-//        $ClientContactPersonUserRelation = new ClientContactPersonUserRelation();
-//        $ClientContactPersonUserRelation->clientId = $client->clientId;
-//        $ClientContactPersonUserRelation->person_userId = $user->userId;
-//        $ClientContactPersonUserRelation->save();
+        $user = new User();
+        $user->fullName = $r->name;
+        $user->password = Hash::make($r->password);
+        $user->email = $r->email;
+        $user->status = 1;
+        $user->userPhoneNumber = null;
+        $user->created_at = $date;
+        $user->updated_at = $date;
+        $user->fk_userTypeId = 2;
+        $user->fkCompanyId = Auth::user()->fkCompanyId;
+        $user->save();
+
+
+        $ClientContactPersonUserRelation = new ClientContactPersonUserRelation();
+        $ClientContactPersonUserRelation->clientId = $client->clientId;
+        $ClientContactPersonUserRelation->person_userId = $user->userId;
+        $ClientContactPersonUserRelation->save();
 
         Session::flash('message', 'New Client Created!');
 

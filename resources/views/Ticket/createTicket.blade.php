@@ -30,7 +30,6 @@
                         <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
 
-
                     <div class="form-group col-md-3">
                         <label>Select Project</label>
                         <select class="form-control" name="project" required>
