@@ -39,7 +39,7 @@ class TicketController extends Controller
         {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
         }
-        if(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
+        elseif(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
         {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
@@ -617,9 +617,9 @@ class TicketController extends Controller
         $data=array(
             'name'=> 'Issuetracker',
             'email'=> $company_admin_mail,
-            'message'=> $r->replyData,
+            'message'=> strip_tags($r->replyData),
             'reply_user'=> Auth::user()->fullName,
-            'reply'=> $r->replyData,
+            'reply'=> strip_tags($r->replyData),
             'ticketOpner' => $ticketOpener,
             'ticketTopic' => $ticketTopic,
             'ticketNo' => $ticketId,
@@ -660,7 +660,7 @@ class TicketController extends Controller
         $time = date('Y-m-d h:i:s');
 
         $ticketReply = new TicketReply();
-        $ticketReply->replyData = $r->replyData;
+        $ticketReply->replyData = strip_tags($r->replyData);
         $ticketReply->created_at = $time;
         $ticketReply->ticketReplyType = $r->type;
         $ticketReply->fk_ticketId = $r->ticketId;
