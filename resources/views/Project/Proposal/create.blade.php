@@ -40,7 +40,7 @@
 
                     <div class="form-group col-md-4">
                         <label>Duration</label>
-                        <input type="text" class="form-control" placeholder="Enter Duration" value="" name="duration">
+                        <input type="number" class="form-control" placeholder="Enter Duration" value="" name="duration">
                     </div>
 
                     <div class="form-group col-md-1">

@@ -135,6 +135,11 @@ class ManageClientController extends Controller
 
     // CONTACT PERSON INSERT
     public function insertContactPerson(Request $r){
+        $this->validate($r, [
+           'name' => 'required',
+           'email' => 'required|email',
+            'phone' => 'required',
+        ]);
 
 //        $r->validate([
 //            'Password' => 'required|same:Confirm_Password'
@@ -218,12 +223,12 @@ class ManageClientController extends Controller
 
     // DELETE CLIENT
     public function deleteContactPerson(Request $r){
-        $user = User::findOrFail($r->userId);
-        $user->deleted_at = date('Y-m-d h:i:s');
-        $user->save();
+//        $user = User::findOrFail($r->userId);
+//        $user->deleted_at = date('Y-m-d h:i:s');
+//        $user->save();
+        $id = $r->userId;
+        $contactPerson = ClientContactPersonUserRelation::where('person_userId', $id)->first();
 
-        $contactPerson = ClientContactPersonUserRelation::where('person_userId', $r->userId)->first();
-        $contactPerson->deleted_at = date('Y-m-d h:i:s');
         $contactPerson->save();
 
         return back();

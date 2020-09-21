@@ -27,7 +27,7 @@
 
                     <div class="form-group col-md-6">
                         <label>Phone 2</label>
-                        <input type="text" class="form-control" placeholder="Phone 2" value="" name="companyPhone2">
+                        <input type="tel" class="form-control" placeholder="Phone 2" value="" name="companyPhone2">
                     </div>
 
                     <div class="form-group col-md-12">

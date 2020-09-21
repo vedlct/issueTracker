@@ -62,7 +62,9 @@
                                 </select>
                             </div>
 
-
+{{--                        @foreach($projectPartnerList as $partnerCompanyId)--}}
+{{--                          {{ dd($partnerCompanyId->companyId) }}--}}
+{{--                        @endforeach--}}
 
                         {{--@endif--}}
 
@@ -71,20 +73,19 @@
                                 <input type="text" class="form-control" id="clientName" placeholder="Client Name" name="clientName">
                             </div>
                     @endif
-
+{{--{{ dd($project->fk_company_id) }}--}}
                     <div class="form-group col-md-4" id="CompanyPartner">
                         <label>Select Partner</label>
-                        <select class="form-control js-example-basic-multiple" name="fkPartnerCompanyId[]" multiple="multiple"id="setCompanyPartner">
-                            <option value="">Select Partner</option>
+                        <select class="form-control js-example-basic-multiple" name="fkPartnerCompanyId[]" multiple="multiple" id="setCompanyPartner">
                             @foreach($partnerCompany as $pC)
-                                <option value="{{$pC->companyId}}" >{{$pC->companyName}}</option>
+                                <option value="{{$pC->companyId}}">{{$pC->companyName}}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label>Project Summary</label>
-                        <textarea class="form-control" placeholder="Project Summary" name="summary">{{ $status->project_summary }}</textarea>
+                        <textarea class="form-control" placeholder="Project Summary" name="summary">{{ $project->project_summary }}</textarea>
                     </div>
 
                     {{--<span id="contact_person_space" class="col-md-12"></span>--}}
@@ -129,7 +130,6 @@
                                     </td>
                                     <td>
                                         <a href="{{route('project.partner.delete',['id'=>$pPL->projectPartnerId])}}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-trash fa-lg"></i>Delete</a>
-
                                     </td>
                                 </tr>
                             @endforeach

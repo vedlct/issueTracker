@@ -124,7 +124,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Designation</th>
+{{--                        <th>Designation</th>--}}
                         <th>Phone</th>
                         <th>Action</th>
                     </tr>
@@ -168,7 +168,7 @@
                     [
                         { data: 'fullName', name: 'user.fullName' },
                         { data: 'email', name: 'user.email' },
-                        { data: 'designation', name: 'user.designation' },
+                        // { data: 'designation', name: 'user.designation' },
                         { data: 'userPhoneNumber', name: 'user.userPhoneNumber' },
                         { "data": function(data)
                             {

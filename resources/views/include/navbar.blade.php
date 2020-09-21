@@ -125,25 +125,27 @@
                         @endif
                     </ul>
                 </li>
-                @if(Auth::user()->fk_userTypeId != 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
+                @if(Auth::user()->fk_userTypeId != 1 && Auth::user()->fk_userTypeId != 2 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                 <li>
                     <a href="{{route('team.work')}}" class="waves-effect">
                         <i class="fa fa-user"></i> <span> Employee Work</span>
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->fk_userTypeId != 1)
+                @if(Auth::user()->fk_userTypeId != 1 && Auth::user()->fk_userTypeId != 2)
                 <li>
                     <a href="{{route('today.work')}}" class="waves-effect">
                         <i class="fa fa-briefcase"></i> <span> Today Work</span>
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->fk_userTypeId != 2)
                 <li>
                     <a href="{{route('project.proposal')}}" class="waves-effect">
                         <i class="fa fa-life-ring" aria-hidden="true"></i><span> Project Proposal</span>
                     </a>
                 </li>
+                    @endif
         </div>
         <div class="clearfix"></div>
     </div>

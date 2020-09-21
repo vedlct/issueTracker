@@ -48,7 +48,7 @@
 
                     <div class="form-group col-md-4">
                         <label>Project Expected Duration</label>
-                        <input type="text" class="form-control" placeholder="Enter Project Expected Duration" value="" name="duration">
+                        <input type="number" class="form-control" placeholder="Enter Project Expected Duration" value="" name="duration">
                     </div>
 
                     <div class="form-group col-md-4">
