@@ -146,7 +146,7 @@ class TicketController extends Controller
 
             $assignedPerson = User::Join('ticket','ticket.ticketAssignPersonUserId','user.userId')->where('ticket.ticketId', $id)->first();
 
-            $teamid = Ticket::findOrFail($id)->first();
+            $teamid = Ticket::findOrFail($id);
 
             $teamMembers = User::Join('assignteam_new','assignteam_new.fk_userId','user.userId')
                 ->where('assignteam_new.fkteamId', $teamid->ticketAssignTeamId)->get();

@@ -223,12 +223,11 @@ class ManageClientController extends Controller
 
     // DELETE CLIENT
     public function deleteContactPerson(Request $r){
-//        $user = User::findOrFail($r->userId);
+        $user = User::findOrFail($r->userId);
 //        $user->deleted_at = date('Y-m-d h:i:s');
-//        $user->save();
-        $id = $r->userId;
-        $contactPerson = ClientContactPersonUserRelation::where('person_userId', $id)->first();
-
+        $user->delete();
+        $contactPerson = ClientContactPersonUserRelation::where('person_userId', $r->userId)->first();
+        $contactPerson->deleted_at = date('Y-m-d H:m:s');
         $contactPerson->save();
 
         return back();

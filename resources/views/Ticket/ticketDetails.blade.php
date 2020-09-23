@@ -74,7 +74,7 @@
             <div class="card-header bg-dark text-white custom-2">
                 <h4 class="float-left font-weight-normal">Ticket Information</h4>
             </div>
-
+{{--{{dd($teamMembers)}}--}}
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">

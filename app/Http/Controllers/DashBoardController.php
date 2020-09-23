@@ -66,7 +66,6 @@ class DashBoardController extends Controller
     public function clientDashboard()
     {
         $date = date('Y-m-d h:i:s');
-
             $clientId = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
 
 //        $clientId = Client::where('userId',Auth::user()->userId)->first();
