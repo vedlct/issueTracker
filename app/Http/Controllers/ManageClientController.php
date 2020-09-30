@@ -138,6 +138,7 @@ class ManageClientController extends Controller
         $this->validate($r, [
            'name' => 'required',
            'email' => 'required|email',
+            'password' => 'required',
             'phone' => 'required',
         ]);
 
@@ -148,7 +149,7 @@ class ManageClientController extends Controller
         // AS A USER
         $user = new User();
         $user->fullName = $r->name;
-        $user->password = '$2y$10$VAMHKPgG.ruAmRaYME.1X.CGPYG/.eKsRt.QCrL5ucs043yNqInqu';
+        $user->password = Hash::make($r->passwor);
         $user->email = $r->email;
         $user->status = 1;
         $user->userPhoneNumber = $r->phone;
