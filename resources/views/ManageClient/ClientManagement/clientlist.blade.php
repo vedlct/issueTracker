@@ -90,12 +90,12 @@
                                 <input type="text" class="form-control" name="email" placeholder="mail@gmail.com">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" name="password" placeholder="password">
-                            </div>
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            <label class="col-sm-3 col-form-label">Password</label>--}}
+{{--                            <div class="col-sm-9">--}}
+{{--                                <input type="password" class="form-control" name="password" placeholder="password">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Information</label>
                             <div class="col-sm-9">
