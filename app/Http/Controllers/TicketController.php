@@ -33,14 +33,12 @@ class TicketController extends Controller
     public $user_company_id;
 
     // Get user's company user id
-    public function getCompanyUserId(){
+    public function getCompanyUserId()
+    {
 
-        if(Auth::user()->fk_userTypeId == 2)
-        {
+        if (Auth::user()->fk_userTypeId == 2) {
             $this->user_company_id = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
-        }
-        elseif(Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
-        {
+        } elseif (Auth::user()->fk_userTypeId == 3 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5) {
             $this->user_company_id = Auth::user()->fkCompanyId;
         }
 //        if(Auth::user()->fk_userTypeId == 4)
@@ -48,8 +46,7 @@ class TicketController extends Controller
 ////            $this->user_company_id = Auth::user()->fkCompanyId;
 //            $this->user_company_id = Employee::where('employeeUserId', Auth::user()->userId)->first()->fk_companyId;
 //        }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
+        if (Auth::user()->fk_userTypeId == 1) {
             $this->user_company_id = null;
         }
 
@@ -58,24 +55,22 @@ class TicketController extends Controller
 
 //->orWhere('ticketOpenerCompanyId', Auth::user()->fkCompanyId)
     // view Ticket list
-    public function index(){
+    public function index()
+    {
 
-         $userCompanyId = $this->getCompanyUserId();
-         if(Auth::user()->fk_userTypeId == 2) {
-             $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first();
-             $projects = Project::where('fk_client_id', $client->clientId)->get();
-         }
-        if($userCompanyId == null)
-        {
+        $userCompanyId = $this->getCompanyUserId();
+        if (Auth::user()->fk_userTypeId == 2) {
+            $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first();
+            $projects = Project::where('fk_client_id', $client->clientId)->get();
+        }
+        if ($userCompanyId == null) {
             $date = date('Y-m-d h:i:s');
-            $allTicket= Ticket::all()->count();
+            $allTicket = Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->count();
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
             $pendingCount = Ticket::where('ticketStatus', 'Pending')->count();
             $closeCount = Ticket::where('ticketStatus', 'Close')->count();;
-        }
-        else
-        {
+        } else {
             $date = date('Y-m-d h:i:s');
 
             $openCount = Ticket::where('ticketStatus', 'Open');
@@ -84,93 +79,85 @@ class TicketController extends Controller
             $pendingCount = Ticket::where('ticketStatus', 'Pending');
             $closeCount = Ticket::where('ticketStatus', 'Close');
 
-            if(Auth::user()->fk_userTypeId == 2)
-            {
-                $allTicket = Ticket::where(function ($query) use($projects){
-                    foreach ($projects as $project){
+            if (Auth::user()->fk_userTypeId == 2) {
+
+                $allTicket = Ticket::where(function ($query) use ($projects) {
+                    foreach ($projects as $project) {
                         $query->orWhere('fk_projectId', $project->projectId);
                     }
                 })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->count();
 
-                $openCount=$openCount->where(function ($query) use($projects){
-                    foreach ($projects as $project){
+                $openCount = $openCount->where(function ($query) use ($projects) {
+                    foreach ($projects as $project) {
                         $query->orWhere('fk_projectId', $project->projectId);
                     }
                 })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
 
-                $overDueCount=$overDueCount->where(function ($query) use($projects){
-                    foreach ($projects as $project){
+                $overDueCount = $overDueCount->where(function ($query) use ($projects) {
+                    foreach ($projects as $project) {
                         $query->orWhere('fk_projectId', $project->projectId);
                     }
                 })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
-                $pendingCount=$pendingCount->where('fk_ticketOpenerId', Auth::user()->userId);
-                $closeCount=$closeCount->where('fk_ticketOpenerId', Auth::user()->userId);
+                $pendingCount = $pendingCount->where('fk_ticketOpenerId', Auth::user()->userId);
+                $closeCount = $closeCount->where('fk_ticketOpenerId', Auth::user()->userId);
 
-            }else{
-                $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
-                $openCount=$openCount->where('ticketOpenerCompanyId', $userCompanyId);
-                $overDueCount=$overDueCount->where('ticketOpenerCompanyId', $userCompanyId);
-                $pendingCount=$pendingCount->where('ticketOpenerCompanyId', $userCompanyId);
-                $closeCount=$closeCount->where('ticketOpenerCompanyId', $userCompanyId);
+            } else {
+                $allTicket = Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
+                $openCount = $openCount->where('ticketOpenerCompanyId', $userCompanyId);
+                $overDueCount = $overDueCount->where('ticketOpenerCompanyId', $userCompanyId);
+                $pendingCount = $pendingCount->where('ticketOpenerCompanyId', $userCompanyId);
+                $closeCount = $closeCount->where('ticketOpenerCompanyId', $userCompanyId);
 
             }
 
-            $openCount=$openCount->count();
+            $openCount = $openCount->count();
             $overDueCount = $overDueCount->count();
-            $pendingCount=$pendingCount->count();
+            $pendingCount = $pendingCount->count();
             $closeCount = $closeCount->count();
         }
 
-
-
-
-
-        if($userCompanyId == null)
-        {
+        if ($userCompanyId == null) {
             $teams = Team::all();
             $allEmp = User::where('fk_userTypeId', 3)->get();
-        }
-        else
-        {
+        } else {
             $teams = Team::where('fk_companyId', $userCompanyId)->get();
             $allEmp = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')->where('companyemployee.fk_companyId', $userCompanyId)->where('user.fk_userTypeId', 3)->get();
         }
 
 
         return view('Ticket.ticketList')->with('openticket', $openCount)
-                                             ->with('overdue', $overDueCount)
-                                             ->with('pending', $pendingCount)
-                                             ->with('allticket', $allTicket)
-                                             ->with('teams', $teams)
-                                             ->with('allEmp', $allEmp)
-                                             ->with('close', $closeCount);
+            ->with('overdue', $overDueCount)
+            ->with('pending', $pendingCount)
+            ->with('allticket', $allTicket)
+            ->with('teams', $teams)
+            ->with('allEmp', $allEmp)
+            ->with('close', $closeCount);
     }
 
     // view Ticket info
-    public function showTicket($id){
+    public function showTicket($id)
+    {
 
-        if(!Auth::check()) {
+        if (!Auth::check()) {
 
             return redirect()->route('login')->with('ticket_id');
 
-        }
-        else
-        {
-            $ticket = Ticket::select('ticket.*','user.fullName','team.teamName')
-                ->Join('user','ticket.fk_ticketOpenerId','user.userId')
-                ->leftJoin('team','team.teamId','ticket.ticketAssignTeamId')
+        } else {
+            $ticket = Ticket::select('ticket.*', 'user.fullName', 'team.teamName')
+                ->Join('user', 'ticket.fk_ticketOpenerId', 'user.userId')
+                ->leftJoin('team', 'team.teamId', 'ticket.ticketAssignTeamId')
                 ->findOrFail($id);
 
-            $assignedPerson = User::Join('ticket','ticket.ticketAssignPersonUserId','user.userId')->where('ticket.ticketId', $id)->first();
+            $assignedPerson = User::Join('ticket', 'ticket.ticketAssignPersonUserId', 'user.userId')->where('ticket.ticketId', $id)->first();
 
             $teamid = Ticket::findOrFail($id);
 
-            $teamMembers = User::Join('assignteam_new','assignteam_new.fk_userId','user.userId')
+            $teamMembers = User::Join('assignteam_new', 'assignteam_new.fk_userId', 'user.userId')
                 ->where('assignteam_new.fkteamId', $teamid->ticketAssignTeamId)->get();
 
-            $ticketReplies = TicketReply::select('user.fullName','ticketreply.*')
+            $ticketReplies = TicketReply::select('user.fullName', 'ticketreply.*')
                 ->where('fk_ticketId', $id)
-                ->Join('user','ticketreply.fk_userId','user.userId')->orderBy('created_at')->get();
+                ->Join('user', 'ticketreply.fk_userId', 'user.userId')->orderBy('created_at')->get();
 
             $project = Project::where('projectId', $ticket->fk_projectId)->first();
             $user = User::where('userId', $ticket->fk_ticketOpenerId)->first();
@@ -185,8 +172,9 @@ class TicketController extends Controller
     }
 
     // get all Ticket
-    public function getAllTicket(Request $r){
-        if(Auth::user()->fk_userTypeId == 2) {
+    public function getAllTicket(Request $r)
+    {
+        if (Auth::user()->fk_userTypeId == 2) {
             $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first();
             $projects = Project::where('fk_client_id', $client->clientId)->get();
         }
@@ -195,169 +183,145 @@ class TicketController extends Controller
 
 
         // get all ticket of user's company if ticketTye is not null
-        if($r->ticketType != null)
-        {
+        if ($r->ticketType != null) {
             // only for super admin
-            if($userCompanyId == null)
-            {
-                if($r->overDue == "overdue")
-                {
+            if ($userCompanyId == null) {
+                if ($r->overDue == "overdue") {
                     $date = date('Y-m-d h:i:s');
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId')
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
                         ->whereDate('ticket.exp_end_date', '<=', $date)
                         ->where('ticket.ticketStatus', '!=', 'Close')
                         ->groupBy('ticket.ticketId');
-                }
-                elseif ($r->allTicket == "all")
-                {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId')
+                } elseif ($r->allTicket == "all") {
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
                         ->groupBy('ticket.ticketId');
-                }
-                else
-                {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId')
+                } else {
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
                         ->where('ticket.ticketStatus', $r->ticketType)
                         ->groupBy('ticket.ticketId');
                 }
-            }
-            // other user
-            else
-            {
-                if($r->overDue == "overdue")
-                {
+            } // other user
+            else {
+                if ($r->overDue == "overdue") {
                     $date = date('Y-m-d h:i:s');
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId');
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
 
-                        if(Auth::user()->fk_userTypeId == 2)
-                        {
-                            $tickets = $tickets->where(function ($query) use($projects){
-                                foreach ($projects as $project){
-                                    $query->orWhere('fk_projectId', $project->projectId);
-                                }
-                            })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
-
-                        }else{
-                            $tickets=$tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
-                        }
-                    $tickets=$tickets->whereDate('ticket.exp_end_date', '<=', $date)
-                        ->where('ticket.ticketStatus', '!=', 'Close')
-                        ->groupBy('ticket.ticketId');
-                }
-                elseif ($r->allTicket == "all")
-                {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId');
-                        if(Auth::user()->fk_userTypeId == 2)
-                        {
-
-                            $tickets=$tickets->where(function ($query) use($projects){
-                                foreach ($projects as $project){
-                                    $query->orWhere('fk_projectId', $project->projectId);
-                                }
-                            })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
-                        }else{
-                            $tickets=$tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
-                        }
-                    $tickets=$tickets->groupBy('ticket.ticketId');
-                }
-                else
-                {
-                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                        ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                        ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                        ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                        ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                        ->leftJoin('user','user.userId','assignteam_new.fk_userId');
-                        if(Auth::user()->fk_userTypeId == 2)
-                        {
-
-                            $tickets=$tickets->where(function ($query) use($projects){
-                                foreach ($projects as $project){
-                                    $query->orWhere('fk_projectId', $project->projectId);
-                                }
-                            })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
-                        }else{
-                            $tickets=$tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
-                        }
-                    $tickets=$tickets->where('ticket.ticketStatus', $r->ticketType)
-                        ->groupBy('ticket.ticketId');
-                }
-            }
-        }
-        // get all ticket of user's company if ticket type is null
-        else
-        {
-            if($userCompanyId == null)
-            {
-                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                    ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                    ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                    ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                    ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                    ->leftJoin('user','user.userId','assignteam_new.fk_userId')
-                    ->groupBy('ticket.ticketId');
-            }
-            else
-            {
-                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"),'ticket.*','createdUser.fullName as createdFullName','assignUser.fullName as assignFullName', 'project.*')
-                    ->leftJoin('project','project.projectId','ticket.fk_projectId')
-                    ->leftJoin('user as createdUser','createdUser.userId','ticket.fk_ticketOpenerId')
-                    ->leftJoin('user as assignUser','assignUser.userId','ticket.ticketAssignPersonUserId')
-                    ->leftJoin('assignteam_new','assignteam_new.fkteamId','ticket.ticketAssignTeamId')
-                    ->leftJoin('user','user.userId','assignteam_new.fk_userId');
-                    if(Auth::user()->fk_userTypeId == 2)
-                    {
-
-                        $tickets=$tickets->where(function ($query) use($projects){
-                            foreach ($projects as $project){
+                    if (Auth::user()->fk_userTypeId == 2) {
+                        $tickets = $tickets->where(function ($query) use ($projects) {
+                            foreach ($projects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId);
                             }
                         })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
-                    }else{
-                        $tickets=$tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+
+                    } else {
+                        $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
-                $tickets=$tickets->groupBy('ticket.ticketId');
+                    $tickets = $tickets->whereDate('ticket.exp_end_date', '<=', $date)
+                        ->where('ticket.ticketStatus', '!=', 'Close')
+                        ->groupBy('ticket.ticketId');
+                } elseif ($r->allTicket == "all") {
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
+                    if (Auth::user()->fk_userTypeId == 2) {
+
+                        $tickets = $tickets->where(function ($query) use ($projects) {
+                            foreach ($projects as $project) {
+                                $query->orWhere('fk_projectId', $project->projectId);
+                            }
+                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
+                    } else {
+                        $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                    }
+                    $tickets = $tickets->groupBy('ticket.ticketId');
+                } else {
+                    $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                        ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                        ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                        ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                        ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                        ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
+                    if (Auth::user()->fk_userTypeId == 2) {
+
+                        $tickets = $tickets->where(function ($query) use ($projects) {
+                            foreach ($projects as $project) {
+                                $query->orWhere('fk_projectId', $project->projectId);
+                            }
+                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
+                    } else {
+                        $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                    }
+                    $tickets = $tickets->where('ticket.ticketStatus', $r->ticketType)
+                        ->groupBy('ticket.ticketId');
+                }
+            }
+        } // get all ticket of user's company if ticket type is null
+        else {
+            if ($userCompanyId == null) {
+                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                    ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                    ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                    ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                    ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                    ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
+                    ->groupBy('ticket.ticketId');
+            } else {
+                $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                    ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                    ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                    ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                    ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                    ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
+                if (Auth::user()->fk_userTypeId == 2) {
+
+                    $tickets = $tickets->where(function ($query) use ($projects) {
+                        foreach ($projects as $project) {
+                            $query->orWhere('fk_projectId', $project->projectId);
+                        }
+                    })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
+                } else {
+                    $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                }
+                $tickets = $tickets->groupBy('ticket.ticketId');
             }
         }
 
 
-
         // filter
-        if($r->startDate){
-            $tickets= $tickets->whereDate('ticket.created_at', '>=', $r->startDate);
+        if ($r->startDate) {
+            $tickets = $tickets->whereDate('ticket.created_at', '>=', $r->startDate);
         }
-        if($r->endDate){
-            $tickets= $tickets->whereDate('ticket.created_at', '<=', $r->endDate);
+        if ($r->endDate) {
+            $tickets = $tickets->whereDate('ticket.created_at', '<=', $r->endDate);
         }
-        if($r->ticketStatus){
-            $tickets= $tickets->where('ticket.ticketStatus', $r->ticketStatus);
+        if ($r->ticketStatus) {
+            $tickets = $tickets->where('ticket.ticketStatus', $r->ticketStatus);
         }
 
-        $tickets= $tickets->orderBy('ticket.ticketId', 'desc');
+        $tickets = $tickets->orderBy('ticket.ticketId', 'desc');
 
 
         $datatables = Datatables::of($tickets->get());
@@ -365,54 +329,48 @@ class TicketController extends Controller
     }
 
     // view create ticket
-    public function createTicket(){
+    public function createTicket()
+    {
 
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
         $ticketType = TicketType::get();
 
         // get all project of user's company
-        if($userCompanyId == null)
-        {
+        if ($userCompanyId == null) {
             $projectlist = Project::all();
-        }
-        else
-        {
-            if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
-            {
-                $projectlist = Project::where('fk_company_id',$userCompanyId)->get();
-            }
-            else
-            {
-                $projectlist = Project::where('fk_client_id',$userCompanyId)->get();
+        } else {
+            if (Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5) {
+                $projectlist = Project::where('fk_company_id', $userCompanyId)->get();
+            } else {
+                $projectlist = Project::where('fk_client_id', $userCompanyId)->get();
             }
 
         }
 
 
         return view('Ticket.createTicket')
-                     ->with('projectlist', $projectlist)
-                     ->with('tickettype', $ticketType);
+            ->with('projectlist', $projectlist)
+            ->with('tickettype', $ticketType);
 
     }
 
     // insert ticket
-    public function insertTicket(Request $r){
+    public function insertTicket(Request $r)
+    {
 
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
 
 //        dd($userCompanyId);
 
-        if($userCompanyId != null)
-        {
+        if ($userCompanyId != null) {
             // get all client's company's all employee user_id
             $allEmp = Employee::where('fk_companyId', $userCompanyId)->get();
 
             $array = array();
 
-            foreach ($allEmp as $emp)
-            {
+            foreach ($allEmp as $emp) {
                 array_push($array, $emp->employeeUserId);
             }
 
@@ -431,20 +389,16 @@ class TicketController extends Controller
 
             $array = array();
 
-            foreach ($client_contact_person as $client)
-            {
+            foreach ($client_contact_person as $client) {
                 array_push($array, $client->person_userId);
             }
 
             $allClientEmails = User::whereIn('userId', $array)->select('email')->get();
 
-            foreach ($allClientEmails as $client)
-            {
+            foreach ($allClientEmails as $client) {
                 array_push($array1, $client->email);
             }
-        }
-        else
-        {
+        } else {
             Session::flash('error_msg', 'Super admin cant create ticket!');
 
             return back();
@@ -468,29 +422,25 @@ class TicketController extends Controller
         $ticket->fk_ticketOpenerId = Auth::user()->userId;
 
 
-        if(Auth::user()->fk_userTypeId == 2)
-        {
+        if (Auth::user()->fk_userTypeId == 2) {
 //            $cliendId = $this->getCompanyUserId();
 //            $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
 //            $companyId = $ticketOpenerCompany;
             $ticket->ticketOpenerCompanyId = Auth::user()->fkCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 3)
-        {
+        if (Auth::user()->fk_userTypeId == 3) {
 //            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
 //            $companyId = $ticketOpenerCompany->fk_companyId;
 
             $ticket->ticketOpenerCompanyId = $userCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 4)
-        {
+        if (Auth::user()->fk_userTypeId == 4) {
 //            $ticketOpenerCompany = Employee::where('employeeUserId', Auth::user()->userId)->first();
 //            $companyId = $ticketOpenerCompany->fk_companyId;
 
             $ticket->ticketOpenerCompanyId = $userCompanyId;
         }
-        if(Auth::user()->fk_userTypeId == 1)
-        {
+        if (Auth::user()->fk_userTypeId == 1) {
             $ticket->ticketOpenerCompanyId = null;
         }
 
@@ -500,8 +450,7 @@ class TicketController extends Controller
         $ticket_no = mt_rand(100000, 999999);
         $ticket_no_i = Ticket::where('ticket_number', $ticket_no)->get();
 
-        while(count($ticket_no_i) > 0)
-        {
+        while (count($ticket_no_i) > 0) {
             $ticket_no = mt_rand(100000, 999999);
             $ticket_no_i = Ticket::where('ticket_number', $ticket_no)->get();
         }
@@ -516,7 +465,7 @@ class TicketController extends Controller
             $fileName = $ticket->ticketId . "." . $file->getClientOriginalExtension();
             $destinationPath = public_path('files/ticketFile');
             $file->move($destinationPath, $fileName);
-            $ticket->ticketFile=$fileName;
+            $ticket->ticketFile = $fileName;
             $ticket->save();
         }
         // set ticket number end
@@ -526,27 +475,27 @@ class TicketController extends Controller
         $priority = $r->priroty;
         $details = $r->details;
 
-      //  $projectName = Project::where('projectId', $r->project)->first()->project_name;
+        //  $projectName = Project::where('projectId', $r->project)->first()->project_name;
 
 //        $cliendId = $this->getCompanyUserId();
 //        $ticketOpenerCompany = Client::findOrFail($cliendId)->first()->clientCompanyId;
 //        $companyId = $ticketOpenerCompany;
 
         $company_admin_mail = User::leftJoin('companyemployee', 'companyemployee.employeeUserId', 'user.userId')
-                                  ->where('user.fk_userTypeId', 4)
-                                  ->where('companyemployee.fk_companyId', Auth::user()->fkCompanyId)
-                                  ->first()->email;
+            ->where('user.fk_userTypeId', 4)
+            ->where('companyemployee.fk_companyId', Auth::user()->fkCompanyId)
+            ->first()->email;
 
-        $data=array(
-            'name'=> 'Arabi Kabir',
-            'email'=> $company_admin_mail,
-            'message'=> 'New Ticket is created',
-            'ticketOpenerName'=> $ticketOpenerName,
-            'priority'=> $priority,
-            'details'=> $details,
-            'ticketNo'=> $ticket_no,
-            'ticketId'=> $ticket->ticketId,
-            'ticketTopic'=> $ticket->ticketTopic,
+        $data = array(
+            'name' => 'Arabi Kabir',
+            'email' => $company_admin_mail,
+            'message' => 'New Ticket is created',
+            'ticketOpenerName' => $ticketOpenerName,
+            'priority' => $priority,
+            'details' => $details,
+            'ticketNo' => $ticket_no,
+            'ticketId' => $ticket->ticketId,
+            'ticketTopic' => $ticket->ticketTopic,
         );
 
 //        Mail::send('Ticket.mailView', $data, function($message) use ($data, $array1)
@@ -556,18 +505,17 @@ class TicketController extends Controller
 //                    ->subject('New Ticket Created');
 //        });
         // End Send Mail
-        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
-        if (count($froMail)>0){
-            $address = $froMail->where('fk_userTypeId',4)->first()->email;
+        $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
+        if (count($froMail) > 0) {
+            $address = $froMail->where('fk_userTypeId', 4)->first()->email;
             $mailAddresses = [];
             foreach ($froMail as $mailAddress) {
-                if ($mailAddress->email != $address){
+                if ($mailAddress->email != $address) {
                     $mailAddresses[] = $mailAddress->email;
                 }
             }
 
-            Mail::send('Ticket.mailView', $data, function($message)use($mailAddresses,$address)
-            {
+            Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
                 $message->to($address, 'Admin')
                     ->cc($mailAddresses)
                     ->subject('New Ticket Created');
@@ -582,14 +530,16 @@ class TicketController extends Controller
 
 
     // return ck editor view
-    public function returnCkEditorView(Request $r){
+    public function returnCkEditorView(Request $r)
+    {
         $ticket = Ticket::findOrFail($r->id);
         return view('Ticket.ckEditorView')->with('ticket', $ticket);
     }
 
 
     // update ticket details
-    public function updateTicketDetails(Request $r){
+    public function updateTicketDetails(Request $r)
+    {
         $ticket = Ticket::findOrFail($r->ticket_id);
         $ticket->ticketDetails = $r->details;
         $ticket->save();
@@ -600,13 +550,13 @@ class TicketController extends Controller
     }
 
     // insert ticket reply
-    public function insertReply(Request $r){
+    public function insertReply(Request $r)
+    {
 
         $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
-        if($userCompanyId != null)
-        {
+        if ($userCompanyId != null) {
             // get ticket opener email
             $array1 = array();
             $ticketDetails = Ticket::where('ticketId', $r->ticketId)->first();
@@ -636,9 +586,7 @@ class TicketController extends Controller
 //            {
 //                array_push($array1, $emp->email);
 //            }
-        }
-        else
-        {
+        } else {
             Session::flash('error_msg', 'Super admin cant reply on ticket!');
 
             return back();
@@ -650,12 +598,12 @@ class TicketController extends Controller
             ->where('companyemployee.fk_companyId', $userCompanyId)
             ->first()->email;
 
-        $data=array(
-            'name'=> 'Issuetracker',
-            'email'=> $company_admin_mail,
-            'message'=> strip_tags($r->replyData),
-            'reply_user'=> Auth::user()->fullName,
-            'reply'=> strip_tags($r->replyData),
+        $data = array(
+            'name' => 'Issuetracker',
+            'email' => $company_admin_mail,
+            'message' => strip_tags($r->replyData),
+            'reply_user' => Auth::user()->fullName,
+            'reply' => strip_tags($r->replyData),
             'ticketOpner' => $ticketOpener,
             'ticketTopic' => $ticketTopic,
             'ticketNo' => $ticketId,
@@ -670,23 +618,22 @@ class TicketController extends Controller
 //                    ->subject('New Ticket Reply');
 //        });
 
-        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4])->get();
-        if (count($froMail)>0){
-            $address = $froMail->where('fk_userTypeId',4)->first()->email;
+        $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
+        if (count($froMail) > 0) {
+            $address = $froMail->where('fk_userTypeId', 4)->first()->email;
             $mailAddresses = [];
             $mailAddresses[] = Auth::user()->email;
-            $related = User::whereIn('userId',[$ticketopenerId,$ticketAssignPersonUserId])->get();
-            foreach ($related as $relatedMail){
+            $related = User::whereIn('userId', [$ticketopenerId, $ticketAssignPersonUserId])->get();
+            foreach ($related as $relatedMail) {
                 $mailAddresses[] = $relatedMail->email;
             }
             foreach ($froMail as $mailAddress) {
-                if ($mailAddress->email != $address){
+                if ($mailAddress->email != $address) {
                     $mailAddresses[] = $mailAddress->email;
                 }
             }
 
-            Mail::send('Ticket.replyMailView', $data, function($message)use($mailAddresses,$address)
-            {
+            Mail::send('Ticket.replyMailView', $data, function ($message) use ($mailAddresses, $address) {
                 $message->to($address, 'Ticket Reply Mail')
                     ->cc($mailAddresses)
                     ->subject('New Ticket Reply');
@@ -708,7 +655,7 @@ class TicketController extends Controller
             $fileName = $ticketReply->ticketReplyId . "." . $file->getClientOriginalExtension();
             $destinationPath = public_path('files/ticketReplyFile');
             $file->move($destinationPath, $fileName);
-            $ticketReply->ticketReplyFile=$fileName;
+            $ticketReply->ticketReplyFile = $fileName;
             $ticketReply->save();
         }
 
@@ -718,51 +665,48 @@ class TicketController extends Controller
     }
 
     // show ticket edit
-    public function ticketEdit(Request $r){
-        $froMail = User::select('email','fk_userTypeId')->where('fkCompanyId',Auth::user()->fkCompanyId)->whereIn('fk_userTypeId',[5,4,2])->get();
+    public function ticketEdit(Request $r)
+    {
+        $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4, 2])->get();
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
 
 
-        if($userCompanyId == null)
-        {
+        if ($userCompanyId == null) {
             $teams = Team::all();
-            $employee = DB::table('user')->where('fk_userTypeId',3)->get();
-        }
-        else
-        {
+            $employee = DB::table('user')->where('fk_userTypeId', 3)->get();
+        } else {
             $teams = Team::where('fk_companyId', $userCompanyId)->get();
 
             $employee = DB::table('user')->leftJoin('companyemployee', 'user.userId', 'companyemployee.employeeUserId')
-                                         ->whereIn('user.fk_userTypeId',[3,5])
-                                         ->where('companyemployee.fk_companyId', $userCompanyId)
-                                         ->get();
+                ->whereIn('user.fk_userTypeId', [3, 5])
+                ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->get();
         }
 
 
-
         $ticket = Ticket::findOrFail($r->id);
-        $ticket_reply = TicketReply::where('fk_ticketId',  $ticket->ticketId)->get();
+        $ticket_reply = TicketReply::where('fk_ticketId', $ticket->ticketId)->get();
         return view('Ticket.ticketEdit')->with('ticket', $ticket)
-                                             ->with('employeeList', $employee)
-                                             ->with('teams', $teams)
-                                             ->with('froMail', $froMail)
-                                             ->with('ticket_reply', $ticket_reply);
+            ->with('employeeList', $employee)
+            ->with('teams', $teams)
+            ->with('froMail', $froMail)
+            ->with('ticket_reply', $ticket_reply);
     }
 
     // show generate excel page
-    public function showGenerateExcel(){
+    public function showGenerateExcel()
+    {
 
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
 
 
-        if($userCompanyId == null)
-        {
+        if ($userCompanyId == null) {
             $date = date('Y-m-d h:i:s');
 
 
-            $allTicket= Ticket::all()->count();
+            $allTicket = Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')
                 ->count();
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
@@ -772,12 +716,10 @@ class TicketController extends Controller
                 ->count();
             $closeCount = Ticket::where('ticketStatus', 'Close')
                 ->count();;
-        }
-        else
-        {
+        } else {
             $date = date('Y-m-d h:i:s');
 
-            $allTicket= Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
+            $allTicket = Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
 
             $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
                 ->where('ticketStatus', 'Open')
@@ -798,29 +740,29 @@ class TicketController extends Controller
 
 
         return view('Ticket.generate-excel')->with('openticket', $openCount)
-                                                 ->with('overdue', $overDueCount)
-                                                 ->with('pending', $pendingCount)
-                                                 ->with('allticket', $allTicket)
-                                                 ->with('teams', $teams)
-                                                 ->with('allEmp', $allEmp)
-                                                 ->with('close', $closeCount);
+            ->with('overdue', $overDueCount)
+            ->with('pending', $pendingCount)
+            ->with('allticket', $allTicket)
+            ->with('teams', $teams)
+            ->with('allEmp', $allEmp)
+            ->with('close', $closeCount);
     }
 
     // Update ticket main
-    public function updateTicketMain(Request $r){
+    public function updateTicketMain(Request $r)
+    {
         $time = date('Y-m-d h:i:s');
 
-        $ticket = Ticket::where('ticketId',$r->ticketId)->first();
+        $ticket = Ticket::where('ticketId', $r->ticketId)->first();
 
-        if($r->workedHour == null)
-        {
+        if ($r->workedHour == null) {
             $ticket->workedHour = null;
-        }else{
+        } else {
             $ticket->workedHour = $r->workedHour;
             $ticket->workedTimeType = $r->workTimeType;
         }
 
-        if($r->ticketStatus == 'Close'){
+        if ($r->ticketStatus == 'Close') {
 
             $userCompanyId = $this->getCompanyUserId();
 //            $ticketDetails = Ticket::where('ticketId', $r->ticketId)->first();
@@ -832,10 +774,10 @@ class TicketController extends Controller
                 ->orWhere('user.fk_userTypeId', 2)
                 ->where('companyemployee.fk_companyId', $userCompanyId)
                 ->first()->email;
-            $data=array(
-                'name'=> 'Issuetracker',
-                'email'=> $company_admin_mail,
-                'personal_note'=> $r->personal_note,
+            $data = array(
+                'name' => 'Issuetracker',
+                'email' => $company_admin_mail,
+                'personal_note' => $r->personal_note,
                 'ticketTopic' => $ticketTopic,
                 'ticketNo' => $ticketId,
                 'ticketId' => $r->ticketId,
@@ -843,26 +785,22 @@ class TicketController extends Controller
 
             $mailAddresses = $r->email;
 
-            Mail::send('Ticket.closeMailView', $data, function($message)use($mailAddresses)
-            {
+            Mail::send('Ticket.closeMailView', $data, function ($message) use ($mailAddresses) {
                 $message->to($mailAddresses, 'Ticket Close Mail')
                     ->subject('Ticket Close');
             });
             $ticket->ticketStatus = $r->ticketStatus;
 
-        }else{
+        } else {
             $ticket->ticketStatus = $r->ticketStatus;
         }
         $ticket->ticketStatus = $r->ticketStatus;
         $ticket->end_at = $time;
 
-        if($r->assignType == 'single')
-        {
+        if ($r->assignType == 'single') {
             $ticket->ticketAssignPersonUserId = $r->assignPersonId;
             $ticket->ticketAssignTeamId = null;
-        }
-        else
-        {
+        } else {
             $ticket->ticketAssignTeamId = $r->teamId;
             $ticket->ticketAssignPersonUserId = null;
         }
@@ -875,12 +813,14 @@ class TicketController extends Controller
     }
 
     // ticket export
-    public function ticketExport(Request $r){
+    public function ticketExport(Request $r)
+    {
         Excel::store(new TicketExport($r), 'tickets.xlsx');
     }
 
     // change mass ticket status
-    public function changeMassTicketStatus(Request $r){
+    public function changeMassTicketStatus(Request $r)
+    {
         $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketStatus' => $r->ticketStatus]);
         return back();
     }

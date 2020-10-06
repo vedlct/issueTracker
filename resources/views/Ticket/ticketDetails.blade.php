@@ -240,7 +240,7 @@
                 </div>
 
                 {{-- Post a reply --}}
-                <form id="reply" method="post" enctype="multipart/form-data" style="clear: both; display: none">
+                <form id="reply" method="post"  enctype="multipart/form-data" style="clear: both; display: none">
 
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
