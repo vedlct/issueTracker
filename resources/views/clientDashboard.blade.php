@@ -189,6 +189,23 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
                         <div class="card-body">
+                            <h5 class="card-title"><a href="{{ route('call_openticket') }}">My Tickets</a></h5>
+                            <div class="text-right">
+                                <h4 class="font-light m-b-0"> {{ $openticket }} </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 style="padding-bottom: 10px"><a href="{{ route('ticket.create') }}">Create Ticket</a></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-2">
+                    <div class="card newCard">
+                        <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('call_openticket') }}">Open Ticket</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $openticket }} </h4>

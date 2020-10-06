@@ -143,6 +143,8 @@ class DashBoardController extends Controller
                 ->where('fk_ticketOpenerId', Auth::user()->userId)
                 ->count();
 
+//            $my
+
 
         return view('clientDashboard')->with('openticket', $openCount)
             ->with('overdue', $overDueCount)

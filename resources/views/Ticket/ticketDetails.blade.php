@@ -240,10 +240,11 @@
                 </div>
 
                 {{-- Post a reply --}}
-                <form id="reply" method="post"  enctype="multipart/form-data" style="clear: both; display: none">
+                <form id="reply" method="post" enctype="multipart/form-data" style="clear: both; display: none">
 
                     @csrf
                     <input type="hidden" name="ticketId" value="{{$ticket->ticketId}}">
+                    @if (Auth::user()->fk_userTypeId != 2)
                     <div class="form-group">
                         <label>Reply Type</label>
                         <select class="form-control" name="type">
@@ -251,7 +252,9 @@
                             <option value="internal">Internal</option>
                         </select>
                     </div>
+                    @endif
                     <div class="form-group">
+                        <label>Add new comment</label>
                         <textarea name="replyData" class="form-control ckeditor" placeholder="Enter Your reply" rows="3"></textarea>
                         <div class="row">
                             <div class="col-md-6">

@@ -10,27 +10,7 @@
             <form method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label>Ticket Topic *</label>
-                        <input type="text" class="form-control" placeholder="Ticket Topic" value="" name="topic" required>
-                    </div>
-
-                    <div class="form-group col-md-3">
-                        <label>Ticket Create Date *</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Ticket Create Date" name="create_date" required>
-                    </div>
-
-                    <div class="form-group col-md-3">
-                        <label>Expected End Date</label>
-                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date">
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        <label>Ticket Details *</label>
-                        <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
-                    </div>
-
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label>Select Project</label>
                         <select class="form-control" name="project" required>
                             @foreach($projectlist as $project)
@@ -38,7 +18,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label>Ticket Type</label>
                         <select class="form-control" name="tickettype" required>
                             @foreach($tickettype as $tickettype)
@@ -46,7 +26,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label>Ticket Priroty</label>
                         <select class="form-control" name="priroty" required>
                             <option value="High">High</option>
@@ -54,9 +34,31 @@
                             <option value="Low">Low</option>
                         </select>
                     </div>
+                    @if (Auth::user()->fk_userTypeId == 2)
+                    <div class="form-group col-md-12">
+                        <label>Ticket Topic *</label>
+                        <input type="text" class="form-control" placeholder="Ticket Topic" value="" name="topic" required>
+                    </div>
+                    @endif
+                    {{--<div class="form-group col-md-3">
+                        <label>Ticket Create Date *</label>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Ticket Create Date" name="create_date" required>
+                    </div>--}}
 
-
-
+                    @if (Auth::user()->fk_userTypeId != 2)
+                        <div class="form-group col-md-8">
+                            <label>Ticket Topic *</label>
+                            <input type="text" class="form-control" placeholder="Ticket Topic" value="" name="topic" required>
+                        </div>
+                    <div class="form-group col-md-4">
+                        <label>Expected End Date</label>
+                        <input type="text" autocomplete="off" class="form-control datepicker" placeholder="Select Expected End Date" name="exp_end_date">
+                    </div>
+                    @endif
+                    <div class="form-group col-md-12">
+                        <label>Ticket Details *</label>
+                        <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
+                    </div>
                     <div class="form-group col-md-3">
 
                         <label for="exampleFormControlFile1">Choose file</label>

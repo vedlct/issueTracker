@@ -56,8 +56,7 @@
                 <div class="card">
                     <div class="card-header">
                         @if(Auth::user()->fk_userTypeId != 1)
-                            <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create
-                                Ticket</a>
+                            <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
                         @endif
                         {{--<a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>--}}
 

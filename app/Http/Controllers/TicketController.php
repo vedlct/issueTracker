@@ -157,7 +157,7 @@ class TicketController extends Controller
 
             $ticketReplies = TicketReply::select('user.fullName', 'ticketreply.*')
                 ->where('fk_ticketId', $id)
-                ->Join('user', 'ticketreply.fk_userId', 'user.userId')->orderBy('created_at')->get();
+                ->Join('user', 'ticketreply.fk_userId', 'user.userId')->orderBy('created_at', 'DESC')->get();
 
             $project = Project::where('projectId', $ticket->fk_projectId)->first();
             $user = User::where('userId', $ticket->fk_ticketOpenerId)->first();
@@ -408,12 +408,11 @@ class TicketController extends Controller
         $ticketStatus = Status::where('statusId', '3')->first();
 
         $date = date('Y-m-d h:i:s');
-
         $ticket = new Ticket();
         $ticket->ticketTopic = $r->topic;
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
-        $ticket->created_at = Carbon::parse($r->create_date)->format('Y-m-d');
+        $ticket->created_at = date('Y-m-d');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
         $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
@@ -552,7 +551,6 @@ class TicketController extends Controller
     // insert ticket reply
     public function insertReply(Request $r)
     {
-
         $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
