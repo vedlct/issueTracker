@@ -163,7 +163,6 @@ class ProjectController extends Controller
     public function getAllProject2(Request $r)
     {
         $userCompanyId = $this->getCompanyUserId();
-
         // GET ALL PROJECTS OF USERS COMPANY
         if($userCompanyId == null)
         {
@@ -197,7 +196,8 @@ class ProjectController extends Controller
                     ->leftjoin('client', 'project.fk_client_id', 'client.clientId')
                     ->leftJoin('status','project.project_status','status.statusId')
                     ->orderBy('project.projectId','desc')
-                    ->where('project.project_status', 6);
+                    ->where('project.project_status', 6)
+                    ->where('fk_client_id', $userCompanyId);
 
                 $projects = $projects->where('project.project_deleted_at', null);
             }

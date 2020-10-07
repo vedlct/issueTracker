@@ -1,22 +1,24 @@
-
 @extends('layouts.mainLayout')
 
 @section('css')
     <style>
-        .newCard{
+        .newCard {
             /*box-shadow: 1px 0 10px rgba(0, 0, 0, 0.20) !important;*/
         }
-        .card-body{
+
+        .card-body {
             padding-bottom: 0px;
             margin-bottom: 15px;
         }
 
-        .card{
+        .card {
             box-shadow: 0px 0 3px rgba(0, 0, 0, 0.39);
         }
+
         .changeMouse {
             cursor: pointer;
         }
+
         .card-title {
             margin-bottom: -1.25rem !important;
         }
@@ -29,7 +31,8 @@
     @if(Auth::user()->fk_userTypeId == 3)
 
         <!-- Item Details Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -48,7 +51,8 @@
                 <h5 class="card-header mt-0">Today's List</h5>
                 <div class="card-body">
                     @foreach($mybacklogs as $mybacklog)
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)"
+                             data-backlog-id= {{ $mybacklog->backlog_id }}>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -80,7 +84,8 @@
                 <h5 class="card-header mt-0">Past Due</h5>
                 <div class="card-body">
                     @foreach($mybacklogsMissed as $mybacklog)
-                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)" data-backlog-id= {{ $mybacklog->backlog_id }}>
+                        <div class="card mb-2 ml-2 changeMouse" onclick="openItem(this)"
+                             data-backlog-id= {{ $mybacklog->backlog_id }}>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -119,14 +124,15 @@
 
         </div>
         <div class="card-body">
-            <div class="row" >
+            <div class="row">
 
                 @if(Auth::user()->fk_userTypeId == 1)
                     {{-- Company --}}
                     <div class="col-lg-2 col-md-6 mb-2">
                         <div class="card newCard">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of Company</a></h5>
+                                <h5 class="card-title"><a href="{{ route('company.showAllCompany') }}">No. of
+                                        Company</a></h5>
                                 <div class="text-right">
                                     <h4 class="font-light m-b-0"> {{ $companyCount }} </h4>
                                 </div>
@@ -135,12 +141,12 @@
                         </div>
                     </div>
                 @endif
-
                 {{-- Project --}}
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a></h5>
+                            <h5 class="card-title"><a href="{{ route('project.showAllProject') }}">No. of Project</a>
+                            </h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $projectCount }} </h4>
                             </div>
@@ -154,7 +160,11 @@
                 <div class="card-body" style="padding: 5px; margin-bottom: 0;">
                     @foreach($project_percentage as $projectName => $percentage)
                         <div class="progress m-3" style="height: 25px; color: #0a1832">
-                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100"><b style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b></div>
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                                 role="progressbar" style="width: {{$percentage}}%" aria-valuenow="{{$percentage}}"
+                                 aria-valuemin="0" aria-valuemax="100"><b
+                                    style="color: #0a1832; margin-left: 10px;">{{ $projectName }} : {{$percentage}}%</b>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -170,7 +180,7 @@
         </div>
         <div class="card-body">
 
-            <div class="row" >
+            <div class="row">
                 {{-- All ticket --}}
                 {{--<div class="col-lg-2 col-md-6 mb-2">--}}
                 {{--<div class="card newCard">--}}
@@ -184,31 +194,32 @@
                 {{--</div>--}}
                 {{--</div>--}}
                 {{--</div>--}}
-
-                {{-- Open ticket --}}
+                {{-- My tickets --}}
+                <div class="col-lg-2 col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 style="padding-bottom: 10px"><a href="{{ route('ticket.create') }}">Create Ticket</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_openticket') }}">My Tickets</a></h5>
+                            <h5 class="card-title"><a href="{{ route('ticket.myticket') }}">My Ticket</a></h5>
                             <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $openticket }} </h4>
+                                <h4 class="font-light m-b-0"> {{ $myTicket }} </h4>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-6 mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 style="padding-bottom: 10px"><a href="{{ route('ticket.create') }}">Create Ticket</a></h5>
-                        </div>
-                    </div>
-                </div>
+                {{-- Open ticket --}}
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div class="card newCard">
                         <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('call_openticket') }}">Open Ticket</a></h5>
                             <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $openticket }} </h4>
+                                <h4 class="font-light m-b-0"> {{ $openticket->count() }} </h4>
                             </div>
                         </div>
                     </div>
@@ -220,7 +231,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('call_closeticket') }}">Closed Ticket</a></h5>
                             <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $close }} </h4>
+                                <h4 class="font-light m-b-0"> {{ $close->count() }} </h4>
                             </div>
                         </div>
                     </div>
@@ -232,23 +243,23 @@
                         <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('call_overdueticket') }}">Overdue Ticket</a></h5>
                             <div class="text-right">
-                                <h4 class="font-light m-b-0"> {{ $overdue }} </h4>
+                                <h4 class="font-light m-b-0"> {{ $overdue->count() }} </h4>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- Pending ticket --}}
-                {{--<div class="col-lg-2 col-md-6 mb-2">--}}
-                {{--<div class="card newCard">--}}
-                {{--<div class="card-body">--}}
-                {{--<h5 class="card-title"><a href="{{ route('call_pendingticket') }}">Pending Ticket</a></h5>--}}
-                {{--<div class="text-right">--}}
-                {{--<h4 class="font-light m-b-0"> {{ $pending }} </h4>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
+                <div class="col-lg-2 col-md-6 mb-2">
+                    <div class="card newCard">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{ route('call_pendingticket') }}">Pending Ticket</a></h5>
+                            <div class="text-right">
+                                <h4 class="font-light m-b-0"> {{ $pending->count() }} </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -262,7 +273,7 @@
         </div>
         <div class="card-body">
 
-            <div class="row" >
+            <div class="row">
 
                 {{-- All ticket --}}
                 {{--<div class="col-lg-2 col-md-6 mb-2">--}}
@@ -340,7 +351,7 @@
     <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
 
     <script>
-        function openItem(x){
+        function openItem(x) {
             id = $(x).data('backlog-id');
             console.log(id);
 

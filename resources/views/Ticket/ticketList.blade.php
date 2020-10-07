@@ -4,6 +4,7 @@
     <style>
         .table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tfoot > tr > td {
             padding: 2px;
+            line-height: 2.5;
         }
     </style>
 @endsection
@@ -81,33 +82,23 @@
 
                         <ul class="nav nav-tabs top1" style="border-bottom: 0px;">
                             <li class="nav-item">
-                                <a class="nav-link c2" onClick="ticketTypeChange2('All Ticket');" href="#">All
-                                    Ticket @if($allticket != null) <span
-                                        class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
+                                <a class="nav-link c2" onClick="ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{                                            $allticket }} </span> @endif</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c1" onClick="ticketTypeChange1('Open');"
-                                   href="#">Open @if($openticket != null) <span
-                                        class="badge badge-primary"> {{ $openticket }} </span> @endif  </a>
+                                <a class="nav-link c1" onClick="ticketTypeChange1('Open');" href="#">Open @if($openticket != null) <span class="badge badge-primary"> {{ $openticket }}                                         </span> @endif  </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c3" onClick="ticketTypeChange3('Overdue');"
-                                   href="#">Overdue @if($overdue != null) <span
-                                        class="badge badge-danger"> {{ $overdue }} </span> @endif </a>
+                                <a class="nav-link c3" onClick="ticketTypeChange3('Overdue');" href="#">Overdue @if($overdue != null) <span class="badge badge-danger"> {{ $overdue }}                                          </span> @endif </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c4" onClick="ticketTypeChange4('Close');"
-                                   href="#">Closed @if($close != null) <span
-                                        class="badge badge-success"> {{ $close }} </span> @endif </a>
+                                <a class="nav-link c4" onClick="ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span>                                        @endif </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c5" onClick="ticketTypeChange5('Pending');"
-                                   href="#">Pending @if($pending != null) <span
-                                        class="badge badge-info"> {{ $pending }} </span> @endif </a>
+                                <a class="nav-link c5" onClick="ticketTypeChange5('Pending');" href="#">Pending @if($pending != null) <span class="badge badge-info"> {{ $pending }} </span>                                    @endif </a>
                             </li>
                         </ul>
                     </div>
@@ -121,10 +112,8 @@
 
                                     <th>Number</th>
                                     <th>Subject</th>
-                                    {{--                            <th>Project</th>--}}
                                     <th>From</th>
                                     <th>Priority</th>
-                                    {{--                            <th>Support Agent</th>--}}
                                     <th>Status</th>
                                     <th>Create Date</th>
                                     <th>Last Updated</th>
@@ -144,13 +133,10 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="float-left">Tickets</h4>
-                        {{--@if(Auth::user()->fk_userTypeId != 1)--}}
-                        <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create
-                            Ticket</a>
-                        {{--@endif--}}
-
+                        @if(Auth::user()->fk_userTypeId != 1)
+                        <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                        @endif
                         {{--<button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>--}}
-
                         {{--<ul class="nav nav-tabs justify-content-center">
                             <li class="nav-item">
                                 <a class="nav-link c2" onClick="ticketTypeChange2('All Ticket');" href="#">All
@@ -182,36 +168,25 @@
                                         class="badge badge-info"> {{ $pending }} </span> @endif </a>
                             </li>
                         </ul>--}}
-
                         <ul class="nav nav-tabs top1" style="border-bottom: 0px;">
                             <li class="nav-item">
-                                <a class="nav-link c2" onClick="ticketTypeChange2('All Ticket');" href="#">All
-                                    Ticket @if($allticket != null) <span
-                                        class="badge badge-secondary"> {{ $allticket }} </span> @endif</a>
+                                <a class="nav-link c2" onClick="ticketTypeChange2('All Ticket');" href="#">All Ticket @if($allticket != null) <span class="badge badge-secondary"> {{                                           $allticket }} </span> @endif</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c1" onClick="ticketTypeChange1('Open');"
-                                   href="#">Open @if($openticket != null) <span
-                                        class="badge badge-primary"> {{ $openticket }} </span> @endif  </a>
+                                <a class="nav-link cO" onClick="ticketTypeChangeO('Open');" href="#">Open @if($openticket != null) <span class="badge badge-primary"> {{ $openticket }}                                          </span> @endif  </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c3" onClick="ticketTypeChange3('Overdue');"
-                                   href="#">Overdue @if($overdue != null) <span
-                                        class="badge badge-danger"> {{ $overdue }} </span> @endif </a>
+                                <a class="nav-link c3" onClick="ticketTypeChange3('Overdue');" href="#">Overdue @if($overdue != null) <span class="badge badge-danger"> {{ $overdue }}                                          </span> @endif </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c4" onClick="ticketTypeChange4('Close');"
-                                   href="#">Closed @if($close != null) <span
-                                        class="badge badge-success"> {{ $close }} </span> @endif </a>
+                                <a class="nav-link cC" onClick="ticketTypeChangeC('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span>                                           @endif </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link c5" onClick="ticketTypeChange5('Pending');"
-                                   href="#">Pending @if($pending != null) <span
-                                        class="badge badge-info"> {{ $pending }} </span> @endif </a>
+                                <a class="nav-link cP" onClick="ticketTypeChangeP('Pending');" href="#">Pending @if($pending != null) <span class="badge badge-info"> {{ $pending }} </span>                                        @endif </a>
                             </li>
                         </ul>
                     </div>
@@ -221,13 +196,11 @@
                                    style="width:100% ">
                                 <thead>
                                 <tr>
-                                    <th><input type="hidden" id="selectall" onClick="selectAll(this)"/></th>
+                                    <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
                                     <th>Number</th>
                                     <th>Subject</th>
-                                    {{--                            <th>Project</th>--}}
                                     <th>From</th>
                                     <th>Priority</th>
-                                    {{--                            <th>Support Agent</th>--}}
                                     <th>Status</th>
                                     <th>Create Date</th>
                                     <th>Last Updated</th>
@@ -242,8 +215,6 @@
                 </div>
             </div>
         @endif
-
-
     </div>
 
     <!-- Edit Ticket Modal-->
@@ -334,9 +305,6 @@
         </div>
     </div>
 
-
-
-
     <!-- Assign Individual to ticket-->
     <div class="modal fade" id="individualModal" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -374,7 +342,6 @@
 @section('js')
 
     <script>
-
         var letter = "";
         var dueTicket = "";
         var allTicket = "";
@@ -392,7 +359,8 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
-                ordering: false,
+                // ordering: false,
+                orderable: true,
                 type: "POST",
                 "ajax": {
                     "url": "{!! route('ticket.getAllTicket') !!}",
@@ -405,17 +373,12 @@
                         d.ticketType = letter;
                         d.overDue = dueTicket;
                         d.allTicket = allTicket;
-
                     },
                 },
                 columns: [
                     {
                         "data": function (data) {
-                            if (currentUserType != 2) {
                                 return '<input type="checkbox" class="checkboxvar" name="checkboxvar[]" value="' + data.ticketId + '">';
-                            } else {
-                                return '<input type="hidden" class="checkboxvar" name="checkboxvar[]" value="' + data.ticketId + '">';
-                            }
                         },
                         "orderable": false, "searchable": false, "name": "selected_rows"
                     },
@@ -425,7 +388,8 @@
                     {
                         "data": function (data) {
                             return '<a href="#" style="float: left" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)">' + data.ticketTopic + '</a>';
-                        }
+                        },
+                        "orderable": true, "searchable": true, "name": "ticketTopic"
                     },
                     // { data: 'project_name', name: 'project_name' },
                     {data: 'createdFullName', name: 'createdFullName'},
@@ -454,7 +418,7 @@
                                 return data.ticketStatus;
                             }
                         },
-                        "orderable": false, "searchable": true, "name": "ticketStatus"
+                        "orderable": true, "searchable": true, "name": "ticketStatus"
                     },
                     {data: 'created_at', name: 'created_at'},
                     {data: 'lastUpdated', name: 'lastUpdated'},
@@ -550,18 +514,18 @@
             dueTicket = "";
             allTicket = "";
 
-            // set active class
             $(".c1").addClass("active");
-
-            // remove active class
-            // $(".c2").removeClass("active");
             $(".c3").removeClass("active");
             $(".c4").removeClass("active");
             $(".c5").removeClass("active");
             $(".c2").removeClass("active");
-
+            $(".cC").removeClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
             dataTable.ajax.reload();
         }
+
+
 
         function ticketTypeChange2(val) {
             letter = val;
@@ -574,7 +538,9 @@
             $(".c3").removeClass("active");
             $(".c4").removeClass("active");
             $(".c5").removeClass("active");
-
+            $(".cC").removeClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
             dataTable.ajax.reload();
         }
 
@@ -589,12 +555,13 @@
             $(".c2").removeClass("active");
             $(".c4").removeClass("active");
             $(".c5").removeClass("active");
-
+            $(".cC").removeClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
             dataTable.ajax.reload();
         }
 
         function ticketTypeChange4(val) {
-            console.log(val);
             letter = val;
             dueTicket = "";
             allTicket = "";
@@ -605,12 +572,13 @@
             $(".c2").removeClass("active");
             $(".c3").removeClass("active");
             $(".c5").removeClass("active");
-
+            $(".cC").removeClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
             dataTable.ajax.reload();
         }
 
         function ticketTypeChange5(val) {
-            console.log(val);
             letter = val;
             dueTicket = "";
             allTicket = "";
@@ -621,9 +589,66 @@
             $(".c2").removeClass("active");
             $(".c3").removeClass("active");
             $(".c4").removeClass("active");
+            $(".cC").removeClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
+            dataTable.ajax.reload();
+        }
+
+        function ticketTypeChangeP(val) {
+            letter = val;
+            dueTicket = "";
+            allTicket = "pending";
+
+            // change active class
+            $(".cP").addClass("active");
+            $(".cO").removeClass("active");
+            $(".cC").removeClass("active");
+            $(".c5").removeClass("active");
+            $(".c1").removeClass("active");
+            $(".c2").removeClass("active");
+            $(".c3").removeClass("active");
+            $(".c4").removeClass("active");
 
             dataTable.ajax.reload();
         }
+
+        function ticketTypeChangeO(val) {
+            letter = val;
+            dueTicket = "";
+            allTicket = "open";
+
+            // change active class
+            $(".cO").addClass("active");
+            $(".cP").removeClass("active");
+            $(".cC").removeClass("active");
+            $(".c3").removeClass("active");
+            $(".c1").removeClass("active");
+            $(".c2").removeClass("active");
+            $(".c4").removeClass("active");
+            $(".c5").removeClass("active");
+
+            dataTable.ajax.reload();
+        }
+
+        function ticketTypeChangeC(val) {
+            letter = val;
+            dueTicket = "";
+            allTicket = "close";
+
+            // change active class
+            $(".cC").addClass("active");
+            $(".cP").removeClass("active");
+            $(".cO").removeClass("active");
+            $(".c1").removeClass("active");
+            $(".c3").removeClass("active");
+            $(".c2").removeClass("active");
+            $(".c4").removeClass("active");
+            $(".c5").removeClass("active");
+
+            dataTable.ajax.reload();
+        }
+
 
         // filter end
 
