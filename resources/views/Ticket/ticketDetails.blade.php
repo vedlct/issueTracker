@@ -140,6 +140,13 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col-6 offset-3 mt-2">
+                                @if(pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'jpg' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'png' )
+                                    <img src="{{ url('public/files/ticketFile/' . $ticket->ticketFile) }}" width="100" height="70">
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -73,8 +73,7 @@ class TicketController extends Controller
             $date = date('Y-m-d h:i:s');
 
             $openCount = Ticket::where('ticketStatus', 'Open');
-            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
-                ->where('ticket.ticketStatus', '!=', 'Close');
+            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticket.ticketStatus', '!=', 'Close');
             $pendingCount = Ticket::where('ticketStatus', 'Pending');
             $closeCount = Ticket::where('ticketStatus', 'Close');
             $myCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)->get();
@@ -163,11 +162,18 @@ class TicketController extends Controller
             ->with('allEmp', $allEmp)
             ->with('close', $closeCount);
     }
-    /*public function myTicket(){
-        $myTicket = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)->get();
-        return view('Ticket.myTicketList', compact('myTicket'))
-    }*/
 
+//    Specific client ticket
+    public function myTicket(){
+        return view('Ticket.myTicketList');
+    }
+
+    public function getMyAllTicket(Request $r)
+    {
+        $tickets = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)->get();
+        $datatables = Datatables::of($tickets);
+        return $datatables->make(true);
+    }
 
     // view Ticket info
     public function showTicket($id)
@@ -182,7 +188,6 @@ class TicketController extends Controller
                 ->Join('user', 'ticket.fk_ticketOpenerId', 'user.userId')
                 ->leftJoin('team', 'team.teamId', 'ticket.ticketAssignTeamId')
                 ->findOrFail($id);
-
             $assignedPerson = User::Join('ticket', 'ticket.ticketAssignPersonUserId', 'user.userId')->where('ticket.ticketId', $id)->first();
 
             $teamid = Ticket::findOrFail($id);
