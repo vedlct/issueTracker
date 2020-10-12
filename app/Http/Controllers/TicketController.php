@@ -165,6 +165,23 @@ class TicketController extends Controller
 
 //    Specific client ticket
     public function myTicket(){
+        /*$client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
+        $Clientprojects = Project::where('fk_client_id', $client)->get();
+        $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+            ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+            ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+            ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+            ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+            ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
+
+        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+            foreach ($Clientprojects as $project) {
+                $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
+            }
+        })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open');
+        $tickets = $tickets->groupBy('ticket.ticketId')->get();
+         return $tickets ;*/
+
         return view('Ticket.myTicketList');
     }
 
@@ -178,7 +195,6 @@ class TicketController extends Controller
     // view Ticket info
     public function showTicket($id)
     {
-
         if (!Auth::check()) {
 
             return redirect()->route('login')->with('ticket_id');
@@ -274,7 +290,7 @@ class TicketController extends Controller
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date);
                             }
-                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date);
+                        })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date)*/;
 
                     } else {
                         $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
@@ -297,7 +313,7 @@ class TicketController extends Controller
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId);
                             }
-                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
+                        })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)*/;
                     } else {
                         $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
@@ -334,12 +350,12 @@ class TicketController extends Controller
                         ->groupBy('ticket.ticketId');
 
                     if (Auth::user()->fk_userTypeId == 2) {
-
                         $tickets = $tickets->where(function ($query) use ($Clientprojects) {
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
                             }
-                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open');
+                        })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open')*/;
+
                     } else {
                         $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
@@ -361,7 +377,7 @@ class TicketController extends Controller
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Close');
                             }
-                        })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Close');
+                        })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Close')*/;
                     } else {
                         $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
@@ -413,7 +429,7 @@ class TicketController extends Controller
                         foreach ($Clientprojects as $project) {
                             $query->orWhere('fk_projectId', $project->projectId);
                         }
-                    })->orWhere('fk_ticketOpenerId', Auth::user()->userId);
+                    })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)*/;
                 } else {
                     $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                 }
@@ -433,7 +449,7 @@ class TicketController extends Controller
             $tickets = $tickets->where('ticket.ticketStatus', $r->ticketStatus);
         }
 
-        $tickets = $tickets->orderBy('ticket.ticketId', 'desc');
+//        $tickets = $tickets->orderBy('ticket.ticketId', 'desc');
 
 
         $datatables = Datatables::of($tickets);

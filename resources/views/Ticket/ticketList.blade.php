@@ -1,15 +1,17 @@
 @extends('layouts.mainLayout')
 
 @section('css')
+
+
+@endsection
+
+@section('content')
     <style>
         .table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tfoot > tr > td {
             padding: 2px;
             line-height: 2.5;
         }
     </style>
-@endsection
-
-@section('content')
     <style>
         @media only screen and (max-width: 400px) {
             .left {
@@ -112,7 +114,7 @@
 
                                     <th>Number</th>
                                     <th>Subject</th>
-                                    <th>From</th>
+{{--                                    <th>From</th>--}}
                                     <th>Priority</th>
                                     <th>Status</th>
                                     <th>Create Date</th>
@@ -199,7 +201,7 @@
                                     <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
                                     <th>Number</th>
                                     <th>Subject</th>
-                                    <th>From</th>
+{{--                                    <th>From</th>--}}
                                     <th>Priority</th>
                                     <th>Status</th>
                                     <th>Create Date</th>
@@ -235,7 +237,6 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -337,11 +338,14 @@
         </div>
     </div>
 
+
 @endsection
+
 
 @section('js')
 
     <script>
+
         var letter = "";
         var dueTicket = "";
         var allTicket = "";
@@ -359,7 +363,6 @@
                 serverSide: true,
                 Filter: true,
                 stateSave: true,
-                // ordering: false,
                 orderable: true,
                 type: "POST",
                 "ajax": {
@@ -392,7 +395,7 @@
                         "orderable": true, "searchable": true, "name": "ticketTopic"
                     },
                     // { data: 'project_name', name: 'project_name' },
-                    {data: 'createdFullName', name: 'createdFullName'},
+                    // {data: 'createdFullName', name: 'createdFullName'},
                     {data: 'ticketPriority', name: 'ticketPriority'},
                     /*{ "data": function(data){
                             if(data.assignTeamMembers != null)
