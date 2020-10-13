@@ -593,7 +593,6 @@ class TicketController extends Controller
             ->where('user.fk_userTypeId', 4)
             ->where('companyemployee.fk_companyId', Auth::user()->fkCompanyId)
             ->first()->email;
-
         $data = array(
             'name' => 'Arabi Kabir',
             'email' => $company_admin_mail,
@@ -613,6 +612,7 @@ class TicketController extends Controller
 //                    ->subject('New Ticket Created');
 //        });
         // End Send Mail
+
         $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
         if (count($froMail) > 0) {
             $address = $froMail->where('fk_userTypeId', 4)->first()->email;
@@ -622,7 +622,6 @@ class TicketController extends Controller
                     $mailAddresses[] = $mailAddress->email;
                 }
             }
-
             Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
                 $message->to($address, 'Admin')
                     ->cc($mailAddresses)
