@@ -165,23 +165,6 @@ class TicketController extends Controller
 
 //    Specific client ticket
     public function myTicket(){
-        /*$client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
-        $Clientprojects = Project::where('fk_client_id', $client)->get();
-        $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
-            ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
-            ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
-            ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
-            ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
-            ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId');
-
-        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
-            foreach ($Clientprojects as $project) {
-                $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
-            }
-        })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open');
-        $tickets = $tickets->groupBy('ticket.ticketId')->get();
-         return $tickets ;*/
-
         return view('Ticket.myTicketList');
     }
 
@@ -468,14 +451,12 @@ class TicketController extends Controller
         if ($userCompanyId == null) {
             $projectlist = Project::all();
         } else {
-            if (Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5) {
+            if (Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5 || Auth::user()->fk_userTypeId == 3) {
                 $projectlist = Project::where('fk_company_id', $userCompanyId)->get();
             } else {
                 $projectlist = Project::where('fk_client_id', $userCompanyId)->get();
             }
-
         }
-
 
         return view('Ticket.createTicket')
             ->with('projectlist', $projectlist)
