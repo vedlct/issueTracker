@@ -522,6 +522,7 @@ class TicketController extends Controller
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
         $ticket->created_at = date('Y-m-d');
+        $ticket->created_time = date('h:i:s');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
         $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
@@ -628,7 +629,6 @@ class TicketController extends Controller
                     ->subject('New Ticket Created');
             });
         }
-
 
         Session::flash('message', 'Ticket Created!');
 
