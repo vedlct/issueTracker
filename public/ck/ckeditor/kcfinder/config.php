@@ -17,7 +17,7 @@
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
 $_CONFIG = array(
-
+    'timezone' => env('APP_TIMEZONE', 'UK'),
     'disabled' => false,
     'denyZipDownload' => false,
     'denyUpdateCheck' => false,

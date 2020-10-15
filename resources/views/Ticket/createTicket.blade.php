@@ -66,7 +66,9 @@
                     </div>
 
                     <div class="form-group col-md-12">
-                        <button class="btn btn-success pull-right">Create Ticket</button>
+                        <button class="btn btn-success pull-right ml-1">Create Ticket</button>
+                        <button type="reset" class="btn btn-warning pull-right">Reset</button>
+                        <a href="{{ route('ticket.showAllCTicket') }}" class="btn btn-primary pull-left">Cancel</a>
                     </div>
                 </div>
             </form>
@@ -81,4 +83,5 @@
     <script>
         $('.datepicker').datepicker();
     </script>
+
 @endsection

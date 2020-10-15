@@ -198,7 +198,9 @@
                                    style="width:100% ">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
+                                    @if(Auth::user()->fk_userTypeId != 2)
+                                    <th></th>
+                                    @endif
                                     <th>Number</th>
                                     <th>Subject</th>
 {{--                                    <th>From</th>--}}
@@ -378,13 +380,17 @@
                         d.allTicket = allTicket;
                     },
                 },
+
                 columns: [
-                    {
-                        "data": function (data) {
-                                return '<input type="checkbox" class="checkboxvar" name="checkboxvar[]" value="' + data.ticketId + '">';
+
+                    @if(Auth::user()->fk_userTypeId != 2)
+                        {
+                            "data": function (data) {
+                                    return '<input type="checkbox" class="checkboxvar" name="checkboxvar[]" value="' + data.ticketId + '">';
+                            },
+                            "orderable": false, "searchable": false, "name": "selected_rows"
                         },
-                        "orderable": false, "searchable": false, "name": "selected_rows"
-                    },
+                    @endif
 
                     {data: 'ticket_number', name: 'ticket_number'},
                     // { data: 'ticketTopic', name: 'ticketTopic', className: 'subject' },
@@ -397,6 +403,7 @@
                     // { data: 'project_name', name: 'project_name' },
                     // {data: 'createdFullName', name: 'createdFullName'},
                     {data: 'ticketPriority', name: 'ticketPriority'},
+
                     /*{ "data": function(data){
                             if(data.assignTeamMembers != null)
                             {
@@ -423,7 +430,13 @@
                         },
                         "orderable": true, "searchable": true, "name": "ticketStatus"
                     },
-                    {data: 'created_at', name: 'created_at'},
+                    // {data: 'created_at', name: 'created_at'},
+                    {
+                        data: 'created_at',
+                        render: function (data, type, row) {
+                            return row.created_at + ' ' + row.created_time;
+                        }
+                    },
                     {data: 'lastUpdated', name: 'lastUpdated'},
 
                     {

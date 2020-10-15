@@ -432,7 +432,7 @@ class TicketController extends Controller
             $tickets = $tickets->where('ticket.ticketStatus', $r->ticketStatus);
         }
 
-//        $tickets = $tickets->orderBy('ticket.ticketId', 'desc');
+        $tickets = $tickets->orderBy('ticket.created_at', 'DESC')->orderBy('ticket.created_time', 'DESC');
 
 
         $datatables = Datatables::of($tickets);
@@ -522,7 +522,7 @@ class TicketController extends Controller
         $ticket->ticketStatus = $ticketStatus->statusData;
         $ticket->ticketDetails = $r->details;
         $ticket->created_at = date('Y-m-d');
-        $ticket->created_time = date('h:i:s');
+        $ticket->created_time = date('H:i:s');
         $ticket->lastUpdated = $date;
         $ticket->ticketPriority = $r->priroty;
         $ticket->exp_end_date = Carbon::parse($r->exp_end_date)->format('Y-m-d');
@@ -632,7 +632,7 @@ class TicketController extends Controller
 
         Session::flash('message', 'Ticket Created!');
 
-        return back();
+        return redirect()->route('ticket.showAllCTicket');
     }
 
 

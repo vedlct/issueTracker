@@ -75,7 +75,7 @@ Route::post ('/project-partner/project-list', 'ProjectController@getAllprojectPa
 // Ticket
 Route::get ('/ticket-list',               'TicketController@index')                    ->name('ticket.showAllCTicket');
 Route::post('/ticket-list',               'TicketController@getAllTicket')             ->name('ticket.getAllTicket');
-Route::post('/ticket-mylist',               'TicketController@getMyAllTicket')             ->name('ticket.getMyAllTicket');
+Route::post('/ticket-mylist',             'TicketController@getMyAllTicket')           ->name('ticket.getMyAllTicket');
 Route::get ('/create-ticket',             'TicketController@createTicket')             ->name('ticket.create');
 Route::post('/create-ticket',             'TicketController@insertTicket')             ->name('ticket.insert');
 Route::get('/my-ticket',                  'TicketController@myTicket')                 ->name('ticket.myticket');

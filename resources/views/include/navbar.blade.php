@@ -124,6 +124,7 @@
                 </li>
                 @elseif(Auth::user()->fk_userTypeId == 2)
                     <li><a href="{{ route('ticket.showAllCTicket') }}" class="waves-effect"><i class="fa fa-ticket"></i>All Ticket</a></li>
+                    <li><a href="{{ route('ticket.create') }}" class="waves-effect"><i class="fa fa-plus"></i>Create Ticket</a></li>
                 @endif
                 @if(Auth::user()->fk_userTypeId != 1 && Auth::user()->fk_userTypeId != 2 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5)
                 <li>
