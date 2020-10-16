@@ -77,27 +77,9 @@
             </div>
             {{--{{dd($teamMembers)}}--}}
             <div class="card-body">
+
                 <div class="row">
-                    <div class="col-6 mb-2">
-                        @if(pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'jpg' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'png' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'jpeg' )
-                            <img src="{{ url('public/files/ticketFile/' . $ticket->ticketFile) }}" width="100"
-                                 height="70">
-                        @endif
-                        {{-- Download File Link --}}
-                        @if($ticket->ticketFile != null)
-                            <div class="mt-4">
-                                <a href="{{ url('/public/files/ticketFile').'/'.$ticket->ticketFile }}" download> Download
-                                    File</a>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    @if(Auth::user()->fk_userTypeId != 2)
-                        <div class="col-md-4">
-                            @else
-                                <div class="col-md-6">
-                                    @endif
+                    <div class="col-md-4">
                         <table class="table-condensed table-bordered table-custom-1">
                             <tbody>
                             <tr>
@@ -119,11 +101,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if(Auth::user()->fk_userTypeId != 2)
                     <div class="col-md-4">
-                        @else
-                            <div class="col-md-6">
-                        @endif
                         <table class="table-condensed table-bordered table-sm table-custom-1">
                             <tbody>
                             <tr>
@@ -164,13 +142,29 @@
                         <table class="table-condensed table-bordered table-sm table-custom-1">
                             <tbody>
                             @if(Auth::user()->fk_userTypeId != 2)
-                            <tr>
-                                <th scope="col">Worked Hour</th>
-                                <td>{{$ticket->workedHour}}</td>
-                            </tr>
-                                @endif
+                                <tr>
+                                    <th scope="col">Worked Hour</th>
+                                    <td>{{$ticket->workedHour}}</td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col-6 mt-2">
+                                @if(pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'JPG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'PNG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'JPEG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'SVG' )
+                                    <img src="{{ url('public/files/ticketFile/' . $ticket->ticketFile) }}" width="100"
+                                         height="70">
+                                @endif
+                                {{-- Download File Link --}}
+                                @if($ticket->ticketFile != null)
+                                    <div class="mt-4">
+                                        <a href="{{ url('/public/files/ticketFile').'/'.$ticket->ticketFile }}"
+                                           download> Download
+                                            File</a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -222,7 +216,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mt-2">
-                                    <label>Choose file <small>(mx size 16MB and  no .exe file)</small></label>
+                                    <label>Choose file <small>(mx size 16MB and no .exe file)</small></label>
                                     <input type="file" class="form-control-file" name="replyFile">
                                 </div>
                             </div>
@@ -245,31 +239,33 @@
 
                                     <span class="time-right float-right" style="font-size:15px; color: grey !important; font-weight: lighter;">
 
-                                        @if(pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'jpg' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'png' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'jpeg' )
-                                            <img src="{{ url('public/files/ticketReplyFile/' . $reply->ticketReplyFile) }}" width="100"
-                                                 height="70">
+                                        @if(pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'PNG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPEG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'SVG' )
+                                            <img src="{{ url('public/files/ticketReplyFile/' . $reply->ticketReplyFile) }}" width="100" height="70">
                                         @endif
-                                            {{--Download File Link--}}
-                                            @if($reply->ticketReplyFile != null)
-                                                <div class="mt-4">
+                                        {{--Download File Link--}}
+                                        @if($reply->ticketReplyFile != null)
+                                            <div class="mt-4">
                                             <a href="{{ url('/public/files/ticketReplyFile').'/'.$reply->ticketReplyFile }}"
                                                download> Download File</a>
                                         </div>
-                                            @endif
-                                            {{ date('d/m/Y  h:i a', strtotime($reply->created_at)) }}
-{{--                                        {{$reply->created_at}}--}}
+                                        @endif
+                                        {{ date('d/m/Y  h:i a', strtotime($reply->created_at)) }}
+                                        {{--                                        {{$reply->created_at}}--}}
                                     </span>
                                 </div>
                             </div>
                         @else
                             {{--Opposite User--}}
-                            @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 3)
+                            @if(Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 3)
                                 <div class="container2">
-                                    <span class="badge badge-secondary"
-                                          style="color: white;"> {{$reply->fullName}} </span>
+                                    <span class="badge badge-secondary" style="color: white;"> {{$reply->fullName}} </span>
                                     <div class="in">
                                         {!!  $reply->replyData  !!}
+                                        <span class="time-right float-right" style="font-size:15px; color: grey !important; font-weight: lighter;">
 
+                                        @if(pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'PNG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPEG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'SVG' )
+                                            <img src="{{ url('public/files/ticketReplyFile/' . $reply->ticketReplyFile) }}" width="100" height="70">
+                                        @endif
                                         {{--Download File Link--}}
                                         @if($reply->ticketReplyFile != null)
                                             <div class="mt-4">
@@ -277,9 +273,10 @@
                                                    download> Download File</a>
                                             </div>
                                         @endif
+                                            {{ date('d/m/Y  h:i a', strtotime($reply->created_at)) }}
+                                        </span>
 
-                                        <span class="time-right"
-                                              style="font-size:15px; color: grey !important; font-weight: lighter;"> {{$reply->created_at}} </span>
+{{--                                        <span class="time-right" style="font-size:15px; color: grey !important; font-weight: lighter;"> {{$reply->created_at}} </span>--}}
                                     </div>
                                 </div>
                             @else
@@ -289,7 +286,14 @@
                                               style="color: white;"> {{$reply->fullName}} </span>
                                         <div class="in">
                                             {!!  $reply->replyData  !!}
+                                            <span class="time-right float-right" style="font-size:15px; color: grey !important; font-weight: lighter;">
 
+                                            @if(pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'PNG' || pathinfo($reply->ticketReplyFile, PATHINFO_EXTENSION) == 'JPEG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'SVG' )
+                                                <img
+                                                    src="{{ url('public/files/ticketReplyFile/' . $reply->ticketReplyFile) }}"
+                                                    width="100"
+                                                    height="70">
+                                            @endif
                                             {{--Download File Link--}}
                                             @if($reply->ticketReplyFile != null)
                                                 <div class="mt-4">
@@ -297,9 +301,10 @@
                                                        download> Download File</a>
                                                 </div>
                                             @endif
+                                            {{ date('d/m/Y  h:i a', strtotime($reply->created_at)) }}
+                                            </span>
 
-                                            <span class="time-right "
-                                                  style="font-size:15px; color: grey !important; font-weight: lighter;">  {{$reply->created_at}} </span>
+{{--                                            <span class="time-right " style="font-size:15px; color: grey !important; font-weight: lighter;">  {{$reply->created_at}} </span>--}}
                                         </div>
                                     </div>
                                 @endif
