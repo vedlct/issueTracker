@@ -96,7 +96,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Ticket Created on</th>
-                                <td>{{$ticket->created_at}} {{$ticket->created_time}}</td>
+                                <td>{{ date('d/m/Y', strtotime($ticket->created_at)) }} {{date('h:i a', strtotime($ticket->created_time))}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -114,7 +114,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Last Updated</th>
-                                <td>{{$ticket->lastUpdated}}</td>
+                                <td>{{date('d/m/Y h:i a', strtotime($ticket->lastUpdated))}}</td>
                             </tr>
                             <tr>
                                 @if($ticket->ticketAssignPersonUserId == null)
@@ -132,7 +132,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Completion/Closed Date</th>
-                                <td>{{$ticket->exp_end_date}}</td>
+                                <td>{{date('d/m/Y', strtotime($ticket->exp_end_date))}}</td>
                             </tr>
 
                             </tbody>
@@ -216,7 +216,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mt-2">
-                                    <label>Choose file <small>(mx size 16MB and no .exe file)</small></label>
+                                    <label>Choose file <small>(max size 16MB and no .exe file)</small></label>
                                     <input type="file" class="form-control-file" name="replyFile">
                                 </div>
                             </div>

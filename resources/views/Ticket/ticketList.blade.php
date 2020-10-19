@@ -345,9 +345,9 @@
 
 
 @section('js')
-
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" />
+    <script src="//cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" />--}}
     <script>
-
         var letter = "";
         var dueTicket = "";
         var allTicket = "";
@@ -430,15 +430,34 @@
                         },
                         "orderable": true, "searchable": true, "name": "ticketStatus"
                     },
-                    // {data: 'created_at', name: 'created_at'},
+
+
+                    @if(Auth::user()->fk_userTypeId == 2)
+                    {
+                        data: 'null',
+                        render: function (data, type, row) {
+                            return row.createdate + ' ' + row.createtime;
+                        }
+                    },
+                        @else
                     {
                         data: 'created_at',
                         render: function (data, type, row) {
                             return row.created_at + ' ' + row.created_time;
                         }
                     },
-                    {data: 'lastUpdated', name: 'lastUpdated'},
+                    @endif
 
+                    /*{data: 'lastUpdated',
+                        render: function (data, type, row){
+                        return moment(data).format("MM-DD-YYYY HH:mm");
+                        }
+                        name: 'lastUpdated'},*/
+                    @if(Auth::user()->fk_userTypeId == 2)
+                    {data: 'lastUpdate', name: 'lastUpdated'},
+                    @else
+                    {data: 'lastUpdated', name: 'lastUpdated'},
+                    @endif
                     {
                         "data": function (data) {
 
@@ -452,7 +471,7 @@
 
                         "orderable": false, "searchable": false, "name": "selected_rows"
                     },
-                ]
+                ],
             });
         });
 

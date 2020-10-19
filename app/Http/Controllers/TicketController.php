@@ -267,7 +267,10 @@ class TicketController extends Controller
 
                     if (Auth::user()->fk_userTypeId == 2) {
 
-                        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                            ->where(function ($query) use ($Clientprojects) {
                             $date = date('Y-m-d h:i:s');
 
                             foreach ($Clientprojects as $project) {
@@ -292,7 +295,10 @@ class TicketController extends Controller
 
                     if (Auth::user()->fk_userTypeId == 2) {
 
-                        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                            ->where(function ($query) use ($Clientprojects) {
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId);
                             }
@@ -312,7 +318,10 @@ class TicketController extends Controller
 
                     if (Auth::user()->fk_userTypeId == 2) {
 
-                        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                            ->where(function ($query) use ($Clientprojects) {
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Pending');
                             }
@@ -333,7 +342,10 @@ class TicketController extends Controller
                         ->groupBy('ticket.ticketId');
 
                     if (Auth::user()->fk_userTypeId == 2) {
-                        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                            ->where(function ($query) use ($Clientprojects) {
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
                             }
@@ -356,7 +368,10 @@ class TicketController extends Controller
 
                     if (Auth::user()->fk_userTypeId == 2) {
 
-                        $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                            ->where(function ($query) use ($Clientprojects) {
                             foreach ($Clientprojects as $project) {
                                 $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Close');
                             }
@@ -408,7 +423,10 @@ class TicketController extends Controller
                     ->groupBy('ticket.ticketId');
                 if (Auth::user()->fk_userTypeId == 2) {
 
-                    $tickets = $tickets->where(function ($query) use ($Clientprojects) {
+                    $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                        ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                        ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
+                        ->where(function ($query) use ($Clientprojects) {
                         foreach ($Clientprojects as $project) {
                             $query->orWhere('fk_projectId', $project->projectId);
                         }

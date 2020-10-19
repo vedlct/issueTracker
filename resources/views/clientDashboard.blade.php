@@ -219,7 +219,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: blue; color: #ffffff" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a style="color: #ffffff" href="{{ route('ticket.myticket') }}">My
+                            <h5 class="card-title" style="display: inline-block"><a style="color: #ffffff" href="{{ route('ticket.myticket') }}">My
                                     Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $myTicket }} </h4>
@@ -231,7 +231,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="color: #0056B3" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_openticket') }}">Open Ticket(s)</a></h5>
+                            <h5 class="card-title" style="display: inline-block"><a href="{{ route('call_openticket') }}">Open Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $openticket->count() }} </h4>
                             </div>
@@ -243,7 +243,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: #808080; color: #ffffff" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a style="color:#ffffff;" href="{{ route('call_closeticket') }}">Closed
+                            <h5 class="card-title" style="display: inline-block"><a style="color:#ffffff;" href="{{ route('call_closeticket') }}">Closed
                                     Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $close->count() }} </h4>
@@ -256,7 +256,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: red; color: #ffffff" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a style="color: #ffffff" href="{{ route('call_overdueticket') }}">Overdue
+                            <h5 class="card-title" style="display: inline-block"><a style="color: #ffffff" href="{{ route('call_overdueticket') }}">Overdue
                                     Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $overdue->count() }} </h4>
@@ -269,7 +269,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: yellow; color: #0056B3" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('call_pendingticket') }}">Pending Ticket(s)</a>
+                            <h5 class="card-title" style="display: inline-block"><a href="{{ route('call_pendingticket') }}">Pending Ticket(s)</a>
                             </h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $pending->count() }} </h4>
@@ -309,7 +309,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="color: #0056B3" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="#">Open Ticket(s)</a></h5>
+                            <h5 class="card-title" style="display: inline-block"><a href="#">Open Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $openticketMonth }} </h4>
                             </div>
@@ -321,7 +321,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: #808080; color: #ffffff" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a style="color:#ffffff;" href="#">Closed Ticket(s)</a></h5>
+                            <h5 class="card-title" style="display: inline-block"><a style="color:#ffffff;" href="#">Closed Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $closeMonth }} </h4>
                             </div>
@@ -333,7 +333,7 @@
                 <div class="col-lg-2 col-md-6 mb-2">
                     <div style="background-color: red; color: #ffffff" class="card newCard">
                         <div class="card-body">
-                            <h5 class="card-title"><a style="color: #ffffff" href="#">Overdue Ticket(s)</a></h5>
+                            <h5 class="card-title" style="display: inline-block"><a style="color: #ffffff" href="#">Overdue Ticket(s)</a></h5>
                             <div class="text-right">
                                 <h4 class="font-light m-b-0"> {{ $overdueMonth }} </h4>
                             </div>

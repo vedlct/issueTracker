@@ -57,17 +57,17 @@
                     @endif
                     <div class="form-group col-md-12">
                         <label>Ticket Details *</label>
-                        <textarea class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
+                        <textarea id="myTextarea" class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
                     <div class="form-group col-md-3">
 
-                        <label for="exampleFormControlFile1">Choose file</label>
+                        <label for="exampleFormControlFile1">Choose file <small>(max size 16MB and no .exe file)</small></label>
                         <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
                     </div>
 
                     <div class="form-group col-md-12">
-                        <button class="btn btn-success pull-right ml-1">Create Ticket</button>
-                        <button type="reset" class="btn btn-warning pull-right">Reset</button>
+                        <button class="btn btn-success pull-right ml-1" >Create Ticket</button>
+                        <button type="reset" class="btn btn-warning pull-right" onclick="clearInputs()">Reset</button>
                         <a href="{{ route('ticket.showAllCTicket') }}" class="btn btn-primary pull-left">Cancel</a>
                     </div>
                 </div>
@@ -82,6 +82,12 @@
     <script type="text/javascript" src="{{ url('/public/ck/ckeditor/ckeditor.js')}}"></script>
     <script>
         $('.datepicker').datepicker();
+    </script>
+
+    <script>
+        function clearInputs() {
+            $('iframe').contents().find('body').empty();
+        }
     </script>
 
 @endsection
