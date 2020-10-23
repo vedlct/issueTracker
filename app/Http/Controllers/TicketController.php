@@ -837,8 +837,7 @@ public function ticketEdit(Request $r)
 }
 
 // show generate excel page
-public
-function showGenerateExcel()
+public function showGenerateExcel()
 {
 
     // Get user's company ID
@@ -930,10 +929,12 @@ public function updateTicketMain(Request $r)
 
         $mailAddresses = $r->email;
 
-        Mail::send('Ticket.closeMailView', $data, function ($message) use ($mailAddresses) {
-            $message->to($mailAddresses, 'Ticket Close Mail')
-                ->subject('Ticket Close');
-        });
+        if($mailAddresses) {
+            Mail::send('Ticket.closeMailView', $data, function ($message) use ($mailAddresses) {
+                $message->to($mailAddresses, 'Ticket Close Mail')
+                    ->subject('Ticket Close');
+            });
+        }
         $ticket->ticketStatus = $r->ticketStatus;
 
     } else {
