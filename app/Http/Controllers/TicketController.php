@@ -68,7 +68,8 @@ class TicketController extends Controller
             $openCount = Ticket::where('ticketStatus', 'Open')->count();
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
             $pendingCount = Ticket::where('ticketStatus', 'Pending')->count();
-            $closeCount = Ticket::where('ticketStatus', 'Close')->count();;
+            $closeCount = Ticket::where('ticketStatus', 'Close')->count();
+            $myCount = '';
         } else {
             $date = date('Y-m-d h:i:s');
 
@@ -179,7 +180,7 @@ class TicketController extends Controller
     // view Ticket info
     public function showTicket($id)
     {
-        try {
+
             if (!Auth::check()) {
 
                 return redirect()->route('login')->with('ticket_id');
@@ -210,15 +211,13 @@ class TicketController extends Controller
                     ->with('assignedPerson', $assignedPerson)
                     ->with('project', $project);
             }
-        } catch (\Exception $e) {
-            abort(404, 'Sorry, the page you are looking for could not be found.');
-        }
+
     }
 
     // get all Ticket
     public function getAllTicket(Request $r)
     {
-        try {
+
             if (Auth::user()->fk_userTypeId == 2) {
                 $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
                 $Clientprojects = Project::where('fk_client_id', $client)->get();
@@ -460,16 +459,13 @@ class TicketController extends Controller
 
             $datatables = Datatables::of($tickets);
             return $datatables->make(true);
-        }catch (\Exception $e)
-        {
-            abort(404, 'Sorry, the page you are looking for could not be found.');
-        }
+
         }
 
     // view create ticket
     public function createTicket()
     {
-        try{
+
         // Get user's company ID
         $userCompanyId = $this->getCompanyUserId();
         $ticketType = TicketType::get();
@@ -488,16 +484,14 @@ class TicketController extends Controller
         return view('Ticket.createTicket')
             ->with('projectlist', $projectlist)
             ->with('tickettype', $ticketType);
-    }catch (\Exception $e){
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
     }
 
 
     // insert ticket
     public function insertTicket(Request $r)
     {
-        try {
+
             // Get user's company ID
             $userCompanyId = $this->getCompanyUserId();
 
@@ -663,10 +657,7 @@ class TicketController extends Controller
             Session::flash('message', 'Ticket Created!');
 
             return redirect()->route('ticket.showAllCTicket');
-        }catch (\Exception $e)
-        {
-            abort(404, 'Sorry, the page you are looking for could not be found.');
-        }
+
         }
 
 
@@ -674,12 +665,10 @@ class TicketController extends Controller
 public
 function returnCkEditorView(Request $r)
 {
-    try {
+
         $ticket = Ticket::findOrFail($r->id);
         return view('Ticket.ckEditorView')->with('ticket', $ticket);
-    } catch (\Exception $e) {
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
 }
 
 
@@ -687,7 +676,7 @@ function returnCkEditorView(Request $r)
 public
 function updateTicketDetails(Request $r)
 {
-    try {
+
         $ticket = Ticket::findOrFail($r->ticket_id);
         $ticket->ticketDetails = $r->details;
         $ticket->save();
@@ -695,16 +684,14 @@ function updateTicketDetails(Request $r)
         Session::flash('message', 'Ticket Updated!');
 
         return back();
-    } catch (\Exception $e) {
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
 }
 
 // insert ticket reply
 public
 function insertReply(Request $r)
 {
-    try {
+
         $userCompanyId = $this->getCompanyUserId();
 
         // get all email of user's company
@@ -814,16 +801,13 @@ function insertReply(Request $r)
         Session::flash('message', 'Reply Sent!');
 
         return back();
-    }catch (\Exception $e){
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
     }
 
 // show ticket edit
-public
-function ticketEdit(Request $r)
+public function ticketEdit(Request $r)
 {
-    try{
+
     $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4, 2])->get();
     // Get user's company ID
     $userCompanyId = $this->getCompanyUserId();
@@ -849,17 +833,14 @@ function ticketEdit(Request $r)
         ->with('teams', $teams)
         ->with('froMail', $froMail)
         ->with('ticket_reply', $ticket_reply);
-    }catch (\Exception $e)
-    {
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
 }
 
 // show generate excel page
 public
 function showGenerateExcel()
 {
-    try{
+
     // Get user's company ID
     $userCompanyId = $this->getCompanyUserId();
 
@@ -908,17 +889,13 @@ function showGenerateExcel()
         ->with('teams', $teams)
         ->with('allEmp', $allEmp)
         ->with('close', $closeCount);
-    }catch (\Exception $e)
-    {
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
 }
 
 // Update ticket main
-public
-function updateTicketMain(Request $r)
+public function updateTicketMain(Request $r)
 {
-    try{
+
     $time = date('Y-m-d h:i:s');
 
     $ticket = Ticket::where('ticketId', $r->ticketId)->first();
@@ -978,30 +955,24 @@ function updateTicketMain(Request $r)
     Session::flash('message', 'Ticket Updated!');
 
     return back();
-    }catch (\Exception $e)
-    {
-        abort(404, 'Sorry, the page you are looking for could not be found.');
-    }
+
 }
 
 // ticket export
-public
-function ticketExport(Request $r)
+public function ticketExport(Request $r)
 {
     Excel::store(new TicketExport($r), 'tickets.xlsx');
 }
 
 // change mass ticket status
-public
-function changeMassTicketStatus(Request $r)
+public function changeMassTicketStatus(Request $r)
 {
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketStatus' => $r->ticketStatus]);
     return back();
 }
 
 // assign mass ticket to team
-public
-function assignTicketToTeam(Request $r)
+public function assignTicketToTeam(Request $r)
 {
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => $r->teamid]);
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => null]);
@@ -1009,8 +980,7 @@ function assignTicketToTeam(Request $r)
 }
 
 // assign mass ticket to team
-public
-function assignTicketToIndividual(Request $r)
+public function assignTicketToIndividual(Request $r)
 {
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => $r->empId]);
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => null]);
@@ -1018,8 +988,7 @@ function assignTicketToIndividual(Request $r)
 }
 
 // assign mass ticket to No one
-public
-function assignTicketToNoOne(Request $r)
+public function assignTicketToNoOne(Request $r)
 {
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignPersonUserId' => null]);
     $allTicket = Ticket::whereIn('ticketId', $r->allCheckedTicket)->update(['ticketAssignTeamId' => null]);
