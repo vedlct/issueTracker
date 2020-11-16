@@ -176,7 +176,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link cO" onClick="ticketTypeChangeO('Open');" href="#">Open @if($openticket != null) <span class="badge badge-primary"> {{ $openticket }}                                          </span> @endif  </a>
+                                <a class="nav-link c1" onClick="ticketTypeChange1('Open');" href="#">Open @if($openticket != null) <span class="badge badge-primary"> {{ $openticket }}                                          </span> @endif  </a>
                             </li>
 
                             <li class="nav-item">
@@ -184,11 +184,11 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link cC" onClick="ticketTypeChangeC('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span>                                           @endif </a>
+                                <a class="nav-link c4" onClick="ticketTypeChange4('Close');" href="#">Closed @if($close != null) <span class="badge badge-success"> {{ $close }} </span>                                           @endif </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link cP" onClick="ticketTypeChangeP('Pending');" href="#">Pending @if($pending != null) <span class="badge badge-info"> {{ $pending }} </span>                                        @endif </a>
+                                <a class="nav-link c5" onClick="ticketTypeChange5('Pending');" href="#">Pending @if($pending != null) <span class="badge badge-info"> {{ $pending }} </span>                                        @endif </a>
                             </li>
                         </ul>
                     </div>
@@ -547,7 +547,7 @@
         function ticketTypeChange1(val) {
             letter = val;
             dueTicket = "";
-            allTicket = "";
+            allTicket = "open";
 
             $(".c1").addClass("active");
             $(".c3").removeClass("active");
@@ -599,7 +599,7 @@
         function ticketTypeChange4(val) {
             letter = val;
             dueTicket = "";
-            allTicket = "";
+            allTicket = "close";
 
             // change active class
             $(".c4").addClass("active");
@@ -616,7 +616,7 @@
         function ticketTypeChange5(val) {
             letter = val;
             dueTicket = "";
-            allTicket = "";
+            allTicket = "pending";
 
             // change active class
             $(".c5").addClass("active");

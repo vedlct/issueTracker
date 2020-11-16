@@ -63,6 +63,7 @@ class TicketController extends Controller
             $Clientprojects = Project::where('fk_client_id', $client)->get();
         }
         if ($userCompanyId == null) {
+
             $date = date('Y-m-d h:i:s');
             $allTicket = Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->count();
@@ -71,6 +72,7 @@ class TicketController extends Controller
             $closeCount = Ticket::where('ticketStatus', 'Close')->count();
             $myCount = '';
         } else {
+
             $date = date('Y-m-d h:i:s');
 
             $openCount = Ticket::where('ticketStatus', 'Open');
