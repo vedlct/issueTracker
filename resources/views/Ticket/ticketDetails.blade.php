@@ -100,6 +100,14 @@
                             </tr>
                             </tbody>
                         </table>
+                        @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
+                            <button title="edit info" class="btn btn-success btn-xs m-1" onclick="editTicketInfo({{$ticket->ticketId}})">
+                                Edit</button>
+
+                            {{--<button class="float-right btn btn-success mr-1" type="button"
+                                    onclick="editTicket({{$ticket->ticketId}})">Edit
+                            </button>--}}
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <table class="table-condensed table-bordered table-sm table-custom-1">
@@ -168,6 +176,28 @@
                     </div>
 
                 </div>
+
+                <!-- Edit Ticket Modal-->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Ticket Info</h5>
+                                <button type="hidden" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="editTicket">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card mt-2 shadow-none mb-1 bg-light rounded">
                     <div class="card-body p-1">
@@ -364,6 +394,25 @@
                 },
                 success: function (data) {
                     $('#ticketInformation').html(data);
+                }
+            });
+        }
+
+        // view ticket details
+        function editTicketInfo(id) {
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('ticketInfo.edit') !!}",
+                cache: false,
+                data: {
+                    _token: "{{csrf_token()}}",
+                    'ticketId': id
+                },
+                success: function (data) {
+                    // console.log(data);
+                    $('#editTicket').html(data);
+                    $('#exampleModal').modal('show');
+
                 }
             });
         }

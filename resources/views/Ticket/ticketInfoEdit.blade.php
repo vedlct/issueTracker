@@ -4,63 +4,60 @@
         <div class="card-header bg-dark text-white custom-2">
             <h4 class="float-left font-weight-normal">Edit : {{ $ticket->ticketTopic }}</h4>
         </div>
-
         <div class="card-body">
             <div class="">
-                <form method="post" action="{{ route('ticket.main.update') }}">
+                <form method="post" action="{{ route('ticket.info.update') }}">
                     @csrf
                     <input type="hidden" name="ticketId" id="modalTicketId" value="{{ $ticket->ticketId }}">
-
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-9">
-                                <label for="workedHour">Worked Time</label>
-                                <input type="text" name="workedHour" id="workedHour" value="{{ $ticket->workedHour }}" class="form-control" placeholder="">
+                            <div class="col-md-12">
+                                <label>Ticket Topic</label>
+                                <input type="text" name="ticketTopic" value="{{ $ticket->ticketTopic }}" class="form-control" placeholder="">
                             </div>
-                            <div class="col-md-3">
-                                <label for="workedHour">Hour / Minute</label>
-                                <select class="form-control" id="workTimeType" name="workTimeType">
-                                    <option value="">Select Type</option>
-                                    <option value="Hour" @if($ticket->workedTimeType == 'Hour') selected @endif>Hour</option>
-                                    <option value="Minute" @if($ticket->workedTimeType == 'Minute') selected @endif>Minute</option>
+                            <div class="col-md-12">
+                                <label>Ticket Priority</label>
+                                <select class="form-control" name="ticketPriority">
+                                    <option value="">Select Priority</option>
+                                    <option value="High" @if($ticket->ticketPriority == 'High') selected @endif>High</option>
+                                    <option value="Medium" @if($ticket->ticketPriority == 'Medium') selected @endif>Medium</option>
+                                    <option value="Low" @if($ticket->ticketPriority == 'Low') selected @endif>Low</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Ticket Created Date</label>
+                                <input type="date" name="created_at" value="{{ $ticket->created_at }}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Ticket Created Time</label>
+                                <input type="time" name="created_time" value="{{ $ticket->created_time }}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Ticket Last Updated</label>
+                                <input type="datetime-local" name="lastUpdated" value="{{ $ticket->lastUpdated }}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Ticket Close Date</label>
+                                <input type="date" name="exp_end_date" value="{{ $ticket->exp_end_date }}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Work Hour</label>
+                                <input type="number" name="workedHour" value="{{$ticket->workedHour}}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Ticket Status</label>
+                                <select class="form-control" name="ticketStatus">
+                                    <option value="">Select Status</option>
+                                    <option value="Open" @if($ticket->ticketStatus == 'Open') selected @endif>Open</option>
+                                    <option value="Close" @if($ticket->ticketStatus == 'Close') selected @endif>Close</option>
+                                    <option value="Pending" @if($ticket->ticketStatus == 'Pending') selected @endif>Pending</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="ticketStatus">Ticket Status</label>
-                        <select class="form-control" id="ticketStatus" name="ticketStatus" required onchange="setRequiredOnClose(this)">
-                            <option value="">Select Status</option>
-                            <option value="Open" @if($ticket->ticketStatus == 'Open') selected @endif>Open</option>
-                            <option value="Close" @if($ticket->ticketStatus == 'Close') selected @endif>Close</option>
-                            <option value="Pending" @if($ticket->ticketStatus == 'Pending') selected @endif>Pending</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Emails</label>
-                        <select class="form-control" id="" name="email">
-                            <option selected disabled>Select Email</option>
-                            @foreach($froMail as $email)
-                            <option value="{{ $email->email }}">{{ $email->email }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Personal Note</label>
-                        <select class="form-control" id="" name="personal_note">
-                            <option selected disabled>Select Previous Comment</option>
-                            @foreach($ticket_reply as $reply)
-                                <option value="{{ $reply->replyData }}">{{ $reply->replyData }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- New Code --}}
-
-                    @if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)
+                    {{--assign section--}}
+                @if($ticket->ticketAssignTeamId == null && $ticket->ticketAssignPersonUserId == null)
 
                         {{-- if assign type is null --}}
                         <div class="form-group" id="null_team_or_emp">
@@ -125,21 +122,15 @@
                         </div>
 
                     @endif
-
-                    {{-- New Code End --}}
-
                     <button type="submit" class="btn btn-primary">Update</button>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
-
-    $( document ).ready(function() {
+    $(document).ready(function () {
 
         @if($ticket->ticketAssignTeamId != "")
         $('#assignTypeSingle').hide();
@@ -169,39 +160,15 @@
     });
 
 
-
-    function showType(x){
-        if($(x).val() == 'single'){
+    function showType(x) {
+        if ($(x).val() == 'single') {
             $('#assignTypeSingle').show();
             $('#assignTypeTeam').hide();
         }
-        if($(x).val() == 'team'){
+        if ($(x).val() == 'team') {
             $('#assignTypeTeam').show();
             $('#assignTypeSingle').hide();
 
         }
     }
-
-    // function changeType(x){
-    //     if($(x).val() == 'single'){
-    //         $('#typeSingle').show();
-    //         $('#typeteam').hide();
-    //     }
-    //     if($(x).val() == 'team'){
-    //         $('#typeSingle').hide();
-    //         $('#typeteam').show();
-    //     }
-    // }
-
-    function setRequiredOnClose(x){
-        if($(x).val() == 'Close'){
-            $("#workedHour").prop('required',true);
-            $('#workTimeType').prop('required',true);
-        }
-        else{
-            $("#workedHour").prop('required',false);
-            $('#workTimeType').prop('required',false);
-        }
-    }
-
 </script>

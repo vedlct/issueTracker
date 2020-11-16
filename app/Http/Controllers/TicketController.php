@@ -664,8 +664,7 @@ class TicketController extends Controller
 
 
 // return ck editor view
-public
-function returnCkEditorView(Request $r)
+public function returnCkEditorView(Request $r)
 {
 
         $ticket = Ticket::findOrFail($r->id);
@@ -675,8 +674,7 @@ function returnCkEditorView(Request $r)
 
 
 // update ticket details
-public
-function updateTicketDetails(Request $r)
+public function updateTicketDetails(Request $r)
 {
 
         $ticket = Ticket::findOrFail($r->ticket_id);
@@ -690,8 +688,7 @@ function updateTicketDetails(Request $r)
 }
 
 // insert ticket reply
-public
-function insertReply(Request $r)
+public function insertReply(Request $r)
 {
 
         $userCompanyId = $this->getCompanyUserId();
@@ -838,6 +835,30 @@ public function ticketEdit(Request $r)
 
 }
 
+    public function ticketInfoEdit(Request $r)
+    {
+        $ticket = Ticket::select('ticket.*', 'user.fullName')
+                    ->Join('user', 'ticket.fk_ticketOpenerId', 'user.userId')
+                    ->findOrFail($r->ticketId);
+        $userCompanyId = $this->getCompanyUserId();
+
+
+        if ($userCompanyId == null) {
+            $teams = Team::all();
+            $employee = DB::table('user')->where('fk_userTypeId', 3)->get();
+        } else {
+            $teams = Team::where('fk_companyId', $userCompanyId)->get();
+
+            $employee = DB::table('user')->leftJoin('companyemployee', 'user.userId', 'companyemployee.employeeUserId')
+                ->whereIn('user.fk_userTypeId', [3, 5])
+                ->where('companyemployee.fk_companyId', $userCompanyId)
+                ->get();
+        }
+        return view('Ticket.ticketInfoEdit')->with('ticket', $ticket)
+            ->with('employeeList', $employee)
+            ->with('teams', $teams);
+    }
+
 // show generate excel page
 public function showGenerateExcel()
 {
@@ -959,6 +980,35 @@ public function updateTicketMain(Request $r)
 
     return back();
 
+}
+
+public function ticketInfoUpdate(Request $r){
+    $time = date('h:i:s');
+
+    $ticket = Ticket::where('ticketId', $r->ticketId)->first();
+
+    $ticket->ticketTopic = $r->ticketTopic;
+    $ticket->created_at = $r->created_at;
+    $ticket->created_time = $r->created_time;
+    $ticket->lastUpdated = $r->lastUpdated;
+    $ticket->exp_end_date = $r->exp_end_date;
+    $ticket->ticketPriority = $r->ticketPriority;
+    $ticket->ticketStatus = $r->ticketStatus;
+    $ticket->workedHour = $r->workedHour;
+
+    if ($r->assignType == 'single') {
+        $ticket->ticketAssignPersonUserId = $r->assignPersonId;
+        $ticket->ticketAssignTeamId = null;
+    } else {
+        $ticket->ticketAssignTeamId = $r->teamId;
+        $ticket->ticketAssignPersonUserId = null;
+    }
+
+    $ticket->save();
+
+    Session::flash('message', 'Ticket Updated!');
+
+    return back();
 }
 
 // ticket export
