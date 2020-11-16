@@ -102,7 +102,7 @@
                         </table>
                         @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
                             <button title="edit info" class="btn btn-success btn-xs m-1" onclick="editTicketInfo({{$ticket->ticketId}})">
-                                Edit</button>
+                                Edit Info</button>
 
                             {{--<button class="float-right btn btn-success mr-1" type="button"
                                     onclick="editTicket({{$ticket->ticketId}})">Edit
@@ -206,7 +206,7 @@
 
                             @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
                                 <button class="float-right btn btn-success mr-1" type="button"
-                                        onclick="editTicket({{$ticket->ticketId}})">Edit
+                                        onclick="editTicket({{$ticket->ticketId}})">Edit Details
                                 </button>
                             @endif
 
