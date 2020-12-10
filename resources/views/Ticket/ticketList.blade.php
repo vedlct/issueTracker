@@ -388,36 +388,20 @@
                             "data": function (data) {
                                     return '<input type="checkbox" class="checkboxvar" name="checkboxvar[]" value="' + data.ticketId + '">';
                             },
-                            "orderable": false, "searchable": false, "name": "selected_rows"
+                            "orderable": false, "searchable": true, "name": "ticketId"
                         },
                     @endif
 
                     {data: 'ticket_number', name: 'ticket_number'},
-                    // { data: 'ticketTopic', name: 'ticketTopic', className: 'subject' },
+
                     {
                         "data": function (data) {
                             return '<a href="#" style="float: left" data-panel-id="' + data.ticketId + '" onclick="openTicket(this)">' + data.ticketTopic + '</a>';
                         },
                         "orderable": true, "searchable": true, "name": "ticketTopic"
                     },
-                    // { data: 'project_name', name: 'project_name' },
-                    // {data: 'createdFullName', name: 'createdFullName'},
+
                     {data: 'ticketPriority', name: 'ticketPriority'},
-
-                    /*{ "data": function(data){
-                            if(data.assignTeamMembers != null)
-                            {
-                                return data.assignTeamMembers;
-                            }
-                            else
-                            {
-                                return data.assignFullName;
-                            }
-                        },
-                        "orderable": false, "searchable":true, "name":"selected_rows"
-                    },*/
-
-
                     {
                         "data": function (data) {
                             var d1 = Date.parse(data.exp_end_date);
@@ -434,7 +418,7 @@
 
                     @if(Auth::user()->fk_userTypeId == 2)
                     {
-                        data: 'null',
+                        data: 'created_at',
                         render: function (data, type, row) {
                             return row.createdate + ' ' + row.createtime;
                         }
@@ -469,7 +453,7 @@
                             }
                         },
 
-                        "orderable": false, "searchable": false, "name": "selected_rows"
+                        "orderable": false, "searchable": false,
                     },
                 ],
             });
