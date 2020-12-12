@@ -104,9 +104,6 @@
                             <button title="edit info" class="btn btn-success btn-xs m-1" onclick="editTicketInfo({{$ticket->ticketId}})">
                                 Edit Info</button>
 
-                            {{--<button class="float-right btn btn-success mr-1" type="button"
-                                    onclick="editTicket({{$ticket->ticketId}})">Edit
-                            </button>--}}
                         @endif
                     </div>
                     <div class="col-md-4">
@@ -160,8 +157,7 @@
                         <div class="row">
                             <div class="col-6 mt-2">
                                 @if(pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'JPG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'PNG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'JPEG' || pathinfo($ticket->ticketFile, PATHINFO_EXTENSION) == 'SVG' )
-                                    <img src="{{ url('public/files/ticketFile/' . $ticket->ticketFile) }}" width="100"
-                                         height="70">
+                                    <img src="{{ url('public/files/ticketFile/' . $ticket->ticketFile) }}" width="100" height="70">
                                 @endif
                                 {{-- Download File Link --}}
                                 @if($ticket->ticketFile != null)

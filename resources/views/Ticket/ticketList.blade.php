@@ -432,11 +432,6 @@
                     },
                     @endif
 
-                    /*{data: 'lastUpdated',
-                        render: function (data, type, row){
-                        return moment(data).format("MM-DD-YYYY HH:mm");
-                        }
-                        name: 'lastUpdated'},*/
                     @if(Auth::user()->fk_userTypeId == 2)
                     {data: 'lastUpdate', name: 'lastUpdated'},
                     @else
