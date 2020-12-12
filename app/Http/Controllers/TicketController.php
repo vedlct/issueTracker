@@ -66,7 +66,7 @@ class TicketController extends Controller
 
             $date = date('Y-m-d h:i:s');
             $allTicket = Ticket::all()->count();
-            $openCount = Ticket::where('ticketStatus', 'Open')->count();
+            $openCount = Ticket::where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)->count();
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
             $pendingCount = Ticket::where('ticketStatus', 'Pending')->count();
             $closeCount = Ticket::where('ticketStatus', 'Close')->count();
@@ -75,7 +75,9 @@ class TicketController extends Controller
 
             $date = date('Y-m-d h:i:s');
 
-            $openCount = Ticket::where('ticketStatus', 'Open');
+            $openCount = Ticket::where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date);
+
+
             $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticket.ticketStatus', '!=', 'Close');
             $pendingCount = Ticket::where('ticketStatus', 'Pending');
             $closeCount = Ticket::where('ticketStatus', 'Close');
@@ -89,10 +91,12 @@ class TicketController extends Controller
                 })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->count();
 
                 $openCount = Ticket::where(function ($query) use ($Clientprojects) {
+                    $date = date('Y-m-d h:i:s');
+
                     foreach ($Clientprojects as $project) {
-                        $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
+                        $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date);
                     }
-                })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open');
+                })->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date);
 
                 $closeCount = Ticket::where(function ($query) use ($Clientprojects) {
                     foreach ($Clientprojects as $project) {
@@ -146,6 +150,7 @@ class TicketController extends Controller
             $overDueCount = $overDueCount->count();
             $pendingCount = $pendingCount->count();
             $closeCount = $closeCount->count();
+
         }
 
         if ($userCompanyId == null) {
@@ -219,7 +224,6 @@ class TicketController extends Controller
     // get all Ticket
     public function getAllTicket(Request $r)
     {
-
             if (Auth::user()->fk_userTypeId == 2) {
                 $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
                 $Clientprojects = Project::where('fk_client_id', $client)->get();
@@ -231,6 +235,7 @@ class TicketController extends Controller
             if ($r->ticketType != null) {
                 // only for super admin
                 if ($userCompanyId == null) {
+
                     if ($r->overDue == "overdue") {
                         $date = date('Y-m-d h:i:s');
                         $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
@@ -281,7 +286,7 @@ class TicketController extends Controller
                                     $date = date('Y-m-d h:i:s');
 
                                     foreach ($Clientprojects as $project) {
-                                        $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date);
+                                        $query->orWhere('fk_projectId', $project->projectId)->where('ticket.ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date);
                                     }
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', '!=', 'Close')->whereDate('ticket.exp_end_date', '<=', $date)*/
                             ;
@@ -340,6 +345,7 @@ class TicketController extends Controller
                         }
                         $tickets = $tickets->groupBy('ticket.ticketId');
                     } elseif ($r->allTicket == "open") {
+
                         $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
                             ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
                             ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
@@ -349,15 +355,19 @@ class TicketController extends Controller
                             ->groupBy('ticket.ticketId');
 
                         if (Auth::user()->fk_userTypeId == 2) {
+
                             $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
                                 ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
                                 ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
                                 ->where(function ($query) use ($Clientprojects) {
+                                    $date = date('Y-m-d h:i:s');
+
                                     foreach ($Clientprojects as $project) {
-                                        $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open');
+                                        $query->orWhere('fk_projectId', $project->projectId)->where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date);
                                     }
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open')*/
                             ;
+
 
                         } else {
                             $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
@@ -383,10 +393,12 @@ class TicketController extends Controller
                                     }
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Close')*/
                             ;
+
                         } else {
                             $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->groupBy('ticket.ticketId');
+
                     } else {
                         $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
                             ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
@@ -444,7 +456,6 @@ class TicketController extends Controller
                 }
             }
 
-
             // filter
             if ($r->startDate) {
                 $tickets = $tickets->whereDate('ticket.created_at', '>=', $r->startDate);
@@ -457,7 +468,6 @@ class TicketController extends Controller
             }
 
             $tickets = $tickets->orderBy('ticket.created_at', 'DESC')->orderBy('ticket.created_time', 'DESC');
-
 
             $datatables = Datatables::of($tickets);
             return $datatables->make(true);
@@ -873,21 +883,21 @@ public function showGenerateExcel()
 
         $allTicket = Ticket::all()->count();
         $openCount = Ticket::where('ticketStatus', 'Open')
-            ->count();
+            ->whereDate('ticket.exp_end_date', '>=', $date)->count();
         $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)
             ->where('ticketStatus', '!=', 'Close')
             ->count();
         $pendingCount = Ticket::where('ticketStatus', 'Pending')
             ->count();
         $closeCount = Ticket::where('ticketStatus', 'Close')
-            ->count();;
+            ->count();
     } else {
         $date = date('Y-m-d h:i:s');
 
         $allTicket = Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
 
         $openCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
-            ->where('ticketStatus', 'Open')
+            ->where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)
             ->count();
         $overDueCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
             ->whereDate('ticket.exp_end_date', '<=', $date)
@@ -897,7 +907,7 @@ public function showGenerateExcel()
             ->count();
         $closeCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
             ->where('ticketStatus', 'Close')
-            ->count();;
+            ->count();
     }
 
     $teams = Team::all();

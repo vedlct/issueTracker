@@ -8,5 +8,5 @@ class Ticket extends Model
 {
     protected $table='ticket';
     protected $primaryKey='ticketId';
-    public $timestamps=false;
+    public $timestamp=false;
 }

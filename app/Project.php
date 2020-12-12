@@ -8,5 +8,5 @@ class Project extends Model
 {
     protected $table='project';
     protected $primaryKey='projectId';
-    public $timestamps=false;
+    public $timestamp=false;
 }
