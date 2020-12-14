@@ -69,7 +69,7 @@ class TicketController extends Controller
             $date = date('Y-m-d h:i:s');
             $allTicket = Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)->count();
-            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->count();
+            $overDueCount = Ticket::whereDate('ticket.exp_end_date', '<=', $date)->where('ticketStatus', '!=', 'Close')->where('ticketStatus', '!=', 'Pending')->count();
             $pendingCount = Ticket::where('ticketStatus', 'Pending')->count();
             $closeCount = Ticket::where('ticketStatus', 'Close')->count();
             $myCount = '';
@@ -229,9 +229,9 @@ class TicketController extends Controller
             }
             // Get user's company ID
             $userCompanyId = $this->getCompanyUserId();
-
             // get all ticket of user's company if ticketTye is not null
             if ($r->ticketType != null) {
+
                 // only for super admin
                 if ($userCompanyId == null) {
 
@@ -245,6 +245,7 @@ class TicketController extends Controller
                             ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
                             ->whereDate('ticket.exp_end_date', '<=', $date)
                             ->where('ticket.ticketStatus', '!=', 'Close')
+                            ->where('ticket.ticketStatus', '!=', 'Pending')
                             ->groupBy('ticket.ticketId');
                     } elseif ($r->allTicket == "all") {
                         $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
@@ -254,7 +255,17 @@ class TicketController extends Controller
                             ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
                             ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
                             ->groupBy('ticket.ticketId');
-                    } else {
+                    }  elseif ($r->allTicket == "open") {
+                        $date = date('Y-m-d h:i:s');
+                        $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
+                            ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                            ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
+                            ->leftJoin('user as assignUser', 'assignUser.userId', 'ticket.ticketAssignPersonUserId')
+                            ->leftJoin('assignteam_new', 'assignteam_new.fkteamId', 'ticket.ticketAssignTeamId')
+                            ->leftJoin('user', 'user.userId', 'assignteam_new.fk_userId')
+                            ->where('ticket.ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)
+                            ->groupBy('ticket.ticketId');
+                    }else {
                         $tickets = Ticket::select(DB::raw("GROUP_CONCAT(user.fullName) as assignTeamMembers"), 'ticket.*', 'createdUser.fullName as createdFullName', 'assignUser.fullName as assignFullName', 'project.*')
                             ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
                             ->leftJoin('user as createdUser', 'createdUser.userId', 'ticket.fk_ticketOpenerId')
