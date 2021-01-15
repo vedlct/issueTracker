@@ -66,6 +66,7 @@ class TicketController extends Controller
         }
         if ($userCompanyId == null) {
 
+
             $date = date('Y-m-d h:i:s');
             $allTicket = Ticket::all()->count();
             $openCount = Ticket::where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)->count();
@@ -74,6 +75,7 @@ class TicketController extends Controller
             $closeCount = Ticket::where('ticketStatus', 'Close')->count();
             $myCount = '';
         } else {
+
 
             $date = date('Y-m-d h:i:s');
 
@@ -140,6 +142,8 @@ class TicketController extends Controller
             } else {
                 $allTicket = Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
                 $openCount = $openCount->where('ticketOpenerCompanyId', $userCompanyId);
+//                dd($openCount->get());
+
                 $overDueCount = $overDueCount->where('ticketOpenerCompanyId', $userCompanyId);
                 $pendingCount = $pendingCount->where('ticketOpenerCompanyId', $userCompanyId);
                 $closeCount = $closeCount->where('ticketOpenerCompanyId', $userCompanyId);
@@ -223,15 +227,16 @@ class TicketController extends Controller
     // get all Ticket
     public function getAllTicket(Request $r)
     {
+
             if (Auth::user()->fk_userTypeId == 2) {
                 $client = ClientContactPersonUserRelation::where('person_userId', Auth::user()->userId)->first()->clientId;
                 $Clientprojects = Project::where('fk_client_id', $client)->get();
             }
             // Get user's company ID
             $userCompanyId = $this->getCompanyUserId();
+
             // get all ticket of user's company if ticketTye is not null
             if ($r->ticketType != null) {
-
                 // only for super admin
                 if ($userCompanyId == null) {
 
@@ -455,8 +460,10 @@ class TicketController extends Controller
                         $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
                 $tickets = $tickets->groupBy('ticket.ticketId');
+
                 }
             }
+
 
             // filter
             if ($r->startDate) {
@@ -468,9 +475,8 @@ class TicketController extends Controller
             if ($r->ticketStatus) {
                 $tickets = $tickets->where('ticket.ticketStatus', $r->ticketStatus);
             }
-
-            $tickets = $tickets->orderBy('ticket.created_at', 'DESC')->orderBy('ticket.created_time', 'DESC');
-
+//dd($tickets->where('fk_ticketOpenerId', 41)->get());
+            $tickets = $tickets->orderBy('ticket.created_at', 'DESC')->orderBy('ticket.created_time', 'DESC')->get();
             $datatables = Datatables::of($tickets);
             return $datatables->make(true);
 
@@ -590,6 +596,9 @@ class TicketController extends Controller
             if (Auth::user()->fk_userTypeId == 1) {
                 $ticket->ticketOpenerCompanyId = null;
             }
+            if(Auth::user()->fk_userTypeId == 5) {
+                $ticket->ticketOpenerCompanyId = $userCompanyId;
+            }
 
             $ticket->save();
 
@@ -652,21 +661,21 @@ class TicketController extends Controller
 //        });
             // End Send Mail
 
-            $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
-            if (count($froMail) > 0) {
-                $address = $froMail->where('fk_userTypeId', 4)->first()->email;
-                $mailAddresses = [];
-                foreach ($froMail as $mailAddress) {
-                    if ($mailAddress->email != $address) {
-                        $mailAddresses[] = $mailAddress->email;
-                    }
-                }
-                Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
-                    $message->to($address, 'Admin')
-                        ->cc($mailAddresses)
-                        ->subject('New Ticket Created');
-                });
-            }
+//            $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
+//            if (count($froMail) > 0) {
+//                $address = $froMail->where('fk_userTypeId', 4)->first()->email;
+//                $mailAddresses = [];
+//                foreach ($froMail as $mailAddress) {
+//                    if ($mailAddress->email != $address) {
+//                        $mailAddresses[] = $mailAddress->email;
+//                    }
+//                }
+//                Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
+//                    $message->to($address, 'Admin')
+//                        ->cc($mailAddresses)
+//                        ->subject('New Ticket Created');
+//                });
+//            }
 
             Session::flash('message', 'Ticket Created!');
 
