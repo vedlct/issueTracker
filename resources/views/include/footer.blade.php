@@ -1,5 +1,5 @@
 <!-- content -->
-<footer class="footer">© 2019</footer>
+<footer class="footer">© ICON COLLEGE 2021</footer>
 </div>
 <!-- End Right content here -->
 </div>

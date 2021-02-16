@@ -17,6 +17,7 @@
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
 $_CONFIG = array(
+
     'disabled' => false,
     'denyZipDownload' => false,
     'denyUpdateCheck' => false,

@@ -11,7 +11,7 @@
                 {{csrf_field()}}
                 <div class="row">
                     <div class="form-group col-md-4">
-                        <label>Select Project</label>
+                        <label>Select Project/ Section</label>
                         <select class="form-control" name="project" required>
                             @foreach($projectlist as $project)
                                 <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>

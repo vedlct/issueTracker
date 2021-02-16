@@ -114,16 +114,16 @@
     @endif
 
     {{-- Company & Project Information --}}
-    <div class="card mb-4" style="margin-left: 20px;">
-        <div class="card-header mt-0">
+     <div class="card mb-4" style="margin-left: 20px;">
+       {{-- <div class="card-header mt-0">
             @if(Auth::user()->fk_userTypeId == 1)
                 <h5 style="margin: 0">Company & Project Summary</h5>
             @else
-                <h5 style="margin: 0">Project Summary</h5>
+                <h5 style="margin: 0">Project Summary</h5> 
             @endif
 
-        </div>
-        <div class="card-body">
+        </div> --}}
+        <div class="">
             <div class="row">
 
                 @if(Auth::user()->fk_userTypeId == 1)
@@ -142,7 +142,7 @@
                     </div>
                 @endif
                 {{-- Project --}}
-                <div class="col-lg-3 col-md-8 mb-2">
+               {{-- <div class="col-lg-3 col-md-8 mb-2">
                     <div class="card newCard">
                         <div class="table table-responsive">
                             <table id="projectTable2" class="table-bordered text-center table-striped"
@@ -164,8 +164,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-
+                </div> --}}
+				
             </div>
 
             {{-- <div class="card mt-2">
@@ -183,7 +183,8 @@
              </div>--}}
 
         </div>
-    </div>
+    </div> 
+
 
     {{-- Ticket Information --}}
     <div class="card mb-4" style="margin-left: 20px;">

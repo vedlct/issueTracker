@@ -113,6 +113,7 @@
                                     <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
 
                                     <th>Number</th>
+                                    <th>Project</th>
                                     <th>Subject</th>
 {{--                                    <th>From</th>--}}
                                     <th>Priority</th>
@@ -202,6 +203,7 @@
                                     <th></th>
                                     @endif
                                     <th>Number</th>
+                                    <th>Project</th>
                                     <th>Subject</th>
 {{--                                    <th>From</th>--}}
                                     <th>Priority</th>
@@ -393,6 +395,7 @@
                     @endif
 
                     {data: 'ticket_number', name: 'ticket_number'},
+                    {data: 'project_name', name: 'project_name'},
 
                     {
                         "data": function (data) {
@@ -437,6 +440,7 @@
                     @else
                     {data: 'lastUpdated', name: 'lastUpdated'},
                     @endif
+
                     {
                         "data": function (data) {
 
