@@ -87,10 +87,6 @@
                                 <td>{{$ticket->ticket_number}}</td>
                             </tr>
                             <tr>
-                                <th scope="col">Project Name</th>
-                                <td>{{$ticket->project_name}}</td>
-                            </tr>
-                            <tr>
                                 <th scope="col">Ticket Topic</th>
                                 <td>{{$ticket->ticketTopic}}</td>
                             </tr>

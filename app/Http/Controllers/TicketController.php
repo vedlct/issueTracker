@@ -196,8 +196,7 @@ class TicketController extends Controller
                 return redirect()->route('login')->with('ticket_id');
 
             } else {
-                $ticket = Ticket::select('ticket.*', 'user.fullName', 'team.teamName', 'project.*')
-                    ->leftJoin('project', 'project.projectId', 'ticket.fk_projectId')
+                $ticket = Ticket::select('ticket.*', 'user.fullName', 'team.teamName')
                     ->Join('user', 'ticket.fk_ticketOpenerId', 'user.userId')
                     ->leftJoin('team', 'team.teamId', 'ticket.ticketAssignTeamId')
                     ->findOrFail($id);
@@ -477,9 +476,7 @@ class TicketController extends Controller
                 $tickets = $tickets->where('ticket.ticketStatus', $r->ticketStatus);
             }
 //dd($tickets->where('fk_ticketOpenerId', 41)->get());
-            $tickets = $tickets->orderBY('ticket.lastUpdated', 'DESC');
-
-
+            $tickets = $tickets->orderBy('ticket.created_at', 'DESC')->orderBy('ticket.created_time', 'DESC')->get();
             $datatables = Datatables::of($tickets);
             return $datatables->make(true);
 
@@ -795,11 +792,11 @@ public function insertReply(Request $r)
                 }
             }
 
-//            Mail::send('Ticket.replyMailView', $data, function ($message) use ($mailAddresses, $address) {
-//                $message->to($address, 'Ticket Reply Mail')
-//                    ->cc($mailAddresses)
-//                    ->subject('New Ticket Reply');
-//            });
+            Mail::send('Ticket.replyMailView', $data, function ($message) use ($mailAddresses, $address) {
+                $message->to($address, 'Ticket Reply Mail')
+                    ->cc($mailAddresses)
+                    ->subject('New Ticket Reply');
+            });
         }
 
         $time = date('Y-m-d h:i:s');
@@ -976,12 +973,12 @@ public function updateTicketMain(Request $r)
 
         $mailAddresses = $r->email;
 
-//        if($mailAddresses) {
-//            Mail::send('Ticket.closeMailView', $data, function ($message) use ($mailAddresses) {
-//                $message->to($mailAddresses, 'Ticket Close Mail')
-//                    ->subject('Ticket Close');
-//            });
-//        }
+        if($mailAddresses) {
+            Mail::send('Ticket.closeMailView', $data, function ($message) use ($mailAddresses) {
+                $message->to($mailAddresses, 'Ticket Close Mail')
+                    ->subject('Ticket Close');
+            });
+        }
         $ticket->ticketStatus = $r->ticketStatus;
 
     } else {
