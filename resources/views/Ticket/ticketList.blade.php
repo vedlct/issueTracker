@@ -427,7 +427,7 @@
                     {
                         data: 'created_at',
                         render: function (data, type, row) {
-                            return row.created_at + ' ' + row.created_time;
+                            return row.createdate + ' ' + row.createtime;
                         }
                     },
                     @endif

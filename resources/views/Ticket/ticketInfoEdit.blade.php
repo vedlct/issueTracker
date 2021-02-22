@@ -13,6 +13,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Ticket Topic</label>
+
                                 <input type="text" name="ticketTopic" value="{{ $ticket->ticketTopic }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
@@ -26,7 +27,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label>Ticket Created Date</label>
-                                <input type="date" name="created_at" value="{{ $ticket->created_at }}" class="form-control" placeholder="">
+                                <input type="date" name="created_at" value="{{ date('Y-m-d', strtotime($ticket->created_at)) }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Ticket Created Time</label>
@@ -34,11 +35,12 @@
                             </div>
                             <div class="col-md-12">
                                 <label>Ticket Last Updated</label>
-                                <input type="datetime-local" name="lastUpdated" value="{{ $ticket->lastUpdated }}" class="form-control" placeholder="">
+
+                                <input type="datetime-local" name="lastUpdated" value="{{ date('d-m-Y', strtotime($ticket->lastUpdated)) }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Ticket Close Date</label>
-                                <input type="date" name="exp_end_date" value="{{ $ticket->exp_end_date }}" class="form-control" placeholder="">
+                                <input type="date" name="closed_at" value="{{ $ticket->closed_at }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Work Hour</label>

@@ -60,7 +60,6 @@
                         <textarea id="myTextarea" class="form-control ckeditor" placeholder="Ticket Details" name="details" rows="5" required></textarea>
                     </div>
                     <div class="form-group col-md-3">
-
                         <label for="exampleFormControlFile1">Choose file <small>(max size 16MB and no .exe file)</small></label>
                         <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
                     </div>

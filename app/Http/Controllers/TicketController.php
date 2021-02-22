@@ -307,7 +307,9 @@ class TicketController extends Controller
                             ;
 
                         } else {
-                            $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                            $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->whereDate('ticket.exp_end_date', '<=', $date)
                             ->where('ticket.ticketStatus', '!=', 'Close')
@@ -322,7 +324,6 @@ class TicketController extends Controller
                             ->groupBy('ticket.ticketId');
 
                         if (Auth::user()->fk_userTypeId == 2) {
-
                             $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
                                 ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
                                 ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')
@@ -332,7 +333,9 @@ class TicketController extends Controller
                                     }
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)*/;
                         } else {
-                            $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                            $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->groupBy('ticket.ticketId');
                     } elseif ($r->allTicket == "pending") {
@@ -355,7 +358,9 @@ class TicketController extends Controller
                                     }
                                 })/*->where('fk_ticketOpenerId', Auth::user()->userId)*/;
                         } else {
-                            $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                            $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->where('ticketStatus', 'Pending')->groupBy('ticket.ticketId');
                     } elseif ($r->allTicket == "open") {
@@ -380,7 +385,9 @@ class TicketController extends Controller
                                     }
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Open')*/;
                         } else {
-                            $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                            $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->where('ticketStatus', 'Open')->whereDate('ticket.exp_end_date', '>=', $date)->groupBy('ticket.ticketId');
                     } elseif ($r->allTicket == "close") {
@@ -404,7 +411,9 @@ class TicketController extends Controller
                                 })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)->where('ticketStatus', 'Close')*/;
 
                         } else {
-                            $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                            $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                                ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                         }
                         $tickets = $tickets->where('ticketStatus', 'Close')->groupBy('ticket.ticketId');
 
@@ -457,7 +466,9 @@ class TicketController extends Controller
                                 }
                             })/*->orWhere('fk_ticketOpenerId', Auth::user()->userId)*/;
                     } else {
-                        $tickets = $tickets->where('ticket.ticketOpenerCompanyId', $userCompanyId);
+                        $tickets = $tickets->selectRaw('DATE_FORMAT(lastUpdated, "%d/%m/%Y %r") as lastUpdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_at, "%d/%m/%Y") as createdate')
+                            ->selectRaw('DATE_FORMAT(ticket.created_time, "%r") as createtime')->where('ticket.ticketOpenerCompanyId', $userCompanyId);
                     }
                 $tickets = $tickets->groupBy('ticket.ticketId');
 
@@ -1012,7 +1023,7 @@ public function ticketInfoUpdate(Request $r){
     $ticket->created_at = $r->created_at;
     $ticket->created_time = $r->created_time;
     $ticket->lastUpdated = $r->lastUpdated;
-    $ticket->exp_end_date = $r->exp_end_date;
+    $ticket->closed_at= $r->closed_at;
     $ticket->ticketPriority = $r->ticketPriority;
     $ticket->ticketStatus = $r->ticketStatus;
     $ticket->workedHour = $r->workedHour;

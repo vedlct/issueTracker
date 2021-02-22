@@ -96,7 +96,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Ticket Created on</th>
-                                <td>{{ date('d/m/Y', strtotime($ticket->created_at)) }} {{date('h:i a', strtotime($ticket->created_time))}}</td>
+                                <td>@if(!empty($ticket->created_at)){{ date('d/m/Y', strtotime($ticket->created_at)) }} {{date('h:i a', strtotime($ticket->created_time))}}@endif</td>
                             </tr>
                             </tbody>
                         </table>
@@ -119,7 +119,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Last Updated</th>
-                                <td>{{date('d/m/Y h:i a', strtotime($ticket->lastUpdated))}}</td>
+                                <td>@if(!empty($ticket->lastUpdated)){{date('d/m/Y h:i a', strtotime($ticket->lastUpdated))}} @endif</td>
                             </tr>
                             <tr>
                                 @if($ticket->ticketAssignPersonUserId == null)
@@ -137,7 +137,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Completion/Closed Date</th>
-                                <td>{{date('d/m/Y', strtotime($ticket->exp_end_date))}}</td>
+                                <td>@if(!empty($ticket->closed_at)){{date('d/m/Y', strtotime($ticket->closed_at))}}@endif</td>
                             </tr>
 
                             </tbody>
