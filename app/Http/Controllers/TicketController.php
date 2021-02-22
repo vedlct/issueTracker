@@ -950,7 +950,7 @@ public function showGenerateExcel()
 public function updateTicketMain(Request $r)
 {
 
-    $time = date('Y-m-d h:i:s');
+    $time = date('Y-m-d');
 
     $ticket = Ticket::where('ticketId', $r->ticketId)->first();
 
@@ -996,7 +996,7 @@ public function updateTicketMain(Request $r)
         $ticket->ticketStatus = $r->ticketStatus;
     }
     $ticket->ticketStatus = $r->ticketStatus;
-    $ticket->end_at = $time;
+    $ticket->closed_at= $time;
 
     if ($r->assignType == 'single') {
         $ticket->ticketAssignPersonUserId = $r->assignPersonId;

@@ -36,7 +36,7 @@
                             <div class="col-md-12">
                                 <label>Ticket Last Updated</label>
 
-                                <input type="datetime-local" name="lastUpdated" value="{{ date('d-m-Y', strtotime($ticket->lastUpdated)) }}" class="form-control" placeholder="">
+                                <input type="datetime-local" name="updated_at" value="{{ date('d-m-Y', strtotime($ticket->lastUpdated)) }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Ticket Close Date</label>

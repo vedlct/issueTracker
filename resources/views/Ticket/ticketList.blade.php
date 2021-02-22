@@ -119,6 +119,8 @@
                                     <th>Status</th>
                                     <th>Create Date</th>
                                     <th>Last Updated</th>
+                                    <th>Closed Date</th>
+
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -208,7 +210,8 @@
                                     <th>Status</th>
                                     <th>Create Date</th>
                                     <th>Last Updated</th>
-                                    <th>Action</th>
+                                        <th>Closed Date</th>
+                                        <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -432,11 +435,12 @@
                     },
                     @endif
 
-                    @if(Auth::user()->fk_userTypeId == 2)
-                    {data: 'lastUpdate', name: 'lastUpdated'},
-                    @else
-                    {data: 'lastUpdated', name: 'lastUpdated'},
-                    @endif
+                        @if(Auth::user()->fk_userTypeId == 2)
+                    {data: 'updated_at', name: 'updated_at'},
+                        @else
+                    {data: 'updated_at', name: 'updated_at'},
+                        @endif
+                    {data: 'closed_at', name: 'closed_at'},
                     {
                         "data": function (data) {
 
