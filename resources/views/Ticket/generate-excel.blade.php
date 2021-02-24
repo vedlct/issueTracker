@@ -53,16 +53,6 @@
                         <h4 class="float-left">Filter Ticket</h4>
                     </div>
                     <div class="card-body">
-
-                        <div class="form-group">
-                            <label>Start Date</label>
-                            <input type="date" id="startDate" class="form-control" >
-                        </div>
-                        <div class="form-group">
-                            <label>End Date</label>
-                            <input type="date" id="endDate" class="form-control" >
-                        </div>
-
                         <div class="form-group">
                             <label for="company">Ticket Status</label>
                             <select class="form-control" id="ticketStatus2" name="ticketStatus">
@@ -72,6 +62,16 @@
                                 <option value="Pending">Pending</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="date" id="startDate" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="date" id="endDate" class="form-control" >
+                        </div>
+
+
                         <button onclick="applyFilter()" class="btn btn-primary">Apply Filter</button>
                     </div>
                 </div>
@@ -170,6 +170,10 @@
                                 <th>Ticket Priority</th>
                                 <th>Ticket Assigned To</th>
                                 <th>Ticket Status</th>
+                                @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 5)
+                                <th>Close Date</th>
+                                @endif
+
                                 {{--<th>Action</th>--}}
                             </tr>
                             </thead>
@@ -250,7 +254,7 @@
                         "orderable": false, "searchable":false, "name":"selected_rows"
                     },
                     { data: 'ticketTopic', name: 'ticketTopic' },
-                    { data: 'lastUpdated', name: 'lastUpdated' },
+                    { data: 'updated_at', name: 'updated_at' },
                     { data: 'createdFullName', name: 'createdFullName' },
                     { data: 'ticketPriority', name: 'ticketPriority' },
                     { "data": function(data){
@@ -280,6 +284,11 @@
                         },
                         "orderable": false, "searchable":true, "name": "ticketStatus"
                     },
+                        @if(Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 5)
+
+                    {data: 'closed_at', name: 'closed_at'},
+                    @endif
+
 
                 ]
             } );

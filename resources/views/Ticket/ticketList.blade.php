@@ -63,7 +63,8 @@
                         @endif
                         {{--<a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>--}}
 
-                        {{-- Change Ticket Status --}}
+
+                            {{-- Change Ticket Status --}}
                         <form class="float-right mr-2 top left">
                             <select class="form-control" onchange="changeTicketStatus(this)" id="selectDefault">
                                 <option value="">Change Ticket Status</option>
@@ -80,6 +81,15 @@
                                 <option value="none">Remove Assignment</option>
                             </select>
                         </form>
+
+                            <form class="float-right mr-2 top left">
+                                <select class="form-control" onchange="changeTicketProject(this)" id="selectProject">
+                                    <option value="">Project/Section</option>
+                                    @foreach($projects as $project)
+                                        <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
 
 
                         <ul class="nav nav-tabs top1" style="border-bottom: 0px;">
@@ -113,6 +123,9 @@
                                     <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
 
                                     <th>Number</th>
+                                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                                    <th>Project/Section</th>
+                                    @endif
                                     <th>Subject</th>
 {{--                                    <th>From</th>--}}
                                     <th>Priority</th>
@@ -139,6 +152,16 @@
                         <h4 class="float-left">Tickets</h4>
                         @if(Auth::user()->fk_userTypeId != 1)
                         <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
+                        @endif
+                        @if(Auth::user()->fk_userTypeId == 5)
+                            <form class="float-right mr-2 top left">
+                                <select class="form-control" onchange="changeTicketProject(this)" id="selectProject">
+                                    <option value="">Project/Section</option>
+                                    @foreach($projects as $project)
+                                        <option value="{{ $project->projectId }}">{{ $project->project_name }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
                         @endif
                         {{--<button onclick="generateReport()" class="btn btn-secondary float-right mr-2" name="button">Generate Report</button>--}}
                         {{--<ul class="nav nav-tabs justify-content-center">
@@ -204,6 +227,9 @@
                                     <th></th>
                                     @endif
                                     <th>Number</th>
+                                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                                    <th>Project/Section</th>
+                                    @endif
                                     <th>Subject</th>
 {{--                                    <th>From</th>--}}
                                     <th>Priority</th>
@@ -377,7 +403,10 @@
                         d._token = "{{csrf_token()}}";
                         d.startDate = $('#startDate').val();
                         d.endDate = $('#endDate').val();
+                        d.fromDate=$('#fromDate').val();
+                        d.toDate=$('#toDate').val();
                         d.ticketStatus = $('#ticketStatus2').val();
+                        d.project=$('#selectProject').val();
                         d.ticketType = letter;
                         d.overDue = dueTicket;
                         d.allTicket = allTicket;
@@ -396,6 +425,10 @@
                     @endif
 
                     {data: 'ticket_number', name: 'ticket_number'},
+
+                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                    {data: 'project_name', name: 'project_name'},
+                    @endif
 
                     {
                         "data": function (data) {
@@ -458,6 +491,15 @@
             });
         });
 
+        function changeTicketProject(x) {
+            dataTable.ajax.reload();
+        }
+
+        function dateChange(x) {
+            dataTable.ajax.reload();
+        }
+
+
         // view ticket details
         function editTicket(x) {
             btn = $(x).data('panel-id');
@@ -479,7 +521,7 @@
             btn = $(x).data('panel-id');
             var url = '{{ route("ticket.view", ":id") }}';
             var newUrl = url.replace(':id', btn);
-            window.location.href = newUrl;
+            window.open(newUrl, '_blank');
         }
 
         // view ticket details

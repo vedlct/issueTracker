@@ -429,7 +429,7 @@ class DashBoardController extends Controller
         $myCompanies = Employee::select('fk_companyId')->where('employeeUserId', Auth::user()->userId)->get();
 
         $date = date('Y-m-d h:i:s');
-
+        $myCount = Ticket::where('fk_ticketOpenerId', Auth::user()->userId)->get();
         $allTicket = Ticket::where('ticketOpenerCompanyId', $userCompanyId)->count();
 
         $openCount = Ticket::select('ticketId', 'ticketOpenerCompanyId')
@@ -446,7 +446,7 @@ class DashBoardController extends Controller
 
         $pendingCount = Ticket::where('ticketOpenerCompanyId', $userCompanyId)
             ->where('ticketStatus', 'Pending')
-            ->count();
+            ->get();
 
         $closeCount = Ticket::select('ticketId', 'ticketOpenerCompanyId')
             ->whereIn('ticketOpenerCompanyId', $myCompanies)
@@ -498,9 +498,10 @@ class DashBoardController extends Controller
         $userCompanyId = $this->getCompanyUserId();
 
 
-        $projectCount = Project::select('projectId', 'fk_company_id')
+        $projectCount = Project::select('projectId', 'project_name', 'fk_company_id')
             ->whereIn('fk_company_id', $myCompanies)
             ->get();
+
 
 //            return $projectCount;
 
@@ -546,8 +547,8 @@ class DashBoardController extends Controller
             ->where('backlog_state', '!=', 'Testing')
             ->get();
 
-
         return view('employeeDashboard')->with('openticket', $openCount)
+            ->with('myticket', $myCount)
             ->with('overdue', $overDueCount)
             ->with('pending', $pendingCount)
             ->with('allticket', $allTicket)

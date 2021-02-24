@@ -86,6 +86,12 @@
                                 <th scope="col">Ticket Number</th>
                                 <td>{{$ticket->ticket_number}}</td>
                             </tr>
+                            @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                            <tr>
+                                <th scope="col"> Project/Section Name</th>
+                                <td>{{$ticket->project_name}}</td>
+                            </tr>
+                            @endif
                             <tr>
                                 <th scope="col">Ticket Topic</th>
                                 <td>{{$ticket->ticketTopic}}</td>
@@ -100,7 +106,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
+                        @if (Auth::user()->fk_userTypeId == 1 || Auth::user()->fk_userTypeId == 4 || Auth::user()->fk_userTypeId == 5 || Auth::user()->userId == $ticket->fk_ticketOpenerId)
                             <button title="edit info" class="btn btn-success btn-xs m-1" onclick="editTicketInfo({{$ticket->ticketId}})">
                                 Edit Info</button>
 
@@ -119,14 +125,14 @@
                             </tr>
                             <tr>
                                 <th scope="col">Last Updated</th>
-                                <td>@if(!empty($ticket->lastUpdated)){{date('d/m/Y h:i a', strtotime($ticket->lastUpdated))}} @endif</td>
+                                <td>@if(!empty($ticket->updated_at)){{date('d/m/Y h:i a', strtotime($ticket->updated_at))}} @endif</td>
                             </tr>
+                            @if(Auth::user()->fk_userTypeId != 3)
                             <tr>
                                 @if($ticket->ticketAssignPersonUserId == null)
                                     <th scope="col">Assigned Team</th>
                                     <td>
-                                        <a style="text-decoration: underline; cursor: pointer;" data-toggle="modal"
-                                           data-target="#exampleModal"> {{$ticket->teamName}} </a>
+                                        <a style="text-decoration: underline; cursor: pointer;" data-toggle="modal" data-target="#exampleModal"> {{$ticket->teamName}} </a>
                                     </td>
                                 @else
                                     <th scope="col">Assigned Person</th>
@@ -135,6 +141,7 @@
                                     </td>
                                 @endif
                             </tr>
+                            @endif
                             <tr>
                                 <th scope="col">Completion/Closed Date</th>
                                 <td>@if(!empty($ticket->closed_at)){{date('d/m/Y', strtotime($ticket->closed_at))}}@endif</td>
