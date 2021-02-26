@@ -690,21 +690,21 @@ class TicketController extends Controller
 //        });
             // End Send Mail
 
-//            $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
-//            if (count($froMail) > 0) {
-//                $address = $froMail->where('fk_userTypeId', 4)->first()->email;
-//                $mailAddresses = [];
-//                foreach ($froMail as $mailAddress) {
-//                    if ($mailAddress->email != $address) {
-//                        $mailAddresses[] = $mailAddress->email;
-//                    }
-//                }
-//                Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
-//                    $message->to($address, 'Admin')
-//                        ->cc($mailAddresses)
-//                        ->subject('New Ticket Created');
-//                });
-//            }
+            $froMail = User::select('email', 'fk_userTypeId')->where('fkCompanyId', Auth::user()->fkCompanyId)->whereIn('fk_userTypeId', [5, 4])->get();
+            if (count($froMail) > 0) {
+                $address = $froMail->where('fk_userTypeId', 4)->first()->email;
+                $mailAddresses = [];
+                foreach ($froMail as $mailAddress) {
+                    if ($mailAddress->email != $address) {
+                        $mailAddresses[] = $mailAddress->email;
+                    }
+                }
+                Mail::send('Ticket.mailView', $data, function ($message) use ($mailAddresses, $address) {
+                    $message->to($address, 'Admin')
+                        ->cc($mailAddresses)
+                        ->subject('New Ticket Created');
+                });
+            }
 
             Session::flash('message', 'Ticket Created!');
 

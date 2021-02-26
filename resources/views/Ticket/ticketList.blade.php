@@ -153,7 +153,7 @@
                         @if(Auth::user()->fk_userTypeId != 1)
                         <a href="{{ route('ticket.create') }}" class="btn btn-success float-right" name="button">Create Ticket</a>
                         @endif
-                        @if(Auth::user()->fk_userTypeId == 5)
+                        @if(Auth::user()->fk_userTypeId != 2)
                             <form class="float-right mr-2 top left">
                                 <select class="form-control" onchange="changeTicketProject(this)" id="selectProject">
                                     <option value="">Project/Section</option>
@@ -227,7 +227,7 @@
                                     <th></th>
                                     @endif
                                     <th>Number</th>
-                                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                                    @if(Auth::user()->fk_userTypeId != 2)
                                     <th>Project/Section</th>
                                     @endif
                                     <th>Subject</th>
@@ -426,7 +426,7 @@
 
                     {data: 'ticket_number', name: 'ticket_number'},
 
-                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                    @if(Auth::user()->fk_userTypeId != 2)
                     {data: 'project_name', name: 'project_name'},
                     @endif
 
