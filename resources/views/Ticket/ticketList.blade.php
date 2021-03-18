@@ -123,7 +123,7 @@
                                     <th><input type="checkbox" id="selectall" onClick="selectAll(this)"/></th>
 
                                     <th>Number</th>
-                                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                                    @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5 OR Auth::user()->fk_userTypeId == 3)
                                     <th>Project/Section</th>
                                     @endif
                                     <th>Subject</th>
