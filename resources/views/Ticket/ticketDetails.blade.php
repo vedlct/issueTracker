@@ -86,7 +86,7 @@
                                 <th scope="col">Ticket Number</th>
                                 <td>{{$ticket->ticket_number}}</td>
                             </tr>
-                            @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5)
+                            @if(Auth::user()->fk_userTypeId == 1 OR Auth::user()->fk_userTypeId == 4 OR Auth::user()->fk_userTypeId == 5 OR Auth::user()->fk_userTypeId == 3)
                             <tr>
                                 <th scope="col"> Project/Section Name</th>
                                 <td>{{$ticket->project_name}}</td>
