@@ -6,7 +6,7 @@
         <th>Ticket Status</th>
         <th>Project</th>
         <th>Ticket Created at</th>
-        <th>Ticket End at</th>
+        <th>Ticket Closed at</th>
         <th>Ticket Priority</th>
         <th>Worked Time</th>
         <th>Worked Time Type</th>
@@ -23,7 +23,7 @@
             <td>{{ $ticket->ticketStatus }}</td>
             <td>{{ $ticket->project_name }}</td>
             <td>{{ $ticket->created_at }}</td>
-            <td>{{ $ticket->end_at }}</td>
+            <td>{{ $ticket->closed_at }}</td>
             <td>{{ $ticket->ticketPriority }}</td>
             <td>{{ $ticket->workedHour }}</td>
             <td>{{ $ticket->workedTimeType }}</td>
